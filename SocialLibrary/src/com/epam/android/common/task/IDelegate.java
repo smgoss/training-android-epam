@@ -6,12 +6,12 @@ import android.content.Context;
 
 public interface IDelegate {
 
-	public void showloading();
+	void showloading();
 	
-	public void hideloading();
+	void hideloading();
 	
-	public void handleError(IOException e);
+	void handleError(IOException e);
 	
-	public Context getContext();
+	Context getContext();
 
 }
