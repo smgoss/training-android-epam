@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 	
     <ListView
-        android:id="@+id/arraymodellist"
+        android:id="@+id/array_model_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         />
