@@ -12,17 +12,19 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T>
 
 	private IOException e;
 
+	private IDelegate mDelegate;
 	
-	public CommonAsyncTask() {
-		// TODO Auto-generated constructor stub
+	
+	public CommonAsyncTask(IDelegate delegate) {
 		super();
+		this.mDelegate = delegate;
 	}
 
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-		showloading();
+		mDelegate.showloading();
 	}
 
 	@Override
@@ -46,13 +48,13 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T>
 			Log.d(TAG, "html content:" + result);
 		} else {
 
-			handleError(e);
+			mDelegate.handleError(e);
 		}
 	}
 
 	@Override
 	protected void onCancelled() {
-		hideloading();
+		mDelegate.hideloading();
 		super.onCancelled();
 	}
 
