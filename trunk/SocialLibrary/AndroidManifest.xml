@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoadModelActivity" />
-        <activity android:name=".LoadArrayModelActivity" />
+        <activity android:name=".ModelSampleActivity" />
+        <activity android:name=".ArrayModelSampleActivity" />
     </application>
 
 </manifest>

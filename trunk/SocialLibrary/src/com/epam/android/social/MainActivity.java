@@ -14,12 +14,12 @@ public class MainActivity extends Activity {
 	}
 
 	public void onModelButtonClick(View view) {
-		Intent intent = new Intent(this, LoadModelActivity.class);
+		Intent intent = new Intent(this, ModelSampleActivity.class);
 		startActivity(intent);
 	}
 	
 	public void onArrayModelButtonClick(View view) {
-		Intent intent = new Intent(this, LoadArrayModelActivity.class);
+		Intent intent = new Intent(this, ArrayModelSampleActivity.class);
 		startActivity(intent);
 	}
 }

@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-//TODO ModelSampleActivity
-public class LoadModelActivity extends Activity {
-	
+public class ModelSampleActivity extends Activity {
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//TODO put _
-		setContentView(R.layout.loadmodel);
+		setContentView(R.layout.load_model);
 		Toast.makeText(this, "TODO LoadModel undone!", Toast.LENGTH_SHORT)
 				.show();
 		// TODO Load username and avatar
 	}
-	
+
 }
