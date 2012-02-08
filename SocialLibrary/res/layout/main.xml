@@ -9,4 +9,17 @@
         android:layout_height="wrap_content"
         android:text="@string/hello" />
 
+    <Button
+        android:id="@+id/model"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onModelButtonClick"
+        android:text="@string/model_button" />
+    <Button
+        android:id="@+id/modelarray"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onArrayModelButtonClick"
+        android:text="@string/arraymodel_button" />
+
 </LinearLayout>

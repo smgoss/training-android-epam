@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">SocialLibrary</string>
+    <string name="model_button">Load model</string>
+    <string name="arraymodel_button">Load arraymodel</string>
 
 </resources>
