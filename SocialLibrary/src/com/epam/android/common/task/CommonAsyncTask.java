@@ -38,13 +38,12 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 
 	@Override
 	protected void onPostExecute(T result) {
-		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		mDelegate.hideloading();
 		if (e == null) {
 			success(result);
 		} else {
-			mDelegate.handleError(e);
+			mDelegate.handleError(this, e);
 		}
 	}
 

@@ -10,8 +10,11 @@ public interface IDelegate {
 	
 	void hideloading();
 	
-	void handleError(IOException e);
+	void handleError(CommonAsyncTask task, IOException e);
 	
 	Context getContext();
 
+	void addTask(CommonAsyncTask task);
+	
+	void removeTask(CommonAsyncTask task);
 }
