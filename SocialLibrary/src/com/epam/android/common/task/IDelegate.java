@@ -7,8 +7,11 @@ import android.content.Context;
 public interface IDelegate {
 
 	public void showloading();
+	
 	public void hideloading();
+	
 	public void handleError(IOException e);
+	
 	public Context getContext();
 
 }

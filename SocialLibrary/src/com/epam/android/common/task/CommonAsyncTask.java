@@ -5,8 +5,7 @@ import java.io.IOException;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T>
-		implements IDelegate {
+public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 
 	private static final String TAG = CommonAsyncTask.class.getSimpleName();
 
@@ -22,7 +21,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T>
 
 	@Override
 	protected void onPreExecute() {
-		// TODO Auto-generated method stub
 		super.onPreExecute();
 		mDelegate.showloading();
 	}
@@ -33,7 +31,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T>
 			return load(params[0]);
 		} catch (IOException e) {
 			this.e = e;
-			Log.d(TAG, "crash odnako");
+			Log.e(TAG, "crash during loading data", e);
 			return null;
 		}
 	}
@@ -42,12 +40,10 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T>
 	protected void onPostExecute(T result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		hideloading();
+		mDelegate.hideloading();
 		if (e == null) {
 			success(result);
-			Log.d(TAG, "html content:" + result);
 		} else {
-
 			mDelegate.handleError(e);
 		}
 	}

@@ -7,7 +7,6 @@ public abstract class LoadArrayModelAsyncTask <B> extends CommonAsyncTask<List<B
 	
 	public LoadArrayModelAsyncTask(IDelegate delegate) {
 		super(delegate);
-		// TODO Auto-generated constructor stub
 	}
 
 
