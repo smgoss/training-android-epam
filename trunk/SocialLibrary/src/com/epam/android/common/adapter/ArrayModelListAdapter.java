@@ -2,35 +2,32 @@ package com.epam.android.common.adapter;
 
 import java.util.List;
 
+import com.epam.android.common.model.User;
 import com.epam.android.social.R;
+import com.google.android.imageloader.ImageLoader;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ArrayModelListAdapter<T> extends AbstractAdapter<T> {
 
-	// protected ImageLoader mImageLoader = ImageLoader.get(this.getContext());
-
-	public ArrayModelListAdapter(Context c, int pItemResource, List<T> pList) {
-		super(c, pItemResource, pList);
+	private static final String TAG = ArrayModelListAdapter.class.getSimpleName();
+	
+	public ArrayModelListAdapter(Context context, int pItemResource, List<T> pList) {
+		super(context, pItemResource, pList);
 	}
 
 	public void init(View view, T users) {
-
+		User currentUser = (User) users; 
 		TextView userName = (TextView) view.findViewById(R.id.userName);
-		//TODO set userName with valid data from the model
+		userName.setText(currentUser.getName());
 		
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		//TODO load avatars according to the model
+		mImageLoader.bind(userAvatar, currentUser.getImageUrl(), null);
 		
-//		try {
-//		mImageLoader.load(friendItemListAvatar, null, url, this);
-//		} catch (Exception e) {
-//			Log.d("image error","error in adapter");
-//			e.printStackTrace();
-//		}
 				
 
 	}

@@ -5,6 +5,8 @@ package com.epam.android.common.adapter;
 
 import java.util.List;
 
+import com.google.android.imageloader.ImageLoader;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +22,13 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 
     private int currentPosition = 0;
     
+    protected ImageLoader mImageLoader;
+    
     public AbstractAdapter(Context c, int pItemResource, List<T> pList) {
         mList = pList;
         mContext = c;
         mItemResource = pItemResource;
+        mImageLoader = (ImageLoader) c.getApplicationContext().getSystemService(ImageLoader.IMAGE_LOADER_SERVICE);
     }
 
     public int getCount() {
