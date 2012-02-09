@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class BaseModel implements Parcelable{
+	
 	private static final String TAG = BaseModel.class.getSimpleName();
 		
 	private JSONObject jo;

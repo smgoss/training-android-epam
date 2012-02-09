@@ -3,12 +3,11 @@ package com.epam.android.social;
 import java.util.List;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
-import com.epam.android.common.adapter.ArrayModelListAdapter;
-import com.epam.android.common.model.User;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
+import com.epam.android.social.adapter.ArrayModelListAdapter;
+import com.epam.android.social.model.User;
 
 public class ArrayModelSampleActivity extends DelegateActivity {
 
@@ -22,22 +21,15 @@ public class ArrayModelSampleActivity extends DelegateActivity {
 		setContentView(R.layout.load_array_model);
 
 		mListView = (ListView) findViewById(R.id.array_model_list);
-		
+		//TODO remove last param
 		new LoadArrayModelAsyncTask<User>(URL, this, User.MODEL_CREATOR, this) {
 
 			public void success(List<User> result) {
-				setListAdapter(new ArrayModelListAdapter( ArrayModelSampleActivity.this, 
+				mListView.setAdapter(new ArrayModelListAdapter(ArrayModelSampleActivity.this, 
 						R.layout.load_model,result));
-				
-				Log.d(TAG, result.get(0).getImageUrl());
 			}
 
 		}.execute();
 	}
 
-	protected void setListAdapter(ArrayModelListAdapter friendListAdapter) {
-		if (mListView != null) {
-			mListView.setAdapter(friendListAdapter);
-		}
-	}
 }

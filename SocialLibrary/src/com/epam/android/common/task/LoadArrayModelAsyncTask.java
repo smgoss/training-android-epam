@@ -7,8 +7,8 @@ import org.json.JSONException;
 
 import android.content.Context;
 
+import com.epam.android.common.http.Loader;
 import com.epam.android.common.model.IModelCreator;
-import com.epam.android.common.model.Loader;
 
 public abstract class LoadArrayModelAsyncTask<B> extends
 		CommonAsyncTask<List<B>> {
