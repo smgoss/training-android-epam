@@ -13,6 +13,7 @@ import com.epam.android.common.http.HttpClient;
   
 
 public class Loader {
+	public static final String LOADER = "++LOADER+";
 	private static final String TAG = Loader.class.getSimpleName();
 	private HttpClient httpClient;
 	
@@ -21,9 +22,10 @@ public class Loader {
 	}
 	
 	
-	public Object load(String url, IModelCreator modelCreator) throws ClientProtocolException, IOException, JSONException{
+	public <T> T load(String url, IModelCreator<T> modelCreator) throws ClientProtocolException, IOException, JSONException{
 		
-		return modelCreator.create(new JSONObject(httpClient.execute(new HttpGet(url))));		
+		return modelCreator.create(new JSONObject(httpClient.execute(new HttpGet(url))));
+		
 	}
 	
 				
