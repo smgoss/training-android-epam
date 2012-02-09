@@ -26,7 +26,7 @@ public class HttpClient {
 
 	private DefaultHttpClient client;
 
-	//TODO save cookie
+	// TODO save cookie
 	public HttpClient() {
 		HttpParams params = new BasicHttpParams();
 

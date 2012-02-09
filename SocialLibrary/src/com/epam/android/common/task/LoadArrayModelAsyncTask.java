@@ -5,28 +5,19 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import android.content.Context;
-
-import com.epam.android.common.http.Loader;
 import com.epam.android.common.model.IModelCreator;
 
 public abstract class LoadArrayModelAsyncTask<B> extends
-		CommonAsyncTask<List<B>> {
-
-	protected Loader mLoader;
-
-	private IModelCreator mModelCreator;
+		CommonModelAsyncTask<List<B>> {
 
 	public LoadArrayModelAsyncTask(String url, IDelegate delegate,
-			IModelCreator modelCreator, Context context) {
-		super(url, delegate);
-		mModelCreator = modelCreator;
-		mLoader = (Loader) context.getApplicationContext().getSystemService(
-				Loader.LOADER);
+			IModelCreator modelCreator) {
+		super(url, delegate, modelCreator);
+
 	}
 
 	public List<B> load() throws IOException, JSONException {
-		return  mLoader.loadArrayModel(getUrl(), mModelCreator);
+		return (List<B>) mLoader.loadArrayModel(getUrl(), mModelCreator);
 	}
 
 	@Override

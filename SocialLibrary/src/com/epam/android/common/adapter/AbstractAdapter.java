@@ -14,51 +14,52 @@ import android.widget.BaseAdapter;
 
 public abstract class AbstractAdapter<T> extends BaseAdapter {
 
-    private final Context mContext;
+	private final Context mContext;
 
-    private final List<T> mList;
+	private final List<T> mList;
 
-    private final int mItemResource;
+	private final int mItemResource;
 
-    private int currentPosition = 0;
-    
-    protected ImageLoader mImageLoader;
-    
-    public AbstractAdapter(Context c, int pItemResource, List<T> pList) {
-        mList = pList;
-        mContext = c;
-        mItemResource = pItemResource;
-        mImageLoader = (ImageLoader) c.getApplicationContext().getSystemService(ImageLoader.IMAGE_LOADER_SERVICE);
-    }
+	private int currentPosition = 0;
 
-    public int getCount() {
-        if (mList == null)
-            return 0;
-        return mList.size();
-    }
+	protected ImageLoader mImageLoader;
 
-    public T getItem(int position) {
-        return mList.get(position);
-    }
+	public AbstractAdapter(Context c, int pItemResource, List<T> pList) {
+		mList = pList;
+		mContext = c;
+		mItemResource = pItemResource;
+		mImageLoader = (ImageLoader) c.getApplicationContext()
+				.getSystemService(ImageLoader.IMAGE_LOADER_SERVICE);
+	}
 
-    public long getItemId(int position) {
-        return Long.valueOf(position);
-    }
+	public int getCount() {
+		if (mList == null)
+			return 0;
+		return mList.size();
+	}
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = createView();
-        }
-        final T item = mList.get(position);
-        init(convertView, item);
-        return convertView;
-    }
+	public T getItem(int position) {
+		return mList.get(position);
+	}
 
-    public abstract void init(View convertView, T item);
+	public long getItemId(int position) {
+		return Long.valueOf(position);
+	}
 
-    public View createView() {
-        return View.inflate(mContext, mItemResource, null);
-    }
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (convertView == null) {
+			convertView = createView();
+		}
+		final T item = mList.get(position);
+		init(convertView, item);
+		return convertView;
+	}
+
+	public abstract void init(View convertView, T item);
+
+	public View createView() {
+		return View.inflate(mContext, mItemResource, null);
+	}
 
 	public Context getContext() {
 		return mContext;

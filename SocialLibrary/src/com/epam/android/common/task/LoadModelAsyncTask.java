@@ -4,24 +4,15 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.content.Context;
-
-import com.epam.android.common.http.Loader;
 import com.epam.android.common.model.IModelCreator;
-//TODO create common model asynk task
-public abstract class LoadModelAsyncTask<B> extends CommonAsyncTask<B> {
 
-	protected Loader mLoader;
+public abstract class LoadModelAsyncTask<B> extends CommonModelAsyncTask<B> {
 
-	private IModelCreator<B> mModelCreator;
-
-	//TODO get model creator with reflection
+	// TODO get model creator with reflection
 	public LoadModelAsyncTask(String url, IDelegate delegate,
-			IModelCreator<B> modelCreator, Context context) {
-		super(url, delegate);
-		mModelCreator = modelCreator;
-		mLoader = (Loader) context.getApplicationContext().getSystemService(
-				Loader.LOADER);
+			IModelCreator<B> modelCreator) {
+		super(url, delegate, modelCreator);
+
 	}
 
 	@Override

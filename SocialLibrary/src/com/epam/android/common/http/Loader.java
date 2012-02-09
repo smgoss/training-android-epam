@@ -40,6 +40,6 @@ public class Loader {
 				modelCreator);
 	}
 
-	// TODO add method load xml as json
+	// TODO load XML to JSON 
 
 }
