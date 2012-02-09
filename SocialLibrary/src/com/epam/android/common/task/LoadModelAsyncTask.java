@@ -2,16 +2,24 @@ package com.epam.android.common.task;
 
 import java.io.IOException;
 
+import org.json.JSONException;
+
+import com.epam.android.common.model.IModelCreator;
+import com.epam.android.common.model.Loader;
+
 public abstract class LoadModelAsyncTask<B> extends CommonAsyncTask<B> {
 
-	public LoadModelAsyncTask(IDelegate delegate) {
-		super(delegate);
+	private IModelCreator mModelCreator;
+	
+	public LoadModelAsyncTask(String url, IDelegate delegate, IModelCreator modelCreator) {
+		super(url, delegate);
+		mModelCreator = modelCreator;
 	}
 
 	@Override
-	public B load(String url) throws IOException {
+	public B load(String url) throws IOException, JSONException {
 		// TODO Load json to model
-		return null;
+		return (B)new Loader(getDelegate().getContext()).load(url, mModelCreator);
 	}
 
 	@Override

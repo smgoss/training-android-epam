@@ -7,6 +7,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User extends BaseModel{
+	
+	public static final IModelCreator<User> MODEL_CREATOR = new IModelCreator<User>() {
+
+		public User create(JSONObject jsonObject) {
+			return new User(jsonObject);
+		}
+		
+	};
+	
 	public static final Parcelable.Creator<User> CREATOR = new Creator<User>() {
 		
 		public User[] newArray(int size) {

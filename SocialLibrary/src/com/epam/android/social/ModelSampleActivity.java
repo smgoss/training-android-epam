@@ -1,10 +1,12 @@
 package com.epam.android.social;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class ModelSampleActivity extends Activity {
+import com.epam.android.common.model.User;
+import com.epam.android.common.task.LoadModelAsyncTask;
+
+public class ModelSampleActivity extends DelegateActivity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -13,7 +15,14 @@ public class ModelSampleActivity extends Activity {
 				.show();
 		// TODO Load username and avatar
 		
-		
+		new LoadModelAsyncTask<User>("url", this, User.MODEL_CREATOR) {
+
+			@Override
+			public void success(User result) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 		
 	}
 

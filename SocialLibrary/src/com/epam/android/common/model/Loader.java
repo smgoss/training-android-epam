@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.epam.android.common.http.HttpClient;
+  
 
-
-public class Loader<B> implements IModelCreator<B>{
+public class Loader {
 	private static final String TAG = Loader.class.getSimpleName();
 	private HttpClient httpClient;
 	
@@ -20,17 +20,11 @@ public class Loader<B> implements IModelCreator<B>{
 		httpClient = (HttpClient) context.getApplicationContext().getSystemService(HttpClient.HTTP_CLIENT);
 	}
 	
-	public void load(String url, IModelCreator<B> modelCreator) throws ClientProtocolException, IOException, JSONException{
+	
+	public Object load(String url, IModelCreator modelCreator) throws ClientProtocolException, IOException, JSONException{
 		
-		String result = httpClient.execute(new HttpGet(url));
-		create(new JSONObject(result));
-		
+		return modelCreator.create(new JSONObject(httpClient.execute(new HttpGet(url))));		
 	}
+	
 				
-
-	public B create(JSONObject jsonObject) {		
-//		B b = (B) new Loader<B>(context);
-		return null;
-	}
-		
 }

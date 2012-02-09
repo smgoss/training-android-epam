@@ -1,7 +1,5 @@
 package com.epam.android.common.task;
 
-import java.io.IOException;
-
 import android.content.Context;
 
 public interface IDelegate {
@@ -10,7 +8,7 @@ public interface IDelegate {
 	
 	void hideloading();
 	
-	void handleError(CommonAsyncTask task, IOException e);
+	void handleError(CommonAsyncTask task, Exception e);
 	
 	Context getContext();
 

@@ -1,15 +1,13 @@
 package com.epam.android.social;
 
-import java.io.IOException;
-
-import com.epam.android.common.task.CommonAsyncTask;
-import com.epam.android.common.task.IDelegate;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.epam.android.common.task.CommonAsyncTask;
+import com.epam.android.common.task.IDelegate;
 
 public class DelegateActivity extends Activity implements IDelegate {
 
@@ -36,7 +34,7 @@ public class DelegateActivity extends Activity implements IDelegate {
 		}
 	}
 
-	public void handleError(CommonAsyncTask task, IOException e) {
+	public void handleError(CommonAsyncTask task, Exception e) {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
 				Toast.LENGTH_SHORT).show();

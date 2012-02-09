@@ -1,13 +1,13 @@
 package com.epam.android.social;
 
 
-import com.epam.android.common.adapter.ArrayModelListAdapter;
-import com.epam.android.common.model.BaseModel;
-import com.epam.android.common.task.LoadModelAsyncTask;
-
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.epam.android.common.adapter.ArrayModelListAdapter;
+import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.task.LoadModelAsyncTask;
 
 public class ArrayModelSampleActivity extends DelegateActivity {
 
@@ -26,7 +26,7 @@ public class ArrayModelSampleActivity extends DelegateActivity {
 		 //setListAdapter(new ArrayModelListAdapter(
 		 //LoadArrayModelActivity.this,
 		 //R.layout.loadmodel, list<T>));
-		new LoadModelAsyncTask<BaseModel>(this) {
+		new LoadModelAsyncTask<BaseModel>(null, this, null) {
 
 			@Override
 			public void success(BaseModel result) {
