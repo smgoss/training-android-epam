@@ -12,6 +12,9 @@ public class ModelSampleActivity extends Activity {
 		Toast.makeText(this, "TODO LoadModel undone!", Toast.LENGTH_SHORT)
 				.show();
 		// TODO Load username and avatar
+		
+		
+		
 	}
 
 }
