@@ -7,6 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public interface IModelCreator<B> {
+	
 	B create(JSONObject jsonObject);
+	
 	List<B> createArray(JSONArray jsonArray) throws JSONException;
+	
 }

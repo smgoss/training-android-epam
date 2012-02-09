@@ -1,4 +1,4 @@
-package com.epam.android.common.model;
+package com.epam.android.social.model;
 
 
 import java.util.ArrayList;
@@ -7,6 +7,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.model.IModelCreator;
 
 import android.graphics.Paint.Join;
 import android.os.Parcel;
