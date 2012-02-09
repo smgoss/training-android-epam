@@ -19,7 +19,7 @@ public class ModelSampleActivity extends DelegateActivity {
 
 			@Override
 			public void success(User result) {
-				// TODO Auto-generated method stub
+				// TODO if success
 				
 			}
 		};
