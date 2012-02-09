@@ -24,7 +24,7 @@ public abstract class LoadModelAsyncTask<B> extends CommonAsyncTask<B> {
 	public B load() throws IOException, JSONException {
 		Log.d("AST", "background");
 		// TODO Load json to model
-		return (B) new Loader(getDelegate().getContext()).load(getUrl(),
+		return (B) new Loader(getDelegate().getContext()).loadModel(getUrl(),
 				mModelCreator);
 	}
 
