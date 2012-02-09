@@ -14,9 +14,9 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	private Exception e;
 
 	private IDelegate mDelegate;
-	
+
 	private String mUrl;
-	
+
 	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
 		this.mDelegate = delegate;
@@ -32,7 +32,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected T doInBackground(String... params) {
 		try {
-			return load(params[0]);
+			return load();
 		} catch (IOException e) {
 			this.e = e;
 			Log.e(TAG, "crash during loading data", e);
@@ -63,7 +63,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 
 	public abstract void success(T result);
 
-	public abstract T load(String url) throws IOException, JSONException;
+	public abstract T load() throws IOException, JSONException;
 
 	public IDelegate getDelegate() {
 		return mDelegate;
@@ -72,5 +72,5 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	public String getUrl() {
 		return mUrl;
 	}
-	
+
 }

@@ -37,7 +37,7 @@ public class DelegateActivity extends Activity implements IDelegate {
 	public void handleError(CommonAsyncTask task, Exception e) {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
-				Toast.LENGTH_SHORT).show();
+				Toast.LENGTH_LONG).show();
 	}
 
 	public Context getContext() {
