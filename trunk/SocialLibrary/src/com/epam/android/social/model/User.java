@@ -1,20 +1,13 @@
 package com.epam.android.social.model;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
-
-import android.graphics.Paint.Join;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
 public class User extends BaseModel{
 	private static final String TAG = User.class.getSimpleName();
@@ -25,15 +18,6 @@ public class User extends BaseModel{
 			return new User(jsonObject);
 		}
 
-		public List<User> createArray(JSONArray jsonArray) throws JSONException {
-			List<User> userList = new ArrayList<User>();
-			
-			for(int i = 0; i < jsonArray.length(); i++){
-				userList.add(new User(jsonArray.getJSONObject(i)));
-			}
-			return userList;
-		}
-		
 	};
 		
 	

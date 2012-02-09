@@ -10,6 +10,4 @@ public interface IModelCreator<B> {
 	
 	B create(JSONObject jsonObject);
 	
-	List<B> createArray(JSONArray jsonArray) throws JSONException;
-	
 }

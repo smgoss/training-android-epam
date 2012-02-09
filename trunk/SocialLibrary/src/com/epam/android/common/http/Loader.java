@@ -10,12 +10,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.epam.android.common.model.IModelCreator;
+import com.epam.android.common.utils.JsonModelConverter;
 
 public class Loader {
 	public static final String LOADER = "++LOADER+";
-	
+
 	private static final String TAG = Loader.class.getSimpleName();
-	
+
 	private HttpClient mHttpClient;
 
 	public Loader(HttpClient httpClient) {
@@ -25,15 +26,20 @@ public class Loader {
 	public <T> T loadModel(String url, IModelCreator<T> modelCreator)
 			throws ClientProtocolException, IOException, JSONException {
 
-		return modelCreator.create(new JSONObject(mHttpClient
-				.execute(new HttpGet(url))));
+		JSONObject jsonObject = new JSONObject(mHttpClient.execute(new HttpGet(
+				url)));
+		return modelCreator.create(jsonObject);
 
 	}
 
 	public <T> List<T> loadArrayModel(String url, IModelCreator<T> modelCreator)
 			throws ClientProtocolException, JSONException, IOException {
-		return modelCreator.createArray(new JSONArray(mHttpClient
-				.execute(new HttpGet(url))));
+		JSONArray jsonArray = new JSONArray(
+				mHttpClient.execute(new HttpGet(url)));
+		return JsonModelConverter.convertJSONArrayToList(jsonArray,
+				modelCreator);
 	}
+
+	// TODO add method load xml as json
 
 }
