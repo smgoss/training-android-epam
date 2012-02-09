@@ -5,8 +5,8 @@ import java.util.List;
 
 public abstract class LoadArrayModelAsyncTask <B> extends CommonAsyncTask<List<B>>  {
 	
-	public LoadArrayModelAsyncTask(IDelegate delegate) {
-		super(delegate);
+	public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
+		super(url, delegate);
 	}
 
 

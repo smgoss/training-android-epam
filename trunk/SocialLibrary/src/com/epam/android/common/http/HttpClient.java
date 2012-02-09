@@ -80,6 +80,5 @@ public class HttpClient {
 			}
 		}
 		return text;
-	}
-	
+	}	
 }
