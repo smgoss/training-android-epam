@@ -26,7 +26,7 @@ public abstract class LoadArrayModelAsyncTask<B> extends
 	}
 
 	public List<B> load() throws IOException, JSONException {
-		return  mLoader.load(getUrl(), mModelCreator);
+		return  mLoader.loadArrayModel(getUrl(), mModelCreator);
 	}
 
 	@Override

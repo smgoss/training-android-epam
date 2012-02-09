@@ -1,6 +1,5 @@
 package com.epam.android.common.http;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,21 +23,21 @@ public class HttpClient {
 	private static final String TAG = HttpClient.class.getSimpleName();
 	private static final String UTF_8 = "UTF-8";
 	private static final int BUFFER_SIZE = 1024;
-	
+
 	private DefaultHttpClient client;
-	
-	public HttpClient(){
+
+	public HttpClient() {
 		HttpParams params = new BasicHttpParams();
-		
+
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, UTF_8);
-		
+
 		client = new DefaultHttpClient(params);
 	}
-	
-	
-	public String execute(HttpUriRequest request) throws ClientProtocolException, IOException {
-		
+
+	public String execute(HttpUriRequest request)
+			throws ClientProtocolException, IOException {
+
 		HttpResponse response = client.execute(request);
 		String result = readString(response.getEntity().getContent());
 
@@ -52,19 +51,20 @@ public class HttpClient {
 		}
 
 	}
-	
+
 	public String loadAsString(String url) throws IOException {
 		return execute(new HttpGet(url));
 	}
-	
+
 	private String readString(InputStream is) throws IOException {
 
 		if (is == null) {
 			return null;
 		}
-		
+
 		String text = null;
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is),BUFFER_SIZE);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is),
+				BUFFER_SIZE);
 		StringBuilder sb = new StringBuilder();
 		String line = null;
 		try {
@@ -80,5 +80,5 @@ public class HttpClient {
 			}
 		}
 		return text;
-	}	
+	}
 }
