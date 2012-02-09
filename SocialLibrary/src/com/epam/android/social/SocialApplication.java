@@ -24,15 +24,15 @@ public class SocialApplication extends Application {
 		if (name.equals(HttpClient.HTTP_CLIENT)) {
 			return httpClient;
 		}
-		
+
 		if (name.equals(ImageLoader.IMAGE_LOADER_SERVICE)) {
 			return imageLoader;
 		}
-		
-		if(name.equals(Loader.LOADER)){
+
+		if (name.equals(Loader.LOADER)) {
 			return loader;
 		}
-		
+
 		return super.getSystemService(name);
 	}
 

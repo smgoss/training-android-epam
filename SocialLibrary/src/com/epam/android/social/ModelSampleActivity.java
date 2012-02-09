@@ -23,7 +23,7 @@ public class ModelSampleActivity extends DelegateActivity {
 		final TextView userName = (TextView) findViewById(R.id.userName);
 		final ImageView userAvatar = (ImageView) findViewById(R.id.userAvatar);
 
-		new LoadModelAsyncTask<User>(URL, this, User.MODEL_CREATOR) {
+		new LoadModelAsyncTask<User>(URL, this, User.MODEL_CREATOR, this) {
 
 			@Override
 			public void success(User result) {
