@@ -1,4 +1,6 @@
 package com.epam.android.common.model;
+
+
 import java.io.Serializable;
 
 import org.json.JSONArray;
@@ -46,6 +48,15 @@ public class BaseModel implements Parcelable{
 		return 0;
 	}
 
+	protected void readFromParcel(final Parcel in) {
+		Serializable serializable = in.readSerializable();
+		try {
+			jo = new JSONObject((String) serializable);
+		} catch (Exception e) {
+			Log.e(TAG, "Cannot serialize to JSONObject");
+		}
+	}
+	
 	protected final void set(final String key, final Object value) {
 		try {
 			jo.put(key, value);
@@ -71,7 +82,7 @@ public class BaseModel implements Parcelable{
 				return jo.getString(key);
 			}
 		} catch (JSONException e) {
-			Log.e(TAG, "get strign", e);
+			Log.e(TAG, "get string error", e);
 		}
 		return null;
 	}
@@ -104,7 +115,7 @@ public class BaseModel implements Parcelable{
 				return jo.getBoolean(key);
 			}
 		} catch (JSONException e) {
-			Log.e(TAG, "get boolean", e);
+			Log.e(TAG, "get boolean error", e);
 		}
 		return null;
 	}
@@ -130,7 +141,7 @@ public class BaseModel implements Parcelable{
 				return jo.getJSONObject(key);
 			}
 		} catch (JSONException e) {
-			Log.e(TAG, "get jsonobject error", e);
+			Log.e(TAG, "get JSONObject error", e);
 		}
 		return null;
 	}
@@ -146,14 +157,4 @@ public class BaseModel implements Parcelable{
 		return null;
 	}
 
-	protected void readFromParcel(final Parcel in) {
-		Serializable serializable = in.readSerializable();
-		try {
-			jo = new JSONObject((String) serializable);
-		} catch (Exception e) {
-			Log.e(TAG, "Cannot serialize to JSONObject");
-		}
-	}
-	
-	
 }
