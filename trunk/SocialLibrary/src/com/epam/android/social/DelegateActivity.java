@@ -1,9 +1,6 @@
 package com.epam.android.social;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -13,6 +10,7 @@ import android.widget.Toast;
 
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
+import com.epam.android.common.task.ITaskCreator;
 
 public class DelegateActivity extends Activity implements IDelegate {
 
@@ -43,20 +41,35 @@ public class DelegateActivity extends Activity implements IDelegate {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
 				Toast.LENGTH_LONG).show();
+		taskCreatorStorage.get(task).create().execute();
+		
 	}
 
 	public Context getContext() {
 		return this;
 	}
 
-	public void addTask(CommonAsyncTask task) {
-		// TODO list storage of task if task started
+	private HashMap<CommonAsyncTask, ITaskCreator> taskCreatorStorage = new HashMap<CommonAsyncTask, ITaskCreator>();
 	
-	}
 
 	public void removeTask(CommonAsyncTask task) {
 		// TODO remove task if task ends or canceled
-
+		taskCreatorStorage.remove(task);
 	}
 
+	public void executeTask(ITaskCreator taskCreator) {
+		CommonAsyncTask task = taskCreator.create();
+		taskCreatorStorage.put(task, taskCreator);
+		task.execute();
+	}
+
+	@Override
+	protected void onDestroy() {
+		taskCreatorStorage.clear();
+		taskCreatorStorage = null;
+		super.onDestroy();
+	}
+
+	
+	
 }

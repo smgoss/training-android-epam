@@ -12,7 +12,7 @@ public interface IDelegate {
 	
 	Context getContext();
 
-	void addTask(CommonAsyncTask task);
-	
 	void removeTask(CommonAsyncTask task);
+	
+	void executeTask(ITaskCreator taskCreator);
 }
