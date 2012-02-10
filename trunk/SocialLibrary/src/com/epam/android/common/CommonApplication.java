@@ -9,9 +9,9 @@ import com.google.android.imageloader.ImageLoader;
 public class CommonApplication extends Application {
 
 	private HttpClient mHttpClient;
-	
+
 	private Loader mLoader;
-	
+
 	private ImageLoader mImageLoader;
 
 	@Override
