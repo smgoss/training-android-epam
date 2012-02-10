@@ -16,7 +16,7 @@ public class ModelSampleActivity extends DelegateActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.load_model);
 
-		new LoadModelAsyncTask<User>(URL, this, User.MODEL_CREATOR) {
+		new LoadModelAsyncTask<User>(URL, this) {
 
 			@Override
 			public void success(User result) {

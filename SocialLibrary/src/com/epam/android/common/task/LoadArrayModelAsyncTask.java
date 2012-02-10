@@ -5,14 +5,11 @@ import java.util.List;
 
 import org.json.JSONException;
 
-import com.epam.android.common.model.IModelCreator;
-
 public abstract class LoadArrayModelAsyncTask<B> extends
 		CommonModelAsyncTask<List<B>> {
 
-	public LoadArrayModelAsyncTask(String url, IDelegate delegate,
-			IModelCreator modelCreator) {
-		super(url, delegate, modelCreator);
+	public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
+		super(url, delegate);
 
 	}
 

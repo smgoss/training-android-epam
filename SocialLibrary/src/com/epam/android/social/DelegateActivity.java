@@ -13,9 +13,9 @@ public class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String TAG = DelegateActivity.class.getSimpleName();
 
-	private static final String TITLE = "Basic title";
+	private static final String TITLE = "Please wait";
 
-	private static final String MSG = "Basic message";
+	private static final String MSG = "Loading...";
 
 	private ProgressDialog mProgressDialog;
 

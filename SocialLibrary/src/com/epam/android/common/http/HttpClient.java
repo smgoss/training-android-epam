@@ -19,9 +19,13 @@ import org.apache.http.params.HttpProtocolParams;
 import android.util.Log;
 
 public class HttpClient {
+
 	public static final String HTTP_CLIENT = "++HTTP_CLIENT++";
+
 	private static final String TAG = HttpClient.class.getSimpleName();
+
 	private static final String UTF_8 = "UTF-8";
+
 	private static final int BUFFER_SIZE = 1024;
 
 	private DefaultHttpClient client;
