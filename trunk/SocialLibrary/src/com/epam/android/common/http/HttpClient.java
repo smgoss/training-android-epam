@@ -16,6 +16,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
+import com.google.android.imageloader.ImageLoader;
+
+import android.content.Context;
 import android.util.Log;
 
 public class HttpClient {
@@ -29,6 +32,19 @@ public class HttpClient {
 	private static final int BUFFER_SIZE = 1024;
 
 	private DefaultHttpClient client;
+	
+    public static HttpClient get(Context context) {
+        HttpClient httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
+        if (httpClient == null) {
+            context = context.getApplicationContext();
+            httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
+        }
+        if (httpClient == null) {
+            throw new IllegalStateException("HTTP client not available");
+        }
+        return httpClient;
+    }
+
 
 	// TODO save cookie
 	public HttpClient() {
