@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import parser.XML;
+
 import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.utils.JsonModelConverter;
 
@@ -40,6 +42,8 @@ public class Loader {
 				modelCreator);
 	}
 
-	// TODO load XML to JSON 
-
+	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, parser.JSONException, IOException{
+			String result = XML.toJSONObject(mHttpClient.execute(new HttpGet(url))).toString();
+			return new JSONObject(result);
+	}
 }
