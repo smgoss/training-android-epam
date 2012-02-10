@@ -29,7 +29,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		mDelegate.addTask(this);
 		mDelegate.showloading();
 	}
 
