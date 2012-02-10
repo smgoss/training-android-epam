@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
-import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
@@ -25,7 +24,7 @@ public class ArrayModelSampleActivity extends DelegateActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.load_array_model);
 
-		new LoadArrayModelAsyncTask<User>(URL, this, User.MODEL_CREATOR) {
+		new LoadArrayModelAsyncTask<User>(URL, this) {
 
 			public void success(List<User> result) {
 				mListView = (ListView) findViewById(R.id.array_model_list);

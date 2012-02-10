@@ -9,6 +9,7 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
 public class User extends BaseModel {
+
 	private static final String TAG = User.class.getSimpleName();
 
 	public static final IModelCreator<User> MODEL_CREATOR = new IModelCreator<User>() {
