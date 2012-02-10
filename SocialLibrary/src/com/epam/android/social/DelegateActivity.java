@@ -1,5 +1,10 @@
 package com.epam.android.social;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,8 +21,8 @@ public class DelegateActivity extends Activity implements IDelegate {
 	private static final String TITLE = "Please wait";
 
 	private static final String MSG = "Loading...";
-
-	private ProgressDialog mProgressDialog;
+	
+	protected ProgressDialog mProgressDialog;
 
 	public void showloading() {
 		if (mProgressDialog == null) {
@@ -46,7 +51,7 @@ public class DelegateActivity extends Activity implements IDelegate {
 
 	public void addTask(CommonAsyncTask task) {
 		// TODO list storage of task if task started
-
+	
 	}
 
 	public void removeTask(CommonAsyncTask task) {
