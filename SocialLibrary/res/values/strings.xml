@@ -5,5 +5,6 @@
     <string name="app_name">SocialLibrary</string>
     <string name="model_button">Load model</string>
     <string name="arraymodel_button">Load arraymodel</string>
+    <string name="parseXmltoJson_button">Parse XML To JSON</string>
 
 </resources>
