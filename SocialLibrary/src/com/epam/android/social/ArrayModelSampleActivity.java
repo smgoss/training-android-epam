@@ -19,9 +19,9 @@ public class ArrayModelSampleActivity extends DelegateActivity {
 	public static final String MODEL = "User";
 
 	private ListView mListView;
-
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	
+	@Override
+	public void onCreate() {
 		setContentView(R.layout.load_array_model);
 
 		new LoadArrayModelAsyncTask<User>(URL, this) {

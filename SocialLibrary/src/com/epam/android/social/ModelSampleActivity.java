@@ -31,9 +31,8 @@ public class ModelSampleActivity extends DelegateActivity {
 	}
 
 
-
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate() {
 		setContentView(R.layout.load_model);
 
 		executeTask(new ITaskCreator() {
