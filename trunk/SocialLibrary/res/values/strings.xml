@@ -6,5 +6,6 @@
     <string name="model_button">Load model</string>
     <string name="arraymodel_button">Load arraymodel</string>
     <string name="parseXmltoJson_button">Parse XML To JSON</string>
+    <string name="not_internet">Not Internet</string>
 
 </resources>

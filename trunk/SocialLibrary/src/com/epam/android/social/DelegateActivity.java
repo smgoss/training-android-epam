@@ -1,10 +1,14 @@
 package com.epam.android.social;
 
+import java.security.PublicKey;
 import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,7 +16,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public class DelegateActivity extends Activity implements IDelegate {
+public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String TAG = DelegateActivity.class.getSimpleName();
 
@@ -69,7 +73,30 @@ public class DelegateActivity extends Activity implements IDelegate {
 		taskCreatorStorage = null;
 		super.onDestroy();
 	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		if(isOnline()){
+			onCreate();
+		}
+		
+		
+	}
 
+	private boolean isOnline() {
+	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    
+	    Toast.makeText(getApplicationContext(), R.string.not_internet, Toast.LENGTH_LONG).show();
+	    return false;
+	}
+	//TODO rename method onCreate and adeed parametrs Bundle savedInstanceState
+	public abstract void onCreate();
 	
 	
 }
