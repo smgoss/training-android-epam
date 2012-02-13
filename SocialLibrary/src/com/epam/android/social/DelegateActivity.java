@@ -65,6 +65,32 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		task.start();
 	}
 
+	
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		// TODO Auto-generated method stub
+		return super.onRetainNonConfigurationInstance();
+	}
+
 	@Override
 	protected void onDestroy() {
 		taskCreatorStorage.clear();

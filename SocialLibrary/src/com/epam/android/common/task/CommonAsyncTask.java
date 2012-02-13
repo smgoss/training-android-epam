@@ -26,7 +26,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		Log.d(TAG, "pre");
 		mDelegate.showLoading();
 	}
 
@@ -49,6 +48,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
+		mDelegate.removeTask(this);
 		mDelegate.hideLoading();
 		if (e == null) {
 			success(result);
@@ -60,9 +60,13 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onCancelled() {
 		mDelegate.hideLoading();
+		mDelegate.removeTask(this);
 		super.onCancelled();
 	}
 
+	
+	
+	
 	public abstract void success(T result);
 
 	public abstract T load() throws IOException, JSONException;
