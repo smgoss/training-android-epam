@@ -2,6 +2,8 @@ package com.epam.android.social;
 
 import android.os.Bundle;
 
+import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadModelAsyncTask;
@@ -14,10 +16,10 @@ public abstract class BaseModelActivity<B> extends DelegateActivity {
 		setContentView(getLayoutResource());
 		executeTask(new ITaskCreator() {
 
-			public CommonAsyncTask create() {
+			public CommonAsyncTask<B> create() {
 
 				return new LoadModelAsyncTask<B>(getUrl(),
-						BaseModelActivity.this) {
+						BaseModelActivity.this, (IModelCreator<B>)BaseModel.getModelCreatorFromTemplate(BaseModelActivity.this)) {
 
 					@Override
 					public void success(B result) {
@@ -28,6 +30,7 @@ public abstract class BaseModelActivity<B> extends DelegateActivity {
 			}
 
 		});
+		
 	}
 
 	public abstract int getLayoutResource();

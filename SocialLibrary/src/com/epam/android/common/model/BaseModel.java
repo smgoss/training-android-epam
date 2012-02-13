@@ -2,6 +2,8 @@ package com.epam.android.common.model;
 
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,4 +160,19 @@ public class BaseModel implements Parcelable{
 		return null;
 	}
 
+	public static <B> IModelCreator<B> getModelCreatorFromTemplate(Object object) {
+		Class someClass = (Class) ((ParameterizedType) object.getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
+		Field modelCreator = someClass.getDeclaredFields()[1];
+		try {
+			return (IModelCreator<B>) modelCreator.get(object);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

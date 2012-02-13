@@ -24,6 +24,7 @@ public class ArrayModelSampleActivity extends DelegateActivity {
 	
 	@Override
 	public void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
 		setContentView(R.layout.load_array_model);
 		executeTask(new ITaskCreator() {
 			
