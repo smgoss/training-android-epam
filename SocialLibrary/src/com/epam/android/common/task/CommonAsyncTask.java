@@ -21,7 +21,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 		super();
 		this.mDelegate = delegate;
 		this.mUrl = url;
-		execute();
 	}
 
 	@Override
@@ -76,4 +75,8 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 		return mUrl;
 	}
 
+	public void start() {
+		execute();
+	}
+	
 }

@@ -62,6 +62,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
 		taskCreatorStorage.put(task, taskCreator);
+		task.start();
 	}
 
 	@Override

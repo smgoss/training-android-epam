@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.task.CommonAsyncTask;
+import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 
 public abstract class BaseArrayModelActivity<B> extends DelegateActivity {
@@ -15,20 +16,23 @@ public abstract class BaseArrayModelActivity<B> extends DelegateActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
+		executeTask(new ITaskCreator() {
+			
+			public CommonAsyncTask create() {
+				return new LoadArrayModelAsyncTask<B>(
+						getUrl(),
+						BaseArrayModelActivity.this,
+						(IModelCreator<B>) BaseModel
+								.getModelCreatorFromTemplate(BaseArrayModelActivity.this)) {
 
-		CommonAsyncTask task = new LoadArrayModelAsyncTask<B>(
-				getUrl(),
-				BaseArrayModelActivity.this,
-				(IModelCreator<B>) BaseModel
-						.getModelCreatorFromTemplate(BaseArrayModelActivity.this)) {
+					@Override
+					public void success(List<B> result) {
+						BaseArrayModelActivity.this.success(result);
+					}
 
-			@Override
-			public void success(List<B> result) {
-				BaseArrayModelActivity.this.success(result);
+				};
 			}
-
-		};
-
+		});
 	}
 
 	public abstract int getLayoutResource();

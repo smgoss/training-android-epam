@@ -18,27 +18,28 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 	private IModelCreator<B> mModelCreator;
 
 	public Loader getLoader() {
+		if (mLoader == null) {
+			this.mLoader = Loader.get((Context) getDelegate());
+		}
 		return mLoader;
 	}
 
 	public IModelCreator<B> getModelCreator() {
+		if (mModelCreator == null) {
+			this.mModelCreator = (IModelCreator<B>) BaseModel.getModelCreatorFromTemplate(this);
+		}
 		return mModelCreator;
 	}
 
 	public CommonModelAsyncTask(String url, IDelegate delegate) {
 		super(url, delegate);
-
-		this.mModelCreator = (IModelCreator<B>) BaseModel.getModelCreatorFromTemplate(this);
-		this.mLoader = Loader.get((Context) getDelegate());
 	}
 	
 	public CommonModelAsyncTask(String url, IDelegate delegate, IModelCreator modelCreator) {
 		super(url, delegate);
 		this.mModelCreator = modelCreator;
-		this.mLoader = Loader.get((Context) getDelegate());
-		
 	}
-
+	
 	public abstract B load() throws IOException, JSONException;
 
 	public abstract void success(B result);
