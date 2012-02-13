@@ -4,12 +4,18 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import com.epam.android.common.model.IModelCreator;
+
 public abstract class LoadModelAsyncTask<B> extends CommonModelAsyncTask<B> {
 
-	// TODO get model creator with reflection
 	public LoadModelAsyncTask(String url, IDelegate delegate) {
 		super(url, delegate);
 
+	}
+
+	public LoadModelAsyncTask(String url, IDelegate delegate,
+			IModelCreator<B> modelCreator) {
+		super(url, delegate, modelCreator);
 	}
 
 	@Override
