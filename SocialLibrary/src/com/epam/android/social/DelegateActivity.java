@@ -21,10 +21,10 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	private static final String TITLE = "Please wait";
 
 	private static final String MSG = "Loading...";
-	
+
 	protected ProgressDialog mProgressDialog;
 
-	public void showloading() {
+	public void showLoading() {
 		if (mProgressDialog == null) {
 			mProgressDialog = ProgressDialog.show(getContext(), TITLE, MSG,
 					false, true);
@@ -33,8 +33,9 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		}
 	}
 
-	public void hideloading() {
-		if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
+	public void hideLoading() {
+		if (mProgressDialog != null && mProgressDialog.isShowing()
+				&& !isFinishing()) {
 			mProgressDialog.dismiss();
 		}
 	}
@@ -44,7 +45,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
 				Toast.LENGTH_LONG).show();
 		taskCreatorStorage.get(task).create().execute();
-		
+
 	}
 
 	public Context getContext() {
@@ -52,7 +53,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	}
 
 	private HashMap<CommonAsyncTask, ITaskCreator> taskCreatorStorage = new HashMap<CommonAsyncTask, ITaskCreator>();
-	
 
 	public void removeTask(CommonAsyncTask task) {
 		// TODO remove task if task ends or canceled
@@ -70,17 +70,17 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		taskCreatorStorage = null;
 		super.onDestroy();
 	}
-	
 
 	private boolean isOnline() {
-	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-	        return true;
-	    }
-	    
-	    Toast.makeText(getApplicationContext(), R.string.not_internet, Toast.LENGTH_LONG).show();
-	    return false;
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+
+		Toast.makeText(getApplicationContext(), R.string.not_internet,
+				Toast.LENGTH_LONG).show();
+		return false;
 	}
-	
+
 }

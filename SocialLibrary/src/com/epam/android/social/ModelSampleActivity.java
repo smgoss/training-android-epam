@@ -20,8 +20,7 @@ public class ModelSampleActivity extends BaseModelActivity<User> {
 		TextView userName = (TextView) findViewById(R.id.userName);
 		ImageView userAvatar = (ImageView) findViewById(R.id.userAvatar);
 		userName.setText(result.getName());
-		ImageLoader imageLoader = ImageLoader
-				.get(ModelSampleActivity.this);
+		ImageLoader imageLoader = ImageLoader.get(ModelSampleActivity.this);
 		imageLoader.bind(userAvatar, result.getImageUrl(), null);
 	}
 
@@ -29,7 +28,5 @@ public class ModelSampleActivity extends BaseModelActivity<User> {
 	public String getUrl() {
 		return URL;
 	}
-
-
 
 }

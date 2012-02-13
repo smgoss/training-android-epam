@@ -16,21 +16,37 @@ import com.epam.android.social.BaseModelActivity;
 public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 
 	//TODO private and gets, sets
-	protected Loader mLoader;
+	private Loader mLoader;
 
-	protected IModelCreator<B> mModelCreator;
+	private IModelCreator<B> mModelCreator;
+
+	public Loader getLoader() {
+		return mLoader;
+	}
+
+	public void setLoader(Loader loader) {
+		this.mLoader = loader;
+	}
+
+	public IModelCreator<B> getModelCreator() {
+		return mModelCreator;
+	}
+
+	public void setModelCreator(IModelCreator<B> modelCreator) {
+		this.mModelCreator = modelCreator;
+	}
 
 	public CommonModelAsyncTask(String url, IDelegate delegate) {
 		super(url, delegate);
 
-		mModelCreator = BaseModel.getModelCreatorFromTemplate(this);
-		mLoader = Loader.get((Context) getDelegate());
+		setModelCreator((IModelCreator<B>) BaseModel.getModelCreatorFromTemplate(this));
+		setLoader(Loader.get((Context) getDelegate()));
 	}
 	
 	public CommonModelAsyncTask(String url, IDelegate delegate, IModelCreator<B> modelCreator) {
 		super(url, delegate);
-		mModelCreator = modelCreator;
-		mLoader = Loader.get((Context) getDelegate());
+		setModelCreator(modelCreator);
+		setLoader(Loader.get((Context) getDelegate()));
 		
 	}
 

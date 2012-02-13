@@ -163,6 +163,8 @@ public class BaseModel implements Parcelable{
 	public static <B> IModelCreator<B> getModelCreatorFromTemplate(Object object) {
 		Class someClass = (Class) ((ParameterizedType) object.getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0];
+		Log.d(TAG, someClass.getCanonicalName());
+		String foo = "foo";
 		Field modelCreator = someClass.getDeclaredFields()[1];
 		try {
 			return (IModelCreator<B>) modelCreator.get(object);
