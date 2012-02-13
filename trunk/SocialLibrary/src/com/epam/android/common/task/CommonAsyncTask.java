@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.location.Address;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,11 +18,11 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	private String mUrl;
 	
 	
-
 	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
 		this.mDelegate = delegate;
 		this.mUrl = url;
+		execute();
 	}
 
 	@Override

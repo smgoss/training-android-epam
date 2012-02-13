@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,7 +34,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	}
 
 	public void hideloading() {
-		if (mProgressDialog.isShowing()) {
+		if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
 			mProgressDialog.dismiss();
 		}
 	}
@@ -63,7 +62,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
 		taskCreatorStorage.put(task, taskCreator);
-		task.execute();
 	}
 
 	@Override
@@ -73,16 +71,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		super.onDestroy();
 	}
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		if(isOnline()){
-			onCreate();
-		}
-		
-		
-	}
 
 	private boolean isOnline() {
 	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -94,8 +82,5 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	    Toast.makeText(getApplicationContext(), R.string.not_internet, Toast.LENGTH_LONG).show();
 	    return false;
 	}
-	//TODO rename method onCreate and adeed parametrs Bundle savedInstanceState
-	public abstract void onCreate();
-	
 	
 }
