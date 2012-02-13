@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import parser.XML;
 
+import android.content.Context;
+
 import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.utils.JsonModelConverter;
 
@@ -20,6 +22,19 @@ public class Loader {
 	private static final String TAG = Loader.class.getSimpleName();
 
 	private HttpClient mHttpClient;
+	
+    public static Loader get(Context context) {
+        Loader loader = (Loader) context.getSystemService(LOADER);
+        if (loader == null) {
+            context = context.getApplicationContext();
+            loader = (Loader) context.getSystemService(LOADER);
+        }
+        if (loader == null) {
+            throw new IllegalStateException("Loader not available");
+        }
+        return loader;
+    }
+	
 
 	public Loader(HttpClient httpClient) {
 		this.mHttpClient = httpClient;
