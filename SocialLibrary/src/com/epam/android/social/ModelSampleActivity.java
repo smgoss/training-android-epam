@@ -1,7 +1,6 @@
 package com.epam.android.social;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,5 +53,7 @@ public class ModelSampleActivity extends DelegateActivity {
 			}
 		});
 	}
+
+
 
 }

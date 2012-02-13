@@ -2,7 +2,6 @@ package com.epam.android.social;
 
 import java.util.List;
 
-import android.os.Bundle;
 import android.widget.ListView;
 
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
@@ -35,5 +34,7 @@ public class ArrayModelSampleActivity extends DelegateActivity {
 
 		}.execute();
 	}
+
+
 
 }

@@ -1,6 +1,5 @@
 package com.epam.android.social;
 
-import java.security.PublicKey;
 import java.util.HashMap;
 
 import android.app.Activity;
