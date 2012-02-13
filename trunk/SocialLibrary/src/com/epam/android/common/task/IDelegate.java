@@ -4,16 +4,16 @@ import android.content.Context;
 
 public interface IDelegate {
 
-	void showloading();
-	
-	void hideloading();
-	
+	void showLoading();
+
+	void hideLoading();
+
 	void handleError(CommonAsyncTask task, Exception e);
-	
+
 	Context getContext();
 
 	void removeTask(CommonAsyncTask task);
-	
+
 	void executeTask(ITaskCreator taskCreator);
 
 }

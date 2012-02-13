@@ -16,8 +16,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	private IDelegate mDelegate;
 
 	private String mUrl;
-	
-	
+
 	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
 		this.mDelegate = delegate;
@@ -29,7 +28,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	protected void onPreExecute() {
 		super.onPreExecute();
 		Log.d(TAG, "pre");
-		mDelegate.showloading();
+		mDelegate.showLoading();
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
-		mDelegate.hideloading();
+		mDelegate.hideLoading();
 		if (e == null) {
 			success(result);
 		} else {
@@ -61,7 +60,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 
 	@Override
 	protected void onCancelled() {
-		mDelegate.hideloading();
+		mDelegate.hideLoading();
 		super.onCancelled();
 	}
 

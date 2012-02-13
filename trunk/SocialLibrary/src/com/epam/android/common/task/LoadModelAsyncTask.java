@@ -20,7 +20,7 @@ public abstract class LoadModelAsyncTask<B> extends CommonModelAsyncTask<B> {
 
 	@Override
 	public B load() throws IOException, JSONException {
-		return mLoader.loadModel(getUrl(), mModelCreator);
+		return getLoader().loadModel(getUrl(), getModelCreator());
 	}
 
 	@Override

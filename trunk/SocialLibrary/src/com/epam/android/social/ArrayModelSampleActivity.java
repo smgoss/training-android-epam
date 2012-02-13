@@ -2,48 +2,36 @@ package com.epam.android.social;
 
 import java.util.List;
 
-import android.os.Bundle;
 import android.widget.ListView;
 
-import com.epam.android.common.task.CommonAsyncTask;
-import com.epam.android.common.task.ITaskCreator;
-import com.epam.android.common.task.LoadArrayModelAsyncTask;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
-public class ArrayModelSampleActivity extends DelegateActivity {
+public class ArrayModelSampleActivity extends
+		BaseArrayModelActivity<List<User>> {
 
 	private static final String TAG = ArrayModelSampleActivity.class
 			.getSimpleName();
 
 	public static final String URL = "http://dl.dropbox.com/u/16403954/array_bm.json";
 
-	public static final String MODEL = "User";
-
 	private ListView mListView;
-	
+
 	@Override
-	public void onCreate(Bundle bundle) {
-		super.onCreate(bundle);
-		setContentView(R.layout.load_array_model);
-		executeTask(new ITaskCreator() {
-			
-			public CommonAsyncTask create() {
-				return new LoadArrayModelAsyncTask<User>(URL, ArrayModelSampleActivity.this) {
-
-					@Override
-					public void success(List<User> result) {
-						mListView = (ListView) findViewById(R.id.array_model_list);
-						mListView.setAdapter(new ArrayModelListAdapter(
-								ArrayModelSampleActivity.this, R.layout.load_model,
-								result));
-					}
-
-				};
-			}
-		});
+	public int getLayoutResource() {
+		return R.layout.load_array_model;
 	}
 
+	@Override
+	public void success(List<User> result) {
+		mListView = (ListView) findViewById(R.id.array_model_list);
+		mListView.setAdapter(new ArrayModelListAdapter(
+				ArrayModelSampleActivity.this, R.layout.load_model, result));
+	}
 
+	@Override
+	public String getUrl() {
+		return URL;
+	}
 
 }
