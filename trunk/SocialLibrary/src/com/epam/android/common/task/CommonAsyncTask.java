@@ -29,12 +29,14 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		Log.d(TAG, "pre");
 		mDelegate.showloading();
 	}
 
 	@Override
 	protected T doInBackground(String... params) {
 		try {
+			Log.d(TAG, "back");
 			return load();
 		} catch (IOException e) {
 			this.e = e;

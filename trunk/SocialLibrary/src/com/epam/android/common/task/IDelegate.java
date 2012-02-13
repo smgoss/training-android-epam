@@ -15,4 +15,5 @@ public interface IDelegate {
 	void removeTask(CommonAsyncTask task);
 	
 	void executeTask(ITaskCreator taskCreator);
+
 }
