@@ -8,7 +8,7 @@ import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
 public class ArrayModelSampleActivity extends
-		BaseArrayModelActivity<List<User>> {
+		BaseArrayModelActivity<User> {
 
 	private static final String TAG = ArrayModelSampleActivity.class
 			.getSimpleName();

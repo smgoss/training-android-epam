@@ -8,7 +8,7 @@ import org.json.JSONException;
 import com.epam.android.common.model.IModelCreator;
 
 public abstract class LoadArrayModelAsyncTask<B> extends
-		CommonModelAsyncTask<B> {
+		CommonModelAsyncTask<List<B>> {
 
 	public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
 		super(url, delegate);
@@ -16,15 +16,15 @@ public abstract class LoadArrayModelAsyncTask<B> extends
 	}
 	
 	public LoadArrayModelAsyncTask(String url, IDelegate delegate,
-			IModelCreator<B> iModelCreator) {
+			IModelCreator iModelCreator) {
 		super(url, delegate, iModelCreator);
 	}
 
-	public B load() throws IOException, JSONException {
-		return (B) getLoader().loadArrayModel(getUrl(), getModelCreator());
+	public List<B> load() throws IOException, JSONException {
+		return (List<B>) getLoader().loadArrayModel(getUrl(), getModelCreator());
 	}
 
 	@Override
-	public abstract void success(B result);
+	public abstract void success(List<B> result);
 
 }
