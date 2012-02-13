@@ -8,6 +8,7 @@ import java.lang.reflect.ParameterizedType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.epam.android.common.http.Loader;
@@ -37,8 +38,7 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 			e.printStackTrace();
 		}
 
-		mLoader = (Loader) delegate.getContext().getApplicationContext()
-				.getSystemService(Loader.LOADER);
+		mLoader = Loader.get((Context) getDelegate());
 
 	}
 
