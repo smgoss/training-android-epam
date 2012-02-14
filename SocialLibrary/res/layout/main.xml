@@ -15,18 +15,26 @@
         android:layout_height="wrap_content"
         android:onClick="onModelButtonClick"
         android:text="@string/model_button" />
-    <Button
+
+    <Button
         android:id="@+id/modelarray"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="onArrayModelButtonClick"
         android:text="@string/arraymodel_button" />
-    
+
     <Button
         android:id="@+id/parseXMLtoJSON"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="onparseXMLtoJSONButtonClick"
+        android:onClick="onParseXMLtoJSONButtonClick"
         android:text="@string/parseXmltoJson_button" />
+
+    <Button
+        android:id="@+id/runAsynkTask"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onRunAsynkTaskButtonClick"
+        android:text="@string/run_asynctask_button" />
 
 </LinearLayout>

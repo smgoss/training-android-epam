@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
@@ -22,18 +23,53 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String MSG = "Loading...";
 
+	private static final String URL = "No url";
+	
+	protected AsyncTaskManager mAsyncTaskManager;
+	
 	protected ProgressDialog mProgressDialog;
+	
+//	public AsyncTaskManager getAsyncTaskManager() {
+//		return mAsyncTaskManager;
+//	}
 
+	public ProgressDialog getProgressDialog() {
+		return mProgressDialog;
+	}
+
+
+	public ProgressDialog setProgressDialog() {
+		//mAsyncTaskManager = AsyncTaskManager.get(this);
+		mProgressDialog = new ProgressDialog(this);
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.setCancelable(true);
+		return mProgressDialog;
+	}
+	
 	public void showLoading() {
-		if (mProgressDialog == null) {
-			mProgressDialog = ProgressDialog.show(getContext(), TITLE, MSG,
-					false, true);
-		} else {
+		Log.d("my", "show progress");
+		Log.d("PrDialog", "show " + mProgressDialog.toString());
+		if (mProgressDialog != null) {
+			mProgressDialog.setTitle(TITLE);
+			mProgressDialog.setMessage(MSG);
+			mProgressDialog.show();
+		} 
+	}
+
+	public void showProgress(String textMessage) {
+		Log.d("my", "progress" + textMessage);
+		if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+			mProgressDialog.setTitle(TITLE);
+			mProgressDialog.setMessage(textMessage);
 			mProgressDialog.show();
 		}
+		Log.d("PrDialog", "progress " + mProgressDialog.toString());
+		mProgressDialog.setMessage(textMessage);
 	}
 
 	public void hideLoading() {
+		Log.d("my", "hide progress");
+		Log.d("PrDialog", "hide " + mProgressDialog.toString());
 		if (mProgressDialog != null && mProgressDialog.isShowing()
 				&& !isFinishing()) {
 			mProgressDialog.dismiss();
@@ -44,43 +80,53 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
 				Toast.LENGTH_LONG).show();
-		taskCreatorStorage.get(task).create().execute();
-
 	}
 
 	public Context getContext() {
 		return this;
 	}
 
-	private HashMap<CommonAsyncTask, ITaskCreator> taskCreatorStorage = new HashMap<CommonAsyncTask, ITaskCreator>();
-
 	public void removeTask(CommonAsyncTask task) {
+		Log.d("my", "removed" + task.toString());
 		// TODO remove task if task ends or canceled
-		taskCreatorStorage.remove(task);
+		mAsyncTaskManager.removeTask(getKey());
 	}
 
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
-		taskCreatorStorage.put(task, taskCreator);
+		Log.d("my", "added" + task.toString());
+		mAsyncTaskManager.addTask(getKey(), task);
 		task.start();
 	}
 
-	
-	
+	public abstract String getKey();
+
+	// public String getKey() {
+	// Log.d("my", URL);
+	// return URL;
+	// }
+
 	@Override
 	protected void onPause() {
+		Log.d("my", mAsyncTaskManager.toString());
+		Log.d("my", "paused");
+		CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
+		// task.cancel(true);
+		hideLoading();
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
+		Log.d("my", "restarted");
 		// TODO Auto-generated method stub
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
+		Log.d("my", "resumed");
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
@@ -88,13 +134,15 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		// TODO Auto-generated method stub
+		Log.d("my", "config changed");
 		return super.onRetainNonConfigurationInstance();
 	}
 
 	@Override
 	protected void onDestroy() {
-		taskCreatorStorage.clear();
-		taskCreatorStorage = null;
+		Log.d("my", "destroyed");
+		// taskCreatorStorage.clear();
+		// taskCreatorStorage = null;
 		super.onDestroy();
 	}
 
