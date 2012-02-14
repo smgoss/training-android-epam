@@ -29,4 +29,8 @@ public class ModelSampleActivity extends BaseModelActivity<User> {
 		return URL;
 	}
 
+	public String getKey() {
+		return URL;
+	}
+
 }

@@ -7,7 +7,7 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
+public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private static final String TAG = CommonAsyncTask.class.getSimpleName();
 
@@ -26,7 +26,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		mDelegate.showLoading();
+		//mDelegate.showProgress("Loading...");
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 	@Override
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
+		Log.d("my", "postExecute");
 		mDelegate.removeTask(this);
 		mDelegate.hideLoading();
 		if (e == null) {
@@ -59,8 +60,8 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 
 	@Override
 	protected void onCancelled() {
-		mDelegate.hideLoading();
-		mDelegate.removeTask(this);
+//		mDelegate.hideLoading();
+//		mDelegate.removeTask(this);
 		super.onCancelled();
 	}
 
@@ -81,6 +82,10 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, Void, T> {
 
 	public void start() {
 		execute();
+	}
+	
+	public boolean isCancellableOnPause() {
+		return false;
 	}
 	
 }

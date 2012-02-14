@@ -33,5 +33,9 @@ public class ArrayModelSampleActivity extends
 	public String getUrl() {
 		return URL;
 	}
+	
+	public String getKey() {
+	return URL;
+}
 
 }

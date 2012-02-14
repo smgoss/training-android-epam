@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".ModelSampleActivity" />
         <activity android:name=".ArrayModelSampleActivity" />
+        <activity android:name=".TestAsyncTaskActivity" />
     </application>
     
 </manifest>

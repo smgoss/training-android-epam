@@ -7,6 +7,8 @@ public interface IDelegate {
 	void showLoading();
 
 	void hideLoading();
+	
+	void showProgress(String textMessage);
 
 	void handleError(CommonAsyncTask task, Exception e);
 
