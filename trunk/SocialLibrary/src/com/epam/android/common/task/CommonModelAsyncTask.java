@@ -12,7 +12,6 @@ import com.epam.android.common.model.IModelCreator;
 
 public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 
-	//TODO private and gets, sets
 	private Loader mLoader;
 
 	private IModelCreator<B> mModelCreator;
@@ -26,7 +25,8 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 
 	public IModelCreator<B> getModelCreator() {
 		if (mModelCreator == null) {
-			this.mModelCreator = (IModelCreator<B>) BaseModel.getModelCreatorFromTemplate(this);
+			this.mModelCreator = (IModelCreator<B>) BaseModel
+					.getModelCreatorFromTemplate(this);
 		}
 		return mModelCreator;
 	}
@@ -34,14 +34,13 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 	public CommonModelAsyncTask(String url, IDelegate delegate) {
 		super(url, delegate);
 	}
-	
-	public CommonModelAsyncTask(String url, IDelegate delegate, IModelCreator modelCreator) {
+
+	public CommonModelAsyncTask(String url, IDelegate delegate,
+			IModelCreator modelCreator) {
 		super(url, delegate);
 		this.mModelCreator = modelCreator;
 	}
-	
-	public abstract B load() throws IOException, JSONException;
 
-	public abstract void success(B result);
+	public abstract B load() throws IOException, JSONException;
 
 }

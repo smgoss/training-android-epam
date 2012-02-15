@@ -8,37 +8,46 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.epam.android.common.CommonApplication;
-
 public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private static final String TAG = CommonAsyncTask.class.getSimpleName();
 	
+	public static final String ON_PRE_EXECUTE = "onPreExecute";
+
+	public static final String ON_POST_EXECUTE = "onPostExecute";
+
+	public static final String ON_PROGRESS_UPDATE = "onProgressUpdate";
+
+	public static final String TEXT = "text";
+
+	public static final String RESULT = "result";
+
+	public static final String TASK = "task";
+
 	private Exception e;
 
 	private IDelegate mDelegate;
 
 	private String mUrl;
+	
+	private String mKey;
 
 	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
 		this.mDelegate = delegate;
 		this.mUrl = url;
+		this.mKey = this.mDelegate.getKey(); 
 	}
 
 	@Override
 	protected void onPreExecute() {
-		Log.d("my", "preExecute");
+		sendNotification(ON_PRE_EXECUTE);
 		super.onPreExecute();
-		sendNotification(CommonApplication.ON_PRE_EXECUTE);
-
-		// mDelegate.showProgress("Loading...");
 	}
 
 	@Override
 	protected T doInBackground(String... params) {
 		try {
-			Log.d(TAG, "back");
 			return load();
 		} catch (IOException e) {
 			this.e = e;
@@ -54,12 +63,9 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	@Override
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
-		Log.d("my", "postExecute");
-		// mDelegate.removeTask(this);
-		// mDelegate.hideLoading();
 		if (e == null) {
-			sendNotification(CommonApplication.ON_POST_EXECUTE, result);
-			// success(result);
+			sendNotification(ON_POST_EXECUTE, result);
+			
 		} else {
 			mDelegate.handleError(this, e);
 		}
@@ -67,19 +73,14 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	@Override
 	protected void onCancelled() {
-		// mDelegate.hideLoading();
-		// mDelegate.removeTask(this);
 		super.onCancelled();
 	}
 
 	@Override
 	protected void onProgressUpdate(String... values) {
-		sendNotification(CommonApplication.ON_PROGRESS_UPDATE,values[0]);
-		// TODO Auto-generated method stub
+		sendNotification(ON_PROGRESS_UPDATE, values[0]);
 		super.onProgressUpdate(values);
 	}
-
-	public abstract void success(T result);
 
 	public abstract T load() throws IOException, JSONException;
 
@@ -101,24 +102,27 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	protected void sendNotification(String event) {
 		Intent broadcast = new Intent();
+		broadcast.putExtra(TASK, mKey);
 		broadcast.setAction(event);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
 
 	protected void sendNotification(String event, String text) {
 		Intent broadcast = new Intent();
+		broadcast.putExtra(TASK, mKey);
 		broadcast.setAction(event);
-		broadcast.putExtra(CommonApplication.TEXT, text);
+		broadcast.putExtra(TEXT, text);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
-	
+
 	protected void sendNotification(String event, T result) {
 		Intent broadcast = new Intent();
+		broadcast.putExtra(TASK, mKey);
 		broadcast.setAction(event);
 		initIntentResult(broadcast, result);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
-	
+
 	protected abstract void initIntentResult(Intent intent, T result);
 
 }

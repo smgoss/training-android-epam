@@ -25,8 +25,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String MSG = "Loading...";
 
-	private static final String URL = "No url";
-
 	private BroadcastReceiver receiver;
 
 	protected AsyncTaskManager mAsyncTaskManager;
@@ -132,26 +130,32 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		Log.d("my", "resumed");
 
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(CommonApplication.ON_POST_EXECUTE);
-		filter.addAction(CommonApplication.ON_PRE_EXECUTE);
-		filter.addAction(CommonApplication.ON_PROGRESS_UPDATE);
+		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
+		filter.addAction(CommonAsyncTask.ON_POST_EXECUTE);
+		filter.addAction(CommonAsyncTask.ON_PROGRESS_UPDATE);
 
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				// do something based on the intent's action
-				// Log.d("my-", intent.getAction());
-				if (intent.getAction()
-						.equals(CommonApplication.ON_POST_EXECUTE)) {
-					hideLoading();
-					removeTask();
-					//success();
-				} else if (intent.getAction().equals(
-						CommonApplication.ON_PRE_EXECUTE)) {
-					showLoading();
-				} else if (intent.getAction().equals(
-						CommonApplication.ON_PROGRESS_UPDATE)) {
-					showProgress(intent.getStringExtra(CommonApplication.TEXT));
+				if (intent.getStringExtra(CommonAsyncTask.TASK)
+						.equals(getKey())) {
+					Log.d("bcr", "broadcast recieved");
+					if (intent.getAction().equals(
+							CommonAsyncTask.ON_PRE_EXECUTE)) {
+						Log.d("bcr", "pre");
+						showLoading();
+					} else if (intent.getAction().equals(
+							CommonAsyncTask.ON_POST_EXECUTE)) {
+						Log.d("bcr", "post");
+						hideLoading();
+						removeTask();
+						success(intent);
+					} else if (intent.getAction().equals(
+							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
+						Log.d("bcr", "progress");
+						showProgress(intent
+								.getStringExtra(CommonAsyncTask.TEXT));
+					}
 				}
 			}
 
@@ -161,6 +165,8 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
+
+	protected abstract void success(Intent intent);
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {

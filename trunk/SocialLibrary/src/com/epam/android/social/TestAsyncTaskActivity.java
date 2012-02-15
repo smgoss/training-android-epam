@@ -5,10 +5,12 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.epam.android.common.CommonApplication;
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
@@ -18,7 +20,7 @@ import com.epam.android.social.model.User;
 public class TestAsyncTaskActivity extends DelegateActivity {
 
 	private Exception e;
-	public static final String URL = "http://dl.dropbox.com/u/16403954/bm.json";
+	public static final String URL = "http://dl.dropbox.com/u/52289508/array.json";
 
 	private static final String TAG = TestAsyncTaskActivity.class
 			.getSimpleName();
@@ -33,13 +35,9 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(true);
 
-		Log.d("PrDialog", "create " + mProgressDialog.toString());
-		// mProgressDialog = setProgressDialog();
 		if (mAsyncTaskManager.getTask(getKey()) == null) {
 			executeAsyncTask();
-		} else {
-			mAsyncTaskManager.getTask(getKey());
-		}
+		} 
 	}
 
 	private void executeAsyncTask() {
@@ -51,9 +49,15 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 						TestAsyncTaskActivity.this, User.MODEL_CREATOR) {
 
 					@Override
+					protected void initIntentResult(Intent intent, User result) {
+						intent.putExtra(RESULT, result);
+						// super.initIntentResult(intent, result);
+					}
+
+					@Override
 					protected User doInBackground(String... params) {
 						try {
-							for (int i = 15; i > 0; --i) {
+							for (int i = 10; i > 0; --i) {
 								// Check if task is cancelled
 								if (isCancelled()) {
 									// This return causes onPostExecute call on
@@ -66,7 +70,7 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 									// UI thread
 									publishProgress(TestAsyncTaskActivity.this
 											.getString(R.string.task_working, i));
-									Thread.sleep(1000);
+									Thread.sleep(500);
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 									// This return causes onPostExecute call on
@@ -86,18 +90,6 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 						}
 					}
 
-					@Override
-					public void success(User result) {
-						String mResultText;
-						if (result == null) {
-							mResultText = "null";
-						} else {
-							mResultText = getString(R.string.task_completed);
-						}
-						Toast.makeText(TestAsyncTaskActivity.this, mResultText,
-								Toast.LENGTH_LONG).show();
-					}
-
 				};
 			}
 
@@ -107,6 +99,19 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 	@Override
 	public String getKey() {
 		return URL;
+	}
+
+	@Override
+	protected void success(Intent intent) {
+		String mResultText;
+
+		if (intent.getParcelableExtra(CommonAsyncTask.RESULT) == null) {
+			mResultText = "null";
+		} else {
+			mResultText = getString(R.string.task_completed);
+		}
+		Toast.makeText(TestAsyncTaskActivity.this, mResultText,
+				Toast.LENGTH_LONG).show();
 	}
 
 }
