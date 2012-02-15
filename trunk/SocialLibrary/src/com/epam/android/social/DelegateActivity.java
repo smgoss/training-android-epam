@@ -1,15 +1,17 @@
 package com.epam.android.social;
 
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.epam.android.common.CommonApplication;
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
@@ -24,28 +26,29 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	private static final String MSG = "Loading...";
 
 	private static final String URL = "No url";
-	
+
+	private BroadcastReceiver receiver;
+
 	protected AsyncTaskManager mAsyncTaskManager;
-	
+
 	protected ProgressDialog mProgressDialog;
-	
-//	public AsyncTaskManager getAsyncTaskManager() {
-//		return mAsyncTaskManager;
-//	}
 
-	public ProgressDialog getProgressDialog() {
-		return mProgressDialog;
-	}
+	// public AsyncTaskManager getAsyncTaskManager() {
+	// return mAsyncTaskManager;
+	// }
 
+	// public ProgressDialog getProgressDialog() {
+	// return mProgressDialog;
+	// }
+	//
+	// public ProgressDialog setProgressDialog() {
+	// // mAsyncTaskManager = AsyncTaskManager.get(this);
+	// mProgressDialog = new ProgressDialog(this);
+	// mProgressDialog.setIndeterminate(true);
+	// mProgressDialog.setCancelable(true);
+	// return mProgressDialog;
+	// }
 
-	public ProgressDialog setProgressDialog() {
-		//mAsyncTaskManager = AsyncTaskManager.get(this);
-		mProgressDialog = new ProgressDialog(this);
-		mProgressDialog.setIndeterminate(true);
-		mProgressDialog.setCancelable(true);
-		return mProgressDialog;
-	}
-	
 	public void showLoading() {
 		Log.d("my", "show progress");
 		Log.d("PrDialog", "show " + mProgressDialog.toString());
@@ -53,7 +56,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 			mProgressDialog.setTitle(TITLE);
 			mProgressDialog.setMessage(MSG);
 			mProgressDialog.show();
-		} 
+		}
 	}
 
 	public void showProgress(String textMessage) {
@@ -86,8 +89,8 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		return this;
 	}
 
-	public void removeTask(CommonAsyncTask task) {
-		Log.d("my", "removed" + task.toString());
+	public void removeTask() {
+		Log.d("my", "task removed");
 		// TODO remove task if task ends or canceled
 		mAsyncTaskManager.removeTask(getKey());
 	}
@@ -108,11 +111,11 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	@Override
 	protected void onPause() {
-		Log.d("my", mAsyncTaskManager.toString());
 		Log.d("my", "paused");
-		CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
+		unregisterReceiver(receiver);
+		// CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
 		// task.cancel(true);
-		hideLoading();
+		// hideLoading();
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
@@ -127,6 +130,34 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	@Override
 	protected void onResume() {
 		Log.d("my", "resumed");
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(CommonApplication.ON_POST_EXECUTE);
+		filter.addAction(CommonApplication.ON_PRE_EXECUTE);
+		filter.addAction(CommonApplication.ON_PROGRESS_UPDATE);
+
+		receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				// do something based on the intent's action
+				// Log.d("my-", intent.getAction());
+				if (intent.getAction()
+						.equals(CommonApplication.ON_POST_EXECUTE)) {
+					hideLoading();
+					removeTask();
+					//success();
+				} else if (intent.getAction().equals(
+						CommonApplication.ON_PRE_EXECUTE)) {
+					showLoading();
+				} else if (intent.getAction().equals(
+						CommonApplication.ON_PROGRESS_UPDATE)) {
+					showProgress(intent.getStringExtra(CommonApplication.TEXT));
+				}
+			}
+
+		};
+		registerReceiver(receiver, filter);
+
 		// TODO Auto-generated method stub
 		super.onResume();
 	}

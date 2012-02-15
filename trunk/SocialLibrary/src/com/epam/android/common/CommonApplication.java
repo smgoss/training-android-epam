@@ -9,6 +9,17 @@ import com.google.android.imageloader.ImageLoader;
 
 public class CommonApplication extends Application {
 
+	public static final String ON_PRE_EXECUTE = "onPreExecute";
+	
+	public static final String ON_POST_EXECUTE = "onPostExecute";
+	
+	public static final String ON_PROGRESS_UPDATE = "onProgressUpdate";
+	
+	public static final String TEXT = "text";
+	
+	public static final String RESULT = "result";
+
+	
 	private HttpClient mHttpClient;
 
 	private Loader mLoader;
