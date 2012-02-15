@@ -44,4 +44,8 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, TestAsyncTaskActivity.class);
 		startActivity(intent);
 	}
+	
+	public void onTestListViewButtonClick(View view) {
+		startActivity(new Intent(this, TestListViewActivity.class));
+	}
 }
