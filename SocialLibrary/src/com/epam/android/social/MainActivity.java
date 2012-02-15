@@ -7,12 +7,17 @@ import org.json.JSONException;
 
 import com.epam.android.common.http.HttpClient;
 import com.epam.android.common.http.Loader;
+import com.epam.android.social.DelegateActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private static final String TAG = MainActivity.class.getSimpleName();
@@ -21,6 +26,7 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
 	}
 
 	public void onModelButtonClick(View view) {
@@ -47,5 +53,16 @@ public class MainActivity extends Activity {
 	
 	public void onTestListViewButtonClick(View view) {
 		startActivity(new Intent(this, TestListViewActivity.class));
+	}
+	
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		Toast.makeText(this, R.string.not_internet,
+				Toast.LENGTH_LONG).show();
+		return false;
 	}
 }

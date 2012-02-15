@@ -18,12 +18,7 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
-		//TODO remove
-		mProgressDialog = new ProgressDialog(this);
-		mProgressDialog.setIndeterminate(true);
-		mProgressDialog.setCancelable(true);
 
-		
 	}
 
 	public abstract int getLayoutResource();
@@ -52,5 +47,4 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		}
 	}
 
-	
 }

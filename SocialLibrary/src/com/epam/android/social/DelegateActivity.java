@@ -30,46 +30,26 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	protected ProgressDialog mProgressDialog;
 
-	// public AsyncTaskManager getAsyncTaskManager() {
-	// return mAsyncTaskManager;
-	// }
-
-	// public ProgressDialog getProgressDialog() {
-	// return mProgressDialog;
-	// }
-	//
-	// public ProgressDialog setProgressDialog() {
-	// // mAsyncTaskManager = AsyncTaskManager.get(this);
-	// mProgressDialog = new ProgressDialog(this);
-	// mProgressDialog.setIndeterminate(true);
-	// mProgressDialog.setCancelable(true);
-	// return mProgressDialog;
-	// }
-
 	public void showLoading() {
-		Log.d("my", "show progress");
-		Log.d("PrDialog", "show " + mProgressDialog.toString());
-		if (mProgressDialog != null) {
-			mProgressDialog.setTitle(TITLE);
-			mProgressDialog.setMessage(MSG);
-			mProgressDialog.show();
+		if (mProgressDialog == null) {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(true);
 		}
+		mProgressDialog.setTitle(TITLE);
+		mProgressDialog.setMessage(MSG);
+		mProgressDialog.show();
+
 	}
 
 	public void showProgress(String textMessage) {
-		Log.d("my", "progress" + textMessage);
-		if (mProgressDialog != null && !mProgressDialog.isShowing()) {
-			mProgressDialog.setTitle(TITLE);
-			mProgressDialog.setMessage(textMessage);
-			mProgressDialog.show();
+		if (mProgressDialog == null) {
+			showLoading();
 		}
-		Log.d("PrDialog", "progress " + mProgressDialog.toString());
 		mProgressDialog.setMessage(textMessage);
 	}
 
 	public void hideLoading() {
-		Log.d("my", "hide progress");
-		Log.d("PrDialog", "hide " + mProgressDialog.toString());
 		if (mProgressDialog != null && mProgressDialog.isShowing()
 				&& !isFinishing()) {
 			mProgressDialog.dismiss();
@@ -88,7 +68,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	public void removeTask() {
 		Log.d("my", "task removed");
-		// TODO remove task if task ends or canceled
 		mAsyncTaskManager.removeTask(getKey());
 	}
 
@@ -101,11 +80,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	public abstract String getKey();
 
-	// public String getKey() {
-	// Log.d("my", URL);
-	// return URL;
-	// }
-
 	@Override
 	protected void onPause() {
 		Log.d("my", "paused");
@@ -113,20 +87,12 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		// CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
 		// task.cancel(true);
 		// hideLoading();
-		// TODO Auto-generated method stub
+		// TODO Do smth with task on pause, on BackKeyPressed
 		super.onPause();
 	}
 
 	@Override
-	protected void onRestart() {
-		Log.d("my", "restarted");
-		// TODO Auto-generated method stub
-		super.onRestart();
-	}
-
-	@Override
 	protected void onResume() {
-		Log.d("my", "resumed");
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
@@ -136,10 +102,14 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Log.d("bcr", "broadcast recieved, action " + intent.getAction() + ", key " + intent.getStringExtra(CommonAsyncTask.TASK));
+				Log.d("bcr",
+						"broadcast recieved, action " + intent.getAction()
+								+ ", key "
+								+ intent.getStringExtra(CommonAsyncTask.TASK));
 				if (intent.getStringExtra(CommonAsyncTask.TASK)
 						.equals(getKey())) {
-					Log.d("bcr", "broadcast recieved, action " + intent.getAction());
+					Log.d("bcr",
+							"broadcast recieved, action " + intent.getAction());
 					if (intent.getAction().equals(
 							CommonAsyncTask.ON_PRE_EXECUTE)) {
 						Log.d("bcr", "pre");
@@ -161,19 +131,10 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 		};
 		registerReceiver(receiver, filter);
-
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
 	protected abstract void success(Intent intent);
-
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		// TODO Auto-generated method stub
-		Log.d("my", "config changed");
-		return super.onRetainNonConfigurationInstance();
-	}
 
 	@Override
 	protected void onDestroy() {
@@ -181,18 +142,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		// taskCreatorStorage.clear();
 		// taskCreatorStorage = null;
 		super.onDestroy();
-	}
-
-	private boolean isOnline() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo netInfo = cm.getActiveNetworkInfo();
-		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-			return true;
-		}
-
-		Toast.makeText(getApplicationContext(), R.string.not_internet,
-				Toast.LENGTH_LONG).show();
-		return false;
 	}
 
 }
