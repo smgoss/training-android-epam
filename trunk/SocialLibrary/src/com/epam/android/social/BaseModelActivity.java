@@ -8,7 +8,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadModelAsyncTask;
 
-public abstract class BaseModelActivity<B> extends DelegateActivity {
+public abstract class BaseModelActivity<B extends BaseModel> extends DelegateActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
