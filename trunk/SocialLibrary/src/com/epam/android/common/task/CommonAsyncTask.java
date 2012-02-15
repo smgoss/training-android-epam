@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import android.R.bool;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -31,12 +32,23 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	private String mUrl;
 	
 	private String mKey;
+	
+	private boolean mToBeCancelled;
+
+	public boolean isToBeCancelled() {
+		return mToBeCancelled;
+	}
+
+	public void setToBeCancelled(boolean toBeCancelled) {
+		this.mToBeCancelled = toBeCancelled;
+	}
 
 	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
 		this.mDelegate = delegate;
 		this.mUrl = url;
-		this.mKey = this.mDelegate.getKey(); 
+		this.mKey = this.mDelegate.getKey();
+		this.mToBeCancelled = false;
 	}
 
 	@Override
@@ -44,7 +56,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		sendNotification(ON_PRE_EXECUTE);
 		super.onPreExecute();
 	}
-
+	
 	@Override
 	protected T doInBackground(String... params) {
 		try {
@@ -73,6 +85,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	@Override
 	protected void onCancelled() {
+		Log.d(TAG, "Canselled " + this.toString());
 		super.onCancelled();
 	}
 
