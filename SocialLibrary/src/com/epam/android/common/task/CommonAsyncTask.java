@@ -101,28 +101,27 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	}
 
 	protected void sendNotification(String event) {
-		Intent broadcast = new Intent();
-		broadcast.putExtra(TASK, mKey);
-		broadcast.setAction(event);
-		mDelegate.getContext().sendBroadcast(broadcast);
+		mDelegate.getContext().sendBroadcast(createDefaultBroadcast(event));
 	}
 
 	protected void sendNotification(String event, String text) {
-		Intent broadcast = new Intent();
-		broadcast.putExtra(TASK, mKey);
-		broadcast.setAction(event);
+		Intent broadcast = createDefaultBroadcast(event);
 		broadcast.putExtra(TEXT, text);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
 
 	protected void sendNotification(String event, T result) {
-		Intent broadcast = new Intent();
-		broadcast.putExtra(TASK, mKey);
-		broadcast.setAction(event);
+		Intent broadcast = createDefaultBroadcast(event);
 		initIntentResult(broadcast, result);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
 
+	private Intent createDefaultBroadcast(String event) {
+		Intent broadcast = new Intent(event);
+		broadcast.putExtra(TASK, mKey);
+		return broadcast;
+	}
+	
 	protected abstract void initIntentResult(Intent intent, T result);
 
 }
