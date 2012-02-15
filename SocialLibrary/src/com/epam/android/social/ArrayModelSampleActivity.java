@@ -2,13 +2,14 @@ package com.epam.android.social;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.widget.ListView;
 
+import com.epam.android.common.CommonApplication;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
-public class ArrayModelSampleActivity extends
-		BaseArrayModelActivity<User> {
+public class ArrayModelSampleActivity extends BaseArrayModelActivity<User> {
 
 	private static final String TAG = ArrayModelSampleActivity.class
 			.getSimpleName();
@@ -23,19 +24,20 @@ public class ArrayModelSampleActivity extends
 	}
 
 	@Override
-	public void success(List<User> result) {
+	public void success(Intent intent) {
 		mListView = (ListView) findViewById(R.id.array_model_list);
-		mListView.setAdapter(new ArrayModelListAdapter(
-				ArrayModelSampleActivity.this, R.layout.load_model, result));
+		// mListView.setAdapter(new ArrayModelListAdapter(
+		// ArrayModelSampleActivity.this, R.layout.load_model, (List<User>)
+		// intent.getParcelableArrayListExtra(CommonApplication.RESULT)));
 	}
 
 	@Override
 	public String getUrl() {
 		return URL;
 	}
-	
+
 	public String getKey() {
-	return URL;
-}
+		return URL;
+	}
 
 }
