@@ -28,7 +28,6 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("my", "Created");
 		setContentView(R.layout.run_asynktask);
 		mAsyncTaskManager = AsyncTaskManager.get(this);
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.widget.ListView;
 
 import com.epam.android.common.CommonApplication;
+import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
@@ -26,9 +27,10 @@ public class ArrayModelSampleActivity extends BaseArrayModelActivity<User> {
 	@Override
 	public void success(Intent intent) {
 		mListView = (ListView) findViewById(R.id.array_model_list);
-		// mListView.setAdapter(new ArrayModelListAdapter(
-		// ArrayModelSampleActivity.this, R.layout.load_model, (List<User>)
-		// intent.getParcelableArrayListExtra(CommonApplication.RESULT)));
+		List<User> users = intent
+				.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
+		mListView.setAdapter(new ArrayModelListAdapter(
+				ArrayModelSampleActivity.this, R.layout.load_model, users));
 	}
 
 	@Override
