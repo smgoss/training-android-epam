@@ -4,13 +4,16 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import com.epam.android.common.CommonApplication;
+
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private static final String TAG = CommonAsyncTask.class.getSimpleName();
-
+	
 	private Exception e;
 
 	private IDelegate mDelegate;
@@ -25,8 +28,11 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	@Override
 	protected void onPreExecute() {
+		Log.d("my", "preExecute");
 		super.onPreExecute();
-		//mDelegate.showProgress("Loading...");
+		sendNotification(CommonApplication.ON_PRE_EXECUTE);
+
+		// mDelegate.showProgress("Loading...");
 	}
 
 	@Override
@@ -49,10 +55,11 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
 		Log.d("my", "postExecute");
-		mDelegate.removeTask(this);
-		mDelegate.hideLoading();
+		// mDelegate.removeTask(this);
+		// mDelegate.hideLoading();
 		if (e == null) {
-			success(result);
+			sendNotification(CommonApplication.ON_POST_EXECUTE, result);
+			// success(result);
 		} else {
 			mDelegate.handleError(this, e);
 		}
@@ -60,14 +67,18 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	@Override
 	protected void onCancelled() {
-//		mDelegate.hideLoading();
-//		mDelegate.removeTask(this);
+		// mDelegate.hideLoading();
+		// mDelegate.removeTask(this);
 		super.onCancelled();
 	}
 
-	
-	
-	
+	@Override
+	protected void onProgressUpdate(String... values) {
+		sendNotification(CommonApplication.ON_PROGRESS_UPDATE,values[0]);
+		// TODO Auto-generated method stub
+		super.onProgressUpdate(values);
+	}
+
 	public abstract void success(T result);
 
 	public abstract T load() throws IOException, JSONException;
@@ -83,9 +94,29 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	public void start() {
 		execute();
 	}
-	
+
 	public boolean isCancellableOnPause() {
 		return false;
 	}
+
+	protected void sendNotification(String event) {
+		Intent broadcast = new Intent();
+		broadcast.setAction(event);
+		mDelegate.getContext().sendBroadcast(broadcast);
+	}
+
+	protected void sendNotification(String event, String text) {
+		Intent broadcast = new Intent();
+		broadcast.setAction(event);
+		broadcast.putExtra(CommonApplication.TEXT, text);
+		mDelegate.getContext().sendBroadcast(broadcast);
+	}
 	
+	protected void sendNotification(String event, T result) {
+		Intent broadcast = new Intent();
+		broadcast.setAction(event);
+//		broadcast.putExtra(CommonApplication.RESULT, result);
+		mDelegate.getContext().sendBroadcast(broadcast);
+	}
+
 }

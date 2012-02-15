@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,7 +15,7 @@ import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.model.User;
 
-public class TestAsyncTaskActivity extends DelegateActivity implements OnCancelListener {
+public class TestAsyncTaskActivity extends DelegateActivity {
 
 	private Exception e;
 	public static final String URL = "http://dl.dropbox.com/u/16403954/bm.json";
@@ -34,7 +32,7 @@ public class TestAsyncTaskActivity extends DelegateActivity implements OnCancelL
 		mProgressDialog = new ProgressDialog(this);
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(true);
-		mProgressDialog.setOnCancelListener(this);
+
 		Log.d("PrDialog", "create " + mProgressDialog.toString());
 		// mProgressDialog = setProgressDialog();
 		if (mAsyncTaskManager.getTask(getKey()) == null) {
@@ -45,11 +43,10 @@ public class TestAsyncTaskActivity extends DelegateActivity implements OnCancelL
 	}
 
 	private void executeAsyncTask() {
-		
+
 		executeTask(new ITaskCreator() {
 
 			public CommonAsyncTask<User> create() {
-				getKey();
 				return new LoadModelAsyncTask<User>(URL,
 						TestAsyncTaskActivity.this, User.MODEL_CREATOR) {
 
@@ -90,12 +87,6 @@ public class TestAsyncTaskActivity extends DelegateActivity implements OnCancelL
 					}
 
 					@Override
-					protected void onProgressUpdate(String... values) {
-						super.onProgressUpdate(values);
-						showProgress(values[0]);
-					}
-
-					@Override
 					public void success(User result) {
 						String mResultText;
 						if (result == null) {
@@ -116,13 +107,6 @@ public class TestAsyncTaskActivity extends DelegateActivity implements OnCancelL
 	@Override
 	public String getKey() {
 		return URL;
-	}
-
-	public void onCancel(DialogInterface dialog) {
-		CommonAsyncTask mAsyncTask = AsyncTaskManager.get(this).getTask(getKey());
-		mAsyncTask.cancel(true);
-		mAsyncTask = null;
-		
 	}
 
 }
