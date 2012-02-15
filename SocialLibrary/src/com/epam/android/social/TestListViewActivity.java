@@ -27,7 +27,7 @@ public class TestListViewActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.load_array_model);
-		Loader load = new Loader(new HttpClient());
+		Loader load = (Loader) getApplicationContext().getSystemService(Loader.LOADER);
 		mListView = (ListView) findViewById(R.id.array_model_list);
 		try {
 			mListView.setAdapter(new ArrayModelListAdapter(

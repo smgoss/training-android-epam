@@ -19,7 +19,7 @@ public class CommonApplication extends Application {
     
 	@Override
 	public void onCreate() {
-		mHttpClient = new HttpClient();
+		mHttpClient = new HttpClient(this);
 		mLoader = new Loader(mHttpClient);
 		mImageLoader = new ImageLoader();
 		mAsyncTaskManager = new AsyncTaskManager();
