@@ -86,9 +86,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	protected void onPause() {
 		Log.d("my DA", "paused on Pause");
 		unregisterReceiver(receiver);
-		if (mAsyncTaskManager.getTask(getKey()) != null) {
-			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(true);
-		}
+
 		killTask();
 		// CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
 		// task.cancel(true);
@@ -99,6 +97,9 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	}
 
 	public void killTask() {
+		if (mAsyncTaskManager.getTask(getKey()) != null) {
+			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(true);
+		}
 		new Thread(new Runnable() {
 			public void run() {
 				try {
