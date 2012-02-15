@@ -13,7 +13,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-public class BaseModel implements Parcelable{
+public class BaseModel implements Parcelable {
 	
 	private static final String TAG = BaseModel.class.getSimpleName();
 		
@@ -160,7 +160,7 @@ public class BaseModel implements Parcelable{
 		return null;
 	}
 
-	public static <B> IModelCreator<B> getModelCreatorFromTemplate(Object object) {
+	public static <B extends BaseModel> IModelCreator<B> getModelCreatorFromTemplate(Object object) {
 		Class someClass = (Class) ((ParameterizedType) object.getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0];
 		Log.d(TAG, someClass.getCanonicalName());

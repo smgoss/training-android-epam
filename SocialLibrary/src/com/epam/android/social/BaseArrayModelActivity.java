@@ -10,7 +10,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 
-public abstract class BaseArrayModelActivity<B> extends DelegateActivity {
+public abstract class BaseArrayModelActivity<B extends BaseModel> extends DelegateActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

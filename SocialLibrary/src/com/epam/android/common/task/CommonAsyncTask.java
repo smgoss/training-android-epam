@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import com.epam.android.common.CommonApplication;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.epam.android.common.CommonApplication;
 
 public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
@@ -115,8 +115,10 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	protected void sendNotification(String event, T result) {
 		Intent broadcast = new Intent();
 		broadcast.setAction(event);
-//		broadcast.putExtra(CommonApplication.RESULT, result);
+		initIntentResult(broadcast, result);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
+	
+	protected abstract void initIntentResult(Intent intent, T result);
 
 }
