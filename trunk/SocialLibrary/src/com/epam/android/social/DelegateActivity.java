@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.epam.android.common.CommonApplication;
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
@@ -137,9 +136,10 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.d("bcr", "broadcast recieved, action " + intent.getAction() + ", key " + intent.getStringExtra(CommonAsyncTask.TASK));
 				if (intent.getStringExtra(CommonAsyncTask.TASK)
 						.equals(getKey())) {
-					Log.d("bcr", "broadcast recieved");
+					Log.d("bcr", "broadcast recieved, action " + intent.getAction());
 					if (intent.getAction().equals(
 							CommonAsyncTask.ON_PRE_EXECUTE)) {
 						Log.d("bcr", "pre");

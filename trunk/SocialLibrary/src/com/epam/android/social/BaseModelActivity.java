@@ -18,10 +18,21 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
+		//TODO remove
 		mProgressDialog = new ProgressDialog(this);
 		mProgressDialog.setIndeterminate(true);
 		mProgressDialog.setCancelable(true);
 
+		
+	}
+
+	public abstract int getLayoutResource();
+
+	public abstract String getUrl();
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		if (mAsyncTaskManager.getTask(getKey()) == null) {
 
 			executeTask(new ITaskCreator() {
@@ -41,8 +52,5 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		}
 	}
 
-	public abstract int getLayoutResource();
-
-	public abstract String getUrl();
-
+	
 }
