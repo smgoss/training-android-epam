@@ -24,6 +24,8 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String MSG = "Loading...";
 
+	private static final Integer TASK_LIFETIME = 10001;
+
 	private BroadcastReceiver receiver;
 
 	protected AsyncTaskManager mAsyncTaskManager;
@@ -67,13 +69,13 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	}
 
 	public void removeTask() {
-		Log.d("my", "task removed");
+		Log.d("my DA", "task removed" + mAsyncTaskManager.getTask(getKey()));
 		mAsyncTaskManager.removeTask(getKey());
 	}
 
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
-		Log.d("my", "added" + task.toString());
+		Log.d("my DA", "added " + task.toString());
 		mAsyncTaskManager.addTask(getKey(), task);
 		task.start();
 	}
@@ -82,17 +84,45 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	@Override
 	protected void onPause() {
-		Log.d("my", "paused");
+		Log.d("my DA", "paused on Pause");
 		unregisterReceiver(receiver);
+		if (mAsyncTaskManager.getTask(getKey()) != null) {
+			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(true);
+		}
+		killTask();
 		// CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
 		// task.cancel(true);
 		// hideLoading();
 		// TODO Do smth with task on pause, on BackKeyPressed
+
 		super.onPause();
+	}
+
+	public void killTask() {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(TASK_LIFETIME);
+					if (mAsyncTaskManager.getTask(getKey()) != null
+							&& mAsyncTaskManager.getTask(getKey())
+									.isToBeCancelled()) {
+						removeTask();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
 	protected void onResume() {
+		Log.d("my DA", "onResume");
+
+		if (mAsyncTaskManager.getTask(getKey()) != null) {
+			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(false);
+		}
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
@@ -102,27 +132,18 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Log.d("bcr",
-						"broadcast recieved, action " + intent.getAction()
-								+ ", key "
-								+ intent.getStringExtra(CommonAsyncTask.TASK));
 				if (intent.getStringExtra(CommonAsyncTask.TASK)
 						.equals(getKey())) {
-					Log.d("bcr",
-							"broadcast recieved, action " + intent.getAction());
 					if (intent.getAction().equals(
 							CommonAsyncTask.ON_PRE_EXECUTE)) {
-						Log.d("bcr", "pre");
 						showLoading();
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-						Log.d("bcr", "post");
 						hideLoading();
 						removeTask();
 						success(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
-						Log.d("bcr", "progress");
 						showProgress(intent
 								.getStringExtra(CommonAsyncTask.TEXT));
 					}
@@ -138,7 +159,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	@Override
 	protected void onDestroy() {
-		Log.d("my", "destroyed");
+		Log.d("my DA", "destroyed onDestroy");
 		// taskCreatorStorage.clear();
 		// taskCreatorStorage = null;
 		super.onDestroy();

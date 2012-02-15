@@ -71,11 +71,12 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 									// UI thread
 									publishProgress(TestAsyncTaskActivity.this
 											.getString(R.string.task_working, i));
-									Thread.sleep(500);
+									Thread.sleep(1000);
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 									// This return causes onPostExecute call on
 									// UI thread
+									
 									return null;
 								}
 							}
