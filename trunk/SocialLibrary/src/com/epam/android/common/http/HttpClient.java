@@ -16,10 +16,11 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
-import com.google.android.imageloader.ImageLoader;
-
 import android.content.Context;
 import android.util.Log;
+
+import com.epam.android.common.http.cookie.CookieManager;
+import com.epam.android.common.http.cookie.DefaultCookieStore;
 
 public class HttpClient {
 
@@ -34,7 +35,7 @@ public class HttpClient {
 	private DefaultHttpClient client;
 	
     public static HttpClient get(Context context) {
-        HttpClient httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
+    	HttpClient httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
         if (httpClient == null) {
             context = context.getApplicationContext();
             httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
@@ -46,14 +47,15 @@ public class HttpClient {
     }
 
 
-	// TODO save cookie
-	public HttpClient() {
+	public HttpClient(Context context) {
 		HttpParams params = new BasicHttpParams();
 
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, UTF_8);
-
+		
 		client = new DefaultHttpClient(params);
+		CookieManager cookieManager = new CookieManager(context);
+		client.setCookieStore(new DefaultCookieStore(cookieManager));
 	}
 
 	public String execute(HttpUriRequest request)
