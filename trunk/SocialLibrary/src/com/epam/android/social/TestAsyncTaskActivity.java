@@ -31,13 +31,15 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 		Log.d("my", "Created");
 		setContentView(R.layout.run_asynktask);
 		mAsyncTaskManager = AsyncTaskManager.get(this);
-		mProgressDialog = new ProgressDialog(this);
-		mProgressDialog.setIndeterminate(true);
-		mProgressDialog.setCancelable(true);
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		if (mAsyncTaskManager.getTask(getKey()) == null) {
 			executeAsyncTask();
-		} 
+		}
 	}
 
 	private void executeAsyncTask() {
