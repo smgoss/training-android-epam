@@ -15,8 +15,6 @@ public interface IDelegate {
 
 	Context getContext();
 
-	void removeTask();
-
 	void executeTask(ITaskCreator taskCreator);
 
 	String getKey();

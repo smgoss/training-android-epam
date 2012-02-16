@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.epam.android.common.BaseModelActivity;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadModelAsyncTask;

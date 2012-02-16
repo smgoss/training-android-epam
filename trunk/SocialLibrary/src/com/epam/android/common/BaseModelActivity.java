@@ -1,6 +1,5 @@
-package com.epam.android.social;
+package com.epam.android.common;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Intent;
@@ -12,9 +11,9 @@ import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
-import com.epam.android.common.task.LoadArrayModelAsyncTask;
+import com.epam.android.common.task.LoadModelAsyncTask;
 
-public abstract class BaseArrayModelActivity<B extends BaseModel> extends
+public abstract class BaseModelActivity<B extends BaseModel> extends
 		DelegateActivity {
 
 	@Override
@@ -24,6 +23,10 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 		mAsyncTaskManager = AsyncTaskManager.get(this);
 
 	}
+
+	public abstract int getLayoutResource();
+
+	public abstract String getUrl();
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -38,33 +41,26 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 	}
 
 	protected void executeAsyncTask() {
+
 		executeTask(new ITaskCreator() {
-
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			public CommonAsyncTask create() {
-				return new LoadArrayModelAsyncTask<B>(
+			@SuppressWarnings("unchecked")
+			public CommonAsyncTask<B> create() {
+				return new LoadModelAsyncTask<B>(
 						getUrl(),
-						BaseArrayModelActivity.this,
+						BaseModelActivity.this,
 						(IModelCreator<B>) BaseModel
-								.getModelCreatorFromTemplate(BaseArrayModelActivity.this)) {
-
+								.getModelCreatorFromTemplate(BaseModelActivity.this)) {
 				};
 			}
 		});
-
 	}
-
-	public abstract int getLayoutResource();
-
-	public abstract String getUrl();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void getResult(CommonAsyncTask task) {
 		if (task.getStatus().equals(AsyncTask.Status.FINISHED)) {
 			try {
 				Intent intent = new Intent();
-				intent.putParcelableArrayListExtra(CommonAsyncTask.RESULT,
-						(ArrayList<B>) task.get());
+				intent.putExtra(CommonAsyncTask.RESULT, (B) task.get());
 
 				onTaskPostExecute(intent);
 

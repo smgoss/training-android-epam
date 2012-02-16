@@ -1,4 +1,4 @@
-package com.epam.android.social;
+package com.epam.android.common;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -76,11 +76,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		return this;
 	}
 
-	public void removeTask() {
-		mAsyncTaskManager.getTask(getKey()).cancel(true);
-		mAsyncTaskManager.removeTask(getKey());
-	}
-
 	@SuppressWarnings("rawtypes")
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
@@ -145,7 +140,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	protected void onTaskPostExecute(Intent intent) {
 		hideLoading();
-		removeTask();
+		mAsyncTaskManager.removeTask(getKey());
 		success(intent);
 	}
 

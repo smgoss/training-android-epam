@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.epam.android.common.BaseModelActivity;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.model.User;
 import com.google.android.imageloader.ImageLoader;

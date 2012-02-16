@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Intent;
 import android.widget.ListView;
 
+import com.epam.android.common.BaseArrayModelActivity;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
