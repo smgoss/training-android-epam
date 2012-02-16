@@ -91,7 +91,6 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 							return null;
 						}
 					}
-
 				};
 			}
 
@@ -112,6 +111,7 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 		} else {
 			mResultText = getString(R.string.task_completed);
 		}
+		Log.d("my TATA", "AsynkTask successed");
 		Toast.makeText(TestAsyncTaskActivity.this, mResultText,
 				Toast.LENGTH_LONG).show();
 	}

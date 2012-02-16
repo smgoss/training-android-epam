@@ -92,6 +92,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	@Override
 	protected void onProgressUpdate(String... values) {
 		sendNotification(ON_PROGRESS_UPDATE, values[0]);
+		Log.d("my CAT", values[0]);
 		super.onProgressUpdate(values);
 	}
 
@@ -110,7 +111,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	}
 
 	public boolean isCancellableOnPause() {
-		return false;
+		return true;
 	}
 
 	protected void sendNotification(String event) {

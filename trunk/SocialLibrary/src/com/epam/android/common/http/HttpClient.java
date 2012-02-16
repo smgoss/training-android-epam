@@ -11,8 +11,14 @@ import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
@@ -32,28 +38,44 @@ public class HttpClient {
 
 	private static final int BUFFER_SIZE = 1024;
 
-	private DefaultHttpClient client;
-	
-    public static HttpClient get(Context context) {
-    	HttpClient httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
-        if (httpClient == null) {
-            context = context.getApplicationContext();
-            httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
-        }
-        if (httpClient == null) {
-            throw new IllegalStateException("HTTP client not available");
-        }
-        return httpClient;
-    }
+	private static final int SO_TIMEOUT = 15000;
 
+	private DefaultHttpClient client;
+
+	public static HttpClient get(Context context) {
+		HttpClient httpClient = (HttpClient) context
+				.getSystemService(HTTP_CLIENT);
+		if (httpClient == null) {
+			context = context.getApplicationContext();
+			httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
+		}
+		if (httpClient == null) {
+			throw new IllegalStateException("HTTP client not available");
+		}
+		return httpClient;
+	}
 
 	public HttpClient(Context context) {
 		HttpParams params = new BasicHttpParams();
 
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, UTF_8);
-		
-		client = new DefaultHttpClient(params);
+		HttpConnectionParams.setConnectionTimeout(params, SO_TIMEOUT);
+		HttpConnectionParams.setSoTimeout(params, SO_TIMEOUT);
+
+		// REGISTERS SCHEMES FOR BOTH HTTP AND HTTPS
+		SchemeRegistry registry = new SchemeRegistry();
+		registry.register(new Scheme("http", PlainSocketFactory
+				.getSocketFactory(), 80));
+		final SSLSocketFactory sslSocketFactory = SSLSocketFactory
+				.getSocketFactory();
+		sslSocketFactory
+				.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+		registry.register(new Scheme("https", sslSocketFactory, 443));
+		ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(
+				params, registry);
+
+		client = new DefaultHttpClient(manager, params);
 		CookieManager cookieManager = new CookieManager(context);
 		client.setCookieStore(new DefaultCookieStore(cookieManager));
 	}
