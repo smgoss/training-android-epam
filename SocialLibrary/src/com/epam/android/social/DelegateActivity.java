@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -16,7 +18,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public abstract class DelegateActivity extends Activity implements IDelegate {
+public abstract class DelegateActivity extends Activity implements IDelegate, OnCancelListener {
 
 	private static final String TAG = DelegateActivity.class.getSimpleName();
 
@@ -24,7 +26,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String MSG = "Loading...";
 
-	private static final Integer TASK_LIFETIME = 10001;
+	private static final Integer TASK_LIFETIME = 30001;
 
 	private BroadcastReceiver receiver;
 
@@ -37,12 +39,22 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(true);
+			mProgressDialog.setOnCancelListener(this);
 		}
 		mProgressDialog.setTitle(TITLE);
 		mProgressDialog.setMessage(MSG);
 		mProgressDialog.show();
-
 	}
+
+	
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		finish();
+		
+	}
+
+
 
 	public void showProgress(String textMessage) {
 		if (mProgressDialog == null) {
@@ -70,8 +82,12 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	public void removeTask() {
 		Log.d("my DA", "task removed" + mAsyncTaskManager.getTask(getKey()));
+		mAsyncTaskManager.getTask(getKey()).cancel(true);
 		mAsyncTaskManager.removeTask(getKey());
+		hideLoading();
 	}
+	
+	
 
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
@@ -79,6 +95,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		mAsyncTaskManager.addTask(getKey(), task);
 		task.start();
 	}
+	
 
 	public abstract String getKey();
 
@@ -87,10 +104,11 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		Log.d("my DA", "paused on Pause");
 		unregisterReceiver(receiver);
 
-		killTask();
-		// CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
-		// task.cancel(true);
-		// hideLoading();
+		if (mAsyncTaskManager.getTask(getKey()) != null
+				&& mAsyncTaskManager.getTask(getKey()).isCancellableOnPause()) {
+			killTask();
+		}
+		
 		// TODO Do smth with task on pause, on BackKeyPressed
 
 		super.onPause();
