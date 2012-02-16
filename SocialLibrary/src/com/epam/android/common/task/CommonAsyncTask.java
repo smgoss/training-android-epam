@@ -22,6 +22,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	public static final String RESULT = "result";
 
+	//TODO rename to key
 	public static final String TASK = "task";
 
 	private Exception e;
@@ -105,6 +106,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		return true;
 	}
 
+	
 	protected void sendNotification(String event) {
 		mDelegate.getContext().sendBroadcast(createDefaultBroadcast(event));
 	}

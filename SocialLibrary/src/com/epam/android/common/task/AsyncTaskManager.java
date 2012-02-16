@@ -3,6 +3,7 @@ package com.epam.android.common.task;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 public class AsyncTaskManager {
@@ -19,6 +20,7 @@ public class AsyncTaskManager {
 		mAsyncTaskStorage = new HashMap<String, CommonAsyncTask>();
 	}
 
+	//TODO move to some util class
 	public static AsyncTaskManager get(Context context) {
 		AsyncTaskManager asyncTaskManager = (AsyncTaskManager) context
 				.getSystemService(ASYNC_TASK_MANAGER);
@@ -54,19 +56,18 @@ public class AsyncTaskManager {
 		if (this.getTask(key) != null) {
 			this.getTask(key).setToBeCancelled(true);
 		}
-		new Thread(new Runnable() {
+		
+		//TODO read about handler
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
 			public void run() {
-				try {
-					Thread.sleep(time);
-					if (getTask(key) != null && getTask(key).isToBeCancelled()) {
-						removeTask(key);
-					}
-				} catch (InterruptedException e) {
-					// TODO Error in killing task
-					e.printStackTrace();
-				}
+				if (getTask(key) != null && getTask(key).isToBeCancelled()) {
+					removeTask(key);
+				}				
 			}
-		}).start();
+			
+		}, time);
 	}
 
 }

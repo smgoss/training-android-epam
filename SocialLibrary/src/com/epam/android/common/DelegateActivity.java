@@ -88,7 +88,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	@Override
 	protected void onPause() {
 		unregisterReceiver(receiver);
-
+		//TODO move to asynktask manager
 		if (mAsyncTaskManager.getTask(getKey()) != null
 				&& mAsyncTaskManager.getTask(getKey()).isCancellableOnPause()) {
 			mAsyncTaskManager.killTask(getKey(), TASK_LIFETIME);
@@ -100,6 +100,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	protected void onResume() {
 		Log.d("my DA", "onResume");
 
+		//TODO move to asynktask manager
 		if (mAsyncTaskManager.getTask(getKey()) != null) {
 			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(false);
 		}
@@ -112,18 +113,15 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (intent.getStringExtra(CommonAsyncTask.TASK)
-						.equals(getKey())) {
-					if (intent.getAction().equals(
-							CommonAsyncTask.ON_PRE_EXECUTE)) {
-						onTaskPreExecute(intent);
-					} else if (intent.getAction().equals(
-							CommonAsyncTask.ON_POST_EXECUTE)) {
-						onTaskPostExecute(intent);
-					} else if (intent.getAction().equals(
-							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
-						onTaskProgressUpdate(intent);
-					}
+				if (intent.getAction().equals(
+						CommonAsyncTask.ON_PRE_EXECUTE)) {
+					onTaskPreExecute(intent);
+				} else if (intent.getAction().equals(
+						CommonAsyncTask.ON_POST_EXECUTE)) {
+					onTaskPostExecute(intent);
+				} else if (intent.getAction().equals(
+						CommonAsyncTask.ON_PROGRESS_UPDATE)) {
+					onTaskProgressUpdate(intent);
 				}
 			}
 		};

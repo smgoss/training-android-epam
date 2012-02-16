@@ -14,6 +14,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 
+//TODO move to some common activity
 public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 		DelegateActivity {
 
