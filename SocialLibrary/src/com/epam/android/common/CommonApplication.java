@@ -14,16 +14,16 @@ public class CommonApplication extends Application {
 	private Loader mLoader;
 
 	private ImageLoader mImageLoader;
-	
+
 	private AsyncTaskManager mAsyncTaskManager;
-    
+
 	@Override
 	public void onCreate() {
 		mHttpClient = new HttpClient(this);
 		mLoader = new Loader(mHttpClient);
 		mImageLoader = new ImageLoader();
 		mAsyncTaskManager = new AsyncTaskManager();
-		
+
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CommonApplication extends Application {
 		if (name.equals(AsyncTaskManager.ASYNC_TASK_MANAGER)) {
 			return mAsyncTaskManager;
 		}
-		
+
 		return super.getSystemService(name);
 	}
 

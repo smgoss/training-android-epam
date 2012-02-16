@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.R.bool;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,7 +11,7 @@ import android.util.Log;
 public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private static final String TAG = CommonAsyncTask.class.getSimpleName();
-	
+
 	public static final String ON_PRE_EXECUTE = "onPreExecute";
 
 	public static final String ON_POST_EXECUTE = "onPostExecute";
@@ -30,9 +29,9 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	private IDelegate mDelegate;
 
 	private String mUrl;
-	
+
 	private String mKey;
-	
+
 	private boolean mToBeCancelled;
 
 	public boolean isToBeCancelled() {
@@ -56,7 +55,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		sendNotification(ON_PRE_EXECUTE);
 		super.onPreExecute();
 	}
-	
+
 	@Override
 	protected T doInBackground(String... params) {
 		try {
@@ -77,22 +76,14 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		super.onPostExecute(result);
 		if (e == null) {
 			sendNotification(ON_POST_EXECUTE, result);
-			
 		} else {
 			mDelegate.handleError(this, e);
 		}
 	}
 
 	@Override
-	protected void onCancelled() {
-		Log.d(TAG, "Canselled " + this.toString());
-		super.onCancelled();
-	}
-
-	@Override
 	protected void onProgressUpdate(String... values) {
 		sendNotification(ON_PROGRESS_UPDATE, values[0]);
-		Log.d("my CAT", values[0]);
 		super.onProgressUpdate(values);
 	}
 
@@ -135,7 +126,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		broadcast.putExtra(TASK, mKey);
 		return broadcast;
 	}
-	
+
 	protected abstract void initIntentResult(Intent intent, T result);
 
 }

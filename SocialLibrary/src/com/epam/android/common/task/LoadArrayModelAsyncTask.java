@@ -8,22 +8,23 @@ import org.json.JSONException;
 
 import android.content.Intent;
 
-import com.epam.android.common.CommonApplication;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
 public abstract class LoadArrayModelAsyncTask<B extends BaseModel> extends
 		CommonModelAsyncTask<List<B>> {
 
-	public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
-		super(url, delegate);
-	}
+	// public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
+	// super(url, delegate);
+	// }
 
+	@SuppressWarnings("rawtypes")
 	public LoadArrayModelAsyncTask(String url, IDelegate delegate,
 			IModelCreator iModelCreator) {
 		super(url, delegate, iModelCreator);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<B> load() throws IOException, JSONException {
 		return (List<B>) getLoader()
 				.loadArrayModel(getUrl(), getModelCreator());
@@ -31,8 +32,7 @@ public abstract class LoadArrayModelAsyncTask<B extends BaseModel> extends
 
 	@Override
 	protected void initIntentResult(Intent intent, List<B> result) {
-		intent.putParcelableArrayListExtra(RESULT,
-				(ArrayList<B>) result);
+		intent.putParcelableArrayListExtra(RESULT, (ArrayList<B>) result);
 	}
 
 }

@@ -5,17 +5,17 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 
-import com.epam.android.common.http.HttpClient;
-import com.epam.android.common.http.Loader;
-import com.epam.android.social.adapter.ArrayModelListAdapter;
-import com.epam.android.social.model.User;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.epam.android.common.http.Loader;
+import com.epam.android.social.adapter.ArrayModelListAdapter;
+import com.epam.android.social.model.User;
+
 public class TestListViewActivity extends Activity{
 
+	@SuppressWarnings("unused")
 	private static final String TAG = ArrayModelSampleActivity.class
 			.getSimpleName();
 

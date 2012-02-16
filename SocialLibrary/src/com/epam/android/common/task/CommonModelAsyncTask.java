@@ -23,6 +23,7 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 		return mLoader;
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	public IModelCreator<B> getModelCreator() {
 		if (mModelCreator == null) {
 			this.mModelCreator = (IModelCreator<B>) BaseModel
@@ -31,10 +32,11 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 		return mModelCreator;
 	}
 
-	public CommonModelAsyncTask(String url, IDelegate delegate) {
-		super(url, delegate);
-	}
+	// public CommonModelAsyncTask(String url, IDelegate delegate) {
+	// super(url, delegate);
+	// }
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CommonModelAsyncTask(String url, IDelegate delegate,
 			IModelCreator modelCreator) {
 		super(url, delegate);

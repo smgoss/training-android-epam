@@ -5,13 +5,13 @@ import java.util.List;
 import android.content.Intent;
 import android.widget.ListView;
 
-import com.epam.android.common.CommonApplication;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
 public class ArrayModelSampleActivity extends BaseArrayModelActivity<User> {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = ArrayModelSampleActivity.class
 			.getSimpleName();
 

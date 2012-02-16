@@ -4,56 +4,33 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.epam.android.common.CommonApplication;
-import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.model.User;
+import com.google.android.imageloader.ImageLoader;
 
-public class TestAsyncTaskActivity extends DelegateActivity {
+public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 
-	private Exception e;
 	public static final String URL = "http://dl.dropbox.com/u/52289508/array.json";
 
 	private static final String TAG = TestAsyncTaskActivity.class
 			.getSimpleName();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.run_asynktask);
-		mAsyncTaskManager = AsyncTaskManager.get(this);
-
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (mAsyncTaskManager.getTask(getKey()) == null) {
-			executeAsyncTask();
-		}
-	}
-
-	private void executeAsyncTask() {
+	protected void executeAsyncTask() {
 
 		executeTask(new ITaskCreator() {
 
 			public CommonAsyncTask<User> create() {
 				return new LoadModelAsyncTask<User>(URL,
 						TestAsyncTaskActivity.this, User.MODEL_CREATOR) {
-
-					@Override
-					protected void initIntentResult(Intent intent, User result) {
-						intent.putExtra(RESULT, result);
-						// super.initIntentResult(intent, result);
-					}
 
 					@Override
 					protected User doInBackground(String... params) {
@@ -76,12 +53,13 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 									e.printStackTrace();
 									// This return causes onPostExecute call on
 									// UI thread
-									
+
 									return null;
 								}
 							}
 							Log.d(TAG, "back");
 							publishProgress("Loading from http");
+							Log.d(TAG, load().toString());
 							return load();
 						} catch (IOException e) {
 							Log.e(TAG, "crash during loading data", e);
@@ -98,22 +76,30 @@ public class TestAsyncTaskActivity extends DelegateActivity {
 	}
 
 	@Override
-	public String getKey() {
+	protected void success(Intent intent) {
+		TextView userName = (TextView) findViewById(R.id.userName);
+		ImageView userAvatar = (ImageView) findViewById(R.id.userAvatar);
+		User result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
+		userName.setText(result.getName());
+		ImageLoader imageLoader = ImageLoader.get(TestAsyncTaskActivity.this);
+		imageLoader.bind(userAvatar, result.getImageUrl(), null);
+		Toast.makeText(TestAsyncTaskActivity.this,
+				getString(R.string.task_completed), Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public int getLayoutResource() {
+		return R.layout.load_model;
+	}
+
+	@Override
+	public String getUrl() {
 		return URL;
 	}
 
 	@Override
-	protected void success(Intent intent) {
-		String mResultText;
-
-		if (intent.getParcelableExtra(CommonAsyncTask.RESULT) == null) {
-			mResultText = "null";
-		} else {
-			mResultText = getString(R.string.task_completed);
-		}
-		Log.d("my TATA", "AsynkTask successed");
-		Toast.makeText(TestAsyncTaskActivity.this, mResultText,
-				Toast.LENGTH_LONG).show();
+	public String getKey() {
+		return URL;
 	}
 
 }

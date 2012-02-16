@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.epam.android.common.CommonApplication;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.model.User;
 import com.google.android.imageloader.ImageLoader;
@@ -23,7 +22,6 @@ public class ModelSampleActivity extends BaseModelActivity<User> {
 		return URL;
 	}
 
-	@Override
 	public String getKey() {
 		return URL;
 	}

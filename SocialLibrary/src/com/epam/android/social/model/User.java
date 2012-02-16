@@ -10,6 +10,7 @@ import com.epam.android.common.model.IModelCreator;
 
 public class User extends BaseModel {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = User.class.getSimpleName();
 
 	public static final IModelCreator<User> MODEL_CREATOR = new IModelCreator<User>() {

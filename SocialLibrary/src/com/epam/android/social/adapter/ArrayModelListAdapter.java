@@ -13,6 +13,7 @@ import com.epam.android.social.model.User;
 
 public class ArrayModelListAdapter extends AbstractAdapter<User> {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = ArrayModelListAdapter.class
 			.getSimpleName();
 
