@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void onParseXMLtoJSONButtonClick(View view) throws ClientProtocolException, JSONException, parser.JSONException, IOException{
+	public void onParseXMLtoJSONButtonClick(View view) throws ClientProtocolException, JSONException, IOException{
 //		Loader loader = new Loader((HttpClient) getApplicationContext().getSystemService(HttpClient.HTTP_CLIENT));
 		Loader loader = Loader.get(this);
 		Log.d(TAG, loader.createJsonFromXml("http://partners.mtvnservices.com/dextr/partner/wireless/comedy/tds_mobile_app_news/full.xml").toString());
