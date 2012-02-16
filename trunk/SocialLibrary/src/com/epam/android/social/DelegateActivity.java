@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,7 +16,8 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public abstract class DelegateActivity extends Activity implements IDelegate, OnCancelListener {
+public abstract class DelegateActivity extends Activity implements IDelegate,
+		OnCancelListener {
 
 	private static final String TAG = DelegateActivity.class.getSimpleName();
 
@@ -26,7 +25,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate, On
 
 	private static final String MSG = "Loading...";
 
-	private static final Integer TASK_LIFETIME = 30001;
+	private static final Integer TASK_LIFETIME = 10001;
 
 	private BroadcastReceiver receiver;
 
@@ -35,6 +34,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate, On
 	protected ProgressDialog mProgressDialog;
 
 	public void showLoading() {
+
 		if (mProgressDialog == null) {
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setIndeterminate(true);
@@ -46,15 +46,10 @@ public abstract class DelegateActivity extends Activity implements IDelegate, On
 		mProgressDialog.show();
 	}
 
-	
-	
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		finish();
-		
 	}
-
-
 
 	public void showProgress(String textMessage) {
 		if (mProgressDialog == null) {
@@ -70,6 +65,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate, On
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void handleError(CommonAsyncTask task, Exception e) {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
@@ -81,58 +77,28 @@ public abstract class DelegateActivity extends Activity implements IDelegate, On
 	}
 
 	public void removeTask() {
-		Log.d("my DA", "task removed" + mAsyncTaskManager.getTask(getKey()));
 		mAsyncTaskManager.getTask(getKey()).cancel(true);
 		mAsyncTaskManager.removeTask(getKey());
-		hideLoading();
 	}
-	
-	
 
+	@SuppressWarnings("rawtypes")
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
-		Log.d("my DA", "added " + task.toString());
 		mAsyncTaskManager.addTask(getKey(), task);
 		task.start();
 	}
-	
 
 	public abstract String getKey();
 
 	@Override
 	protected void onPause() {
-		Log.d("my DA", "paused on Pause");
 		unregisterReceiver(receiver);
 
 		if (mAsyncTaskManager.getTask(getKey()) != null
 				&& mAsyncTaskManager.getTask(getKey()).isCancellableOnPause()) {
-			killTask();
+			mAsyncTaskManager.killTask(getKey(), TASK_LIFETIME);
 		}
-		
-		// TODO Do smth with task on pause, on BackKeyPressed
-
 		super.onPause();
-	}
-
-	public void killTask() {
-		if (mAsyncTaskManager.getTask(getKey()) != null) {
-			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(true);
-		}
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					Thread.sleep(TASK_LIFETIME);
-					if (mAsyncTaskManager.getTask(getKey()) != null
-							&& mAsyncTaskManager.getTask(getKey())
-									.isToBeCancelled()) {
-						removeTask();
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
 	}
 
 	@Override
@@ -155,33 +121,36 @@ public abstract class DelegateActivity extends Activity implements IDelegate, On
 						.equals(getKey())) {
 					if (intent.getAction().equals(
 							CommonAsyncTask.ON_PRE_EXECUTE)) {
-						showLoading();
+						onTaskPreExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-						hideLoading();
-						removeTask();
-						success(intent);
+						onTaskPostExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
-						showProgress(intent
-								.getStringExtra(CommonAsyncTask.TEXT));
+						onTaskProgressUpdate(intent);
 					}
 				}
 			}
-
 		};
+
 		registerReceiver(receiver, filter);
 		super.onResume();
 	}
 
 	protected abstract void success(Intent intent);
 
-	@Override
-	protected void onDestroy() {
-		Log.d("my DA", "destroyed onDestroy");
-		// taskCreatorStorage.clear();
-		// taskCreatorStorage = null;
-		super.onDestroy();
+	protected void onTaskPreExecute(Intent intent) {
+		showLoading();
+	}
+
+	protected void onTaskPostExecute(Intent intent) {
+		hideLoading();
+		removeTask();
+		success(intent);
+	}
+
+	protected void onTaskProgressUpdate(Intent intent) {
+		showProgress(intent.getStringExtra(CommonAsyncTask.TEXT));
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.epam.android.common.model;
 
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -14,9 +13,9 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class BaseModel implements Parcelable {
-	
+
 	private static final String TAG = BaseModel.class.getSimpleName();
-		
+
 	private JSONObject jo;
 
 	public BaseModel() {
@@ -37,16 +36,16 @@ public class BaseModel implements Parcelable {
 		}
 		jo = json;
 	}
-	
+
 	public BaseModel(final Parcel in) {
 		readFromParcel(in);
 	}
 
 	public void writeToParcel(final Parcel parcel, int flags) {
 		parcel.writeSerializable(jo.toString());
-		
+
 	}
-	
+
 	public int describeContents() {
 		return 0;
 	}
@@ -59,7 +58,7 @@ public class BaseModel implements Parcelable {
 			Log.e(TAG, "Cannot serialize to JSONObject");
 		}
 	}
-	
+
 	protected final void set(final String key, final Object value) {
 		try {
 			jo.put(key, value);
@@ -137,7 +136,7 @@ public class BaseModel implements Parcelable {
 	protected final JSONObject getJSONObject() {
 		return jo;
 	}
-	
+
 	protected final JSONObject getJSONObject(final String key) {
 		try {
 			if (!jo.isNull(key)) {
@@ -160,7 +159,9 @@ public class BaseModel implements Parcelable {
 		return null;
 	}
 
-	public static <B extends BaseModel> IModelCreator<B> getModelCreatorFromTemplate(Object object) {
+	@SuppressWarnings({ "rawtypes", "unused", "unchecked" })
+	public static <B extends BaseModel> IModelCreator<B> getModelCreatorFromTemplate(
+			Object object) {
 		Class someClass = (Class) ((ParameterizedType) object.getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0];
 		Log.d(TAG, someClass.getCanonicalName());
@@ -169,10 +170,10 @@ public class BaseModel implements Parcelable {
 		try {
 			return (IModelCreator<B>) modelCreator.get(object);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+			// TODO Error in getModelCreatorFromTemplate
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			// TODO Error in getModelCreatorFromTemplate
 			e.printStackTrace();
 		}
 		return null;

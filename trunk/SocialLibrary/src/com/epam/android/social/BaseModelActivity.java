@@ -1,6 +1,9 @@
 package com.epam.android.social;
 
-import android.app.ProgressDialog;
+import java.util.concurrent.ExecutionException;
+
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.epam.android.common.model.BaseModel;
@@ -25,25 +28,49 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 
 	public abstract String getUrl();
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (mAsyncTaskManager.getTask(getKey()) == null) {
+		CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
+		if (task != null) {
+			getResult(task);
+		} else {
+			executeAsyncTask();
+		}
+	}
 
-			executeTask(new ITaskCreator() {
+	protected void executeAsyncTask() {
 
-				public CommonAsyncTask<B> create() {
+		executeTask(new ITaskCreator() {
+			@SuppressWarnings("unchecked")
+			public CommonAsyncTask<B> create() {
+				return new LoadModelAsyncTask<B>(
+						getUrl(),
+						BaseModelActivity.this,
+						(IModelCreator<B>) BaseModel
+								.getModelCreatorFromTemplate(BaseModelActivity.this)) {
+				};
+			}
+		});
+	}
 
-					return new LoadModelAsyncTask<B>(
-							getUrl(),
-							BaseModelActivity.this,
-							(IModelCreator<B>) BaseModel
-									.getModelCreatorFromTemplate(BaseModelActivity.this)) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected void getResult(CommonAsyncTask task) {
+		if (task.getStatus().equals(AsyncTask.Status.FINISHED)) {
+			try {
+				Intent intent = new Intent();
+				intent.putExtra(CommonAsyncTask.RESULT, (B) task.get());
 
-					};
-				}
+				onTaskPostExecute(intent);
 
-			});
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

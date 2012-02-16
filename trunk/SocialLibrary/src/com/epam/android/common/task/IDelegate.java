@@ -10,6 +10,7 @@ public interface IDelegate {
 	
 	void showProgress(String textMessage);
 
+	@SuppressWarnings("rawtypes")
 	void handleError(CommonAsyncTask task, Exception e);
 
 	Context getContext();

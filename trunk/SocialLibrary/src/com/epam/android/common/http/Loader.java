@@ -18,6 +18,7 @@ import com.epam.android.common.utils.JsonModelConverter;
 public class Loader {
 	public static final String LOADER = "++LOADER+";
 
+	@SuppressWarnings("unused")
 	private static final String TAG = Loader.class.getSimpleName();
 
 	private HttpClient mHttpClient;
