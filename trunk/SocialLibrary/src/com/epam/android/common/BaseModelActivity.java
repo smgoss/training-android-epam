@@ -41,7 +41,6 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 	}
 
 	protected void executeAsyncTask() {
-
 		executeTask(new ITaskCreator() {
 			@SuppressWarnings("unchecked")
 			public CommonAsyncTask<B> create() {
@@ -55,6 +54,7 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		});
 	}
 
+	//TODO read about exception
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void getResult(CommonAsyncTask task) {
 		if (task.getStatus().equals(AsyncTask.Status.FINISHED)) {
@@ -71,6 +71,8 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			//TODO send some status of task
 		}
 	}
 

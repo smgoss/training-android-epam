@@ -5,7 +5,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.android.common.BaseModelActivity;
+import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.task.CommonAsyncTask;
+import com.epam.android.common.task.ITaskCreator;
+import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.model.User;
 import com.google.android.imageloader.ImageLoader;
 
@@ -27,8 +31,20 @@ public class ModelSampleActivity extends BaseModelActivity<User> {
 		return URL;
 	}
 
+	
+	
+	@Override
+	protected void executeAsyncTask() {
+		super.executeAsyncTask();
+		
+		//TODO call additional tasks
+		
+	}
+
+	//TODO success(User user)
 	@Override
 	protected void success(Intent intent) {
+		//TODO if (intent.getStringExtra(CommonAsyncTask.TASK))
 		TextView userName = (TextView) findViewById(R.id.userName);
 		ImageView userAvatar = (ImageView) findViewById(R.id.userAvatar);
 		User result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
