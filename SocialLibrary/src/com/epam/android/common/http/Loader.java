@@ -8,8 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import parser.XML;
+import org.json.XML;
 
 import android.content.Context;
 
@@ -57,8 +56,7 @@ public class Loader {
 				modelCreator);
 	}
 
-	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, parser.JSONException, IOException{
-			String result = XML.toJSONObject(mHttpClient.execute(new HttpGet(url))).toString();
-			return new JSONObject(result);
+	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException,IOException{
+			return XML.toJSONObject(mHttpClient.execute(new HttpGet(url)));
 	}
 }
