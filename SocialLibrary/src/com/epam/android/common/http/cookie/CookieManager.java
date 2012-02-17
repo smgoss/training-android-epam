@@ -43,9 +43,9 @@ public class CookieManager {
 		if(cursor.moveToFirst()){
 			cookie = getCookie(cursor);
 			
-			cursor.close();
 		}
 		
+		cursor.close();
 		
 		return cookie;
 	}
@@ -60,9 +60,9 @@ public class CookieManager {
 				cookies.add(getCookie(cursor));
 			} while (cursor.moveToNext());
 			
-			cursor.close();
 		}
 		
+		cursor.close();
 		return cookies;		
 	}
 	
