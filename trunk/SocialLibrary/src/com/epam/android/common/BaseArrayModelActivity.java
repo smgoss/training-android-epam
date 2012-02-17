@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
@@ -18,6 +19,8 @@ import com.epam.android.common.task.LoadArrayModelAsyncTask;
 public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 		DelegateActivity {
 
+	private static final String TAG = BaseArrayModelActivity.class.getName();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,9 +48,7 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 			public CommonAsyncTask create() {
 				return new LoadArrayModelAsyncTask<B>(
 						getUrl(),
-						BaseArrayModelActivity.this,
-						(IModelCreator<B>) BaseModel
-								.getModelCreatorFromTemplate(BaseArrayModelActivity.this)) {
+						BaseArrayModelActivity.this) {
 
 				};
 			}
@@ -70,10 +71,10 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 				onTaskPostExecute(intent);
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Log.d(TAG, "crash thread waiting, sleeping, and the thread is aborted");
 				e.printStackTrace();
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
+				Log.d(TAG,"crash get result on aborted task ", e);
 				e.printStackTrace();
 			}
 		}

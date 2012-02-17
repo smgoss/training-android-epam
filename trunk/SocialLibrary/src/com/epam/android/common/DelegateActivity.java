@@ -88,22 +88,23 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	@Override
 	protected void onPause() {
 		unregisterReceiver(receiver);
-		//TODO move to asynktask manager
-		if (mAsyncTaskManager.getTask(getKey()) != null
-				&& mAsyncTaskManager.getTask(getKey()).isCancellableOnPause()) {
-			mAsyncTaskManager.killTask(getKey(), TASK_LIFETIME);
-		}
+
+//		// TODO move to asynktask manager
+//		if (mAsyncTaskManager.getTask(getKey()) != null
+//				&& mAsyncTaskManager.getTask(getKey()).isCancellableOnPause()) {
+//			mAsyncTaskManager.killTask(getKey(), TASK_LIFETIME);
+//		}
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		Log.d("my DA", "onResume");
-
-		//TODO move to asynktask manager
-		if (mAsyncTaskManager.getTask(getKey()) != null) {
-			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(false);
-		}
+	
+//		// TODO-FIXED move to asynktask manager
+//		if (mAsyncTaskManager.getTask(getKey()) != null) {
+//			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(false);
+//		}
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
@@ -113,8 +114,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equals(
-						CommonAsyncTask.ON_PRE_EXECUTE)) {
+				if (intent.getAction().equals(CommonAsyncTask.ON_PRE_EXECUTE)) {
 					onTaskPreExecute(intent);
 				} else if (intent.getAction().equals(
 						CommonAsyncTask.ON_POST_EXECUTE)) {
@@ -138,7 +138,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	protected void onTaskPostExecute(Intent intent) {
 		hideLoading();
-		mAsyncTaskManager.removeTask(getKey());
+		//mAsyncTaskManager.removeTask(getKey());
 		success(intent);
 	}
 

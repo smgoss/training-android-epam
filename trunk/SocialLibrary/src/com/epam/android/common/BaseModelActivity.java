@@ -17,8 +17,8 @@ import com.epam.android.common.task.LoadModelAsyncTask;
 public abstract class BaseModelActivity<B extends BaseModel> extends
 		DelegateActivity {
 
-	private static final String TAG = BaseArrayModelActivity.class.getName();
-	
+	private static final String TAG = BaseModelActivity.class.getName();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,18 +44,19 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 	}
 
 	protected void executeAsyncTask() {
+		final LoadModelAsyncTask<B> task = new LoadModelAsyncTask<B>(
+				getUrl(),
+				BaseModelActivity.this){
+						};
+		
 		executeTask(new ITaskCreator() {
 			@SuppressWarnings("unchecked")
 			public CommonAsyncTask<B> create() {
-				return new LoadModelAsyncTask<B>(
-						getUrl(),
-						BaseModelActivity.this,
-						(IModelCreator<B>) BaseModel
-								.getModelCreatorFromTemplate(BaseModelActivity.this)) {
-				};
+				return task;
 			}
 		});
 	}
+	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void getResult(CommonAsyncTask task) {
@@ -66,17 +67,16 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 				onTaskPostExecute(intent);
 
 			} catch (InterruptedException e) {
-				
-				Log.d(TAG, "crash thread waiting, sleeping, and the thread is aborted");
-				
+				Log.d(TAG,
+						"crash thread waiting, sleeping, and the thread is aborted");
+
 			} catch (ExecutionException e) {
-				
-				Log.d(TAG,"crash get result on aborted task ", e);
+
+				Log.d(TAG, "crash get result on aborted task ", e);
 			}
 		} else {
-			//TODO send some status of task
-		}	
+			// TODO send some status of task
+		}
 	}
-		
-}
 
+}

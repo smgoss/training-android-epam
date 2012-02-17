@@ -43,5 +43,12 @@
         android:layout_height="wrap_content"
         android:onClick="onTestListViewButtonClick"
         android:text="TestListView" />
+    
+      <Button
+        android:id="@+id/multiTaskButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onMultiSampleButtonClick"
+        android:text="@string/test_multi_task" />
 
 </LinearLayout>
