@@ -9,6 +9,7 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
 //@Tag("item")
+//http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml
 public class Item extends BaseModel {
 
 	@SuppressWarnings("unused")
