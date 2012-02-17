@@ -56,8 +56,18 @@ public class Loader {
 		return JsonModelConverter.convertJSONArrayToList(jsonArray,
 				modelCreator);
 	}
+	
+	public <T> List<T> loadArrayModelFromXml(String url, IModelCreator<T> modelCreator)
+			throws ClientProtocolException, JSONException, IOException {
+		JSONObject jsonObject = createJsonFromXml(url);
+		//TODO get @Tag annotation get value,  
+		/*return JsonModelConverter.convertJSONArrayToList(jsonArray,
+				modelCreator);*/
+		return null;
+	}
 
-	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException,IOException{
+	
+	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, IOException {
 		return XML.toJSONObject(mHttpClient.execute(new HttpGet(url)));
 	}
 }
