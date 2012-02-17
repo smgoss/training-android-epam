@@ -42,8 +42,10 @@ public class CookieManager {
 		SavedCookies cookie = null;
 		if(cursor.moveToFirst()){
 			cookie = getCookie(cursor);
+			
+			cursor.close();
 		}
-		cursor.close();
+		
 		
 		return cookie;
 	}
