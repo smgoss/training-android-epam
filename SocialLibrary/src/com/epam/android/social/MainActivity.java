@@ -58,6 +58,10 @@ public class MainActivity extends Activity {
 	public void onTestListViewButtonClick(View view) {
 		startActivity(new Intent(this, TestListViewActivity.class));
 	}
+	
+	public void onMultiSampleButtonClick(View view) {
+		startActivity(new Intent(this, MultiSampleActivity.class));
+	}
 
 	private boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -32,9 +32,10 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 		return mModelCreator;
 	}
 
-	// public CommonModelAsyncTask(String url, IDelegate delegate) {
-	// super(url, delegate);
-	// }
+	 public CommonModelAsyncTask(String url, IDelegate delegate) {
+	 super(url, delegate);
+	 this.mModelCreator = getModelCreator();
+	 }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CommonModelAsyncTask(String url, IDelegate delegate,

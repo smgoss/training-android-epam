@@ -12,6 +12,8 @@ public class AsyncTaskManager {
 
 	@SuppressWarnings("rawtypes")
 	private HashMap<String, CommonAsyncTask> mAsyncTaskStorage;
+	
+	
 
 	private static final String TAG = AsyncTaskManager.class.getSimpleName();
 

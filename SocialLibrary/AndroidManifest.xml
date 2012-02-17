@@ -5,13 +5,15 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="4" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:name=".SocialApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" 
-        android:theme="@style/ApplicationTheme"
-        android:name=".SocialApplication">
+        android:label="@string/app_name"
+        android:theme="@style/ApplicationTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -25,6 +27,7 @@
         <activity android:name=".ArrayModelSampleActivity" />
         <activity android:name=".TestAsyncTaskActivity" />
         <activity android:name=".TestListViewActivity" />
+        <activity android:name=".MultiSampleActivity" />
     </application>
-    
+
 </manifest>

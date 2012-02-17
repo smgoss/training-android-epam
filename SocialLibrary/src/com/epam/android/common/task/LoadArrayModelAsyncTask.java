@@ -14,9 +14,10 @@ import com.epam.android.common.model.IModelCreator;
 public abstract class LoadArrayModelAsyncTask<B extends BaseModel> extends
 		CommonModelAsyncTask<List<B>> {
 
-	// public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
-	// super(url, delegate);
-	// }
+	public LoadArrayModelAsyncTask(String url, IDelegate delegate) {
+		super(url, delegate, (IModelCreator<B>) BaseModel
+				.getModelCreatorFromTemplate(delegate));
+	}
 
 	@SuppressWarnings("rawtypes")
 	public LoadArrayModelAsyncTask(String url, IDelegate delegate,

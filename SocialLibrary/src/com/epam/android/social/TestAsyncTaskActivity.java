@@ -19,7 +19,7 @@ import com.google.android.imageloader.ImageLoader;
 
 public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 
-	public static final String URL = "http://dl.dropbox.com/u/52289508/array.json";
+	public static final String URL = "http://dl.dropbox.com/u/52289508/object2.json";
 
 	private static final String TAG = TestAsyncTaskActivity.class
 			.getSimpleName();
@@ -31,7 +31,7 @@ public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 
 			public CommonAsyncTask<User> create() {
 				return new LoadModelAsyncTask<User>(URL,
-						TestAsyncTaskActivity.this, User.MODEL_CREATOR) {
+						TestAsyncTaskActivity.this) {
 
 					@Override
 					protected User doInBackground(String... params) {
