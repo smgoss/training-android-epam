@@ -1,7 +1,11 @@
 package com.epam.android.social;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import android.content.Intent;
 import android.util.Log;
@@ -19,7 +23,7 @@ import com.google.android.imageloader.ImageLoader;
 
 public class MultiSampleActivity extends MultiTaskActivity {
 
-	private ArrayList<CommonAsyncTask> tasks;
+	private ArrayList<CommonAsyncTask> tasks = new ArrayList<CommonAsyncTask>();
 	
 	public static final String URL1 = "http://dl.dropbox.com/u/52289508/object1.json";
 	
@@ -27,12 +31,9 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
-	public ArrayList<CommonAsyncTask> getTasks() {
-		CommonAsyncTask task1 = new LoadModelAsyncTask<User>(URL1, this, User.MODEL_CREATOR) {};
-		tasks.add(task1);
-		CommonAsyncTask task2 = new LoadArrayModelAsyncTask<Other>(URL2, this, Other.MODEL_CREATOR) {};
-		tasks.add(task2);
-		String foo = "foo";
+	public List<CommonAsyncTask> getTasks() {
+		tasks.add(new LoadModelAsyncTask<User>(URL1, this, User.MODEL_CREATOR));
+		tasks.add(new LoadArrayModelAsyncTask<Other>(URL2, this, Other.MODEL_CREATOR));
 		return tasks;
 	}
 

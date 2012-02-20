@@ -44,14 +44,14 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 	}
 
 	protected void executeAsyncTask() {
-		final LoadModelAsyncTask<B> task = new LoadModelAsyncTask<B>(
+		final CommonAsyncTask task = new LoadModelAsyncTask<B>(
 				getUrl(),
 				BaseModelActivity.this){
 						};
 		
 		executeTask(new ITaskCreator() {
 			@SuppressWarnings("unchecked")
-			public CommonAsyncTask<B> create() {
+			public CommonAsyncTask create() {
 				return task;
 			}
 		});

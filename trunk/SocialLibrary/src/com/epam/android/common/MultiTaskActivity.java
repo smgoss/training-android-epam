@@ -1,6 +1,7 @@
 package com.epam.android.common;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Intent;
@@ -25,6 +26,10 @@ public abstract class MultiTaskActivity extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
+		if (!mAsyncTaskManager.checkActivity(TAG)) {
+			mAsyncTaskManager.addActivity(TAG);
+		}
+		String foo="foo";
 	}
 
 	public abstract int getLayoutResource();
@@ -42,10 +47,10 @@ public abstract class MultiTaskActivity extends
 	}
 
 	
-	protected abstract ArrayList<CommonAsyncTask> getTasks();
+	protected abstract List<CommonAsyncTask> getTasks();
 	
 
-	protected void executeListAsyncTask(ArrayList<CommonAsyncTask> tasks) {
+	protected void executeListAsyncTask(List<CommonAsyncTask> tasks) {
 		for (int i=0; i < tasks.size(); i++) {
 			executeAsyncTask(tasks.get(i));
 			Log.d(TAG, tasks.get(i).toString());
