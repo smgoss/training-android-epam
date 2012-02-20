@@ -2,6 +2,8 @@ package com.epam.android.common.task;
 
 import java.util.HashMap;
 
+import com.epam.android.common.utils.GetSystemService;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -25,20 +27,8 @@ public class AsyncTaskManager {
 		
 	}
 
-	//TODO move to some util class
 	public static AsyncTaskManager get(Context context) {
-		AsyncTaskManager asyncTaskManager = (AsyncTaskManager) context
-				.getSystemService(ASYNC_TASK_MANAGER);
-		if (asyncTaskManager == null) {
-			context = context.getApplicationContext();
-			asyncTaskManager = (AsyncTaskManager) context
-					.getSystemService(ASYNC_TASK_MANAGER);
-		}
-		if (asyncTaskManager == null) {
-			throw new IllegalStateException(
-					"AsyncTaskManager client not available");
-		}
-		return asyncTaskManager;
+		return (AsyncTaskManager) GetSystemService.get(context, ASYNC_TASK_MANAGER);
 	}
 	
 	public void addActivity(String activityKey) {

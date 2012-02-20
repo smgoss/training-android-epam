@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.epam.android.common.http.cookie.CookieManager;
 import com.epam.android.common.http.cookie.DefaultCookieStore;
+import com.epam.android.common.utils.GetSystemService;
 
 public class HttpClient {
 
@@ -43,16 +44,7 @@ public class HttpClient {
 	private DefaultHttpClient client;
 
 	public static HttpClient get(Context context) {
-		HttpClient httpClient = (HttpClient) context
-				.getSystemService(HTTP_CLIENT);
-		if (httpClient == null) {
-			context = context.getApplicationContext();
-			httpClient = (HttpClient) context.getSystemService(HTTP_CLIENT);
-		}
-		if (httpClient == null) {
-			throw new IllegalStateException("HTTP client not available");
-		}
-		return httpClient;
+		return (HttpClient) GetSystemService.get(context, HTTP_CLIENT);
 	}
 
 	public HttpClient(Context context) {

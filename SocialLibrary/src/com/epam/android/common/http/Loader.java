@@ -13,6 +13,7 @@ import org.json.XML;
 import android.content.Context;
 
 import com.epam.android.common.model.IModelCreator;
+import com.epam.android.common.utils.GetSystemService;
 import com.epam.android.common.utils.JsonModelConverter;
 
 public class Loader {
@@ -24,15 +25,7 @@ public class Loader {
 	private HttpClient mHttpClient;
 	
     public static Loader get(Context context) {
-        Loader loader = (Loader) context.getSystemService(LOADER);
-        if (loader == null) {
-            context = context.getApplicationContext();
-            loader = (Loader) context.getSystemService(LOADER);
-        }
-        if (loader == null) {
-            throw new IllegalStateException("Loader not available");
-        }
-        return loader;
+    	return (Loader) GetSystemService.get(context,LOADER);
     }
 	
 
