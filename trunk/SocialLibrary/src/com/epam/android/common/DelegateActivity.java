@@ -29,7 +29,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	private static final String MSG = "Loading...";
 
-	private static final Integer TASK_LIFETIME = 10001;
+	public static final Integer TASK_LIFETIME = 10001;
 
 	private BroadcastReceiver receiver;
 
@@ -112,13 +112,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	
 	@Override
 	protected void onDestroy() {
-		for (int i = 0; i < mTasks.size(); i++) {
-			if (mAsyncTaskManager.checkTask(this.getClass().getName(), mTasks
-					.get(i).getUrl())) {
-				mAsyncTaskManager.killTask(this.getClass().getName(), mTasks
-						.get(i).getUrl(), TASK_LIFETIME);
-			}
-		}
+		mAsyncTaskManager.setDeleteStatus(true,this);
 		super.onDestroy();
 	}
 
@@ -128,14 +122,8 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 			showLoading();
 		}
 		
-		for (int i = 0; i < mTasks.size(); i++) {
-			if (mAsyncTaskManager.checkTask(this.getClass().getName(), mTasks
-					.get(i).getUrl())) {
-				mAsyncTaskManager.doNotKillTask(this.getClass().getName(),
-						mTasks.get(i).getUrl());
-			}
-		}
-
+		mAsyncTaskManager.setDeleteStatus(false,this);
+		
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
 		filter.addAction(CommonAsyncTask.ON_POST_EXECUTE);

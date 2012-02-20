@@ -32,6 +32,8 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	private IDelegate mDelegate;
 
 	private String mUrl;
+	
+	private T mResult;
 
 	// private String mKey;
 
@@ -62,7 +64,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	@Override
 	protected T doInBackground(String... params) {
 		try {
-			
+
 			Log.d(TAG, "back");
 			publishProgress("Loading from http");
 			Log.d(TAG, load().toString());
@@ -83,12 +85,14 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
 		if (e == null) {
-			sendNotification(ON_POST_EXECUTE, result);
+			this.mResult = result;
+			sendNotification(ON_POST_EXECUTE);
 		} else {
 			mDelegate.handleError(this, e);
 		}
 	}
 
+	
 	@Override
 	protected void onProgressUpdate(String... values) {
 		sendNotification(ON_PROGRESS_UPDATE, values[0]);
@@ -103,6 +107,10 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	public String getUrl() {
 		return mUrl;
+	}
+	
+	public T getResult(){
+		return mResult;
 	}
 
 	public void start() {

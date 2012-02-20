@@ -82,22 +82,22 @@ public class MultiSampleActivity extends MultiTaskActivity {
 	}
 
 	// TODO success(User user)
+	// FIXME result = null
 	@Override
 	protected void success(Intent intent) {
-		Log.d(TAG,
-				"sucessed " + intent.getStringExtra(CommonAsyncTask.TASK_KEY));
-		// TODO if (intent.getStringExtra(CommonAsyncTask.TASK))
-		if (intent.getStringExtra(CommonAsyncTask.TASK_KEY).equals(URL1)) {
+		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
+		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
+				.getName(), taskKey);
+		if (taskKey.equals(URL1)) {
 			TextView userName = (TextView) findViewById(R.id.userModelName);
 			ImageView userAvatar = (ImageView) findViewById(R.id.userModelAvatar);
-			User result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
+			User result = (User) task.getResult();
 			userName.setText(result.getName());
 			ImageLoader imageLoader = ImageLoader.get(MultiSampleActivity.this);
 			imageLoader.bind(userAvatar, result.getImageUrl(), null);
-		} else if (intent.getStringExtra(CommonAsyncTask.TASK_KEY).equals(URL2)) {
+		} else if (taskKey.equals(URL2)) {
 			mListView = (ListView) findViewById(R.id.array_multi_list);
-			List<Other> other = intent
-					.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
+			List<Other> other = (List<Other>) task.getResult();
 			mListView.setAdapter(new MultiModelListAdapter(
 					MultiSampleActivity.this, R.layout.load_multi_model_item,
 					other));

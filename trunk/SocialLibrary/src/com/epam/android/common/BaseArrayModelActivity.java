@@ -27,7 +27,7 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
-		mAsyncTaskManager.addActivity(TAG);
+		mAsyncTaskManager.addActivityTasks(TAG);
 	}
 
 	@SuppressWarnings("rawtypes")
