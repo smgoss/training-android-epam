@@ -11,15 +11,18 @@ public class AsyncTaskManager {
 	public static final String ASYNC_TASK_MANAGER = "++AsyncTaskManager++";
 
 	@SuppressWarnings("rawtypes")
-	private HashMap<String, CommonAsyncTask> mAsyncTaskStorage;
 	
+	private HashMap<String, CommonAsyncTask> mAsyncTaskList;
+		
+	private HashMap<String, HashMap<String, CommonAsyncTask>> mAsyncTaskActivity;
 	
 
 	private static final String TAG = AsyncTaskManager.class.getSimpleName();
 
 	@SuppressWarnings("rawtypes")
 	public AsyncTaskManager() {
-		mAsyncTaskStorage = new HashMap<String, CommonAsyncTask>();
+		mAsyncTaskActivity = new HashMap<String, HashMap<String, CommonAsyncTask>>();
+		
 	}
 
 	//TODO move to some util class
@@ -37,21 +40,32 @@ public class AsyncTaskManager {
 		}
 		return asyncTaskManager;
 	}
+	
+	public void addActivity(String activityKey) {
+		mAsyncTaskActivity.put(activityKey, new HashMap<String, CommonAsyncTask>());
+	}
+	
+	public boolean checkActivity(String activityKey) {
+		return mAsyncTaskActivity.containsKey(activityKey);
+	}
+	
+	public HashMap<String, CommonAsyncTask> getActivity(String activityKey) {
+		return mAsyncTaskActivity.get(activityKey);
+	}
 
 	@SuppressWarnings("rawtypes")
 	public void addTask(String key, CommonAsyncTask task) {
-		mAsyncTaskStorage.put(key, task);
+		mAsyncTaskList.put(key, task);
 	}
 
 	public void removeTask(String key) {
 		Log.d(TAG, "remove " + key);
 		getTask(key).cancel(true);
-		mAsyncTaskStorage.remove(key);
+		mAsyncTaskList.remove(key);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public CommonAsyncTask getTask(String key) {
-		return mAsyncTaskStorage.get(key);
+		return mAsyncTaskList.get(key);
 	}
 
 	public void killTask(final String key, final Integer time) {

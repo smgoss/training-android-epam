@@ -11,7 +11,7 @@ import android.content.Intent;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
-public abstract class LoadArrayModelAsyncTask<B extends BaseModel> extends
+public class LoadArrayModelAsyncTask<B extends BaseModel> extends
 		CommonModelAsyncTask<List<B>> {
 
 	public LoadArrayModelAsyncTask(String url, IDelegate delegate) {

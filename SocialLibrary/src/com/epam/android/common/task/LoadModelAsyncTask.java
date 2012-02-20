@@ -10,7 +10,7 @@ import com.epam.android.common.BaseModelActivity;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
-public abstract class LoadModelAsyncTask<B extends BaseModel> extends
+public  class LoadModelAsyncTask<B extends BaseModel> extends
 		CommonModelAsyncTask<B> {
 
 	public LoadModelAsyncTask(String url, IDelegate delegate) {
