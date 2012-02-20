@@ -1,40 +1,79 @@
 package com.epam.android.social;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import android.content.Intent;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.epam.android.common.BaseModelActivity;
 import com.epam.android.common.MultiTaskActivity;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
-import com.epam.android.social.model.User;
+import com.epam.android.social.adapter.MultiModelListAdapter;
 import com.epam.android.social.model.Other;
+import com.epam.android.social.model.User;
 import com.google.android.imageloader.ImageLoader;
 
 public class MultiSampleActivity extends MultiTaskActivity {
 
-	private ArrayList<CommonAsyncTask> tasks = new ArrayList<CommonAsyncTask>();
-	
+	private ListView mListView;
+
 	public static final String URL1 = "http://dl.dropbox.com/u/52289508/object1.json";
-	
+
 	public static final String URL2 = "http://dl.dropbox.com/u/52289508/array.json";
 
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
-	public List<CommonAsyncTask> getTasks() {
-		tasks.add(new LoadModelAsyncTask<User>(URL1, this, User.MODEL_CREATOR));
-		tasks.add(new LoadArrayModelAsyncTask<Other>(URL2, this, Other.MODEL_CREATOR));
-		return tasks;
+	public List<CommonAsyncTask> setTasks() {
+		mTasks.clear();
+
+		if (!mAsyncTaskManager.checkTask(this.getClass().getName(), URL1)) {
+			mTasks.add(new LoadModelAsyncTask<User>(URL1, this,
+					User.MODEL_CREATOR) {
+
+				@Override
+				protected User doInBackground(String... params) {
+					for (int i = 5; i > 0; --i) {
+						// Check if task is cancelled
+						if (isCancelled()) {
+							// This return causes onPostExecute call on
+							// UI thread
+							return null;
+						}
+
+						try {
+							// This call causes onProgressUpdate call on
+							// UI thread
+							publishProgress(MultiSampleActivity.this.getString(
+									R.string.task_working, i));
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							// This return causes onPostExecute call on
+							// UI thread
+
+							return null;
+						}
+					}
+					return super.doInBackground(params);
+				}
+			});
+		} else {
+			mTasks.add(mAsyncTaskManager.getTask(this.getClass().getName(),
+					URL1));
+		}
+		if (!mAsyncTaskManager.checkTask(this.getClass().getName(), URL2)) {
+			mTasks.add(new LoadArrayModelAsyncTask<Other>(URL2, this,
+					Other.MODEL_CREATOR));
+		} else {
+			mTasks.add(mAsyncTaskManager.getTask(this.getClass().getName(),
+					URL2));
+		}
+		return mTasks;
 	}
 
 	@Override
@@ -45,14 +84,24 @@ public class MultiSampleActivity extends MultiTaskActivity {
 	// TODO success(User user)
 	@Override
 	protected void success(Intent intent) {
-		Log.d(TAG, "sucessed " + intent.getStringExtra(CommonAsyncTask.TASK));
-//		// TODO if (intent.getStringExtra(CommonAsyncTask.TASK))
-//		TextView userName = (TextView) findViewById(R.id.userName);
-//		ImageView userAvatar = (ImageView) findViewById(R.id.userAvatar);
-//		User result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
-//		userName.setText(result.getName());
-//		ImageLoader imageLoader = ImageLoader.get(MultiSampleActivity.this);
-//		imageLoader.bind(userAvatar, result.getImageUrl(), null);
+		Log.d(TAG,
+				"sucessed " + intent.getStringExtra(CommonAsyncTask.TASK_KEY));
+		// TODO if (intent.getStringExtra(CommonAsyncTask.TASK))
+		if (intent.getStringExtra(CommonAsyncTask.TASK_KEY).equals(URL1)) {
+			TextView userName = (TextView) findViewById(R.id.userModelName);
+			ImageView userAvatar = (ImageView) findViewById(R.id.userModelAvatar);
+			User result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
+			userName.setText(result.getName());
+			ImageLoader imageLoader = ImageLoader.get(MultiSampleActivity.this);
+			imageLoader.bind(userAvatar, result.getImageUrl(), null);
+		} else if (intent.getStringExtra(CommonAsyncTask.TASK_KEY).equals(URL2)) {
+			mListView = (ListView) findViewById(R.id.array_multi_list);
+			List<Other> other = intent
+					.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
+			mListView.setAdapter(new MultiModelListAdapter(
+					MultiSampleActivity.this, R.layout.load_multi_model_item,
+					other));
+		}
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.epam.android.common;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.epam.android.common.model.BaseModel;
-import com.epam.android.common.model.IModelCreator;
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
@@ -24,7 +24,8 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
-
+		mAsyncTaskManager.addActivity(this.getClass()
+				.getName());
 	}
 
 	public abstract int getLayoutResource();
@@ -35,7 +36,8 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 	@Override
 	protected void onResume() {
 		super.onResume();
-		CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
+		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
+				.getName(), getKey());
 		if (task != null) {
 			getResult(task);
 		} else {
@@ -44,11 +46,10 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 	}
 
 	protected void executeAsyncTask() {
-		final CommonAsyncTask task = new LoadModelAsyncTask<B>(
-				getUrl(),
-				BaseModelActivity.this){
-						};
-		
+		final CommonAsyncTask task = new LoadModelAsyncTask<B>(getUrl(),
+				BaseModelActivity.this) {
+		};
+
 		executeTask(new ITaskCreator() {
 			@SuppressWarnings("unchecked")
 			public CommonAsyncTask create() {
@@ -56,7 +57,6 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 			}
 		});
 	}
-	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void getResult(CommonAsyncTask task) {
@@ -79,4 +79,8 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		}
 	}
 
+	public List<CommonAsyncTask> getTasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

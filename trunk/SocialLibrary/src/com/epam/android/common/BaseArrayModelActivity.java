@@ -1,6 +1,7 @@
 package com.epam.android.common;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Intent;
@@ -26,14 +27,14 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
-
+		mAsyncTaskManager.addActivity(TAG);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void onResume() {
 		super.onResume();
-		CommonAsyncTask task = mAsyncTaskManager.getTask(getKey());
+		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass().getName(),getKey());
 		if (task != null) {
 			getResult(task);
 		} else {
@@ -78,6 +79,12 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Override
+	public List<CommonAsyncTask> getTasks() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import com.epam.android.social.R;
+import com.epam.android.social.TestAsyncTaskActivity;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -22,8 +25,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	public static final String RESULT = "result";
 
-	//TODO rename to key
-	public static final String TASK = "task";
+	public static final String TASK_KEY = "taskKey";
 
 	private Exception e;
 
@@ -31,7 +33,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private String mUrl;
 
-	private String mKey;
+	// private String mKey;
 
 	private boolean mToBeCancelled;
 
@@ -47,7 +49,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		super();
 		this.mDelegate = delegate;
 		this.mUrl = url;
-		this.mKey = this.mDelegate.getKey();
+		// this.mKey = this.mDelegate.getKey();
 		this.mToBeCancelled = false;
 	}
 
@@ -60,6 +62,11 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	@Override
 	protected T doInBackground(String... params) {
 		try {
+			
+			Log.d(TAG, "back");
+			publishProgress("Loading from http");
+			Log.d(TAG, load().toString());
+
 			return load();
 		} catch (IOException e) {
 			this.e = e;
@@ -106,7 +113,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		return true;
 	}
 
-	
 	protected void sendNotification(String event) {
 		mDelegate.getContext().sendBroadcast(createDefaultBroadcast(event));
 	}
@@ -125,7 +131,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private Intent createDefaultBroadcast(String event) {
 		Intent broadcast = new Intent(event);
-		broadcast.putExtra(TASK, mKey);
+		broadcast.putExtra(TASK_KEY, mUrl);
 		return broadcast;
 	}
 
