@@ -24,7 +24,7 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
-		mAsyncTaskManager.addActivity(this.getClass()
+		mAsyncTaskManager.addActivityTasks(this.getClass()
 				.getName());
 	}
 

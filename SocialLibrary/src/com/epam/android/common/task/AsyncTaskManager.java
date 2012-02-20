@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.epam.android.common.DelegateActivity;
 import com.epam.android.common.utils.GetSystemService;
 
 import android.content.Context;
@@ -33,83 +34,75 @@ public class AsyncTaskManager {
 				ASYNC_TASK_MANAGER);
 	}
 
-	public void addActivity(String activityKey) {
-		if (!checkActivity(activityKey)) {
+	public void addActivityTasks(String activityKey) {
+		if (!checkActivityTasks(activityKey)) {
 			mAsyncTaskActivity.put(activityKey,
 					new HashMap<String, CommonAsyncTask>());
 		}
 	}
 
-	public boolean checkActivity(String activityKey) {
+	public boolean checkActivityTasks(String activityKey) {
 		return mAsyncTaskActivity.containsKey(activityKey);
 	}
 
-	public HashMap<String, CommonAsyncTask> getActivity(String activityKey) {
+	public HashMap<String, CommonAsyncTask> getActivityTasks(String activityKey) {
 		return mAsyncTaskActivity.get(activityKey);
 	}
 
 	@SuppressWarnings("rawtypes")
 	public void addTask(String activityKey, String taskKey, CommonAsyncTask task) {
-		getActivity(activityKey).put(taskKey, task);
+		getActivityTasks(activityKey).put(taskKey, task);
 	}
 
 	public void removeTask(String activityKey, String taskKey) {
 		getTask(activityKey, taskKey).cancel(true);
-		getActivity(activityKey).remove(taskKey);
+		getActivityTasks(activityKey).remove(taskKey);
 	}
 
 	public boolean checkTask(String activityKey, String taskKey) {
-		return getActivity(activityKey).containsKey(taskKey);
+		return getActivityTasks(activityKey).containsKey(taskKey);
 	}
 
 	public CommonAsyncTask getTask(String activityKey, String taskKey) {
-		return getActivity(activityKey).get(taskKey);
+		return getActivityTasks(activityKey).get(taskKey);
 	}
 
 	public boolean isLastTask(Context context) {
 		Boolean result = true;
-		Collection<CommonAsyncTask> taskCollection = getActivity(context.getClass().getName()).values();
-		Object[] keys = taskCollection.toArray();   
+		Collection<CommonAsyncTask> taskCollection = getActivityTasks(
+				context.getClass().getName()).values();
+		Object[] keys = taskCollection.toArray();
 		for (int i = 0; i < keys.length; i++) {
-			if (((CommonAsyncTask) keys[i]).getStatus().equals(AsyncTask.Status.RUNNING)) {
+			if (((CommonAsyncTask) keys[i]).getStatus().equals(
+					AsyncTask.Status.RUNNING)) {
 				result = false;
 			}
 		}
 		return result;
 	}
-	
-	
-	public void doNotKillTask(String activityKey, String key) {
-		if (checkTask(activityKey, key)) {
-			getTask(activityKey, key).setToBeCancelled(false);
-			Log.d("my-killing",
-					"set not to be killed"
-							+ getTask(activityKey, key).toString());
+
+	public void setDeleteStatus(boolean b, Context context) {
+		String activityKey = context.getClass().getName();
+		Set<String> keys = getActivityTasks(activityKey).keySet();
+		Object[] arrayKeys = keys.toArray();
+		for (int i = 0; i < arrayKeys.length; i++) {
+			getTask(activityKey, (String) arrayKeys[i]).setToBeCancelled(b);
+			if (b) {
+				killTask(activityKey, (String) arrayKeys[i]);
+			}
 		}
 	}
 
-	public void killTask(final String activityKey, final String key,
-			final Integer time) {
-		if (checkTask(activityKey, key)
-				&& getTask(activityKey, key).isCancellableOnPause()) {
-			Log.d("my-killing", "set to be killed "
-					+ getTask(activityKey, key).toString());
-			getTask(activityKey, key).setToBeCancelled(true);
-			// TODO read about handler
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					if (checkTask(activityKey, key)
-							&& getTask(activityKey, key).isToBeCancelled()) {
-						Log.d("my-killing",
-								"killed " + getTask(activityKey, key));
-						removeTask(activityKey, key);
-
-					}
+	protected void killTask(final String activityKey, final String taskKey) {
+		// TODO read about handler
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (checkTask(activityKey, taskKey)
+						&& getTask(activityKey, taskKey).isToBeCancelled()) {
+					removeTask(activityKey, taskKey);
 				}
-
-			}, time);
-		}
+			}
+		}, DelegateActivity.TASK_LIFETIME);
 	}
-
 }
