@@ -1,5 +1,8 @@
 package com.epam.android.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -8,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,6 +37,8 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	protected ProgressDialog mProgressDialog;
 
+	protected List<CommonAsyncTask> mTasks;
+
 	public void showLoading() {
 
 		if (mProgressDialog == null) {
@@ -41,9 +47,11 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 			mProgressDialog.setCancelable(true);
 			mProgressDialog.setOnCancelListener(this);
 		}
-		mProgressDialog.setTitle(TITLE);
-		mProgressDialog.setMessage(MSG);
-		mProgressDialog.show();
+		if (!mProgressDialog.isShowing()) {
+			mProgressDialog.setTitle(TITLE);
+			mProgressDialog.setMessage(MSG);
+			mProgressDialog.show();
+		}
 	}
 
 	@Override
@@ -62,6 +70,9 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		if (mProgressDialog != null && mProgressDialog.isShowing()
 				&& !isFinishing()) {
 			mProgressDialog.dismiss();
+			if (!mAsyncTaskManager.isLastTask(this)) {
+				mProgressDialog.show();
+			}
 		}
 	}
 
@@ -79,32 +90,51 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	@SuppressWarnings("rawtypes")
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
-		mAsyncTaskManager.addTask(getKey(), task);
+		mAsyncTaskManager.addTask(this.getClass().getName(), task.getUrl(),
+				task);
+		Log.d("my-killing", "added " + task.toString());
 		task.start();
 	}
 
 	public abstract String getKey();
 
+	public List<CommonAsyncTask> getTasks() {
+		return mTasks;
+	}
+
 	@Override
 	protected void onPause() {
 		unregisterReceiver(receiver);
-
-//		// TODO move to asynktask manager
-//		if (mAsyncTaskManager.getTask(getKey()) != null
-//				&& mAsyncTaskManager.getTask(getKey()).isCancellableOnPause()) {
-//			mAsyncTaskManager.killTask(getKey(), TASK_LIFETIME);
-//		}
 		super.onPause();
+	}
+
+	
+	
+	@Override
+	protected void onDestroy() {
+		for (int i = 0; i < mTasks.size(); i++) {
+			if (mAsyncTaskManager.checkTask(this.getClass().getName(), mTasks
+					.get(i).getUrl())) {
+				mAsyncTaskManager.killTask(this.getClass().getName(), mTasks
+						.get(i).getUrl(), TASK_LIFETIME);
+			}
+		}
+		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
-		Log.d("my DA", "onResume");
-	
-//		// TODO-FIXED move to asynktask manager
-//		if (mAsyncTaskManager.getTask(getKey()) != null) {
-//			mAsyncTaskManager.getTask(getKey()).setToBeCancelled(false);
-//		}
+		if (!mAsyncTaskManager.isLastTask(this)) {
+			showLoading();
+		}
+		
+		for (int i = 0; i < mTasks.size(); i++) {
+			if (mAsyncTaskManager.checkTask(this.getClass().getName(), mTasks
+					.get(i).getUrl())) {
+				mAsyncTaskManager.doNotKillTask(this.getClass().getName(),
+						mTasks.get(i).getUrl());
+			}
+		}
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
@@ -138,7 +168,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	protected void onTaskPostExecute(Intent intent) {
 		hideLoading();
-		//mAsyncTaskManager.removeTask(getKey());
 		success(intent);
 	}
 
