@@ -2,6 +2,7 @@ package com.epam.android.common.task;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
@@ -17,14 +18,19 @@ public class AsyncTaskManager {
 	public static final String ASYNC_TASK_MANAGER = "++AsyncTaskManager++";
 
 	@SuppressWarnings("rawtypes")
+	/*
+	 * Key of delegate, and key of tasks
+	 */
 	private HashMap<String, HashMap<String, CommonAsyncTask>> mAsyncTaskActivity;
 
 	private static final String TAG = AsyncTaskManager.class.getSimpleName();
 
+	private Handler mHandler;
+	
 	@SuppressWarnings("rawtypes")
 	public AsyncTaskManager() {
 		mAsyncTaskActivity = new HashMap<String, HashMap<String, CommonAsyncTask>>();
-
+		mHandler = new Handler();
 	}
 
 	public static AsyncTaskManager get(Context context) {
@@ -94,9 +100,10 @@ public class AsyncTaskManager {
 		}
 	}
 
+	
 	protected void killTask(final String activityKey, final String taskKey) {
 		// TODO read about handler
-		new Handler().postDelayed(new Runnable() {
+		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
 				if (checkTask(activityKey, taskKey)
@@ -104,6 +111,8 @@ public class AsyncTaskManager {
 					removeTask(activityKey, taskKey);
 				}
 			}
-		}, DelegateActivity.TASK_LIFETIME);
+		};
+		mHandler.postDelayed(runnable, DelegateActivity.TASK_LIFETIME);
+		//TODO mHandler.removeCallbacks(runnable);
 	}
 }
