@@ -17,6 +17,5 @@ public interface IDelegate {
 
 	void executeTask(ITaskCreator taskCreator);
 
-	String getKey();
 
 }

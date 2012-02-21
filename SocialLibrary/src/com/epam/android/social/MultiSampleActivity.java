@@ -1,6 +1,5 @@
 package com.epam.android.social;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -28,10 +27,10 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
-	public List<CommonAsyncTask> setTasks() {
+	public void setTasks() {
 		mTasks.clear();
 
-		if (!mAsyncTaskManager.checkTask(this.getClass().getName(), URL1)) {
+		if (!addToList(URL1)) {
 			mTasks.add(new LoadModelAsyncTask<User>(URL1, this,
 					User.MODEL_CREATOR) {
 
@@ -62,18 +61,11 @@ public class MultiSampleActivity extends MultiTaskActivity {
 					return super.doInBackground(params);
 				}
 			});
-		} else {
-			mTasks.add(mAsyncTaskManager.getTask(this.getClass().getName(),
-					URL1));
 		}
-		if (!mAsyncTaskManager.checkTask(this.getClass().getName(), URL2)) {
+		if (!addToList(URL2)) {
 			mTasks.add(new LoadArrayModelAsyncTask<Other>(URL2, this,
 					Other.MODEL_CREATOR));
-		} else {
-			mTasks.add(mAsyncTaskManager.getTask(this.getClass().getName(),
-					URL2));
 		}
-		return mTasks;
 	}
 
 	@Override
@@ -81,33 +73,27 @@ public class MultiSampleActivity extends MultiTaskActivity {
 		return R.layout.load_multi_model;
 	}
 
-	// TODO success(User user)
-	// FIXME result = null
 	@Override
 	protected void success(Intent intent) {
-		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
-		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
-				.getName(), taskKey);
-		if (taskKey.equals(URL1)) {
+		User user = (User) sucessResult(intent, URL1);
+		List<Other> other = (List<Other>) sucessResult(intent, URL2);
+
+		if (user != null) {
 			TextView userName = (TextView) findViewById(R.id.userModelName);
 			ImageView userAvatar = (ImageView) findViewById(R.id.userModelAvatar);
-			User result = (User) task.getResult();
-			userName.setText(result.getName());
+			userName.setText(user.getName());
 			ImageLoader imageLoader = ImageLoader.get(MultiSampleActivity.this);
-			imageLoader.bind(userAvatar, result.getImageUrl(), null);
-		} else if (taskKey.equals(URL2)) {
+			imageLoader.bind(userAvatar, user.getImageUrl(), null);
+
+		} else if (other != null) {
 			mListView = (ListView) findViewById(R.id.array_multi_list);
-			List<Other> other = (List<Other>) task.getResult();
 			mListView.setAdapter(new MultiModelListAdapter(
 					MultiSampleActivity.this, R.layout.load_multi_model_item,
 					other));
+		} else {
+			// TODO what if no result
+			Log.d(TAG, "Nothing to show");
 		}
-	}
-
-	@Override
-	public String getKey() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -1,18 +1,16 @@
 package com.epam.android.common.task;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
-
-import com.epam.android.common.DelegateActivity;
-import com.epam.android.common.utils.GetSystemService;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+
+import com.epam.android.common.DelegateActivity;
+import com.epam.android.common.utils.GetSystemService;
 
 public class AsyncTaskManager {
 
@@ -55,8 +53,10 @@ public class AsyncTaskManager {
 	}
 
 	public void removeTask(String activityKey, String taskKey) {
+		Log.d(TAG, taskKey);
 		getTask(activityKey, taskKey).cancel(true);
 		getActivityTasks(activityKey).remove(taskKey);
+
 	}
 
 	public boolean checkTask(String activityKey, String taskKey) {
@@ -87,6 +87,7 @@ public class AsyncTaskManager {
 		Object[] arrayKeys = keys.toArray();
 		for (int i = 0; i < arrayKeys.length; i++) {
 			getTask(activityKey, (String) arrayKeys[i]).setToBeCancelled(b);
+			Log.d(TAG, (String) arrayKeys[i] + " " + b);
 			if (b) {
 				killTask(activityKey, (String) arrayKeys[i]);
 			}

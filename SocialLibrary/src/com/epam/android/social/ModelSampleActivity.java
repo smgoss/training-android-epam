@@ -49,4 +49,10 @@ public class ModelSampleActivity extends BaseModelActivity<User> {
 		imageLoader.bind(userAvatar, result.getImageUrl(), null);
 	}
 
+	@Override
+	public void setTasks() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

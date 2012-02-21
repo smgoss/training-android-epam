@@ -99,8 +99,9 @@ public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 	}
 
 	@Override
-	public String getKey() {
-		return URL;
+	public void setTasks() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
