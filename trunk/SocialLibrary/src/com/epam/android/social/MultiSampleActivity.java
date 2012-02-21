@@ -33,7 +33,7 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 				@Override
 				protected User doInBackground(String... params) {
-					for (int i = 5; i > 0; --i) {
+					for (int i = 10; i > 0; --i) {
 						// Check if task is cancelled
 						if (isCancelled()) {
 							// This return causes onPostExecute call on

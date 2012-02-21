@@ -28,8 +28,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	private static final String MSG = "Loading...";
 
-	public static final Integer TASK_LIFETIME = 10001;
-
 	private BroadcastReceiver receiver;
 
 	protected AsyncTaskManager mAsyncTaskManager;
@@ -42,15 +40,18 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 		if (mProgressDialog == null) {
 			mProgressDialog = new ProgressDialog(this);
+			Log.d("dialog", "create" + this.toString());
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(true);
 			mProgressDialog.setOnCancelListener(this);
+		} else {
+			Log.d("dialog", "not null" + this.toString());
 		}
 		if (!mProgressDialog.isShowing() && this.getWindow() != null) {
 			mProgressDialog.setTitle(TITLE);
 			mProgressDialog.setMessage(MSG);
 			mProgressDialog.show();
-			
+			Log.d("dialog", "show" + this.toString());
 		}
 	}
 
@@ -61,6 +62,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	public void showProgress(String textMessage) {
 		if (mProgressDialog == null) {
+			Log.d("dialog", "progress " + this.toString());
 			showLoading();
 		}
 		mProgressDialog.setMessage(textMessage);
@@ -68,10 +70,12 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	public void hideLoading() {
 		if (mProgressDialog != null && mProgressDialog.isShowing()
-				&& !isFinishing()) {
+				&& !isFinishing()  && this.getWindow() != null) {
 			mProgressDialog.dismiss();
+			Log.d("dialog", "dismiss " + this.toString());
 			if (!mAsyncTaskManager.isLastTask(this)) {
-				mProgressDialog.show();
+				Log.d("dialog", "other tasks " + this.toString());
+				showLoading();
 			}
 		}
 	}
