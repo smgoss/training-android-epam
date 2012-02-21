@@ -110,6 +110,7 @@ public class AsyncTaskManager {
 						&& getTask(activityKey, taskKey).isToBeCancelled()) {
 					removeTask(activityKey, taskKey);
 				}
+				//TODO remove from runnable storage
 			}
 		};
 		mHandler.postDelayed(runnable, DelegateActivity.TASK_LIFETIME);
