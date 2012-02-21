@@ -4,9 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import android.content.Intent;
-
-import com.epam.android.common.BaseModelActivity;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
@@ -28,9 +25,9 @@ public  class LoadModelAsyncTask<B extends BaseModel> extends
 		return getLoader().loadModel(getUrl(), getModelCreator());
 	}
 
-	@Override
-	protected void initIntentResult(Intent intent, B result) {
-		intent.putExtra(RESULT, result);
-	}
+//	@Override
+//	protected void initIntentResult(Intent intent, B result) {
+//		intent.putExtra(RESULT, result);
+//	}
 
 }

@@ -4,9 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import com.epam.android.social.R;
-import com.epam.android.social.TestAsyncTaskActivity;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -23,7 +20,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	public static final String TEXT = "text";
 
-	public static final String RESULT = "result";
+	public static final String ACTIVITY_KEY = "activitykey";
 
 	public static final String TASK_KEY = "taskKey";
 
@@ -117,18 +114,19 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
 
-	protected void sendNotification(String event, T result) {
-		Intent broadcast = createDefaultBroadcast(event);
-		initIntentResult(broadcast, result);
-		mDelegate.getContext().sendBroadcast(broadcast);
-	}
+//	protected void sendNotification(String event, T result) {
+//		Intent broadcast = createDefaultBroadcast(event);
+//		initIntentResult(broadcast, result);
+//		mDelegate.getContext().sendBroadcast(broadcast);
+//	}
 
 	private Intent createDefaultBroadcast(String event) {
 		Intent broadcast = new Intent(event);
 		broadcast.putExtra(TASK_KEY, mUrl);
+		broadcast.putExtra(ACTIVITY_KEY, mDelegate.getClass().getName());
 		return broadcast;
 	}
 
-	protected abstract void initIntentResult(Intent intent, T result);
+//	protected abstract void initIntentResult(Intent intent, T result);
 
 }

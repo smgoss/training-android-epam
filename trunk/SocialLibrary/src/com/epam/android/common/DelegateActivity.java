@@ -18,8 +18,6 @@ import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
-import com.epam.android.common.task.LoadArrayModelAsyncTask;
-import com.epam.android.social.model.Other;
 
 public abstract class DelegateActivity extends Activity implements IDelegate,
 		OnCancelListener {
@@ -141,14 +139,18 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equals(CommonAsyncTask.ON_PRE_EXECUTE)) {
-					onTaskPreExecute(intent);
-				} else if (intent.getAction().equals(
-						CommonAsyncTask.ON_POST_EXECUTE)) {
-					onTaskPostExecute(intent);
-				} else if (intent.getAction().equals(
-						CommonAsyncTask.ON_PROGRESS_UPDATE)) {
-					onTaskProgressUpdate(intent);
+				if (intent.getStringExtra(CommonAsyncTask.ACTIVITY_KEY).equals(
+						context.getClass().getName())) {
+					if (intent.getAction().equals(
+							CommonAsyncTask.ON_PRE_EXECUTE)) {
+						onTaskPreExecute(intent);
+					} else if (intent.getAction().equals(
+							CommonAsyncTask.ON_POST_EXECUTE)) {
+						onTaskPostExecute(intent);
+					} else if (intent.getAction().equals(
+							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
+						onTaskProgressUpdate(intent);
+					}
 				}
 			}
 		};
