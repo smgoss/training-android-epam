@@ -9,13 +9,14 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
-import com.epam.android.common.DelegateActivity;
 import com.epam.android.common.utils.GetSystemService;
 
 public class AsyncTaskManager {
 
 	public static final String ASYNC_TASK_MANAGER = "++AsyncTaskManager++";
 
+	public static final Integer TASK_LIFETIME = 10001;
+	
 	@SuppressWarnings("rawtypes")
 	/*
 	 * Key of delegate, and key of tasks
@@ -61,7 +62,6 @@ public class AsyncTaskManager {
 	}
 
 	public void removeTask(String activityKey, String taskKey) {
-		Log.d(TAG, taskKey);
 		getTask(activityKey, taskKey).cancel(true);
 		getActivityTasks(activityKey).remove(taskKey);
 
@@ -116,6 +116,6 @@ public class AsyncTaskManager {
 			}
 		};
 		mRunnableStorage.put(activityKey + taskKey, runnable);
-		mHandler.postDelayed(runnable, DelegateActivity.TASK_LIFETIME);
+		mHandler.postDelayed(runnable, TASK_LIFETIME);
 	}
 }
