@@ -78,7 +78,7 @@ public class BaseModel implements Parcelable {
 		return null;
 	}
 
-	protected final String getString(final String key) {
+	protected String getString(final String key) {
 		try {
 			if (!jo.isNull(key)) {
 				return jo.getString(key);

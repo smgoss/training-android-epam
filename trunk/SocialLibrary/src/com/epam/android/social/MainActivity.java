@@ -1,6 +1,8 @@
 package com.epam.android.social;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -11,15 +13,21 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
+import com.epam.android.common.annotation.Tag;
 
 public class MainActivity extends Activity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 
+	
+	@Retention(RetentionPolicy.RUNTIME) 
+	public @interface Tag {
+		String key();
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,12 +50,24 @@ public class MainActivity extends Activity {
 			throws ClientProtocolException, JSONException, IOException {
 		// Loader loader = new Loader((HttpClient)
 		// getApplicationContext().getSystemService(HttpClient.HTTP_CLIENT));
-		Loader loader = Loader.get(this);
-		Log.d(TAG,
-				loader.createJsonFromXml(
-						"http://partners.mtvnservices.com/dextr/partner/wireless/comedy/tds_mobile_app_news/full.xml")
-						.toString());
+	
+		
+		
+//		Loader loader = Loader.get(this);
+//		@Tag(key="item")
+//		JSONObject  jsonObject = loader.createJsonFromXml("http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml");
+//		
+//		Item item = new Item(jsonObject);
+//		for (int i = 0; i < item.getCategoryLength(0); i++) {
+//			Log.d(TAG, "" + item.getPubDate(i));
+//			Log.d(TAG, item.getDescription(i));
+//			Log.d(TAG, item.getGuid(i));
+//			Log.d(TAG, "" + item.getGuidIsPermaLink(i));
+//		}
 
+		Loader loader = Loader.get(this);
+		loader.testAnnotation();
+		
 	}
 
 	public void onRunAsynkTaskButtonClick(View view) {
