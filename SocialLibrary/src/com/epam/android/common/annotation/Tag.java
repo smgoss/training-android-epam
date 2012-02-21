@@ -5,5 +5,6 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME) 
 public @interface Tag {
-	String[] key();
+	String[] keys();
+	String[] types();
 }

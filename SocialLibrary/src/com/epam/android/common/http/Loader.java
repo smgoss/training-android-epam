@@ -1,8 +1,6 @@
 package com.epam.android.common.http;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -13,7 +11,6 @@ import org.json.JSONObject;
 import org.json.XML;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.epam.android.common.annotation.Tag;
 import com.epam.android.common.model.IModelCreator;
@@ -73,8 +70,34 @@ public class Loader {
 		return XML.toJSONObject(mHttpClient.execute(new HttpGet(url)));
 	}
 	
-	@Tag(key = {"item","item2"})
-	public void testAnnotation(){
+	public <T> List<T> loadArrayModelFromXmlByAnnotation(String url,
+			IModelCreator<T> modelCreator) throws ClientProtocolException, JSONException, IOException {
+		JSONObject jsonObject = createJsonFromXml(url);
+		T fake = modelCreator.create(new JSONObject());
+		Tag annotation = fake.getClass().getAnnotation(Tag.class);
+		String[] keys = annotation.keys();
+		String[] types = annotation.types();
+		JSONObject resultObject = null;
+		JSONArray array = null;
+		for (int i = 0; i < keys.length; i++) {
+			String type = types[i];
+			if (type.equals("jsonobject")) {
+				if (resultObject == null) {
+					resultObject = jsonObject.getJSONObject(keys[i]);
+				} else {
+					resultObject = resultObject.getJSONObject(keys[i]);
+				}
+			} else {
+				array = resultObject.getJSONArray(keys[i]);
+			}
+		}
+		//TODO get @Tag annotation get value,  
+		return JsonModelConverter.convertJSONArrayToList(array,
+				modelCreator);
+		
+		//return null;
+	}
+	/*public void testAnnotation(){
 		try {
 			try {
 				Method method = Loader.class.getMethod("testAnnotation", null);
@@ -91,5 +114,5 @@ public class Loader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-	}
+	}*/
 }

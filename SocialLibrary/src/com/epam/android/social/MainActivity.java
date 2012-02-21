@@ -18,15 +18,12 @@ import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.annotation.Tag;
+import com.epam.android.social.model.Item;
 
 public class MainActivity extends Activity {
+	
 	private static final String TAG = MainActivity.class.getSimpleName();
 
-	
-	@Retention(RetentionPolicy.RUNTIME) 
-	public @interface Tag {
-		String key();
-	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,21 +50,24 @@ public class MainActivity extends Activity {
 	
 		
 		
-//		Loader loader = Loader.get(this);
-//		@Tag(key="item")
-//		JSONObject  jsonObject = loader.createJsonFromXml("http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml");
-//		
-//		Item item = new Item(jsonObject);
-//		for (int i = 0; i < item.getCategoryLength(0); i++) {
-//			Log.d(TAG, "" + item.getPubDate(i));
-//			Log.d(TAG, item.getDescription(i));
-//			Log.d(TAG, item.getGuid(i));
-//			Log.d(TAG, "" + item.getGuidIsPermaLink(i));
-//		}
-
+		/*Loader loader = Loader.get(this);
+		@Tag(key="item")
+		JSONObject  jsonObject = loader.createJsonFromXml("http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml");
+		Tag tag = Item.class.getAnnotation(Tag.class);
+		String[] key = tag.key();
+		
+		
+		for (int i = 0; i < item.getCategoryLength(0); i++) {
+			Log.d(TAG, "" + item.getPubDate(i));
+			Log.d(TAG, item.getDescription(i));
+			Log.d(TAG, item.getGuid(i));
+			Log.d(TAG, "" + item.getGuidIsPermaLink(i));
+		}
+		
+		jsonObject.getJso(key)
 		Loader loader = Loader.get(this);
 		loader.testAnnotation();
-		
+		*/
 	}
 
 	public void onRunAsynkTaskButtonClick(View view) {
