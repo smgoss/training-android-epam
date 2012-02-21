@@ -13,30 +13,19 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 
 	private static final String TAG = MultiTaskActivity.class.getName();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(getLayoutResource());
-		mAsyncTaskManager = AsyncTaskManager.get(this);
-		mAsyncTaskManager.addActivityTasks(this.getClass().getName());
-		mTasks.clear();
-		setTasks();
-	}
-
-	public abstract int getLayoutResource();
 
 	protected void onResume() {
 		super.onResume();
 
-		for (int i = 0; i < mTasks.size(); i++) {
-			if (mAsyncTaskManager.checkTask(this.getClass().getName(), mTasks
-					.get(i).getUrl())) {
-				getResult(mAsyncTaskManager.getTask(this.getClass().getName(),
-						mTasks.get(i).getUrl()));
-			} else {
-				executeAsyncTask(mTasks.get(i));
-			}
-		}
+//		for (int i = 0; i < mTasks.size(); i++) {
+//			if (mAsyncTaskManager.checkTask(this.getClass().getName(), mTasks
+//					.get(i).getUrl())) {
+//				getResult(mAsyncTaskManager.getTask(this.getClass().getName(),
+//						mTasks.get(i).getUrl()));
+//			} else {
+//				executeAsyncTask(mTasks.get(i));
+//			}
+//		}
 	}
 
 	protected void executeAsyncTask(final CommonAsyncTask task) {
@@ -59,17 +48,6 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 		}
 	}
 
-	@Override
-	public void setTasks() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void success(Intent intent) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	//TODO read about it
 	@Override

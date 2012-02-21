@@ -28,54 +28,33 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
-	
 	public void setTasks() {
-		/*executeTask(new AbstractTaskCreator() {
-			
+
+		executeAsyncTask(new LoadModelAsyncTask<User>(URL1, this,
+				User.MODEL_CREATOR) {
+
 			@Override
-			public CommonAsyncTask create() {
-				return null;
-			}
-			
-		});*/
-		
-		
-		if (!isAddToList(URL1)) {
-			mTasks.add(new LoadModelAsyncTask<User>(URL1, this,
-					User.MODEL_CREATOR) {
-
-				@Override
-				protected User doInBackground(String... params) {
-					for (int i = 10; i > 0; --i) {
-						// Check if task is cancelled
-						if (isCancelled()) {
-							// This return causes onPostExecute call on
-							// UI thread
-							return null;
-						}
-
-						try {
-							// This call causes onProgressUpdate call on
-							// UI thread
-							publishProgress(MultiSampleActivity.this.getString(
-									R.string.task_working, i));
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-							// This return causes onPostExecute call on
-							// UI thread
-
-							return null;
-						}
+			protected User doInBackground(String... params) {
+				for (int i = 10; i > 0; --i) {
+					if (isCancelled()) {
+						return null;
 					}
-					return super.doInBackground(params);
+					try {
+						publishProgress(MultiSampleActivity.this.getString(
+								R.string.task_working, i));
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						return null;
+					}
 				}
-			});
-		}
-		if (!isAddToList(URL2)) {
-			mTasks.add(new LoadArrayModelAsyncTask<Other>(URL2, this,
-					Other.MODEL_CREATOR));
-		}
+				return super.doInBackground(params);
+			}
+		});
+
+		executeAsyncTask(new LoadArrayModelAsyncTask<Other>(URL2, this,
+				Other.MODEL_CREATOR));
+		
 	}
 
 	@Override
@@ -85,26 +64,24 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	@Override
 	protected void success(Intent intent) {
-		if (isAsynkTaskResult(URL1, intent)) {
-			
-		} else if (isAsynkTaskResult(URL2, intent)) {
-			
-		}
-		User user = (User) sucessResult(intent, URL1);
-		List<Other> other = (List<Other>) sucessResult(intent, URL2);
+		if (isAsyncTaskResult(URL1, intent)) {
+			User user = intent.getParcelableExtra(CommonAsyncTask.RESULT);
 
-		if (user != null) {
 			TextView userName = (TextView) findViewById(R.id.userModelName);
 			ImageView userAvatar = (ImageView) findViewById(R.id.userModelAvatar);
 			userName.setText(user.getName());
 			ImageLoader imageLoader = ImageLoader.get(MultiSampleActivity.this);
 			imageLoader.bind(userAvatar, user.getImageUrl(), null);
 
-		} else if (other != null) {
+		} else if (isAsyncTaskResult(URL2, intent)) {
+			List<Other> other = intent
+					.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
+
 			mListView = (ListView) findViewById(R.id.array_multi_list);
 			mListView.setAdapter(new MultiModelListAdapter(
 					MultiSampleActivity.this, R.layout.load_multi_model_item,
 					other));
+
 		} else {
 			// TODO what if no result
 			Log.d(TAG, "Nothing to show");

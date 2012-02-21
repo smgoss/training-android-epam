@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import com.epam.android.common.model.BaseModel;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -21,6 +23,8 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	public static final String TEXT = "text";
 
 	public static final String ACTIVITY_KEY = "activitykey";
+	
+	public static final String RESULT = "result";
 
 	public static final String TASK_KEY = "taskKey";
 
@@ -74,7 +78,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	public void sendResult() {
 		if (e == null) {
 			//TODO put result to intent
-			sendNotification(ON_POST_EXECUTE);
+			sendNotification(ON_POST_EXECUTE, mResult);
 		} else {
 			//TODO send notification
 			mDelegate.handleError(this, e);
@@ -120,11 +124,11 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
 
-//	protected void sendNotification(String event, T result) {
-//		Intent broadcast = createDefaultBroadcast(event);
-//		initIntentResult(broadcast, result);
-//		mDelegate.getContext().sendBroadcast(broadcast);
-//	}
+	protected void sendNotification(String event, T result) {
+		Intent broadcast = createDefaultBroadcast(event);
+		initIntentResult(broadcast, result);
+		mDelegate.getContext().sendBroadcast(broadcast);
+	}
 
 	private Intent createDefaultBroadcast(String event) {
 		Intent broadcast = new Intent(event);
@@ -133,6 +137,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		return broadcast;
 	}
 
-//	protected abstract void initIntentResult(Intent intent, T result);
+	protected abstract void initIntentResult(Intent intent, T result);
 
 }

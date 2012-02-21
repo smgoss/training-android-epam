@@ -23,13 +23,13 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 
 	@Override
 	protected void success(Intent intent) {
-		List<B> result = (List<B>) sucessResult(intent, getUrl());
-		if (result != null) {
-			success(result);
-		} else {
-			// TODO what if no result
-			Log.d(TAG, "Nothing to show");
-		}
+//		List<B> result = (List<B>) sucessResult(intent, getUrl());
+//		if (result != null) {
+//			success(result);
+//		} else {
+//			// TODO what if no result
+//			Log.d(TAG, "Nothing to show");
+//		}
 	}
 
 	protected abstract void success(List<B> result);
