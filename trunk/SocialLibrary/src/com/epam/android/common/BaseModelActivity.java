@@ -36,13 +36,13 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 	@Override
 	protected void onResume() {
 		super.onResume();
-		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
-				.getName(), getKey());
-		if (task != null) {
-			getResult(task);
-		} else {
-			executeAsyncTask();
-		}
+//		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
+//				.getName(), getKey());
+//		if (task != null) {
+//			getResult(task);
+//		} else {
+//			executeAsyncTask();
+//		}
 	}
 
 	protected void executeAsyncTask() {

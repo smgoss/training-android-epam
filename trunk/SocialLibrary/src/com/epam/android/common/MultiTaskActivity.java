@@ -32,8 +32,6 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 
 	public abstract int getLayoutResource();
 
-	public abstract List<CommonAsyncTask> setTasks();
-
 	protected void onResume() {
 		super.onResume();
 

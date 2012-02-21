@@ -43,4 +43,10 @@ public class ArrayModelSampleActivity extends BaseArrayModelActivity<User> {
 		return URL;
 	}
 
+	@Override
+	public void setTasks() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

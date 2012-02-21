@@ -1,6 +1,5 @@
 package com.epam.android.common;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -11,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +17,8 @@ import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
+import com.epam.android.common.task.LoadArrayModelAsyncTask;
+import com.epam.android.social.model.Other;
 
 public abstract class DelegateActivity extends Activity implements IDelegate,
 		OnCancelListener {
@@ -96,10 +96,20 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		task.start();
 	}
 
-	public abstract String getKey();
-
 	public List<CommonAsyncTask> getTasks() {
 		return mTasks;
+	}
+
+	public abstract void setTasks();
+
+	protected boolean addToList(String url) {
+		if (mAsyncTaskManager.checkTask(this.getClass().getName(), url)) {
+			mTasks.add(mAsyncTaskManager
+					.getTask(this.getClass().getName(), url));
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -108,11 +118,9 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		super.onPause();
 	}
 
-	
-	
 	@Override
 	protected void onDestroy() {
-		mAsyncTaskManager.setDeleteStatus(true,this);
+		mAsyncTaskManager.setDeleteStatus(true, this);
 		super.onDestroy();
 	}
 
@@ -121,9 +129,9 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		if (!mAsyncTaskManager.isLastTask(this)) {
 			showLoading();
 		}
-		
-		mAsyncTaskManager.setDeleteStatus(false,this);
-		
+
+		mAsyncTaskManager.setDeleteStatus(false, this);
+
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
 		filter.addAction(CommonAsyncTask.ON_POST_EXECUTE);
@@ -161,6 +169,17 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	protected void onTaskProgressUpdate(Intent intent) {
 		showProgress(intent.getStringExtra(CommonAsyncTask.TEXT));
+	}
+
+	protected Object sucessResult(Intent intent, String url) {
+		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
+		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
+				.getName(), taskKey);
+		if (taskKey.equals(url)) {
+			return task.getResult();
+		}
+
+		return null;
 	}
 
 }
