@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.epam.android.common.annotation.Tag;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 

@@ -8,11 +8,13 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.epam.android.common.annotation.Tag;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
-//@Tag("item")
+
 //http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml
+@Tag(keys="items", types="jsonobject")
 public class Item extends BaseModel {
 
 	@SuppressWarnings("unused")
