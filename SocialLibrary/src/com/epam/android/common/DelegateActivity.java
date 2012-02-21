@@ -46,10 +46,11 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 			mProgressDialog.setCancelable(true);
 			mProgressDialog.setOnCancelListener(this);
 		}
-		if (!mProgressDialog.isShowing()) {
+		if (!mProgressDialog.isShowing() && this.getWindow() != null) {
 			mProgressDialog.setTitle(TITLE);
 			mProgressDialog.setMessage(MSG);
 			mProgressDialog.show();
+			
 		}
 	}
 
@@ -91,7 +92,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		CommonAsyncTask task = taskCreator.create();
 		mAsyncTaskManager.addTask(this.getClass().getName(), task.getUrl(),
 				task);
-		Log.d("my-killing", "added " + task.toString());
 		task.start();
 	}
 
