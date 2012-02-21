@@ -2,11 +2,9 @@ package com.epam.android.social;
 
 import java.util.List;
 
-import android.content.Intent;
 import android.widget.ListView;
 
 import com.epam.android.common.BaseArrayModelActivity;
-import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.model.User;
 
@@ -26,26 +24,15 @@ public class ArrayModelSampleActivity extends BaseArrayModelActivity<User> {
 	}
 
 	@Override
-	public void success(Intent intent) {
-		mListView = (ListView) findViewById(R.id.array_model_list);
-		List<User> users = intent
-				.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
-		mListView.setAdapter(new ArrayModelListAdapter(
-				ArrayModelSampleActivity.this, R.layout.load_model, users));
-	}
-
-	@Override
 	public String getUrl() {
 		return URL;
 	}
 
-	public String getKey() {
-		return URL;
-	}
-
 	@Override
-	public void setTasks() {
-		// TODO Auto-generated method stub
+	protected void success(List<User> users) {
+		mListView = (ListView) findViewById(R.id.array_model_list);
+		mListView.setAdapter(new ArrayModelListAdapter(
+				ArrayModelSampleActivity.this, R.layout.load_model, users));
 
 	}
 

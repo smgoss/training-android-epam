@@ -1,14 +1,8 @@
 package com.epam.android.common;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
@@ -53,8 +47,6 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 		});
 	}
 
-	// FIXME what to do with tasks on resume
-	// @SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void getResult(CommonAsyncTask task) {
 		if (task.getStatus().equals(AsyncTask.Status.RUNNING)) {
 			showLoading();
@@ -64,7 +56,5 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 			intent.putExtra(CommonAsyncTask.TASK_KEY, task.getUrl());
 			onTaskPostExecute(intent);
 		}
-
 	}
-
 }

@@ -5,12 +5,12 @@ package com.epam.android.common.adapter;
 
 import java.util.List;
 
-import com.google.android.imageloader.ImageLoader;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.google.android.imageloader.ImageLoader;
 
 public abstract class AbstractAdapter<T> extends BaseAdapter {
 
