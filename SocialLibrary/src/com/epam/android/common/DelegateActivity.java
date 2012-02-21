@@ -1,5 +1,6 @@
 package com.epam.android.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -37,7 +38,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	protected ProgressDialog mProgressDialog;
 
-	protected List<CommonAsyncTask> mTasks;
+	protected List<CommonAsyncTask> mTasks = new ArrayList<CommonAsyncTask>();;
 
 	public void showLoading() {
 
