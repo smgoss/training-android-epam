@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.epam.android.common.MultiTaskActivity;
+import com.epam.android.common.task.AbstractTaskCreator;
+import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.adapter.MultiModelListAdapter;
@@ -26,8 +28,19 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
+	
 	public void setTasks() {
-		if (!addToList(URL1)) {
+		/*executeTask(new AbstractTaskCreator() {
+			
+			@Override
+			public CommonAsyncTask create() {
+				return null;
+			}
+			
+		});*/
+		
+		
+		if (!isAddToList(URL1)) {
 			mTasks.add(new LoadModelAsyncTask<User>(URL1, this,
 					User.MODEL_CREATOR) {
 
@@ -59,7 +72,7 @@ public class MultiSampleActivity extends MultiTaskActivity {
 				}
 			});
 		}
-		if (!addToList(URL2)) {
+		if (!isAddToList(URL2)) {
 			mTasks.add(new LoadArrayModelAsyncTask<Other>(URL2, this,
 					Other.MODEL_CREATOR));
 		}
@@ -72,6 +85,11 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	@Override
 	protected void success(Intent intent) {
+		if (isAsynkTaskResult(URL1, intent)) {
+			
+		} else if (isAsynkTaskResult(URL2, intent)) {
+			
+		}
 		User user = (User) sucessResult(intent, URL1);
 		List<Other> other = (List<Other>) sucessResult(intent, URL2);
 

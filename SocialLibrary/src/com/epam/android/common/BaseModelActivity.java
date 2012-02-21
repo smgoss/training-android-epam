@@ -15,7 +15,8 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 
 	@Override
 	public void setTasks() {
-		if (!addToList(getUrl())) {
+		if (!isAddToList(getUrl())) {
+			//TODO add method addTask
 			mTasks.add(new LoadModelAsyncTask<B>(getUrl(), this));
 		}
 	}

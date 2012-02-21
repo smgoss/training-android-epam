@@ -22,7 +22,7 @@ public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 
 	@Override
 	public void setTasks() {
-		if (!addToList(getUrl())) {
+		if (!isAddToList(getUrl())) {
 			mTasks.add(new LoadModelAsyncTask<User>(URL,
 					TestAsyncTaskActivity.this) {
 				@Override

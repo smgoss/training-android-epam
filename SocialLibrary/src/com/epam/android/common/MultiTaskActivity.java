@@ -8,6 +8,7 @@ import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.ITaskCreator;
 
+//TODO move logic to delegate activity
 public abstract class MultiTaskActivity extends DelegateActivity {
 
 	private static final String TAG = MultiTaskActivity.class.getName();
@@ -57,4 +58,32 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 			onTaskPostExecute(intent);
 		}
 	}
+
+	@Override
+	public void setTasks() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void success(Intent intent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//TODO read about it
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+	}
+	
+	
+	
 }

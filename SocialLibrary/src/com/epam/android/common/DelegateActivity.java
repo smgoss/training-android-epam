@@ -19,8 +19,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public abstract class DelegateActivity extends Activity implements IDelegate,
-		OnCancelListener {
+public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private static final String TAG = DelegateActivity.class.getSimpleName();
 
@@ -29,13 +28,16 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	private static final String MSG = "Loading...";
 
 	private BroadcastReceiver receiver;
-
+	
+	//TODO private and gets 
 	protected AsyncTaskManager mAsyncTaskManager;
-
+	//TODO private and gets 
 	protected ProgressDialog mProgressDialog;
 
-	protected List<CommonAsyncTask> mTasks = new ArrayList<CommonAsyncTask>();;
+	//TODO private and gets 
+	protected List<CommonAsyncTask> mTasks = new ArrayList<CommonAsyncTask>();
 
+	@Override
 	public void showLoading() {
 
 		if (mProgressDialog == null) {
@@ -43,7 +45,13 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 			Log.d("dialog", "create" + this.toString());
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(true);
-			mProgressDialog.setOnCancelListener(this);
+			mProgressDialog.setOnCancelListener(new OnCancelListener() {
+				
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					finish();					
+				}
+			});
 		} else {
 			Log.d("dialog", "not null" + this.toString());
 		}
@@ -55,11 +63,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		}
 	}
 
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		finish();
-	}
-
 	public void showProgress(String textMessage) {
 		if (mProgressDialog == null) {
 			Log.d("dialog", "progress " + this.toString());
@@ -68,6 +71,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		mProgressDialog.setMessage(textMessage);
 	}
 
+	@Override
 	public void hideLoading() {
 		if (mProgressDialog != null && mProgressDialog.isShowing()
 				&& !isFinishing()  && this.getWindow() != null) {
@@ -81,17 +85,20 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 	}
 
 	@SuppressWarnings("rawtypes")
+	@Override
 	public void handleError(CommonAsyncTask task, Exception e) {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
 		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
 				Toast.LENGTH_LONG).show();
 	}
 
+	@Override
 	public Context getContext() {
 		return this;
 	}
 
 	@SuppressWarnings("rawtypes")
+	@Override
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
 		mAsyncTaskManager.addTask(this.getClass().getName(), task.getUrl(),
@@ -105,7 +112,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 
 	public abstract void setTasks();
 
-	protected boolean addToList(String url) {
+	protected boolean isAddToList(String url) {
 		if (mAsyncTaskManager.checkTask(this.getClass().getName(), url)) {
 			mTasks.add(mAsyncTaskManager
 					.getTask(this.getClass().getName(), url));
@@ -189,4 +196,8 @@ public abstract class DelegateActivity extends Activity implements IDelegate,
 		return null;
 	}
 
+	protected static boolean isAsynkTaskResult(String asynkTaskKey, Intent intent) {
+		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
+		return (taskKey.equals(asynkTaskKey));
+	}
 }
