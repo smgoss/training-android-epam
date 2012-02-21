@@ -23,13 +23,13 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 
 	@Override
 	protected void success(Intent intent) {
-		B result = (B) sucessResult(intent, getUrl());
-		if (result != null) {
-			success(result);
-		} else {
-			// TODO what if no result
-			Log.d(TAG, "Nothing to show");
-		}
+//		B result = (B) sucessResult(intent, getUrl());
+//		if (result != null) {
+//			success(result);
+//		} else {
+//			// TODO what if no result
+//			Log.d(TAG, "Nothing to show");
+//		}
 	}
 
 	protected abstract void success(B result);

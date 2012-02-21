@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,13 +29,13 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	private static final String MSG = "Loading...";
 
 	private BroadcastReceiver receiver;
-	
-	//TODO private and gets 
-	protected AsyncTaskManager mAsyncTaskManager;
-	//TODO private and gets 
+
+	// TODO private and gets
+	private AsyncTaskManager mAsyncTaskManager;
+	// TODO private and gets
 	protected ProgressDialog mProgressDialog;
 
-	//TODO private and gets 
+	// TODO private and gets
 	protected List<CommonAsyncTask> mTasks = new ArrayList<CommonAsyncTask>();
 
 	@Override
@@ -46,10 +47,10 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(true);
 			mProgressDialog.setOnCancelListener(new OnCancelListener() {
-				
+
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					finish();					
+					finish();
 				}
 			});
 		} else {
@@ -74,7 +75,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	@Override
 	public void hideLoading() {
 		if (mProgressDialog != null && mProgressDialog.isShowing()
-				&& !isFinishing()  && this.getWindow() != null) {
+				&& !isFinishing() && this.getWindow() != null) {
 			mProgressDialog.dismiss();
 			Log.d("dialog", "dismiss " + this.toString());
 			if (!mAsyncTaskManager.isLastTask(this)) {
@@ -121,6 +122,18 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 			return false;
 		}
 	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(getLayoutResource());
+		mAsyncTaskManager = AsyncTaskManager.get(this);
+		mAsyncTaskManager.addActivityTasks(this.getClass().getName());
+		mTasks.clear();
+		setTasks();
+	}
+
+	public abstract int getLayoutResource();
 
 	@Override
 	protected void onPause() {
@@ -170,8 +183,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		super.onResume();
 	}
 
-	protected abstract void success(Intent intent);
-
 	protected void onTaskPreExecute(Intent intent) {
 		showLoading();
 	}
@@ -185,19 +196,11 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		showProgress(intent.getStringExtra(CommonAsyncTask.TEXT));
 	}
 
-	protected Object sucessResult(Intent intent, String url) {
-		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
-		CommonAsyncTask task = mAsyncTaskManager.getTask(this.getClass()
-				.getName(), taskKey);
-		if (taskKey.equals(url)) {
-			return task.getResult();
-		}
+	protected abstract void success(Intent intent);
 
-		return null;
-	}
-
-	protected static boolean isAsynkTaskResult(String asynkTaskKey, Intent intent) {
+	protected static boolean isAsyncTaskResult(String asyncTaskKey,
+			Intent intent) {
 		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
-		return (taskKey.equals(asynkTaskKey));
+		return (taskKey.equals(asyncTaskKey));
 	}
 }

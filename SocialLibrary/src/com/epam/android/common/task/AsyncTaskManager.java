@@ -7,7 +7,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import com.epam.android.common.utils.GetSystemService;
 
