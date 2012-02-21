@@ -24,9 +24,7 @@ public abstract class MultiTaskActivity extends DelegateActivity {
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
 		mAsyncTaskManager.addActivityTasks(this.getClass().getName());
-		if (mTasks == null) {
-			mTasks = new ArrayList<CommonAsyncTask>();
-		}
+		mTasks.clear();
 		setTasks();
 	}
 

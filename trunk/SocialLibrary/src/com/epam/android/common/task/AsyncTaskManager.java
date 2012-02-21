@@ -23,14 +23,17 @@ public class AsyncTaskManager {
 	 */
 	private HashMap<String, HashMap<String, CommonAsyncTask>> mAsyncTaskActivity;
 
+	private HashMap<String, Runnable> mRunnableStorage;
+
 	private static final String TAG = AsyncTaskManager.class.getSimpleName();
 
 	private Handler mHandler;
-	
+
 	@SuppressWarnings("rawtypes")
 	public AsyncTaskManager() {
 		mAsyncTaskActivity = new HashMap<String, HashMap<String, CommonAsyncTask>>();
 		mHandler = new Handler();
+		mRunnableStorage = new HashMap<String, Runnable>();
 	}
 
 	public static AsyncTaskManager get(Context context) {
@@ -92,28 +95,28 @@ public class AsyncTaskManager {
 		Set<String> keys = getActivityTasks(activityKey).keySet();
 		Object[] arrayKeys = keys.toArray();
 		for (int i = 0; i < arrayKeys.length; i++) {
-			getTask(activityKey, (String) arrayKeys[i]).setToBeCancelled(b);
-			Log.d(TAG, (String) arrayKeys[i] + " " + b);
 			if (b) {
 				killTask(activityKey, (String) arrayKeys[i]);
+			} else {
+				mHandler.removeCallbacks(mRunnableStorage.get(activityKey
+						+ (String) arrayKeys[i]));
+				mRunnableStorage.remove(activityKey + (String) arrayKeys[i]);
 			}
 		}
 	}
 
-	
 	protected void killTask(final String activityKey, final String taskKey) {
 		// TODO read about handler
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				if (checkTask(activityKey, taskKey)
-						&& getTask(activityKey, taskKey).isToBeCancelled()) {
+				if (checkTask(activityKey, taskKey)) {
 					removeTask(activityKey, taskKey);
 				}
-				//TODO remove from runnable storage
+				mRunnableStorage.remove(activityKey + taskKey);
 			}
 		};
+		mRunnableStorage.put(activityKey + taskKey, runnable);
 		mHandler.postDelayed(runnable, DelegateActivity.TASK_LIFETIME);
-		//TODO mHandler.removeCallbacks(runnable);
 	}
 }

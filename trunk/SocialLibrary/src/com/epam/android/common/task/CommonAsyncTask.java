@@ -35,24 +35,10 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	
 	private T mResult;
 
-	// private String mKey;
-
-	private boolean mToBeCancelled;
-
-	public boolean isToBeCancelled() {
-		return mToBeCancelled;
-	}
-
-	public void setToBeCancelled(boolean toBeCancelled) {
-		this.mToBeCancelled = toBeCancelled;
-	}
-
 	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
 		this.mDelegate = delegate;
 		this.mUrl = url;
-		// this.mKey = this.mDelegate.getKey();
-		this.mToBeCancelled = false;
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.epam.android.common.MultiTaskActivity;
-import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.adapter.MultiModelListAdapter;
@@ -28,8 +27,6 @@ public class MultiSampleActivity extends MultiTaskActivity {
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
 	public void setTasks() {
-		mTasks.clear();
-
 		if (!addToList(URL1)) {
 			mTasks.add(new LoadModelAsyncTask<User>(URL1, this,
 					User.MODEL_CREATOR) {
