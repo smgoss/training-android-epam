@@ -16,7 +16,7 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 	public abstract String getUrl();
 
 	public void setTasks() {
-		if (!addToList(getUrl())) {
+		if (!isAddToList(getUrl())) {
 			mTasks.add(new LoadArrayModelAsyncTask<B>(getUrl(), this));
 		}
 	}

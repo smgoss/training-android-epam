@@ -67,10 +67,16 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	@Override
 	protected void onPostExecute(T result) {
 		super.onPostExecute(result);
+		this.mResult = result;
+		sendResult();
+	}
+
+	public void sendResult() {
 		if (e == null) {
-			this.mResult = result;
+			//TODO put result to intent
 			sendNotification(ON_POST_EXECUTE);
 		} else {
+			//TODO send notification
 			mDelegate.handleError(this, e);
 		}
 	}
