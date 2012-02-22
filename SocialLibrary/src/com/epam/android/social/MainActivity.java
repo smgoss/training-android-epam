@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.annotation.Tag;
+import com.epam.android.layouts.MyLayoutActivity;
 import com.epam.android.social.model.Item;
 import com.epam.android.social.model.User;
 
@@ -90,6 +91,10 @@ public class MainActivity extends Activity {
 	
 	public void onMultiSampleButtonClick(View view) {
 		startActivity(new Intent(this, MultiSampleActivity.class));
+	}
+	
+	public void onMyLayoutButtonClick(View view) {
+		startActivity(new Intent(this, MyLayoutActivity.class));
 	}
 
 	private boolean isOnline() {
