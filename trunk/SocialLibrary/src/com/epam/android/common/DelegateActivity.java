@@ -147,7 +147,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 	@Override
 	protected void onPause() {
 		Log.d(TAG, "onPause");
-
+		// TODO check receiver
 		unregisterReceiver(receiver);
 		super.onPause();
 	}

@@ -1,17 +1,25 @@
 package com.epam.android.layouts;
 
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import com.epam.android.common.utils.JsonModelConverter;
 import com.epam.android.social.R;
+import com.epam.android.social.model.Other;
 
 public class TabsActivity extends TabActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_layout_tabs);
+	
 
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost(); // The activity TabHost
@@ -22,18 +30,18 @@ public class TabsActivity extends TabActivity {
 		intent = new Intent().setClass(this, FirstTabActivity.class);
 
 		// Initialize a TabSpec for each tab and add it to the TabHost
-		spec = tabHost.newTabSpec("artists").setIndicator("Artists", null)
+		spec = tabHost.newTabSpec("tab1").setIndicator("TAB1", null)
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
 		intent = new Intent().setClass(this, SecondTabActivity.class);
-		spec = tabHost.newTabSpec("albums").setIndicator("Albums", null)
+		spec = tabHost.newTabSpec("tab2").setIndicator("TAB2", null)
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, ThirdTabActivity.class);
-		spec = tabHost.newTabSpec("songs").setIndicator("Songs", null)
+		spec = tabHost.newTabSpec("tab3").setIndicator("TAB3", null)
 				.setContent(intent);
 		tabHost.addTab(spec);
 

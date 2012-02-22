@@ -5,10 +5,19 @@
     android:layout_height="fill_parent" >
 
     <Button
-        android:id="@+id/button1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="onTabsButtonClick"
         android:text="Tabs" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onToastButtonClick"
+        android:text="Toast" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onProgressButtonClick"
+        android:text="ProgressDialog" />
 
 </LinearLayout>
