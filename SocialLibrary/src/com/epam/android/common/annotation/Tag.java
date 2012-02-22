@@ -3,8 +3,10 @@ package com.epam.android.common.annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import com.epam.android.common.model.JSON;
+
 @Retention(RetentionPolicy.RUNTIME) 
 public @interface Tag {
 	String[] keys();
-	String[] types();
+	JSON [] types();
 }
