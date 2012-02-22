@@ -28,6 +28,7 @@
         <activity android:name=".TestAsyncTaskActivity" />
         <activity android:name=".TestListViewActivity" />
         <activity android:name=".MultiSampleActivity" />
+        <activity android:name="com.epam.android.layouts.MyLayoutActivity" />
     </application>
 
 </manifest>
