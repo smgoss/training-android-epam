@@ -26,23 +26,15 @@ public class MyLayoutActivity extends Activity {
 		List<View> pages = new ArrayList<View>();
 
 		View page = inflater.inflate(R.layout.my_layout, null);
-		TextView textView = (TextView) page.findViewById(R.id.text_view);
-		textView.setText("Страница");
 		pages.add(page);
 
 		page = inflater.inflate(R.layout.my_layout_left, null);
-		textView = (TextView) page.findViewById(R.id.text_view);
-		textView.setText("Страница left");
 		pages.add(page);
 
 		page = inflater.inflate(R.layout.my_layout_main, null);
-		textView = (TextView) page.findViewById(R.id.text_view);
-		textView.setText("Страница main");
 		pages.add(page);
 
 		page = inflater.inflate(R.layout.my_layout_right, null);
-		textView = (TextView) page.findViewById(R.id.text_view);
-		textView.setText("Страница right");
 		pages.add(page);
 
 		CommonPagerAdapter pagerAdapter = new CommonPagerAdapter(pages);
