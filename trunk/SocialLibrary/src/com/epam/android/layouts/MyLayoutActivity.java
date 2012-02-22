@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.epam.android.social.ModelSampleActivity;
@@ -22,6 +24,7 @@ public class MyLayoutActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		LayoutInflater inflater = LayoutInflater.from(this);
 		List<View> pages = new ArrayList<View>();
 
@@ -48,9 +51,11 @@ public class MyLayoutActivity extends Activity {
 	public void onFirstButtonClick(View view) {
 		viewPager.setCurrentItem(0);
 	}
+
 	public void onLeftButtonClick(View view) {
 		viewPager.setCurrentItem(1);
 	}
+
 	public void onRightButtonClick(View view) {
 		viewPager.setCurrentItem(3);
 	}
@@ -58,5 +63,10 @@ public class MyLayoutActivity extends Activity {
 	public void onOtherButtonClick(View view) {
 		// Intent intent = new Intent(this, OtherActivity.class);
 		// startActivity(intent);
+	}
+	
+	public void onTabsButtonClick(View view) {
+		 Intent intent = new Intent(this, TabsActivity.class);
+		 startActivity(intent);
 	}
 }
