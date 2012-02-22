@@ -7,14 +7,16 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.epam.android.common.annotation.Tag;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
+import com.epam.android.common.model.JSON;
 
 
 //http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml
-@Tag(keys="items", types="jsonobject")
+@Tag(keys = "item", types = JSON.JSONArray)
 public class Item extends BaseModel {
 
 	@SuppressWarnings("unused")
@@ -54,189 +56,133 @@ public class Item extends BaseModel {
 	public Item(String json) {
 		super(json);
 	}
+		
+	private JSONObject getMediaGroup(){
+		return getJSONObject("media:group");
+	}
 	
-	private JSONObject getItem(int i){
+	
+	public String getTitle(){
+		return getString("title");
+	}
+	
+	public String getLink() {
+		return getString("link");
+	}
+	
+	public String getKeywords(){
 		try {
+			return getMediaGroup().getString("media:keywords");
+		} catch (JSONException e) {
+			Log.e(TAG, "get keywords error", e);
+		}
+		return "";
+	}
+	
+	
+	
+	public String getCopiright(){
+		try {
+			return getMediaGroup().getString("media:copyright");
+		} catch (JSONException e) {
+			Log.e(TAG, "get copyright error", e);
+		}
+		return "";
+	}
+	
+	public String getMediaTitle(){
+		try {
+			return getMediaGroup().getString("media:title");
+		} catch (JSONException e) {
+			Log.e(TAG, "get title error", e);
+		}
+		return "";
+	}
+	
+	public String getThumbnail(){
+		try {
+			return getMediaGroup().getJSONObject("media:thumbnail").getString("url");
 			
-			return getJSONObject().getJSONObject("rss").getJSONObject("channel").getJSONArray("item").getJSONObject(i);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get thumbnail url error", e);
 		}
-		return null;
+		return "";
 	}
 	
-	private JSONObject getMediaGroup(int i){
+	public String getMedia(){
 		try {
-			return getItem(i).getJSONObject("media:group");
+			return getMediaGroup().getString("xmlns:media");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get media error", e);
 		}
-		return null;
+		return "";
 	}
 	
-	public int getLength(){
+	public String getMediaDuration(){
 		try {
-			return getJSONObject().getJSONObject("rss").getJSONObject("channel").getJSONArray("item").length();
+			return getMediaGroup().getString("media:duration");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get duration error", e);
+		}
+		return "";
+	}
+	
+	public int getCategoryLength(){
+		try {
+			return getMediaGroup().getJSONArray("media:category").length();
+		} catch (JSONException e) {
+			Log.e(TAG, "get category length error", e);
 		}
 		return 0;
 	}
 	
-	
-	
-	public String getTitle(int i){
+	public String getCategorySchema(int i){
 		try {
-			return getItem(i).getString("title");
+			if(!getMediaGroup().getJSONArray("media:category").getJSONObject(i)
+					.isNull("schema"))
+			return getMediaGroup().getJSONArray("media:category").getJSONObject(i).getString("schema");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get category schema error", e);
 		}
-		return null;
+		return "";
 	}
 	
-	public String getLink(int i){
+	public String getCategory(int i) {
 		try {
-			return getItem(i).getString("link");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getKeywords(int i){
-		try {
-			return getMediaGroup(i).getString("media:keywords");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	
-	public String getCopiright(int i){
-		try {
-			return getMediaGroup(i).getString("media:copyright");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getMediaTitle(int i){
-		try {
-			return getMediaGroup(i).getString("media:title");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getThumbnail(int i){
-		try {
-			return getMediaGroup(i).getJSONObject("media:thumbnail").getString("url");
+			if (!getMediaGroup().getJSONArray("media:category").getJSONObject(i)
+					.isNull("content")) {
+				return getMediaGroup().getJSONArray("media:category")
+						.getJSONObject(i).getString("content");
+			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get category error", e);
 		}
-		return null;
+		return "";
 	}
 	
-	public String getMedia(int i){
-		try {
-			return getMediaGroup(i).getString("xmlns:media");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public Date getPubDate(){
+		return new Date(getString("pubDate"));
 	}
 	
-	public String getMediaDuration(int i){
-		try {
-			return getMediaGroup(i).getString("media:duration");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public String getDescription(){
+		return getString("description");
 	}
 	
-	public int getCategoryLength(int currentItem){
+	public String getGuid(){
 		try {
-			return getMediaGroup(currentItem).getJSONArray("media:category").length();
+			return getJSONObject("guid").getString("content");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get guid error", e);
 		}
-		return 0;
+		return "";
 	}
 	
-	public String getCategorySchmema(int currentItem,int currentCategory){
+	public Boolean getGuidIsPermaLink(){
 		try {
-			return getMediaGroup(currentItem).getJSONArray("media:category").getJSONObject(currentCategory).getString("schema");
+			return getJSONObject("guid").getBoolean("isPermaLink");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getCategory(int currentItem,int currentCategory){
-		try {
-			return getMediaGroup(currentItem).getJSONArray("media:category").getJSONObject(currentCategory).getString("content");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public Date getPubDate(int i){
-		try {
-			return new Date(getItem(i).getString("pubDate"));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getDescription(int i){
-		try {
-			return getItem(i).getString("description");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public String getGuid(int i){
-		try {
-			return getItem(i).getJSONObject("guid").getString("content");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public Boolean getGuidIsPermaLink(int i){
-		try {
-			return getItem(i).getJSONObject("guid").getBoolean("isPermaLink");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "get guid is perma link error", e);
 		}
 		
 		return false;
