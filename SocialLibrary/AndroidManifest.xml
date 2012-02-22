@@ -29,6 +29,10 @@
         <activity android:name=".TestListViewActivity" />
         <activity android:name=".MultiSampleActivity" />
         <activity android:name="com.epam.android.layouts.MyLayoutActivity" />
+        <activity android:name="com.epam.android.layouts.TabsActivity" />
+        <activity android:name="com.epam.android.layouts.FirstTabActivity" />
+        <activity android:name="com.epam.android.layouts.SecondTabActivity" />
+        <activity android:name="com.epam.android.layouts.ThirdTabActivity" />
     </application>
 
 </manifest>

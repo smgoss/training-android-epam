@@ -36,4 +36,7 @@ public class CommonPagerAdapter extends PagerAdapter {
 		((ViewPager) collection).removeView((View) view);
 	}
 
+	
+	
+
 }
