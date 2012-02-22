@@ -16,7 +16,7 @@ import com.epam.android.common.model.JSON;
 
 
 //http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml
-@Tag(keys = "item", types = JSON.JSONArray)
+@Tag(keys = {"rss", "channel"}, types = {JSON.JSONObject, JSON.JSONObject})
 public class Item extends BaseModel {
 
 	@SuppressWarnings("unused")
