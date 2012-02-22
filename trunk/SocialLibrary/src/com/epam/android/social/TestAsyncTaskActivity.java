@@ -21,37 +21,34 @@ public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 			.getSimpleName();
 
 	@Override
-	public void setTasks() {
-		if (!isAddToList(getUrl())) {
-			mTasks.add(new LoadModelAsyncTask<User>(URL,
-					TestAsyncTaskActivity.this) {
-				@Override
-				protected User doInBackground(String... params) {
-					try {
-						for (int i = 10; i > 0; --i) {
-							if (isCancelled()) {
-								return null;
-							}
-							try {
-								publishProgress(TestAsyncTaskActivity.this
-										.getString(R.string.task_working, i));
-								Thread.sleep(1000);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								return null;
-							}
+	public void startTasks() {
+		executeActivityTasks(new LoadModelAsyncTask<User>(URL,
+				TestAsyncTaskActivity.this) {
+			@Override
+			protected User doInBackground(String... params) {
+				try {
+					for (int i = 10; i > 0; --i) {
+						if (isCancelled()) {
+							return null;
 						}
-						publishProgress("Loading from http");
-						return load();
-					} catch (IOException e) {
-						return null;
-					} catch (JSONException e1) {
-						return null;
+						try {
+							publishProgress(TestAsyncTaskActivity.this
+									.getString(R.string.task_working, i));
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							return null;
+						}
 					}
+					publishProgress("Loading from http");
+					return load();
+				} catch (IOException e) {
+					return null;
+				} catch (JSONException e1) {
+					return null;
 				}
-			});
-
-		}
+			}
+		});
 
 	}
 

@@ -1,6 +1,9 @@
 package com.epam.android.common.task;
 
+import java.util.List;
+
 import android.content.Context;
+import android.content.Intent;
 
 public interface IDelegate {
 
@@ -16,6 +19,13 @@ public interface IDelegate {
 	Context getContext();
 
 	void executeTask(ITaskCreator taskCreator);
+
+	void startTasks();
+
+	void success(Intent intent);
+
+
+
 
 
 }

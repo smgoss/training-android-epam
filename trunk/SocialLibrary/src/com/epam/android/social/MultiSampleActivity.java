@@ -7,9 +7,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.epam.android.common.MultiTaskActivity;
-import com.epam.android.common.task.AbstractTaskCreator;
+import com.epam.android.common.DelegateActivity;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadArrayModelAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
@@ -18,7 +18,7 @@ import com.epam.android.social.model.Other;
 import com.epam.android.social.model.User;
 import com.google.android.imageloader.ImageLoader;
 
-public class MultiSampleActivity extends MultiTaskActivity {
+public class MultiSampleActivity extends DelegateActivity {
 
 	private ListView mListView;
 
@@ -28,11 +28,10 @@ public class MultiSampleActivity extends MultiTaskActivity {
 
 	private static final String TAG = MultiSampleActivity.class.getSimpleName();
 
-	public void setTasks() {
+	public void startTasks() {
 
-		executeAsyncTask(new LoadModelAsyncTask<User>(URL1, this,
+		executeActivityTasks(new LoadModelAsyncTask<User>(URL1, this,
 				User.MODEL_CREATOR) {
-
 			@Override
 			protected User doInBackground(String... params) {
 				for (int i = 10; i > 0; --i) {
@@ -52,9 +51,8 @@ public class MultiSampleActivity extends MultiTaskActivity {
 			}
 		});
 
-		executeAsyncTask(new LoadArrayModelAsyncTask<Other>(URL2, this,
+		executeActivityTasks(new LoadArrayModelAsyncTask<Other>(URL2, this,
 				Other.MODEL_CREATOR));
-		
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class MultiSampleActivity extends MultiTaskActivity {
 	}
 
 	@Override
-	protected void success(Intent intent) {
+	public void success(Intent intent) {
 		if (isAsyncTaskResult(URL1, intent)) {
 			User user = intent.getParcelableExtra(CommonAsyncTask.RESULT);
 
@@ -83,7 +81,7 @@ public class MultiSampleActivity extends MultiTaskActivity {
 					other));
 
 		} else {
-			// TODO what if no result
+			Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT);
 			Log.d(TAG, "Nothing to show");
 		}
 	}

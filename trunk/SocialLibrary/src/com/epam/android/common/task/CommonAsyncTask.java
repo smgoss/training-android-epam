@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
-import com.epam.android.common.model.BaseModel;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -19,6 +17,10 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	public static final String ON_POST_EXECUTE = "onPostExecute";
 
 	public static final String ON_PROGRESS_UPDATE = "onProgressUpdate";
+	
+	public static final String ON_ERROR = "onError";
+	
+	public static final String ERROR = "error";
 
 	public static final String TEXT = "text";
 
@@ -51,11 +53,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	@Override
 	protected T doInBackground(String... params) {
 		try {
-
-			Log.d(TAG, "back");
-			publishProgress("Loading from http");
-			Log.d(TAG, load().toString());
-
 			return load();
 		} catch (IOException e) {
 			this.e = e;
@@ -63,7 +60,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 			return null;
 		} catch (JSONException e1) {
 			this.e = e1;
-			Log.e(TAG, "crash during loading data", e1);
+			Log.e(TAG, "crash during converting data", e1);
 			return null;
 		}
 	}
@@ -77,15 +74,12 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	public void sendResult() {
 		if (e == null) {
-			//TODO put result to intent
 			sendNotification(ON_POST_EXECUTE, mResult);
 		} else {
-			//TODO send notification
-			mDelegate.handleError(this, e);
+			sendNotification(ON_ERROR, e);
 		}
 	}
 
-	
 	@Override
 	protected void onProgressUpdate(String... values) {
 		sendNotification(ON_PROGRESS_UPDATE, values[0]);
@@ -127,6 +121,12 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	protected void sendNotification(String event, T result) {
 		Intent broadcast = createDefaultBroadcast(event);
 		initIntentResult(broadcast, result);
+		mDelegate.getContext().sendBroadcast(broadcast);
+	}
+	
+	private void sendNotification(String event, Exception e2) {
+		Intent broadcast = createDefaultBroadcast(event);
+		broadcast.putExtra(ERROR, e2);
 		mDelegate.getContext().sendBroadcast(broadcast);
 	}
 
