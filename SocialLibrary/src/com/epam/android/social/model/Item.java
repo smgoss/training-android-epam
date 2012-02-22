@@ -9,14 +9,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.epam.android.common.annotation.JSON;
 import com.epam.android.common.annotation.Tag;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
-import com.epam.android.common.model.JSON;
 
 
 //http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml
-@Tag(keys = {"rss", "channel"}, types = {JSON.JSONObject, JSON.JSONObject})
+@Tag(keys = {"rss", "channel","item"}, types = {JSON.JSONObject, JSON.JSONObject, JSON.JSONArray})
 public class Item extends BaseModel {
 
 	@SuppressWarnings("unused")
@@ -78,8 +78,6 @@ public class Item extends BaseModel {
 		}
 		return "";
 	}
-	
-	
 	
 	public String getCopiright(){
 		try {
