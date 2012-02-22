@@ -3,80 +3,93 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="PersonalName"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/editText1"
-        android:hint="text"
+
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
 
-        <requestFocus />
-    </EditText>
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="password"
-        android:inputType="textPassword" />
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="PersonalName"
+                android:inputType="textPersonName" />
 
-    <EditText
-            android:id="@+id/editText5"
-       android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="email"
-        android:inputType="textEmailAddress" />
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="text" >
 
-    <EditText
-        android:id="@+id/editText6"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="phone"
-        android:inputType="phone" />
+                <requestFocus />
+            </EditText>
 
-    <EditText
-        android:id="@+id/editText7"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="postalAddress"
-        android:inputType="textPostalAddress" />
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="password"
+                android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/editText8"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="Date"
-        android:inputType="date" />
+            <EditText
+                android:id="@+id/editText5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="email"
+                android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/editText9"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="time"
-        android:inputType="time" />
+            <EditText
+                android:id="@+id/editText6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="phone"
+                android:inputType="phone" />
 
-    <EditText
-        android:id="@+id/editText10"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="multiline"
-        android:minLines="2"
-        android:inputType="textMultiLine" />
- 
+            <EditText
+                android:id="@+id/editText7"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="postalAddress"
+                android:inputType="textPostalAddress" />
+
+            <EditText
+                android:id="@+id/editText8"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Date"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/editText9"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="time"
+                android:inputType="time" />
+
+            <EditText
+                android:id="@+id/editText10"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="multiline"
+                android:inputType="textMultiLine"
+                android:minLines="2" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
