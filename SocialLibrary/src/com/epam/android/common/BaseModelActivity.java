@@ -2,34 +2,34 @@ package com.epam.android.common;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
 
 public abstract class BaseModelActivity<B extends BaseModel> extends
-		MultiTaskActivity {
+		DelegateActivity {
 
 	private static final String TAG = BaseModelActivity.class.getName();
 
 	public abstract String getUrl();
 
 	@Override
-	public void setTasks() {
-		if (!isAddToList(getUrl())) {
-			//TODO add method addTask
-			mTasks.add(new LoadModelAsyncTask<B>(getUrl(), this));
-		}
+	public void startTasks() {
+		executeActivityTasks(new LoadModelAsyncTask<B>(getUrl(), this));
+
 	}
 
 	@Override
-	protected void success(Intent intent) {
-//		B result = (B) sucessResult(intent, getUrl());
-//		if (result != null) {
-//			success(result);
-//		} else {
-//			// TODO what if no result
-//			Log.d(TAG, "Nothing to show");
-//		}
+	public void success(Intent intent) {
+		if (isAsyncTaskResult(getUrl(), intent)) {
+			B result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
+			success(result);
+		} else {
+			Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT);
+			Log.d(TAG, "Nothing to show");
+		}
 	}
 
 	protected abstract void success(B result);

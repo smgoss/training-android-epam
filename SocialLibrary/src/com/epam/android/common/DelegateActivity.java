@@ -1,8 +1,5 @@
 package com.epam.android.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -11,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,13 +28,17 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 
 	private BroadcastReceiver receiver;
 
-	// TODO private and gets
 	private AsyncTaskManager mAsyncTaskManager;
-	// TODO private and gets
-	protected ProgressDialog mProgressDialog;
 
-	// TODO private and gets
-	protected List<CommonAsyncTask> mTasks = new ArrayList<CommonAsyncTask>();
+	private ProgressDialog mProgressDialog;
+
+	public ProgressDialog getProgressDialog() {
+		return mProgressDialog;
+	}
+
+	public void setProgressDialog(ProgressDialog mProgressDialog) {
+		this.mProgressDialog = mProgressDialog;
+	}
 
 	@Override
 	public void showLoading() {
@@ -64,6 +66,7 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		}
 	}
 
+	@Override
 	public void showProgress(String textMessage) {
 		if (mProgressDialog == null) {
 			Log.d("dialog", "progress " + this.toString());
@@ -85,7 +88,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleError(CommonAsyncTask task, Exception e) {
 		Log.e(TAG, "http client err: " + e.getMessage(), e);
@@ -98,7 +100,6 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		return this;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
@@ -107,55 +108,66 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 		task.start();
 	}
 
-	public List<CommonAsyncTask> getTasks() {
-		return mTasks;
+	protected void executeActivityTasks(final CommonAsyncTask task) {
+
+		if (mAsyncTaskManager.checkTask(this.getClass().getName(),
+				task.getUrl())) {
+			getResult(mAsyncTaskManager.getTask(this.getClass().getName(),
+					task.getUrl()));
+		} else {
+			executeTask(new ITaskCreator() {
+				public CommonAsyncTask create() {
+					return task;
+				}
+			});
+		}
 	}
 
-	public abstract void setTasks();
-
-	protected boolean isAddToList(String url) {
-		if (mAsyncTaskManager.checkTask(this.getClass().getName(), url)) {
-			mTasks.add(mAsyncTaskManager
-					.getTask(this.getClass().getName(), url));
-			return true;
-		} else {
-			return false;
+	private void getResult(CommonAsyncTask task) {
+		if (task.getStatus().equals(AsyncTask.Status.RUNNING)) {
+			showLoading();
+		} else if (task.getStatus().equals(AsyncTask.Status.FINISHED)) {
+			task.sendResult();
 		}
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "onCreate");
+
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResource());
 		mAsyncTaskManager = AsyncTaskManager.get(this);
 		mAsyncTaskManager.addActivityTasks(this.getClass().getName());
-		mTasks.clear();
-		setTasks();
+
 	}
 
 	public abstract int getLayoutResource();
 
 	@Override
 	protected void onPause() {
+		Log.d(TAG, "onPause");
+
 		unregisterReceiver(receiver);
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
+		Log.d(TAG, "onDestroy");
+
 		mAsyncTaskManager.setDeleteStatus(true, this);
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
-		if (!mAsyncTaskManager.isLastTask(this)) {
-			showLoading();
-		}
+		Log.d(TAG, "onResume");
 
 		mAsyncTaskManager.setDeleteStatus(false, this);
 
 		IntentFilter filter = new IntentFilter();
+		filter.addAction(CommonAsyncTask.ON_ERROR);
 		filter.addAction(CommonAsyncTask.ON_PRE_EXECUTE);
 		filter.addAction(CommonAsyncTask.ON_POST_EXECUTE);
 		filter.addAction(CommonAsyncTask.ON_PROGRESS_UPDATE);
@@ -174,33 +186,66 @@ public abstract class DelegateActivity extends Activity implements IDelegate {
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
 						onTaskProgressUpdate(intent);
+					} else if (intent.getAction().equals(
+							CommonAsyncTask.ON_ERROR)) {
+						onTaskError(intent);
 					}
 				}
 			}
 		};
 
 		registerReceiver(receiver, filter);
+		startTasks();
 		super.onResume();
+	}
+
+	@Override
+	public abstract void startTasks();
+
+	protected void onTaskError(Intent intent) {
+		hideLoading();
+		handleError((Exception) intent
+				.getSerializableExtra(CommonAsyncTask.ERROR));
+	}
+
+	public void handleError(Exception e) {
+		Log.e(TAG, "http client err: " + e.getMessage(), e);
+		Toast.makeText(getContext(), "http client err: " + e.getMessage(),
+				Toast.LENGTH_LONG).show();
 	}
 
 	protected void onTaskPreExecute(Intent intent) {
 		showLoading();
 	}
 
-	protected void onTaskPostExecute(Intent intent) {
+	public void onTaskPostExecute(Intent intent) {
 		hideLoading();
 		success(intent);
 	}
 
-	protected void onTaskProgressUpdate(Intent intent) {
+	public void onTaskProgressUpdate(Intent intent) {
 		showProgress(intent.getStringExtra(CommonAsyncTask.TEXT));
 	}
 
-	protected abstract void success(Intent intent);
+	@Override
+	public abstract void success(Intent intent);
 
 	protected static boolean isAsyncTaskResult(String asyncTaskKey,
 			Intent intent) {
 		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
 		return (taskKey.equals(asyncTaskKey));
+	}
+
+	// TODO read about onRestoreInstanceState
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d(TAG, "onRestoreInstanseState");
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG, "onSaveInstanseState");
+		super.onSaveInstanceState(outState);
 	}
 }
