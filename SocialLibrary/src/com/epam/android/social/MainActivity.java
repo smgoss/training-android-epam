@@ -50,34 +50,9 @@ public class MainActivity extends Activity {
 
 	public void onParseXMLtoJSONButtonClick(View view)
 			throws ClientProtocolException, JSONException, IOException {
-		Loader loader = Loader.get(this);
-		loader.createJsonFromXml("http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml");
-		List<Item> item = loader
-				.loadArrayModelFromXmlByAnnotation(
-						"http://partners.mtvnservices.com/dextr/partner/wireless/daily_show_most_popular_videos_changed/full.xml",
-						Item.MODEL_CREATOR);
 		
-		for(int i = 0; i < item.size(); i++){
-			Log.d(TAG, item.get(i).getCopiright());
-			Log.d(TAG, item.get(i).getDescription());
-			Log.d(TAG, item.get(i).getGuid());
-			Log.d(TAG, item.get(i).getKeywords());
-			Log.d(TAG, item.get(i).getLink());
-			Log.d(TAG, item.get(i).getMedia());
-			Log.d(TAG, item.get(i).getMediaDuration());
-			Log.d(TAG, item.get(i).getMediaTitle());
-			Log.d(TAG, item.get(i).getThumbnail());
-			Log.d(TAG, item.get(i).getTitle());
-			Log.d(TAG, "" + item.get(i).getCategoryLength());
-			Log.d(TAG, "" + item.get(i).getGuidIsPermaLink());
-			Log.d(TAG, "" + item.get(i).getPubDate());
-			for (int j = 0; j < item.get(i).getCategoryLength(); j++) {
-				Log.d(TAG, "i=" + i + " j=" + j);
-				Log.d(TAG, item.get(i).getCategory(j));
-				Log.d(TAG, item.get(i).getCategorySchema(j));
-			}
-		}
-		
+		Intent intent = new Intent(this, ArrayModelFromXMLSampleActivity.class);
+		startActivity(intent);
 	}
 
 	public void onRunAsynkTaskButtonClick(View view) {
@@ -93,10 +68,11 @@ public class MainActivity extends Activity {
 		startActivity(new Intent(this, MultiSampleActivity.class));
 	}
 	
-	public void onMyLayoutButtonClick(View view) {
+	
+	public void onMyLayoutButtonClick(View view){
 		startActivity(new Intent(this, MyLayoutActivity.class));
 	}
-
+	
 	private boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
