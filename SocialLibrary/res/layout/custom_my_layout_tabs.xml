@@ -4,6 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_actionbar" />
+
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
