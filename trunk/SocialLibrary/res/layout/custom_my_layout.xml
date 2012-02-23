@@ -3,7 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_actionbar" />
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
@@ -13,7 +16,8 @@
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
             <EditText
                 android:id="@+id/editText2"
