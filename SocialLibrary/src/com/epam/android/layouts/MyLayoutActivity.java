@@ -11,19 +11,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.epam.android.social.ModelSampleActivity;
 import com.epam.android.social.R;
-import com.epam.android.layouts.CommonPagerAdapter;
 
 public class MyLayoutActivity extends Activity {
 
@@ -69,8 +64,8 @@ public class MyLayoutActivity extends Activity {
 	}
 
 	public void onOtherButtonClick(View view) {
-		// Intent intent = new Intent(this, OtherActivity.class);
-		// startActivity(intent);
+		Intent intent = new Intent(this, OtherActivity.class);
+		startActivity(intent);
 	}
 
 	public void onTabsButtonClick(View view) {
