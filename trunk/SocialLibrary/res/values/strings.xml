@@ -11,6 +11,8 @@
     <string name="test_asynctask_text">Testing Asynctask</string>
     <string name="test_multi_task">Testing MultiTask</string>
     <string name="my_layout">My layout</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
     
     
     <string name="task_working">Working (%1$d)</string>
