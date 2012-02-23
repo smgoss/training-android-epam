@@ -55,7 +55,7 @@ public class Loader {
 	}
 	
 	
-	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, IOException {
+	private JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, IOException {
 		return XML.toJSONObject(mHttpClient.execute(new HttpGet(url)));
 		
 	}

@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".ModelSampleActivity" />
         <activity android:name=".ArrayModelSampleActivity" />
+        <activity android:name=".ArrayModelFromXMLSampleActivity" />
         <activity android:name=".TestAsyncTaskActivity" />
         <activity android:name=".TestListViewActivity" />
         <activity android:name=".MultiSampleActivity" />
