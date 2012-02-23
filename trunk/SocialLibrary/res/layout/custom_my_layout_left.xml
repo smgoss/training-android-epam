@@ -4,6 +4,17 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_actionbar" />
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/page0" />
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
@@ -53,30 +64,29 @@
                     android:text="Button" />
             </LinearLayout>
 
- <LinearLayout
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:orientation="horizontal" >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-     <Button
-         android:id="@+id/button5"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="Button" />
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Button" />
 
-     <ImageButton
-         android:id="@+id/imageButton1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:src="@drawable/ic_launcher" />
-
-     <ImageButton
-         android:id="@+id/imageButton2"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:src="@drawable/list_item_focused" />
+                <ImageButton
+                    android:id="@+id/imageButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_launcher" />
 
- </LinearLayout>
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/list_item_focused" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -175,7 +185,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
+
             <ProgressBar
                 android:id="@+id/progressBar4"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -202,8 +212,8 @@
                 <RadioGroup
                     android:id="@+id/radioGroup1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
 
                     <RadioButton
                         android:id="@+id/radio0"

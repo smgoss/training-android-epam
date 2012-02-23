@@ -17,7 +17,7 @@ public class FirstTabActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.first_tab_layout);
+		setContentView(R.layout.custom_first_tab_layout);
 		List<Other> mList = null;
 		try {
 			JSONArray array = new JSONArray(
@@ -32,6 +32,6 @@ public class FirstTabActivity extends Activity {
 		
 		ListView mListView = (ListView) findViewById(R.id.listView1);
 		mListView.setAdapter(new List1Adapter(
-				FirstTabActivity.this, R.layout.list1_item, mList));
+				FirstTabActivity.this, R.layout.custom_list1_item, mList));
 	}
 }

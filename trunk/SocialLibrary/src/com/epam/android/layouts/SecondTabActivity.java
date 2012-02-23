@@ -16,7 +16,7 @@ import com.epam.android.social.model.Other;
 public class SecondTabActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.second_tab_layout);
+		setContentView(R.layout.custom_second_tab_layout);
 		List<Other> mList = null;
 		try {
 			JSONArray array = new JSONArray(
@@ -31,6 +31,6 @@ public class SecondTabActivity extends Activity {
 		
 		ListView mListView = (ListView) findViewById(R.id.listView2);
 		mListView.setAdapter(new List2Adapter(
-				SecondTabActivity.this, R.layout.list2_item, mList));
+				SecondTabActivity.this, R.layout.custom_list2_item, mList));
 	}
 }

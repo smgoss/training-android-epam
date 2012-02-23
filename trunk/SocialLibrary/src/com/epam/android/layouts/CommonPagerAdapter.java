@@ -23,6 +23,11 @@ public class CommonPagerAdapter extends PagerAdapter {
 	public boolean isViewFromObject(View view, Object object) {
 		return view.equals(object);
 	}
+	
+	
+	
+	
+	
 
 	@Override
 	public Object instantiateItem(View collection, int position) {

@@ -31,16 +31,16 @@ public class MyLayoutActivity extends Activity {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		List<View> pages = new ArrayList<View>();
 
-		View page = inflater.inflate(R.layout.my_layout, null);
+		View page = inflater.inflate(R.layout.custom_my_layout, null);
 		pages.add(page);
 
-		page = inflater.inflate(R.layout.my_layout_left, null);
+		page = inflater.inflate(R.layout.custom_my_layout_left, null);
 		pages.add(page);
 
-		page = inflater.inflate(R.layout.my_layout_main, null);
+		page = inflater.inflate(R.layout.custom_my_layout_main, null);
 		pages.add(page);
 
-		page = inflater.inflate(R.layout.my_layout_right, null);
+		page = inflater.inflate(R.layout.custom_my_layout_right, null);
 		pages.add(page);
 
 		CommonPagerAdapter pagerAdapter = new CommonPagerAdapter(pages);
@@ -49,6 +49,8 @@ public class MyLayoutActivity extends Activity {
 		viewPager.setCurrentItem(2);
 
 		setContentView(viewPager);
+		
+		
 	}
 
 	public void onFirstButtonClick(View view) {
