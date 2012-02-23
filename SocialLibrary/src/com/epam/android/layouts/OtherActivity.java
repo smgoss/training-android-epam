@@ -28,7 +28,7 @@ public class OtherActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.other);
+        setContentView(R.layout.custom_other);
         
         initUi();
     }
@@ -40,10 +40,10 @@ public class OtherActivity extends Activity {
         LayoutInflater inflater = LayoutInflater.from(this);
         mPages = new ArrayList<View>();
 
-        mRuPage = inflater.inflate(R.layout.ru, null);
+        mRuPage = inflater.inflate(R.layout.custom_ru, null);
         mRuPage.setTag(getString(R.string.russian));
         
-        mEnPage = inflater.inflate(R.layout.en, null);
+        mEnPage = inflater.inflate(R.layout.custom_en, null);
         mEnPage.setTag(getString(R.string.english));
         
         mPages.add(mRuPage);

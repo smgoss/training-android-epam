@@ -18,7 +18,7 @@ import com.epam.android.social.model.Other;
 public class TabsActivity extends TabActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.my_layout_tabs);
+		setContentView(R.layout.custom_my_layout_tabs);
 	
 
 		Resources res = getResources(); // Resource object to get Drawables
