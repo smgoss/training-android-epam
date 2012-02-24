@@ -1,6 +1,7 @@
 package com.epam.android.common.http;
 
 import java.io.IOException;
+import java.text.RuleBasedCollator;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -48,21 +49,16 @@ public class Loader {
 
 	public <T> List<T> loadArrayModel(String url, IModelCreator<T> modelCreator)
 			throws ClientProtocolException, JSONException, IOException {
-		JSONArray jsonArray = new JSONArray(
-				mHttpClient.execute(new HttpGet(url)));
+		JSONObject jsonObject = new JSONObject(mHttpClient.execute(new HttpGet(url)));
+		JSONArray jsonArray = getJSONArray(jsonObject, modelCreator);
 		return JsonModelConverter.convertJSONArrayToList(jsonArray,
 				modelCreator);
-	}
-	
-	
-	private JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, IOException {
-		return XML.toJSONObject(mHttpClient.execute(new HttpGet(url)));
+		
 		
 	}
-
-	public <T> List<T> loadArrayModelFromXmlByAnnotation(String url,
-			IModelCreator<T> modelCreator) throws ClientProtocolException, JSONException, IOException {
-		JSONObject jsonObject = createJsonFromXml(url);
+	
+	private <T> JSONArray getJSONArray(JSONObject jsonObject, IModelCreator<T> modelCreator) throws JSONException{
+		
 		T fake = modelCreator.create(new JSONObject());
 		Tag annotation = fake.getClass().getAnnotation(Tag.class);
 		String[] keys = annotation.keys();
@@ -89,6 +85,19 @@ public class Loader {
 				} 
 			}
 		}
+		
+		return resultArray;
+	}
+	
+	public JSONObject createJsonFromXml(String url) throws JSONException, ClientProtocolException, IOException {
+		return XML.toJSONObject(mHttpClient.execute(new HttpGet(url)));
+		
+	}
+
+	public <T> List<T> loadArrayModelFromXmlByAnnotation(String url,
+			IModelCreator<T> modelCreator) throws ClientProtocolException, JSONException, IOException {
+		JSONObject jsonObject = createJsonFromXml(url);
+		JSONArray resultArray = getJSONArray(jsonObject, modelCreator);
 		return JsonModelConverter.convertJSONArrayToList(resultArray,
 				modelCreator);
 		
