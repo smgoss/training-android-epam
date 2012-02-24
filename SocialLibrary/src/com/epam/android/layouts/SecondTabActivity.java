@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.epam.android.common.utils.JsonModelConverter;
+import com.epam.android.layouts.adapter.List2Adapter;
 import com.epam.android.social.R;
 import com.epam.android.social.model.Other;
 

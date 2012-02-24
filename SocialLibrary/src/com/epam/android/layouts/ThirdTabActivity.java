@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.epam.android.common.utils.JsonModelConverter;
+import com.epam.android.layouts.adapter.List1Adapter;
 import com.epam.android.social.R;
 import com.epam.android.social.model.Other;
 
