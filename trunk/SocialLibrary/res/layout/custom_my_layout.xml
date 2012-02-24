@@ -3,97 +3,83 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
+
     <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         layout="@layout/custom_actionbar" />
-    <ScrollView
-        android:id="@+id/scrollView1"
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="100dp"
+            	android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/img" />
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
+            android:id="@+id/linearLayout2"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/editText2"
+            <TextView
+                android:id="@+id/textView1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="PersonalName"
-                android:inputType="textPersonName" />
+                android:text="TextView TextView TextView TextView TextView TextView TextView TextView " />
 
-            <EditText
-                android:id="@+id/editText1"
+            <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="text" >
+                android:layout_height="30dp" >
 
-                <requestFocus />
-            </EditText>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_photo" />
 
-            <EditText
-                android:id="@+id/editText3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="password"
-                android:inputType="textPassword" />
-
-            <EditText
-                android:id="@+id/editText5"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="email"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/editText6"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="phone"
-                android:inputType="phone" />
-
-            <EditText
-                android:id="@+id/editText7"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="postalAddress"
-                android:inputType="textPostalAddress" />
-
-            <EditText
-                android:id="@+id/editText8"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Date"
-                android:inputType="date" />
-
-            <EditText
-                android:id="@+id/editText9"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="time"
-                android:inputType="time" />
-
-            <EditText
-                android:id="@+id/editText10"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="multiline"
-                android:inputType="textMultiLine"
-                android:minLines="2" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+   <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+        <!-- Here is the list. Since we are using a ListActivity, we
+             have to call it "@android:id/list" so ListActivity will
+             find it -->
+        <ListView android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:drawSelectorOnTop="false"/>
+
+      
+
+    </FrameLayout>
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>

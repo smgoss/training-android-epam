@@ -1,4 +1,4 @@
-package com.epam.android.layouts;
+package com.epam.android.layouts.adapter;
 
 import java.util.List;
 
