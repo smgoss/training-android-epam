@@ -19,10 +19,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.epam.android.common.http.HttpClient;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.annotation.Tag;
 import com.epam.android.layouts.MyLayoutActivity;
 import com.epam.android.social.model.Item;
+import com.epam.android.social.model.Tweet;
 import com.epam.android.social.model.User;
 
 public class MainActivity extends Activity {
@@ -71,6 +73,32 @@ public class MainActivity extends Activity {
 	
 	public void onMyLayoutButtonClick(View view){
 		startActivity(new Intent(this, MyLayoutActivity.class));
+	}
+	
+	public void onTwitterSearchButtonClick(View view){
+//		Loader loader = new Loader((HttpClient) getApplicationContext().getSystemService(HttpClient.HTTP_CLIENT));
+//		try {
+//			List<Tweet> tweet = loader.loadArrayModel("http://search.twitter.com/search.json?q=android", Tweet.MODEL_CREATOR);
+//			
+//			for (int i = 0; i < tweet.size(); i++) {
+//				Log.d(TAG, "" + tweet.get(i).getProfileUrl());
+//				Log.d(TAG, "" + tweet.get(i).getText());
+//				Log.d(TAG, "" + tweet.get(i).getUserName());
+//				Log.d(TAG, "" + tweet.get(i).getUserID());
+//				Log.d(TAG, "" + tweet.get(i).getPublicdDate());
+//			}
+//			
+//		} catch (ClientProtocolException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		startActivity(new Intent(this, TweeterActivity.class));
 	}
 	
 	private boolean isOnline() {
