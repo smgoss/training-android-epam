@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.epam.android.common.DelegateActivity;
 import com.epam.android.common.task.CommonAsyncTask;
-import com.epam.android.common.task.LoadArrayModelAsyncTask;
+import com.epam.android.common.task.LoadArrayModelByAnnotationAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.adapter.MultiModelListAdapter;
 import com.epam.android.social.model.Other;
@@ -51,7 +51,7 @@ public class MultiSampleActivity extends DelegateActivity {
 			}
 		});
 
-		executeActivityTasks(new LoadArrayModelAsyncTask<Other>(URL2, this,
+		executeActivityTasks(new LoadArrayModelByAnnotationAsyncTask<Other>(URL2, this,
 				Other.MODEL_CREATOR));
 	}
 

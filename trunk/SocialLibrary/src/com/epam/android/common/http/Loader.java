@@ -47,17 +47,24 @@ public class Loader {
 
 	}
 
+	
 	public <T> List<T> loadArrayModel(String url, IModelCreator<T> modelCreator)
 			throws ClientProtocolException, JSONException, IOException {
-		JSONObject jsonObject = new JSONObject(mHttpClient.execute(new HttpGet(url)));
-		JSONArray jsonArray = getJSONArray(jsonObject, modelCreator);
+		JSONArray jsonArray = new JSONArray(mHttpClient.execute(new HttpGet(url)));
 		return JsonModelConverter.convertJSONArrayToList(jsonArray,
 				modelCreator);
 		
-		
 	}
 	
-	private <T> JSONArray getJSONArray(JSONObject jsonObject, IModelCreator<T> modelCreator) throws JSONException{
+	public <T> List<T> loadArrayModelByAnnotation(String url, IModelCreator<T> modelCreator)
+			throws ClientProtocolException, JSONException, IOException {
+		JSONObject jsonObject = new JSONObject(mHttpClient.execute(new HttpGet(url)));
+		JSONArray jsonArray = getJSONArrayFromAnnotation(jsonObject, modelCreator);
+		return JsonModelConverter.convertJSONArrayToList(jsonArray,
+				modelCreator);
+	}
+	
+	private <T> JSONArray getJSONArrayFromAnnotation(JSONObject jsonObject, IModelCreator<T> modelCreator) throws JSONException{
 		
 		T fake = modelCreator.create(new JSONObject());
 		Tag annotation = fake.getClass().getAnnotation(Tag.class);
@@ -97,7 +104,7 @@ public class Loader {
 	public <T> List<T> loadArrayModelFromXmlByAnnotation(String url,
 			IModelCreator<T> modelCreator) throws ClientProtocolException, JSONException, IOException {
 		JSONObject jsonObject = createJsonFromXml(url);
-		JSONArray resultArray = getJSONArray(jsonObject, modelCreator);
+		JSONArray resultArray = getJSONArrayFromAnnotation(jsonObject, modelCreator);
 		return JsonModelConverter.convertJSONArrayToList(resultArray,
 				modelCreator);
 		

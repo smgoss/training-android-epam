@@ -31,7 +31,7 @@ public class TestListViewActivity extends Activity{
 		mListView = (ListView) findViewById(R.id.array_model_list);
 		try {
 			mListView.setAdapter(new ArrayModelListAdapter(
-					TestListViewActivity.this, R.layout.load_model, load.loadArrayModel(URL, User.MODEL_CREATOR)));
+					TestListViewActivity.this, R.layout.load_model, load.loadArrayModelByAnnotation(URL, User.MODEL_CREATOR)));
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
