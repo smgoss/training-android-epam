@@ -21,11 +21,10 @@
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="100dp"
-            	android:layout_height="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img" />
-
         </RelativeLayout>
 
         <LinearLayout
@@ -36,50 +35,49 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/status"
+                android:background="@drawable/status_background"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView TextView TextView TextView TextView TextView TextView TextView " />
-
+                android:clickable="true"
+                android:text="Click here to edit this text" />
+
             <LinearLayout
                 android:id="@+id/linearLayout3"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp" >
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:clickable="true" >
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/ic_action_photo" />
-
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_gravity="center"
+                    android:text="Сменить аватар" />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-   <FrameLayout
+
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1" >
-        <!-- Here is the list. Since we are using a ListActivity, we
-             have to call it "@android:id/list" so ListActivity will
-             find it -->
-        <ListView android:id="@android:id/list"
+
+        <ListView
+            android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:drawSelectorOnTop="false"/>
-
-      
-
+            android:drawSelectorOnTop="false" />
     </FrameLayout>
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
 
 </LinearLayout>

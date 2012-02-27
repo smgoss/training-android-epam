@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
+        <item name="android:divider">@color/red</item>
+        <item name="android:dividerHeight">2dip</item>
+        <item name="android:cacheColorHint">@color/green</item>
+
+        
     </style>
+
+    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="TextViewWhite" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewWhiteBig" parent="@style/TextViewWhite">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="TextViewWhiteSmall" parent="@style/TextViewWhite">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="TextViewRed" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="TextViewBlue" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/deep_blue</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+    
+    <style name="ProgressBarStyle" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progress_medium</item>
+        <item name="android:indeterminateBehavior">cycle</item>
+        <item name="android:minWidth">36dip</item>
+        <item name="android:maxWidth">36dip</item>
+        <item name="android:minHeight">36dip</item>
+        <item name="android:maxHeight">36dip</item>
+    </style>
+
 </resources>

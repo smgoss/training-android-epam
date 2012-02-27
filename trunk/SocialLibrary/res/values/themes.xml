@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ApplicationTheme" parent="android:Theme.Black">
         <item name="android:listViewStyle">@style/ListViewStyle</item>
         <item name="android:windowBackground">@color/yellow</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:progressBarStyle">@style/ProgressBarStyle</item>
     </style>
+
 </resources>
