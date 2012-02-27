@@ -4,12 +4,12 @@ import java.util.List;
 
 import android.widget.ListView;
 
-import com.epam.android.common.BaseArrayModelActivity;
+import com.epam.android.common.BaseArrayModelByAnnotationActivity;
 import com.epam.android.social.adapter.ArrayModelListAdapter;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.model.Tweet;
 
-public class TweeterActivity extends BaseArrayModelActivity<Tweet>{
+public class TweeterActivity extends BaseArrayModelByAnnotationActivity<Tweet>{
 
 	private static final String URL = "http://search.twitter.com/search.json?q=samsung";
 	

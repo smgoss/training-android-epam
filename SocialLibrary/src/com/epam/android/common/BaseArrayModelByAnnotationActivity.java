@@ -9,20 +9,18 @@ import android.widget.Toast;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadArrayModelByAnnotationAsyncTask;
-import com.epam.android.common.task.LoadArrayModelFromXMLAsyncTask;
 
-public abstract class BaseArrayModelFromXmlAcivity<B extends BaseModel> extends DelegateActivity {
+public abstract class BaseArrayModelByAnnotationActivity<B extends BaseModel> extends
+		DelegateActivity {
 
-	
-	private static final String TAG = BaseArrayModelFromXmlAcivity.class.getName();
-	
+	private static final String TAG = BaseArrayModelByAnnotationActivity.class.getName();
+
 	public abstract String getUrl();
-	
+
 	@Override
 	public void startTasks() {
-		executeActivityTasks(new LoadArrayModelFromXMLAsyncTask<B>(getUrl(), this));
+		executeActivityTasks(new LoadArrayModelByAnnotationAsyncTask<B>(getUrl(), this));
 	}
-
 
 	@Override
 	public void success(Intent intent) {
@@ -34,9 +32,8 @@ public abstract class BaseArrayModelFromXmlAcivity<B extends BaseModel> extends 
 			Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT);
 			Log.d(TAG, "Nothing to show");
 		}
-		
 	}
-	
+
 	protected abstract void success(List<B> result);
 
 }
