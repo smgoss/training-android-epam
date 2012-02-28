@@ -1,7 +1,6 @@
 package com.epam.android.common.http;
 
 import java.io.IOException;
-import java.text.RuleBasedCollator;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
