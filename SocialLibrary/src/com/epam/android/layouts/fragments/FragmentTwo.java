@@ -1,21 +1,11 @@
 package com.epam.android.layouts.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.epam.android.common.utils.JsonModelConverter;
-import com.epam.android.layouts.adapter.MyListAdapter;
-import com.epam.android.layouts.models.MyLayoutModel;
 import com.epam.android.social.R;
 
 public class FragmentTwo extends Fragment {

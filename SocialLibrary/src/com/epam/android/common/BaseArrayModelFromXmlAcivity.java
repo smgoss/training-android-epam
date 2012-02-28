@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.task.CommonAsyncTask;
-import com.epam.android.common.task.LoadArrayModelByAnnotationAsyncTask;
 import com.epam.android.common.task.LoadArrayModelFromXMLAsyncTask;
 
 public abstract class BaseArrayModelFromXmlAcivity<B extends BaseModel> extends DelegateActivity {

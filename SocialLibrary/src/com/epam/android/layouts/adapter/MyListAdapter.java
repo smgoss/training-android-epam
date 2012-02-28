@@ -3,17 +3,12 @@ package com.epam.android.layouts.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.android.common.adapter.AbstractAdapter;
 import com.epam.android.layouts.models.MyLayoutModel;
 import com.epam.android.social.R;
-import com.epam.android.social.model.Other;
 
 public class MyListAdapter extends AbstractAdapter<MyLayoutModel> {
 

@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.epam.android.layouts.adapter.TitlePagerAdapter;
 import com.epam.android.social.R;
-import com.viewpagerindicator.TabPageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 
 public class OtherActivity extends Activity {

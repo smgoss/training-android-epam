@@ -1,7 +1,5 @@
 package com.epam.android.common.task;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 
