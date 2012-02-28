@@ -28,6 +28,8 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 
 		TextView datePublic = (TextView) view.findViewById(R.id.tweetDate);
 		datePublic.setText(new Date(item.getPublicdDate()).toLocaleString());
+		
+		
 
 		
 		TextView tweetText = (TextView) view.findViewById(R.id.tweetText);
