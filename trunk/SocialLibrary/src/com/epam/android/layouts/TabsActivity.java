@@ -1,19 +1,12 @@
 package com.epam.android.layouts;
 
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
 
-import com.epam.android.common.utils.JsonModelConverter;
 import com.epam.android.social.R;
-import com.epam.android.social.model.Other;
 
 public class TabsActivity extends TabActivity {
 	public void onCreate(Bundle savedInstanceState) {

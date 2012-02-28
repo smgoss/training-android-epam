@@ -5,15 +5,14 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ListView;
+
 import com.epam.android.common.utils.JsonModelConverter;
 import com.epam.android.layouts.adapter.List1Adapter;
 import com.epam.android.social.R;
 import com.epam.android.social.model.Other;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class ThirdTabActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
