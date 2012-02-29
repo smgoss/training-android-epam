@@ -12,7 +12,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.epam.android.social.api.TwitterApi;
+import com.epam.android.social.helper.OAuthHelper;
 
 public class TwitterLoginActivity extends Activity {
 
@@ -32,19 +32,15 @@ public class TwitterLoginActivity extends Activity {
 		webView.setWebViewClient(getWebViewClient());
 		intent = new Intent(this, TwitterActivity.class);
 		try {
-			webView.loadUrl(TwitterApi.getLoginUrl());
+			webView.loadUrl(OAuthHelper.getLoginUrl());
 		} catch (OAuthMessageSignerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "OAuth Message Signer error ",e);
 		} catch (OAuthNotAuthorizedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "OAuth Not Authorized error", e);
 		} catch (OAuthExpectationFailedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "OAuth Expectation error ", e);
 		} catch (OAuthCommunicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG , "OAuth Communication error ",e );
 		}
 	}
 
@@ -53,7 +49,7 @@ public class TwitterLoginActivity extends Activity {
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				Log.d(TAG, "page started " + url);
-				if (TwitterApi.isRedirect(url)) {
+				if (OAuthHelper.isRedirect(url)) {
 					startActivity(intent);
 					finish();
 				}
@@ -63,7 +59,7 @@ public class TwitterLoginActivity extends Activity {
 			public void onPageFinished(WebView view, String url) {
 				Log.d(TAG, "page finished " + url);
 
-				if (TwitterApi.isRedirect(url)) {
+				if (OAuthHelper.isRedirect(url)) {
 					startActivity(intent);
 					finish();
 				}

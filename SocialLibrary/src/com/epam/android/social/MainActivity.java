@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.epam.android.layouts.MyLayoutActivity;
-import com.epam.android.social.api.TwitterApi;
+import com.epam.android.social.helper.OAuthHelper;
 
 public class MainActivity extends Activity {
 	
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onTwitterLoginButtonClick(View view){
-		if(!TwitterApi.isLogin()){
+		if(!OAuthHelper.isLogin()){
 			startActivity(new Intent(this, TwitterLoginActivity.class));
 		}
 		else{
