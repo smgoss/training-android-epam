@@ -1,18 +1,20 @@
-package com.epam.android.social.api;
+package com.epam.android.social.helper;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.basic.DefaultOAuthConsumer;
 import oauth.signpost.basic.DefaultOAuthProvider;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
-import android.content.Context;
 
-public abstract class TwitterApi {
 
-	private static final String TAG = TwitterApi.class.getSimpleName();
+public abstract class OAuthHelper {
+
+	private static final String TAG = OAuthHelper.class.getSimpleName();
 	
 	private static final String CONSUMER_KEY = "wZI3cXjw1o8PsfDf7V9Rug";
 
@@ -33,13 +35,17 @@ public abstract class TwitterApi {
 	}
 	
 	public static String getLoginUrl() throws OAuthMessageSignerException, OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException{
-		consumer = new DefaultOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-		provider = new DefaultOAuthProvider(REQUEST_URL, ACCESS_URL,AUTHORIZE_URL);
+		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+		provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,AUTHORIZE_URL);
 		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
 	}
 	
 	public static boolean isRedirect(String url) {
 		return url.startsWith(REDIRECT_URL);
+	}
+	
+	public static String sign(String request) throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
+		return consumer.sign(request);
 	}
 	
 }

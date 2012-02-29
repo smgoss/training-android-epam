@@ -84,6 +84,7 @@ public class HttpClient {
 			return result;
 		} else {
 			Log.d(TAG, "Http request status = " + status);
+			Log.d(TAG, result);
 			throw new IOException("status is not OK");
 		}
 
