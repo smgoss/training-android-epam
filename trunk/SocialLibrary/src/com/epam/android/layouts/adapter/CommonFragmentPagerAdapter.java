@@ -7,33 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.epam.android.layouts.fragments.FragmentFour;
-import com.epam.android.layouts.fragments.FragmentOne;
-import com.epam.android.layouts.fragments.FragmentThree;
-import com.epam.android.layouts.fragments.FragmentTwo;
+public abstract class CommonFragmentPagerAdapter extends FragmentPagerAdapter {
 
-public  class CommonFragmentPagerAdapter extends FragmentPagerAdapter {
-
-	private List<Fragment> fragments;
+	protected List<Fragment> fragments;
+	
 	public CommonFragmentPagerAdapter(FragmentManager fm) {
 		super(fm);
-		Fragment fr1 = new FragmentOne();
-		Fragment fr2 = new FragmentTwo();
 		fragments = new ArrayList<Fragment>();
-		fragments.add(fr1);
-		fragments.add(fr2);
-		String foo = "foo";
-		fragments.add(new FragmentThree());
-		String foo1 = "foo";
-		fragments.add(new FragmentOne());
-		String foo2 = "foo";
-		fragments.add(new FragmentFour());
+		initFragments();
 	}
-
 	
 	@Override
-	public Fragment getItem(int arg0) {
-		return fragments.get(arg0);
+	public Fragment getItem(int position) {
+		return fragments.get(position);
 	}
 
 	@Override
@@ -41,4 +27,5 @@ public  class CommonFragmentPagerAdapter extends FragmentPagerAdapter {
 		return fragments.size();
 	}
 
+	public abstract void initFragments();
 }

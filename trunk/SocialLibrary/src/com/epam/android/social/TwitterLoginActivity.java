@@ -56,7 +56,7 @@ public class TwitterLoginActivity extends Activity {
 				if (OAuthHelper.isRedirect(url)) {
 					finish();
 					startActivity(intent);
-					
+
 				}
 			}
 
@@ -67,11 +67,12 @@ public class TwitterLoginActivity extends Activity {
 				if (OAuthHelper.isRedirect(url)) {
 					finish();
 					startActivity(intent);
-					
+
 				}
 			}
 
 		};
-	}
 
+	}
+	
 }

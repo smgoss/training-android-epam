@@ -18,8 +18,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public abstract class DelegateActivity extends FragmentActivity implements IDelegate {
-
+public abstract class DelegateFragmentActivity extends FragmentActivity implements IDelegate{
 	private static final String TAG = DelegateActivity.class.getSimpleName();
 
 	private static final String TITLE = "Please wait";
@@ -248,4 +247,5 @@ public abstract class DelegateActivity extends FragmentActivity implements IDele
 		Log.d(TAG, "onSaveInstanseState");
 		super.onSaveInstanceState(outState);
 	}
+
 }

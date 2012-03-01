@@ -37,7 +37,7 @@ public class FragmentOne extends ListFragment {
 		View v = inflater.inflate(R.layout.custom_my_layout, container, false);
 		String foo = "foo";
 		TextView fio = (TextView) v.findViewById(R.id.fio);
-		fio.setText("Имя Фамилия");
+		fio.setText("Vkontakte");
 		fio.setVisibility(View.VISIBLE);
 
 		View button = (View) v.findViewById(R.id.linearLayout3);
@@ -105,7 +105,9 @@ public class FragmentOne extends ListFragment {
 
 		try {
 			JSONArray array = new JSONArray(
-					"[{'number'='1223','title'='Сообщения', 'text'='новых сообщений'},  {'number'='2','title'='Друзья','text'='друзей онлайн'}, {'number'='3','title'='Стена','text'='моя стена'},{'number'='4','title'='Дни рождения', 'text'='сегодня нет'},  {'number'='5','title'='Видео','text'='всего видео'}, {'number'='6','title'='Фотографии','text'='всего фотографий'}]");
+				     "[{'number'='1223','title'='Messages', 'text'='new messages'},  {'number'='2','title'='Friends','text'='Friends Online'}, {'number'='3','title'='Wall','text'='My Wall'},{'number'='4','title'='Birthdays', 'text'='No birthdays today'},  {'number'='5','title'='Video','text'='Total video'}, {'number'='6','title'='photos','text'='Total photos'}]");
+				   mList = JsonModelConverter.convertJSONArrayToList(array,
+				     MyLayoutModel.MODEL_CREATOR);
 			mList = JsonModelConverter.convertJSONArrayToList(array,
 					MyLayoutModel.MODEL_CREATOR);
 
