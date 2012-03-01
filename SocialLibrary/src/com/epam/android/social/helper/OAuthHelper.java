@@ -2,8 +2,6 @@ package com.epam.android.social.helper;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
-import oauth.signpost.basic.DefaultOAuthConsumer;
-import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -28,8 +26,8 @@ public class OAuthHelper {
 	private static final String AUTHORIZE_URL = "http://api.twitter.com/oauth/authorize";
 	
 	
-	private OAuthConsumer consumer;
-	private OAuthProvider provider;
+	private static OAuthConsumer consumer;
+	private static OAuthProvider provider;
 	
 	
 	public OAuthHelper(){
@@ -38,7 +36,10 @@ public class OAuthHelper {
 	}
 	
 	public static boolean isLogin(){
-		return false;
+		if(consumer.getTokenSecret() != null && consumer.getTokenSecret().length() > 1){
+			return false;
+		}
+		return true;
 	}
 	
 	public String getLoginUrl() throws OAuthMessageSignerException, OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException{

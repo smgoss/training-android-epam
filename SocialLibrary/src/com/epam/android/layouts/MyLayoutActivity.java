@@ -13,7 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Toast;
 
-import com.epam.android.layouts.adapter.CommonFragmentPagerAdapter;
+import com.epam.android.layouts.adapter.MyLayoutPagerAdapter;
 import com.epam.android.social.R;
 
 public class MyLayoutActivity extends FragmentActivity {
@@ -25,13 +25,14 @@ public class MyLayoutActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.custom_main_fragment);
 		viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(new CommonFragmentPagerAdapter(
+		viewPager.setAdapter(new MyLayoutPagerAdapter(
 				getSupportFragmentManager()));
 		viewPager.setCurrentItem(0);
-String foo = "foo";
+		String foo = "foo";
 
 	}
 
+	
 	public void onFirstButtonClick(View view) {
 		viewPager.setCurrentItem(0);
 	}
@@ -63,6 +64,5 @@ String foo = "foo";
 		ProgressDialog.show(this, "Progress", "To be custoized", true, true);
 
 	}
-	
-	
+
 }
