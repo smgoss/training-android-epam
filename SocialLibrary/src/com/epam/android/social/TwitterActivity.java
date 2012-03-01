@@ -25,6 +25,8 @@ public class TwitterActivity extends BaseArrayModelByAnnotationActivity<Tweet> {
 
 	private ListView mListView;
 
+	private OAuthHelper oAuthHelper;
+
 	@Override
 	public String getUrl() {
 		return URL;
@@ -38,8 +40,11 @@ public class TwitterActivity extends BaseArrayModelByAnnotationActivity<Tweet> {
 
 		HttpClient httpClient = (HttpClient) getApplicationContext()
 				.getSystemService(HttpClient.HTTP_CLIENT);
+		
+		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(OAuthHelper.OAuthHelper);
 		try {
-			String request = OAuthHelper.sign("https://api.twitter.com/1/statuses/home_timeline.json?include_entities=true"); 
+			String request = oAuthHelper
+					.sign("https://api.twitter.com/1/statuses/mentions.json?include_entities=true");
 			Log.d(TAG, request);
 			try {
 				Log.d(TAG, httpClient.loadAsString(request));
@@ -47,13 +52,13 @@ public class TwitterActivity extends BaseArrayModelByAnnotationActivity<Tweet> {
 				Log.e(TAG, "IO error ", e);
 			}
 		} catch (OAuthMessageSignerException e) {
-			Log.e(TAG, "OAuth Message Signer error ",e);
+			Log.d(TAG, "OAuth Message Signer error ", e);
 		} catch (OAuthNotAuthorizedException e) {
-			Log.e(TAG, "OAuth Not Authorized error", e);
+			Log.d(TAG, "OAuth Not Authorized error", e);
 		} catch (OAuthExpectationFailedException e) {
-			Log.e(TAG, "OAuth Expectation error ", e);
+			Log.d(TAG, "OAuth Expectation error ", e);
 		} catch (OAuthCommunicationException e) {
-			Log.e(TAG , "OAuth Communication error ",e );
+			Log.d(TAG, "OAuth Communication error ", e);
 		}
 
 	}
