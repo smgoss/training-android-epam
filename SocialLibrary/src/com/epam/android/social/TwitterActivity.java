@@ -44,7 +44,7 @@ public class TwitterActivity extends BaseArrayModelByAnnotationActivity<Tweet> {
 		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(OAuthHelper.OAuthHelper);
 		try {
 			String request = oAuthHelper
-					.sign("https://api.twitter.com/1/statuses/mentions.json?include_entities=true");
+					.sign("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2");
 			Log.d(TAG, request);
 			try {
 				Log.d(TAG, httpClient.loadAsString(request));
