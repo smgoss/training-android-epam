@@ -33,17 +33,18 @@ public class TwitterLoginActivity extends Activity {
 		webView.getSettings().setPluginsEnabled(true);
 		webView.setWebViewClient(getWebViewClient());
 		intent = new Intent(this, TwitterActivity.class);
-		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(OAuthHelper.OAuthHelper);
+		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(
+				OAuthHelper.OAuthHelper);
 		try {
 			webView.loadUrl(oAuthHelper.getLoginUrl());
 		} catch (OAuthMessageSignerException e) {
-			Log.e(TAG, "OAuth Message Signer error ",e);
+			Log.e(TAG, "OAuth Message Signer error ", e);
 		} catch (OAuthNotAuthorizedException e) {
 			Log.e(TAG, "OAuth Not Authorized error", e);
 		} catch (OAuthExpectationFailedException e) {
 			Log.e(TAG, "OAuth Expectation error ", e);
 		} catch (OAuthCommunicationException e) {
-			Log.e(TAG , "OAuth Communication error ",e );
+			Log.e(TAG, "OAuth Communication error ", e);
 		}
 	}
 
@@ -53,8 +54,9 @@ public class TwitterLoginActivity extends Activity {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				Log.d(TAG, "page started " + url);
 				if (OAuthHelper.isRedirect(url)) {
-					startActivity(intent);
 					finish();
+					startActivity(intent);
+					
 				}
 			}
 
@@ -63,8 +65,9 @@ public class TwitterLoginActivity extends Activity {
 				Log.d(TAG, "page finished " + url);
 
 				if (OAuthHelper.isRedirect(url)) {
-					startActivity(intent);
 					finish();
+					startActivity(intent);
+					
 				}
 			}
 
