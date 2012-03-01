@@ -21,6 +21,8 @@ public class TwitterLoginActivity extends Activity {
 
 	private Intent intent;
 
+	private OAuthHelper oAuthHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,8 +33,9 @@ public class TwitterLoginActivity extends Activity {
 		webView.getSettings().setPluginsEnabled(true);
 		webView.setWebViewClient(getWebViewClient());
 		intent = new Intent(this, TwitterActivity.class);
+		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(OAuthHelper.OAuthHelper);
 		try {
-			webView.loadUrl(OAuthHelper.getLoginUrl());
+			webView.loadUrl(oAuthHelper.getLoginUrl());
 		} catch (OAuthMessageSignerException e) {
 			Log.e(TAG, "OAuth Message Signer error ",e);
 		} catch (OAuthNotAuthorizedException e) {
