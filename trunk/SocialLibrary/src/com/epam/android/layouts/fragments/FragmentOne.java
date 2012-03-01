@@ -113,6 +113,7 @@ public class FragmentOne extends ListFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
 		super.onCreate(savedInstanceState);
 		String foo = "foo";
