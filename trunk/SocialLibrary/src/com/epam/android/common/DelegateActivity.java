@@ -81,7 +81,7 @@ public abstract class DelegateActivity extends FragmentActivity implements IDele
 				&& !isFinishing() && this.getWindow() != null) {
 			mProgressDialog.dismiss();
 			Log.d("dialog", "dismiss " + this.toString());
-			if (!mAsyncTaskManager.isLastTask(this)) {
+			if (!mAsyncTaskManager.isLastTask(this.getClass().getName())) {
 				Log.d("dialog", "other tasks " + this.toString());
 				showLoading();
 			}
@@ -156,7 +156,7 @@ public abstract class DelegateActivity extends FragmentActivity implements IDele
 	protected void onDestroy() {
 		Log.d(TAG, "onDestroy");
 
-		mAsyncTaskManager.setDeleteStatus(true, this);
+		mAsyncTaskManager.setDeleteStatus(true, this.getClass().getName());
 		super.onDestroy();
 	}
 
@@ -164,7 +164,7 @@ public abstract class DelegateActivity extends FragmentActivity implements IDele
 	protected void onResume() {
 		Log.d(TAG, "onResume");
 
-		mAsyncTaskManager.setDeleteStatus(false, this);
+		mAsyncTaskManager.setDeleteStatus(false, this.getClass().getName());
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_ERROR);

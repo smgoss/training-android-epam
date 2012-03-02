@@ -69,12 +69,12 @@ public class MainActivity extends Activity {
 		startActivity(new Intent(this, TwitterActivity.class));
 	}
 	
-	public void onTwitterLoginButtonClick(View view){
+	public void onTwitterButtonClick(View view){
 		if(!OAuthHelper.isLogin()){
 			startActivity(new Intent(this, TwitterLoginActivity.class));
 		}
 		else{
-			startActivity(new Intent(this, TwitterActivity.class));
+			startActivity(new Intent(this, TwitterMainFragmentActivity.class));
 		}
 	}
 	

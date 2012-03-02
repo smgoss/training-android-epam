@@ -17,7 +17,7 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 
 	@Override
 	public void startTasks() {
-		executeActivityTasks(new LoadModelAsyncTask<B>(getUrl(), this));
+		executeActivityTasks(new LoadModelAsyncTask<B>(getUrl(), this,getContext()));
 
 	}
 

@@ -74,10 +74,10 @@ public class AsyncTaskManager {
 		return getActivityTasks(activityKey).get(taskKey);
 	}
 
-	public boolean isLastTask(Context context) {
+	public boolean isLastTask(String key) {
 		Boolean result = true;
 		Collection<CommonAsyncTask> taskCollection = getActivityTasks(
-				context.getClass().getName()).values();
+				key).values();
 		Object[] keys = taskCollection.toArray();
 		for (int i = 0; i < keys.length; i++) {
 			if (((CommonAsyncTask) keys[i]).getStatus().equals(
@@ -88,8 +88,8 @@ public class AsyncTaskManager {
 		return result;
 	}
 
-	public void setDeleteStatus(boolean b, Context context) {
-		String activityKey = context.getClass().getName();
+	public void setDeleteStatus(boolean b, String key) {
+		String activityKey = key;
 		Set<String> keys = getActivityTasks(activityKey).keySet();
 		Object[] arrayKeys = keys.toArray();
 		for (int i = 0; i < arrayKeys.length; i++) {

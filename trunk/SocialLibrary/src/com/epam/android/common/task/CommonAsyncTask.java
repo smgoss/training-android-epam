@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -32,15 +33,15 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	private Exception e;
 
-	private IDelegate mDelegate;
-
 	private String mUrl;
 	
 	private T mResult;
+	
+	private Context mContext;
 
-	public CommonAsyncTask(String url, IDelegate delegate) {
+	public CommonAsyncTask(String url, Context context) {
 		super();
-		this.mDelegate = delegate;
+		this.mContext = context;
 		this.mUrl = url;
 	}
 
@@ -88,8 +89,12 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 
 	public abstract T load() throws IOException, JSONException;
 
-	public IDelegate getDelegate() {
-		return mDelegate;
+//	public IDelegate getDelegate() {
+//		return mDelegate;
+//	}
+	
+	public Context getContext(){
+		return mContext;
 	}
 
 	public String getUrl() {
@@ -109,31 +114,32 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	}
 
 	protected void sendNotification(String event) {
-		mDelegate.getContext().sendBroadcast(createDefaultBroadcast(event));
+		mContext.sendBroadcast(createDefaultBroadcast(event));
 	}
 
 	protected void sendNotification(String event, String text) {
 		Intent broadcast = createDefaultBroadcast(event);
 		broadcast.putExtra(TEXT, text);
-		mDelegate.getContext().sendBroadcast(broadcast);
+		mContext.sendBroadcast(broadcast);
 	}
 
 	protected void sendNotification(String event, T result) {
 		Intent broadcast = createDefaultBroadcast(event);
 		initIntentResult(broadcast, result);
-		mDelegate.getContext().sendBroadcast(broadcast);
+		mContext.sendBroadcast(broadcast);
 	}
 	
 	private void sendNotification(String event, Exception e2) {
 		Intent broadcast = createDefaultBroadcast(event);
 		broadcast.putExtra(ERROR, e2);
-		mDelegate.getContext().sendBroadcast(broadcast);
+		mContext.sendBroadcast(broadcast);
 	}
 
 	private Intent createDefaultBroadcast(String event) {
 		Intent broadcast = new Intent(event);
 		broadcast.putExtra(TASK_KEY, mUrl);
-		broadcast.putExtra(ACTIVITY_KEY, mDelegate.getClass().getName());
+		// TODO fix name
+		broadcast.putExtra(ACTIVITY_KEY, mContext.getClass().getName());
 		return broadcast;
 	}
 

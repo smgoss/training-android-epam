@@ -18,7 +18,7 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 
 	public Loader getLoader() {
 		if (mLoader == null) {
-			this.mLoader = Loader.get((Context) getDelegate());
+			this.mLoader = Loader.get(getContext());
 		}
 		return mLoader;
 	}
@@ -32,15 +32,15 @@ public abstract class CommonModelAsyncTask<B> extends CommonAsyncTask<B> {
 		return mModelCreator;
 	}
 
-	 public CommonModelAsyncTask(String url, IDelegate delegate) {
-	 super(url, delegate);
+	 public CommonModelAsyncTask(String url, Context context) {
+	 super(url, context);
 	 this.mModelCreator = getModelCreator();
 	 }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public CommonModelAsyncTask(String url, IDelegate delegate,
+	public CommonModelAsyncTask(String url, Context context,
 			IModelCreator modelCreator) {
-		super(url, delegate);
+		super(url, context);
 		this.mModelCreator = modelCreator;
 	}
 
