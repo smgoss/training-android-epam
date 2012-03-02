@@ -22,8 +22,7 @@ public interface IDelegate {
 
 	void success(Intent intent);
 
-
-
+	String getDelegateKey();
 
 
 }

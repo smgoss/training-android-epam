@@ -15,13 +15,13 @@ import com.epam.android.common.model.IModelCreator;
 public class LoadArrayModelByAnnotationAsyncTask<B extends BaseModel> extends
 		CommonModelAsyncTask<List<B>> {
 
-	public LoadArrayModelByAnnotationAsyncTask(String url, IDelegate delegate,Context context) {
-		super(url, context, (IModelCreator<B>) BaseModel
+	public LoadArrayModelByAnnotationAsyncTask(String url, IDelegate delegate) {
+		super(url, delegate, (IModelCreator<B>) BaseModel
 				.getModelCreatorFromTemplate(delegate));
 	}
 
 	@SuppressWarnings("rawtypes")
-	public LoadArrayModelByAnnotationAsyncTask(String url, Context context,
+	public LoadArrayModelByAnnotationAsyncTask(String url, IDelegate context,
 			IModelCreator iModelCreator) {
 		super(url, context, iModelCreator);
 	}
