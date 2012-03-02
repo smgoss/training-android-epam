@@ -9,17 +9,18 @@ import android.widget.Toast;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadArrayModelByAnnotationAsyncTask;
+import com.epam.android.social.model.Tweet;
 
-public abstract class BaseArrayModelByAnnotationActivity<B extends BaseModel> extends
-		DelegateActivity {
+public abstract class BaseArrayModelByAnnotationFragment<B extends BaseModel> extends
+		DelegateFragment {
 
-	private static final String TAG = BaseArrayModelByAnnotationActivity.class.getName();
+	private static final String TAG = BaseArrayModelByAnnotationFragment.class.getName();
 
 	public abstract String getUrl();
 
 	@Override
 	public void startTasks() {
-		executeActivityTasks(new LoadArrayModelByAnnotationAsyncTask<B>(getUrl(), this,getContext()));
+		executeActivityTasks(new LoadArrayModelByAnnotationAsyncTask<B>(getUrl(), this,getActivity()));
 	}
 
 	@Override
@@ -29,7 +30,7 @@ public abstract class BaseArrayModelByAnnotationActivity<B extends BaseModel> ex
 					.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
 			success(result);
 		} else {
-			Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), "Nothing to show", Toast.LENGTH_SHORT);
 			Log.d(TAG, "Nothing to show");
 		}
 	}

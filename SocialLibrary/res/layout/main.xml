@@ -81,7 +81,7 @@
                 android:id="@+id/TwitterLogin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onTwitterLoginButtonClick"
+                android:onClick="onTwitterButtonClick"
                 android:text="@string/twitter_login"
                 />
         </LinearLayout>

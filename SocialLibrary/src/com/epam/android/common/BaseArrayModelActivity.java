@@ -19,7 +19,7 @@ public abstract class BaseArrayModelActivity<B extends BaseModel> extends
 
 	@Override
 	public void startTasks() {
-		executeActivityTasks(new LoadArrayModelAsyncTask<B>(getUrl(), this));
+		executeActivityTasks(new LoadArrayModelAsyncTask<B>(getUrl(), this,getContext()));
 	}
 
 	@Override

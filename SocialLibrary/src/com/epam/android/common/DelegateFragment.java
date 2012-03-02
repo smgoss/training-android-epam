@@ -4,13 +4,16 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.epam.android.common.task.AsyncTaskManager;
@@ -18,8 +21,9 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public abstract class DelegateFragmentActivity extends FragmentActivity implements IDelegate{
-	private static final String TAG = DelegateActivity.class.getSimpleName();
+public abstract class DelegateFragment extends DialogFragment implements IDelegate {
+
+	private static final String TAG = DelegateFragment.class.getSimpleName();
 
 	private static final String TITLE = "Please wait";
 
@@ -28,6 +32,8 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 	private BroadcastReceiver receiver;
 
 	private AsyncTaskManager mAsyncTaskManager;
+
+	
 
 	private ProgressDialog mProgressDialog;
 
@@ -43,7 +49,7 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 	public void showLoading() {
 
 		if (mProgressDialog == null) {
-			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog = new ProgressDialog(getActivity());
 			Log.d("dialog", "create" + this.toString());
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(true);
@@ -51,13 +57,13 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					finish();
+					getActivity().finish();
 				}
 			});
 		} else {
 			Log.d("dialog", "not null" + this.toString());
 		}
-		if (!mProgressDialog.isShowing() && this.getWindow() != null) {
+		if (!mProgressDialog.isShowing() && this.getActivity().getWindow() != null) {
 			mProgressDialog.setTitle(TITLE);
 			mProgressDialog.setMessage(MSG);
 			mProgressDialog.show();
@@ -77,10 +83,10 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 	@Override
 	public void hideLoading() {
 		if (mProgressDialog != null && mProgressDialog.isShowing()
-				&& !isFinishing() && this.getWindow() != null) {
+				&&  getActivity().getWindow() != null) {
 			mProgressDialog.dismiss();
 			Log.d("dialog", "dismiss " + this.toString());
-			if (!mAsyncTaskManager.isLastTask(this)) {
+			if (!mAsyncTaskManager.isLastTask(this.getClass().getName())) {
 				Log.d("dialog", "other tasks " + this.toString());
 				showLoading();
 			}
@@ -96,7 +102,7 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 
 	@Override
 	public Context getContext() {
-		return this;
+		return getActivity();
 	}
 
 	@Override
@@ -131,39 +137,43 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate");
-
 		super.onCreate(savedInstanceState);
-		setContentView(getLayoutResource());
-		mAsyncTaskManager = AsyncTaskManager.get(this);
+		mAsyncTaskManager = AsyncTaskManager.get(getActivity());
 		mAsyncTaskManager.addActivityTasks(this.getClass().getName());
 
 	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(getLayoutResource(), container, false);
+	}
+	
 	public abstract int getLayoutResource();
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		Log.d(TAG, "onPause");
 		// TODO check receiver
-		unregisterReceiver(receiver);
+		getActivity().unregisterReceiver(receiver);
 		super.onPause();
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		Log.d(TAG, "onDestroy");
 
-		mAsyncTaskManager.setDeleteStatus(true, this);
+		mAsyncTaskManager.setDeleteStatus(true, this.getClass().getName());
 		super.onDestroy();
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		Log.d(TAG, "onResume");
 
-		mAsyncTaskManager.setDeleteStatus(false, this);
+		mAsyncTaskManager.setDeleteStatus(false, this.getClass().getName());
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_ERROR);
@@ -193,7 +203,7 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 			}
 		};
 
-		registerReceiver(receiver, filter);
+		getActivity().registerReceiver(receiver, filter);
 		startTasks();
 		super.onResume();
 	}
@@ -235,17 +245,16 @@ public abstract class DelegateFragmentActivity extends FragmentActivity implemen
 		return (taskKey.equals(asyncTaskKey));
 	}
 
-	// TODO read about onRestoreInstanceState
+
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		Log.d(TAG, "onRestoreInstanseState");
-		super.onRestoreInstanceState(savedInstanceState);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.d(TAG, "onActivityCreated");
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(Bundle outState) {
 		Log.d(TAG, "onSaveInstanseState");
 		super.onSaveInstanceState(outState);
 	}
-
 }
