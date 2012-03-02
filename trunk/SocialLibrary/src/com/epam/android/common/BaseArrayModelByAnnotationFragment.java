@@ -20,7 +20,7 @@ public abstract class BaseArrayModelByAnnotationFragment<B extends BaseModel> ex
 
 	@Override
 	public void startTasks() {
-		executeActivityTasks(new LoadArrayModelByAnnotationAsyncTask<B>(getUrl(), this,getActivity()));
+		executeActivityTasks(new LoadArrayModelByAnnotationAsyncTask<B>(getUrl(), this));
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class TestAsyncTaskActivity extends BaseModelActivity<User> {
 	@Override
 	public void startTasks() {
 		executeActivityTasks(new LoadModelAsyncTask<User>(URL,
-				TestAsyncTaskActivity.this,getContext()) {
+				TestAsyncTaskActivity.this) {
 			@Override
 			protected User doInBackground(String... params) {
 				try {

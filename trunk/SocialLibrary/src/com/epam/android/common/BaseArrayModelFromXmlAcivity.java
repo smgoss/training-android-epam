@@ -19,7 +19,7 @@ public abstract class BaseArrayModelFromXmlAcivity<B extends BaseModel> extends 
 	
 	@Override
 	public void startTasks() {
-		executeActivityTasks(new LoadArrayModelFromXMLAsyncTask<B>(getUrl(), this,getContext()));
+		executeActivityTasks(new LoadArrayModelFromXMLAsyncTask<B>(getUrl(), this));
 	}
 
 

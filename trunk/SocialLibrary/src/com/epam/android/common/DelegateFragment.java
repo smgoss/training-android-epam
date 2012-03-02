@@ -4,12 +4,12 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +21,7 @@ import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 
-public abstract class DelegateFragment extends DialogFragment implements IDelegate {
+public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	private static final String TAG = DelegateFragment.class.getSimpleName();
 
@@ -86,7 +86,7 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 				&&  getActivity().getWindow() != null) {
 			mProgressDialog.dismiss();
 			Log.d("dialog", "dismiss " + this.toString());
-			if (!mAsyncTaskManager.isLastTask(this.getClass().getName())) {
+			if (!mAsyncTaskManager.isLastTask(getDelegateKey())) {
 				Log.d("dialog", "other tasks " + this.toString());
 				showLoading();
 			}
@@ -108,17 +108,16 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 	@Override
 	public void executeTask(ITaskCreator taskCreator) {
 		CommonAsyncTask task = taskCreator.create();
-		mAsyncTaskManager.addTask(this.getClass().getName(), task.getUrl(),
+		mAsyncTaskManager.addTask(getDelegateKey(), getTaskKey(task),
 				task);
 		task.start();
 	}
 
 	protected void executeActivityTasks(final CommonAsyncTask task) {
-
-		if (mAsyncTaskManager.checkTask(this.getClass().getName(),
-				task.getUrl())) {
-			getResult(mAsyncTaskManager.getTask(this.getClass().getName(),
-					task.getUrl()));
+		if (mAsyncTaskManager.checkTask(getDelegateKey(),
+				getTaskKey(task))) {
+			getResult(mAsyncTaskManager.getTask(getDelegateKey(),
+					getTaskKey(task)));
 		} else {
 			executeTask(new ITaskCreator() {
 				public CommonAsyncTask create() {
@@ -126,6 +125,15 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 				}
 			});
 		}
+	}
+
+	@Override
+	public String getDelegateKey() {
+		return this.getClass().getName();
+	}
+
+	public String getTaskKey(final CommonAsyncTask task) {
+		return task.getUrl();
 	}
 
 	private void getResult(CommonAsyncTask task) {
@@ -141,7 +149,7 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		mAsyncTaskManager = AsyncTaskManager.get(getActivity());
-		mAsyncTaskManager.addActivityTasks(this.getClass().getName());
+		mAsyncTaskManager.addActivityTasks(getDelegateKey());
 
 	}
 
@@ -165,7 +173,7 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 	public void onDestroy() {
 		Log.d(TAG, "onDestroy");
 
-		mAsyncTaskManager.setDeleteStatus(true, this.getClass().getName());
+		mAsyncTaskManager.setDeleteStatus(true, getDelegateKey());
 		super.onDestroy();
 	}
 
@@ -173,7 +181,7 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 	public void onResume() {
 		Log.d(TAG, "onResume");
 
-		mAsyncTaskManager.setDeleteStatus(false, this.getClass().getName());
+		mAsyncTaskManager.setDeleteStatus(false, getDelegateKey());
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CommonAsyncTask.ON_ERROR);
@@ -184,8 +192,10 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				//TODO BIG SUCKS
+				Log.d(TAG, intent.getStringExtra(CommonAsyncTask.ACTIVITY_KEY) + " " + getDelegateKey());
 				if (intent.getStringExtra(CommonAsyncTask.ACTIVITY_KEY).equals(
-						context.getClass().getName())) {
+						getDelegateKey())) {
 					if (intent.getAction().equals(
 							CommonAsyncTask.ON_PRE_EXECUTE)) {
 						onTaskPreExecute(intent);
@@ -242,6 +252,7 @@ public abstract class DelegateFragment extends DialogFragment implements IDelega
 	protected static boolean isAsyncTaskResult(String asyncTaskKey,
 			Intent intent) {
 		String taskKey = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
+		Log.d(TAG, asyncTaskKey + " s " + taskKey);
 		return (taskKey.equals(asyncTaskKey));
 	}
 

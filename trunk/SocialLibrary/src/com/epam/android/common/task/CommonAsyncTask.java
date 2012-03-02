@@ -37,11 +37,14 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	
 	private T mResult;
 	
+	private IDelegate mDelegate;
+	
 	private Context mContext;
 
-	public CommonAsyncTask(String url, Context context) {
+	public CommonAsyncTask(String url, IDelegate delegate) {
 		super();
-		this.mContext = context;
+		this.mDelegate = delegate;
+		this.mContext = delegate.getContext();
 		this.mUrl = url;
 	}
 
@@ -139,7 +142,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		Intent broadcast = new Intent(event);
 		broadcast.putExtra(TASK_KEY, mUrl);
 		// TODO fix name
-		broadcast.putExtra(ACTIVITY_KEY, mContext.getClass().getName());
+		broadcast.putExtra(ACTIVITY_KEY, mDelegate.getDelegateKey());
 		return broadcast;
 	}
 

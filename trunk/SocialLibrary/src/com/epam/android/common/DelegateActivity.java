@@ -41,6 +41,11 @@ public abstract class DelegateActivity extends FragmentActivity implements IDele
 	}
 
 	@Override
+	public String getDelegateKey() {
+		return this.getClass().getName();
+	}
+	
+	@Override
 	public void showLoading() {
 
 		if (mProgressDialog == null) {
