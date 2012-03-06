@@ -171,7 +171,9 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 						onTaskPreExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-						onTaskPostExecute(intent);
+						if (!isLoaded) {
+							onTaskPostExecute(intent);
+						}
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
 						onTaskProgressUpdate(intent);
@@ -207,9 +209,12 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 		showLoading();
 	}
 
+	private boolean isLoaded = false;
 	public void onTaskPostExecute(Intent intent) {
 		hideLoading();
 		success(intent);
+		isLoaded = true;
+		//TODO set boolean 
 	}
 
 	public void onTaskProgressUpdate(Intent intent) {
