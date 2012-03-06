@@ -21,14 +21,14 @@ public class MyLayoutPagerAdapter extends CommonFragmentPagerAdapter{
 	public void initFragments() {
 		Fragment fr1 = new FragmentOne();
 		Fragment fr2 = new FragmentTwo();
-		fragments.add(fr1);
-		fragments.add(fr2);
+		getFragments().add(fr1);
+		getFragments().add(fr2);
 		String foo = "foo";
-		fragments.add(new FragmentThree());
+		getFragments().add(new FragmentThree());
 		String foo1 = "foo";
-		fragments.add(new FragmentOne());
+		getFragments().add(new FragmentOne());
 		String foo2 = "foo";
-		fragments.add(new FragmentFour());
+		getFragments().add(new FragmentFour());
 	}
 
 	

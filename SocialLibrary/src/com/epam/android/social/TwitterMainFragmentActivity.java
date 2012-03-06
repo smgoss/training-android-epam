@@ -17,7 +17,6 @@ public class TwitterMainFragmentActivity extends FragmentActivity{
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new TwitterMainPagerAdapter(
 				getSupportFragmentManager()));
-		//viewPager.setCurrentItem(0);
 	}
 	
 

@@ -70,14 +70,6 @@
                 android:text="@string/my_layout" />
             
             <Button 
-                android:id="@+id/TwitterSearch"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onTwitterSearchButtonClick"
-                android:text="@string/twitter_search"
-                />
-            
-            <Button 
                 android:id="@+id/TwitterLogin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

@@ -65,10 +65,6 @@ public class MainActivity extends Activity {
 		startActivity(new Intent(this, MyLayoutActivity.class));
 	}
 	
-	public void onTwitterSearchButtonClick(View view){
-		startActivity(new Intent(this, TwitterActivity.class));
-	}
-	
 	public void onTwitterButtonClick(View view){
 		if(!OAuthHelper.isLogin()){
 			startActivity(new Intent(this, TwitterLoginActivity.class));

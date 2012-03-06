@@ -1,5 +1,6 @@
 package com.epam.android.common;
 
+import java.util.Collection;
 import java.util.List;
 
 import android.content.Intent;
@@ -17,6 +18,8 @@ public abstract class BaseArrayModelByAnnotationFragment<B extends BaseModel> ex
 	private static final String TAG = BaseArrayModelByAnnotationFragment.class.getName();
 
 	public abstract String getUrl();
+	
+	private List<B> result = null;
 
 	@Override
 	public void startTasks() {
@@ -25,9 +28,17 @@ public abstract class BaseArrayModelByAnnotationFragment<B extends BaseModel> ex
 
 	@Override
 	public void success(Intent intent) {
+
 		if (isAsyncTaskResult(getUrl(), intent)) {
-			List<B> result = intent
-					.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
+			if (result == null) {
+				result = intent
+						.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
+			}
+			else{
+				Log.d(TAG, "work success");
+					result.addAll((Collection<? extends B>) intent
+							.getParcelableArrayListExtra(CommonAsyncTask.RESULT));
+			}
 			success(result);
 		} else {
 			Toast.makeText(getActivity(), "Nothing to show", Toast.LENGTH_SHORT);

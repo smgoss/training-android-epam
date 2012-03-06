@@ -13,9 +13,9 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter{
 
 	@Override
 	public void initFragments() {
-		fragments.add(SearchTweetsFragment.newInstance("twitter"));
-		fragments.add(SearchTweetsFragment.newInstance("google"));
-		fragments.add(SearchTweetsFragment.newInstance("dropbox"));
+		getFragments().add(SearchTweetsFragment.newInstance("twitter"));
+		getFragments().add(SearchTweetsFragment.newInstance("google"));
+		getFragments().add(SearchTweetsFragment.newInstance("dropbox"));
 	}
 
 }
