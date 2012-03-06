@@ -3,14 +3,21 @@ package com.epam.android.social.fragments;
 import java.util.List;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.epam.android.common.BaseArrayModelByAnnotationFragment;
+import com.epam.android.common.task.LoadArrayModelByAnnotationAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.model.Tweet;
 
-public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Tweet>{
+public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Tweet> implements OnClickListener{
 
 	private static final String ARG_QUERY = "query";
 
@@ -20,6 +27,11 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 
 	private ListView mListView;
 
+	private Button loadMore;
+	
+	private String delegateKey;
+
+	
 	public static SearchTweetsFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
@@ -28,6 +40,20 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 		return fragment;
 	}
 	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		loadMore = new Button(getContext());
+		loadMore.setText("load more");
+		loadMore.setOnClickListener(SearchTweetsFragment.this);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		mListView = (ListView) getView().findViewById(R.id.array_model_list);
+		mListView.addFooterView(loadMore);
+		super.onActivityCreated(savedInstanceState);
+	}
 
 	@Override
 	public String getUrl() {
@@ -36,20 +62,33 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 	
 	@Override
 	public String getDelegateKey() {
-		return URL + getArguments().getString(ARG_QUERY);
+		if(delegateKey == null){
+			delegateKey = URL + getArguments().getString(ARG_QUERY);
+		}
+ 		return delegateKey;
 	}
 
 	@Override
 	protected void success(List<Tweet> result) {
-		mListView = (ListView) getView().findViewById(R.id.array_model_list);
-		mListView.setAdapter(new TweetAdapter(getActivity(),
-				R.layout.tweet, result));
+		mListView.setAdapter(new TweetAdapter(getActivity(), R.layout.tweet,
+				result));
 
 	}
 
 	@Override
 	public int getLayoutResource() {
-		return R.layout.load_array_model;
+		return R.layout.load_array_model; 
+	}
+
+	@Override
+	public void onClick(View v) {
+		getArguments().putString(ARG_QUERY, "HTC");
+		startTasks();
+	}
+
+	@Override
+	public void startTasks() {
+		super.startTasks();
 	}
 
 }
