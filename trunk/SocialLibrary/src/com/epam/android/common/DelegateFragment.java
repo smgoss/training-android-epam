@@ -3,25 +3,27 @@ package com.epam.android.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
-import com.epam.android.social.R;
 
 public abstract class DelegateFragment extends Fragment implements IDelegate {
 
@@ -35,36 +37,55 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	private AsyncTaskManager mAsyncTaskManager;
 
-	private ProgressBar mProgressBar;
-	
+	private ProgressDialog mProgressDialog;
 
 	public abstract String getUrl();
 	
 	@Override
 	public void showLoading() {
-		if (mProgressBar == null) {
-			mProgressBar = (ProgressBar) getView().findViewById(
-					R.id.progress_bar_on_listView);
-			mProgressBar.setVisibility(View.VISIBLE);
-		} else if (mProgressBar.getVisibility() != View.VISIBLE) {
-			mProgressBar.setVisibility(View.VISIBLE);
+
+		if (mProgressDialog == null) {
+			mProgressDialog = new ProgressDialog(getActivity());
+			Log.d("dialog", "create" + this.toString());
+			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(true);
+			mProgressDialog.setOnCancelListener(new OnCancelListener() {
+
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					getActivity().finish();
+				}
+			});
+		} else {
+			Log.d("dialog", "not null" + this.toString());
+		}
+		if (!mProgressDialog.isShowing() && this.getActivity().getWindow() != null) {
+			mProgressDialog.setTitle(TITLE);
+			mProgressDialog.setMessage(MSG);
+			mProgressDialog.show();
+			Log.d("dialog", "show" + this.toString());
 		}
 	}
 
 	@Override
 	public void showProgress(String textMessage) {
-		if (mProgressBar == null) { 
-			mProgressBar = (ProgressBar) getView().findViewById(
-					R.id.progress_bar_on_listView);
-			mProgressBar.setVisibility(View.VISIBLE);
+		if (mProgressDialog == null) {
+			Log.d("dialog", "progress " + this.toString());
+			showLoading();
 		}
-
+		mProgressDialog.setMessage(textMessage);
 	}
 
 	@Override
 	public void hideLoading() {
-		if (mProgressBar != null && mProgressBar.getVisibility() == View.VISIBLE) {
-			mProgressBar.setVisibility(View.INVISIBLE);
+		if (mProgressDialog != null && mProgressDialog.isShowing()
+				&&  getActivity().getWindow() != null) {
+			mProgressDialog.dismiss();
+			Log.d("dialog", "dismiss " + this.toString());
+			if (!mAsyncTaskManager.isLastTask(getDelegateKey())) {
+				Log.d("dialog", "other tasks " + this.toString());
+				showLoading();
+			}
 		}
 	}
 
@@ -120,17 +141,25 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate");
-		setRetainInstance(true);
 		super.onCreate(savedInstanceState);
 		mAsyncTaskManager = AsyncTaskManager.get(getActivity());
 		mAsyncTaskManager.addActivityTasks(getDelegateKey());
 
 	}
 
+	private View view = null;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(getLayoutResource(), container, false);
+		Log.d(TAG, "onCreateView");
+		if (view == null) {
+			view = inflater.inflate(getLayoutResource(), container, false);
+			return view;
+		}
+		
+		return view.getRootView();
+		
 	}
 
 	public abstract int getLayoutResource();
@@ -153,8 +182,8 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	@Override
 	public void onResume() {
+		
 		Log.d(TAG, "onResume");
-
 		mAsyncTaskManager.setDeleteStatus(false, getDelegateKey());
 
 		IntentFilter filter = new IntentFilter();
@@ -175,9 +204,9 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 						onTaskPreExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-//						if (isLoaded(getUrl())) {
+						if (isLoaded(getUrl())) {
 							onTaskPostExecute(intent);
-//						}
+						}
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
 						onTaskProgressUpdate(intent);
@@ -254,7 +283,6 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d(TAG, "onActivityCreated");
-		setRetainInstance(true);
 		super.onActivityCreated(savedInstanceState);
 	}
 
