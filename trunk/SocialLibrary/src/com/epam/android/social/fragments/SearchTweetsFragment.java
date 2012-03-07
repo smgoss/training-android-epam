@@ -1,5 +1,6 @@
 package com.epam.android.social.fragments;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -30,6 +31,10 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 	private Button loadMore;
 	
 	private String delegateKey;
+	
+	private List<Tweet> currentList;
+	
+	private TweetAdapter adapter;
 
 	
 	public static SearchTweetsFragment newInstance(String query) {
@@ -70,9 +75,20 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 
 	@Override
 	protected void success(List<Tweet> result) {
-		mListView.setAdapter(new TweetAdapter(getActivity(), R.layout.tweet,
-				result));
-
+		if (currentList == null) {
+			currentList = new ArrayList<Tweet>(); 
+			currentList.addAll(result);
+			adapter = new TweetAdapter(getContext(),
+					R.layout.tweet, currentList);
+			mListView.setAdapter(adapter);
+		}
+		else{
+//			adapter = new TweetAdapter(getContext(),
+//					R.layout.tweet, currentList);
+//			mListView.setAdapter(adapter);
+			currentList.addAll(result);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
