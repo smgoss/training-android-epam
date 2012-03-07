@@ -1,5 +1,8 @@
 package com.epam.android.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +38,8 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	private ProgressBar mProgressBar;
 	
 
+	public abstract String getUrl();
+	
 	@Override
 	public void showLoading() {
 		if (mProgressBar == null) {
@@ -161,7 +166,6 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 		receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				// TODO BIG SUCKS
 				Log.d(TAG, intent.getStringExtra(CommonAsyncTask.ACTIVITY_KEY)
 						+ " " + getDelegateKey());
 				if (intent.getStringExtra(CommonAsyncTask.ACTIVITY_KEY).equals(
@@ -171,9 +175,9 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 						onTaskPreExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-						if (!isLoaded) {
+//						if (isLoaded(getUrl())) {
 							onTaskPostExecute(intent);
-						}
+//						}
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
 						onTaskProgressUpdate(intent);
@@ -207,14 +211,30 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	protected void onTaskPreExecute(Intent intent) {
 		showLoading();
-	}
+	} 
 
-	private boolean isLoaded = false;
 	public void onTaskPostExecute(Intent intent) {
 		hideLoading();
 		success(intent);
-		isLoaded = true;
-		//TODO set boolean 
+	}
+	
+	private List<String> loadedList;
+	
+	private boolean isLoaded(String key) {
+
+		if (loadedList == null) {
+			loadedList = new ArrayList<String>();
+			loadedList.add(key);
+			return true;
+		} else {
+			if (loadedList.contains(key)) {
+				return false;
+			} else {
+				loadedList.add(key);
+				return true;
+ 
+			}
+		}
 	}
 
 	public void onTaskProgressUpdate(Intent intent) {
