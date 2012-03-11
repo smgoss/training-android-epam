@@ -23,16 +23,15 @@ public class OAuthHelper {
 	private static final String CONSUMER_SECRET = "kiWSez5HP42L4vsNmVIMIs7sz7svk0JEUSNQ6Mo3eV8";
 
 	private static final String REDIRECT_URL = "http://mysite.ru";
-	private static final String REQUEST_URL = "http://api.twitter.com/oauth/request_token";
-	private static final String ACCESS_URL = "http://api.twitter.com/oauth/access_token";
-	private static final String AUTHORIZE_URL = "http://api.twitter.com/oauth/authorize";
+	private static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
+	private static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
+	private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize";
 
 	private OAuthConsumer consumer;
 	private OAuthProvider provider;
 
 	private static OAuthHelper instanse;
 
-	private Context context;
 
 	private OAuthHelper() {
 		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
@@ -51,10 +50,10 @@ public class OAuthHelper {
 	public boolean isLogin(Context context) {
 		if (context.getSharedPreferences(
 						TwitterLoginActivity.SHARED_PREFERENSE, Context.MODE_PRIVATE)
-						.getString(TwitterLoginActivity.TOKEN_SECRET, "").length() == 0) {
-			return false;
+						.getString(TwitterLoginActivity.TOKEN_SECRET, "").length() != 0) {
+			return true;
 		}
-		return true;
+		return false;
 
 	} 
 

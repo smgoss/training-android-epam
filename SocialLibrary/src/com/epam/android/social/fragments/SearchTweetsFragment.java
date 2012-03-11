@@ -66,13 +66,13 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 
 	@Override
 	public String getUrl() {
-		return URL + getArguments().getString(ARG_QUERY);
+		return getArguments().getString(ARG_QUERY);
 	}
 	
 	@Override
 	public String getDelegateKey() {
 		if(delegateKey == null){
-			delegateKey = URL + getArguments().getString(ARG_QUERY);
+			delegateKey = getArguments().getString(ARG_QUERY);
 		}
  		return delegateKey;
 	}

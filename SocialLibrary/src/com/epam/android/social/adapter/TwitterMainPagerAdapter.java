@@ -19,11 +19,11 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter{
 
 	@Override
 	public void initFragments() {
-		getFragments().add(SearchTweetsFragment.newInstance("twitter"));
-		getFragments().add(SearchTweetsFragment.newInstance("google"));
-		getFragments().add(SearchTweetsFragment.newInstance("dropbox"));
+//		getFragments().add(SearchTweetsFragment.newInstance("twitter"));
+//		getFragments().add(SearchTweetsFragment.newInstance("google"));
+//		getFragments().add(SearchTweetsFragment.newInstance("dropbox"));
 		try {
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getRetweetOfMe()));
+			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getRetweetedByMe()));
 		} catch (OAuthMessageSignerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,7 +32,7 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter{
 			e.printStackTrace();
 		} catch (OAuthCommunicationException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace(); 
 		} catch (OAuthNotAuthorizedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

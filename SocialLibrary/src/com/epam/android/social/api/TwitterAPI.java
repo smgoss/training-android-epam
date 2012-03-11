@@ -24,4 +24,12 @@ public abstract class TwitterAPI {
 	public static String getRetweetOfMe() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
 		return helper.sign("https://api.twitter.com/1/statuses/retweets_of_me.json?include_entities=true");
 	}
+	
+	public static String getHomeTimeLine() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
+		return helper.sign("https://api.twitter.com/1/statuses/home_timeline.json?include_entities=true");
+	}
+	
+	public static String getUserTimeLine() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
+		return helper.sign("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=20");
+	}
 }
