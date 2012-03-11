@@ -81,6 +81,7 @@ public class HttpClient {
 		int status = response.getStatusLine().getStatusCode();
 
 		if (status == HttpStatus.SC_OK) {
+			Log.d(TAG, result);
 			return result;
 		} else {
 			Log.d(TAG, "Http request status = " + status);

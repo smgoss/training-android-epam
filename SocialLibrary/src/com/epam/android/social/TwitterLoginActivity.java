@@ -5,7 +5,10 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,13 +18,18 @@ import android.webkit.WebViewClient;
 import com.epam.android.social.helper.OAuthHelper;
 
 public class TwitterLoginActivity extends Activity {
-
+	
 	private static final String TAG = TwitterLoginActivity.class
 			.getSimpleName();
 
+	public static final String SHARED_PREFERENSE = "++preferense++";
+	
+	public static final String TOKEN_SECRET = "token_secret";
+	
 	private Intent intent;
 
 	private OAuthHelper oAuthHelper;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +40,7 @@ public class TwitterLoginActivity extends Activity {
 		webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		webView.getSettings().setPluginsEnabled(true);
 		webView.setWebViewClient(getWebViewClient());
-		intent = new Intent(this, TwitterActivity.class);
+		intent = new Intent(this, TwitterMainFragmentActivity.class);
 		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(
 				OAuthHelper.OAuthHelper);
 		try {
@@ -54,17 +62,19 @@ public class TwitterLoginActivity extends Activity {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				Log.d(TAG, "page started " + url);
 				if (OAuthHelper.isRedirect(url)) {
+					saveToken();
 					finish();
 					startActivity(intent);
 
 				}
 			}
-
+			
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				Log.d(TAG, "page finished " + url);
 
 				if (OAuthHelper.isRedirect(url)) {
+					saveToken();
 					finish();
 					startActivity(intent);
 
@@ -73,6 +83,13 @@ public class TwitterLoginActivity extends Activity {
 
 		};
 
+	}
+	
+	private void saveToken(){
+		SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENSE,Context.MODE_PRIVATE).edit();
+		editor.putString(TOKEN_SECRET, oAuthHelper.getConsumer().getTokenSecret());
+		editor.commit();
+		
 	}
 	
 }
