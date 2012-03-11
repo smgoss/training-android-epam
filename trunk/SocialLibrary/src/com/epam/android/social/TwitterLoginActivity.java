@@ -59,20 +59,8 @@ public class TwitterLoginActivity extends Activity {
 	private WebViewClient getWebViewClient() {
 		return new WebViewClient() {
 			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				Log.d(TAG, "page started " + url);
-				if (OAuthHelper.isRedirect(url)) {
-					saveToken();
-					finish();
-					startActivity(intent);
-
-				}
-			}
-			
-			@Override
 			public void onPageFinished(WebView view, String url) {
 				Log.d(TAG, "page finished " + url);
-
 				if (OAuthHelper.isRedirect(url)) {
 					saveToken();
 					finish();
@@ -87,8 +75,10 @@ public class TwitterLoginActivity extends Activity {
 	
 	private void saveToken(){
 		SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENSE,Context.MODE_PRIVATE).edit();
+		Log.d(TAG, oAuthHelper.getConsumer().getTokenSecret());
 		editor.putString(TOKEN_SECRET, oAuthHelper.getConsumer().getTokenSecret());
-		editor.commit();
+		Log.d(TAG, "editor commit = " + editor.commit());
+		
 		
 	}
 	
