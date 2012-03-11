@@ -41,6 +41,8 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	public abstract String getUrl();
 	
+	private View view = null;
+	
 	@Override
 	public void showLoading() {
 
@@ -147,8 +149,6 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	}
 
-	private View view = null;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

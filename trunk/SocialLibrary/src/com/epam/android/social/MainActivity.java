@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onTwitterButtonClick(View view){
-		if(!OAuthHelper.isLogin()){
+		if(!OAuthHelper.getInstanse().isLogin(getApplicationContext())){
 			startActivity(new Intent(this, TwitterLoginActivity.class));
 		}
 		else{

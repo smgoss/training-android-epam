@@ -11,7 +11,7 @@ public class SocialApplication extends CommonApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		oAuthHelper = new OAuthHelper();
+		oAuthHelper = OAuthHelper.getInstanse();
 	}
 
 	@Override
