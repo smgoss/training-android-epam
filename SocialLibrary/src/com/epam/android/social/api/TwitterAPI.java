@@ -4,12 +4,8 @@ import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
-
-import android.content.Context;
 import android.util.Log;
 
-import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.helper.OAuthHelper;
 
 public class TwitterAPI {
@@ -35,7 +31,7 @@ public class TwitterAPI {
 			OAuthNotAuthorizedException {
 		Log.d(TAG, "token = " + helper.getConsumer().getToken());
 		Log.d(TAG, "token secret = " + helper.getConsumer().getTokenSecret());
-		return helper.sign("https://api.twitter.com/1/statuses/retweeted_by_me.json?include_entities=true&count=20");
+		return "https://api.twitter.com/1/statuses/retweeted_by_me.json?include_entities=true&count=20"; //helper.sign("https://api.twitter.com/1/statuses/retweeted_by_me.json?include_entities=true&count=20");
 	}
 	
 	public String getRetweetOfMe() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{

@@ -8,6 +8,9 @@ import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
+
+import org.apache.http.client.methods.HttpUriRequest;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -69,7 +72,6 @@ public class OAuthHelper {
 	public String getLoginUrl() throws OAuthMessageSignerException,
 			OAuthNotAuthorizedException, OAuthExpectationFailedException,
 			OAuthCommunicationException {
-
 		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
 	}
 
@@ -81,6 +83,12 @@ public class OAuthHelper {
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			OAuthNotAuthorizedException {
 		return consumer.sign(request);
+	}
+	
+	public void sign(HttpUriRequest request) throws OAuthMessageSignerException,
+	OAuthExpectationFailedException, OAuthCommunicationException,
+	OAuthNotAuthorizedException {
+		consumer.sign(request);
 	}
 
 }
