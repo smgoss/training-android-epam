@@ -8,27 +8,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.helper.OAuthHelper;
 
 public class TwitterLoginActivity extends Activity {
 	
 	private static final String TAG = TwitterLoginActivity.class
 			.getSimpleName();
-
-	public static final String SHARED_PREFERENSE = "++preferense++";
-	
-	public static final String TOKEN_SECRET = "token_secret";
 	
 	private Intent intent;
 
-	private OAuthHelper oAuthHelper;
+	private OAuthHelper helper;
 	
 
 	@Override
@@ -41,10 +37,10 @@ public class TwitterLoginActivity extends Activity {
 		webView.getSettings().setPluginsEnabled(true);
 		webView.setWebViewClient(getWebViewClient());
 		intent = new Intent(this, TwitterMainFragmentActivity.class);
-		oAuthHelper = (OAuthHelper) getApplicationContext().getSystemService(
+		helper = (OAuthHelper) getApplicationContext().getSystemService(
 				OAuthHelper.OAuthHelper);
 		try {
-			webView.loadUrl(oAuthHelper.getLoginUrl());
+			webView.loadUrl(helper.getLoginUrl());
 		} catch (OAuthMessageSignerException e) {
 			Log.e(TAG, "OAuth Message Signer error ", e);
 		} catch (OAuthNotAuthorizedException e) {
@@ -74,9 +70,11 @@ public class TwitterLoginActivity extends Activity {
 	}
 	
 	private void saveToken(){
-		SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENSE,Context.MODE_PRIVATE).edit();
-		Log.d(TAG, oAuthHelper.getConsumer().getTokenSecret());
-		editor.putString(TOKEN_SECRET, oAuthHelper.getConsumer().getTokenSecret());
+		SharedPreferences.Editor editor = getSharedPreferences(ApplicationConstants.SHARED_PREFERENSE,Context.MODE_PRIVATE).edit();
+		Log.d(TAG, "token = " + helper.getConsumer().getToken());
+		Log.d(TAG, "token secret = " + helper.getConsumer().getTokenSecret());
+		editor.putString(TwitterConstants.TOKEN, helper.getConsumer().getToken());
+		editor.putString(TwitterConstants.TOKEN_SECRET, helper.getConsumer().getTokenSecret());
 		Log.d(TAG, "editor commit = " + editor.commit());
 		
 		
