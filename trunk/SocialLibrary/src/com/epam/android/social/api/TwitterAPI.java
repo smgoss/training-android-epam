@@ -5,31 +5,48 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.helper.OAuthHelper;
 
-public abstract class TwitterAPI {
+public class TwitterAPI {
+	private static final String TAG = TwitterAPI.class.getSimpleName();
+	
 	private static OAuthHelper helper;
 	
-	static{
+	private static TwitterAPI twitterAPI; 
+	
+	private TwitterAPI(){
 		helper = OAuthHelper.getInstanse();
 	}
+	
+	public static TwitterAPI getInstance() {
+		if (twitterAPI == null) {
+			twitterAPI = new TwitterAPI();
+		}
+		return twitterAPI;
+	}
 
-	public static String getRetweetedByMe() throws OAuthMessageSignerException,
+	public String getRetweetedByMe() throws OAuthMessageSignerException,
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			OAuthNotAuthorizedException {
-		return helper
-				.sign("https://api.twitter.com/1/statuses/retweeted_by_me.json?include_entities=true&count=20");
+		Log.d(TAG, "token = " + helper.getConsumer().getToken());
+		Log.d(TAG, "token secret = " + helper.getConsumer().getTokenSecret());
+		return helper.sign("https://api.twitter.com/1/statuses/retweeted_by_me.json?include_entities=true&count=20");
 	}
 	
-	public static String getRetweetOfMe() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
+	public String getRetweetOfMe() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
 		return helper.sign("https://api.twitter.com/1/statuses/retweets_of_me.json?include_entities=true");
 	}
 	
-	public static String getHomeTimeLine() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
+	public String getHomeTimeLine() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
 		return helper.sign("https://api.twitter.com/1/statuses/home_timeline.json?include_entities=true");
 	}
 	
-	public static String getUserTimeLine() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
+	public String getUserTimeLine() throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, OAuthNotAuthorizedException{
 		return helper.sign("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=20");
 	}
 }

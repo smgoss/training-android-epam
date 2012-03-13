@@ -9,8 +9,10 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 import android.content.Context;
+import android.content.SharedPreferences;
 
-import com.epam.android.social.TwitterLoginActivity;
+import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.TwitterConstants;
 
 public class OAuthHelper {
 
@@ -32,7 +34,6 @@ public class OAuthHelper {
 
 	private static OAuthHelper instanse;
 
-
 	private OAuthHelper() {
 		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
@@ -48,14 +49,18 @@ public class OAuthHelper {
 	}
 
 	public boolean isLogin(Context context) {
-		if (context.getSharedPreferences(
-						TwitterLoginActivity.SHARED_PREFERENSE, Context.MODE_PRIVATE)
-						.getString(TwitterLoginActivity.TOKEN_SECRET, "").length() != 0) {
+		SharedPreferences preferences = context.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		if (preferences.getString(TwitterConstants.TOKEN_SECRET, null) != null
+				&& preferences.getString(TwitterConstants.TOKEN, null) != null) {
+			consumer.setTokenWithSecret(
+					preferences.getString(TwitterConstants.TOKEN, ""),
+					preferences.getString(TwitterConstants.TOKEN_SECRET, ""));
 			return true;
 		}
 		return false;
 
-	} 
+	}
 
 	public OAuthConsumer getConsumer() {
 		return consumer;
@@ -75,9 +80,6 @@ public class OAuthHelper {
 	public String sign(String request) throws OAuthMessageSignerException,
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			OAuthNotAuthorizedException {
-		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-		provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
-				AUTHORIZE_URL);
 		return consumer.sign(request);
 	}
 

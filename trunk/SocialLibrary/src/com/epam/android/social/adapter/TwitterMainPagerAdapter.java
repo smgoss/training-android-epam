@@ -23,7 +23,7 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter{
 //		getFragments().add(SearchTweetsFragment.newInstance("google"));
 //		getFragments().add(SearchTweetsFragment.newInstance("dropbox"));
 		try {
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getRetweetedByMe()));
+			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getRetweetedByMe()));
 		} catch (OAuthMessageSignerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
