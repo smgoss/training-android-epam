@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
@@ -26,12 +27,14 @@ public class TwitterLoginActivity extends Activity {
 
 	private OAuthHelper helper;
 	
+	private WebView webView;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		WebView webView = (WebView) findViewById(R.id.webview);
+		webView = (WebView) findViewById(R.id.webview);
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		webView.getSettings().setPluginsEnabled(true);
@@ -54,6 +57,15 @@ public class TwitterLoginActivity extends Activity {
 
 	private WebViewClient getWebViewClient() {
 		return new WebViewClient() {
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				Log.d(TAG, "page started " + url);
+				if(OAuthHelper.isRedirect(url)){
+					webView.setVisibility(WebView.INVISIBLE);
+				}
+			}
+
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				Log.d(TAG, "page finished " + url);
