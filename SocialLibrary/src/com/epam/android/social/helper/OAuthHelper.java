@@ -23,9 +23,9 @@ public class OAuthHelper {
 
 	public static final String OAuthHelper = "++OAuthHelper++";
 
-	private static final String CONSUMER_KEY = "wZI3cXjw1o8PsfDf7V9Rug";
+	private static final String CONSUMER_KEY = "Iu2RgC0vqbJ3hx8Bh5AfEQ";
 
-	private static final String CONSUMER_SECRET = "kiWSez5HP42L4vsNmVIMIs7sz7svk0JEUSNQ6Mo3eV8";
+	private static final String CONSUMER_SECRET = "xoUH0EZRCfBj1y1Om3DtxyYNs46lOwG6tbGyNDrEQo";
 
 	private static final String REDIRECT_URL = "http://mysite.ru";
 	private static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
