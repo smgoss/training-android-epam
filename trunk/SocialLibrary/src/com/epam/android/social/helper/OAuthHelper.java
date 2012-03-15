@@ -41,7 +41,7 @@ public class OAuthHelper {
 		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
 				AUTHORIZE_URL);
-
+		//TODO restore
 	}
 
 	public static OAuthHelper getInstanse() {
@@ -51,6 +51,15 @@ public class OAuthHelper {
 		return instanse;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.mtvn.android.social.common.CommonShareClient#isLogged()
+	 */
+	public boolean isLogged() {
+		return (consumer != null) && (consumer.getToken() != null)
+				&& (consumer.getTokenSecret() != null);
+	}
+
+	
 	public boolean isLogin(Context context) {
 		SharedPreferences preferences = context.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
@@ -76,6 +85,7 @@ public class OAuthHelper {
 	}
 
 	public static boolean isRedirect(String url) {
+		//TODO rename isTokenSaved, save token
 		return url.startsWith(REDIRECT_URL);
 	}
 
