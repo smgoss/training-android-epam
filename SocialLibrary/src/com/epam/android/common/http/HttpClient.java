@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
@@ -75,6 +76,7 @@ public class HttpClient {
 	public String execute(HttpUriRequest request)
 			throws ClientProtocolException, IOException {
 
+		
 		HttpResponse response = client.execute(request);
 		String result = readString(response.getEntity().getContent());
 

@@ -11,11 +11,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.epam.android.common.BaseArrayModelByAnnotationFragment;
+import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.social.R;
+import com.epam.android.social.adapter.ReTweetAdapter;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.model.Tweet;
+import com.epam.android.social.model.TweetNotLogin;
 
-public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Tweet> implements OnClickListener{
+public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> implements OnClickListener{
 
 	private static final String ARG_QUERY = "query";
 
@@ -33,7 +36,7 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 	
 	private List<Tweet> currentList;
 	
-	private TweetAdapter adapter;
+	private ReTweetAdapter adapter;
 
 	private boolean setBottomButton = false;
 	
@@ -82,7 +85,7 @@ public class SearchTweetsFragment extends BaseArrayModelByAnnotationFragment<Twe
 		if (currentList == null) {
 			currentList = new ArrayList<Tweet>(); 
 			currentList.addAll(result);
-			adapter = new TweetAdapter(getContext(),
+			adapter = new ReTweetAdapter(getContext(),
 					R.layout.tweet, currentList);
 			mListView.setAdapter(adapter);
 		}

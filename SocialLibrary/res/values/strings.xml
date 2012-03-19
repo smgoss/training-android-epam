@@ -15,10 +15,15 @@
     <string name="russian">Русский</string>
     <string name="twitter_search">Twitter Search</string>
     <string name="twitter_login">Twitter</string>
-    
     <string name="task_working">Working (%1$d)</string>
     <string name="task_starting">Starting</string>
     <string name="task_cancelled">Task is cancelled by user</string>
     <string name="task_completed">Task is completed with result OK</string>
+
+    <string-array name="titles">
+        <item>Timeline</item>
+        <item>By me</item>
+        <item>By User</item>
+    </string-array>
 
 </resources>

@@ -5,10 +5,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
+import com.viewpagerindicator.PageIndicator;
+import com.viewpagerindicator.TabPageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitleProvider;
 
 public class TwitterMainFragmentActivity extends FragmentActivity{
 
 	private ViewPager viewPager;
+	private PageIndicator indicator;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +21,10 @@ public class TwitterMainFragmentActivity extends FragmentActivity{
 		setContentView(R.layout.custom_main_fragment);
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new TwitterMainPagerAdapter(
-				getSupportFragmentManager()));
+				getSupportFragmentManager(),getApplicationContext()));
+		indicator =  (PageIndicator) findViewById(R.id.indicator);
+		indicator.setViewPager(viewPager);
+		
 	}
 	
 
