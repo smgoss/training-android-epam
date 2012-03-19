@@ -91,10 +91,6 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	}
 
 	public abstract T load() throws IOException, JSONException;
-
-//	public IDelegate getDelegate() {
-//		return mDelegate;
-//	}
 	
 	public Context getContext(){
 		return mContext;

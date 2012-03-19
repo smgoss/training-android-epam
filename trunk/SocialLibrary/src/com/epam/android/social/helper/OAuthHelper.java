@@ -11,8 +11,10 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 import org.apache.http.client.methods.HttpUriRequest;
 
+import android.R.color;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
@@ -37,11 +39,13 @@ public class OAuthHelper {
 
 	private static OAuthHelper instanse;
 
+	private Context context;
+
 	private OAuthHelper() {
 		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
 				AUTHORIZE_URL);
-		//TODO restore
+		// TODO restore
 	}
 
 	public static OAuthHelper getInstanse() {
@@ -51,31 +55,16 @@ public class OAuthHelper {
 		return instanse;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.mtvn.android.social.common.CommonShareClient#isLogged()
-	 */
-	public boolean isLogged() {
-		return (consumer != null) && (consumer.getToken() != null)
-				&& (consumer.getTokenSecret() != null);
-	}
-
-	
-	public boolean isLogin(Context context) {
+	public boolean isLogged(Context context) {
+		this.context = context;
 		SharedPreferences preferences = context.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		if (preferences.getString(TwitterConstants.TOKEN_SECRET, null) != null
-				&& preferences.getString(TwitterConstants.TOKEN, null) != null) {
-			consumer.setTokenWithSecret(
-					preferences.getString(TwitterConstants.TOKEN, ""),
-					preferences.getString(TwitterConstants.TOKEN_SECRET, ""));
+		if (preferences.getString(TwitterConstants.TOKEN, null) != null
+				&& preferences.getString(TwitterConstants.TOKEN_SECRET, null) != null) {
+			restoreToken();
 			return true;
 		}
 		return false;
-
-	}
-
-	public OAuthConsumer getConsumer() {
-		return consumer;
 	}
 
 	public String getLoginUrl() throws OAuthMessageSignerException,
@@ -84,21 +73,62 @@ public class OAuthHelper {
 		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
 	}
 
-	public static boolean isRedirect(String url) {
-		//TODO rename isTokenSaved, save token
-		return url.startsWith(REDIRECT_URL);
+	public boolean isTokenSaved(String url) {
+		// TODO rename isTokenSaved, save token
+		if (url.startsWith(REDIRECT_URL)) {
+			String oauthVerifier = getOauthVerifierFromUrl(url);
+			setRetrieveAccessToken(oauthVerifier);
+			saveToken(oauthVerifier);
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
-	public String sign(String request) throws OAuthMessageSignerException,
+	private String getOauthVerifierFromUrl(String url) {
+		return url.substring(url.indexOf(TwitterConstants.OAUTH_VERIFIER)
+				+ TwitterConstants.OAUTH_VERIFIER.length());
+	}
+
+	public void sign(HttpUriRequest request)
+			throws OAuthMessageSignerException,
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			OAuthNotAuthorizedException {
-		return consumer.sign(request);
-	}
-	
-	public void sign(HttpUriRequest request) throws OAuthMessageSignerException,
-	OAuthExpectationFailedException, OAuthCommunicationException,
-	OAuthNotAuthorizedException {
 		consumer.sign(request);
+	}
+
+	private void setRetrieveAccessToken(String oauthVerifier) {
+		try {
+			provider.retrieveAccessToken(consumer, oauthVerifier);
+		} catch (OAuthMessageSignerException e) {
+			Log.d(TAG, "OAuthMessageSignerException ", e);
+		} catch (OAuthNotAuthorizedException e) {
+			Log.d(TAG, "OAuthNotAuthorizedException ", e);
+		} catch (OAuthExpectationFailedException e) {
+			Log.d(TAG, "OAuthExpectationFailedException ", e);
+		} catch (OAuthCommunicationException e) {
+			Log.d(TAG, "OAuthCommunicationException ", e);
+		}
+	}
+
+	private void restoreToken() {
+		SharedPreferences preferences = context.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		consumer.setTokenWithSecret(
+				preferences.getString(TwitterConstants.TOKEN, ""),
+				preferences.getString(TwitterConstants.TOKEN_SECRET, ""));
+	}
+
+	private void saveToken(String oauthVerifier) {
+		SharedPreferences.Editor editor = context.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE)
+				.edit();
+		editor.putString(TwitterConstants.TOKEN, consumer.getToken());
+		editor.putString(TwitterConstants.TOKEN_SECRET,
+				consumer.getTokenSecret());
+		editor.commit();
+
 	}
 
 }

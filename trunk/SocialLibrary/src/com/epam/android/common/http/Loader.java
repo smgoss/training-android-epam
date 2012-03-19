@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.json.XML;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.epam.android.common.annotation.JSON;
 import com.epam.android.common.annotation.Tag;
@@ -126,6 +127,7 @@ public class Loader {
 		if (listRule != null) {
 			for (IRule rule : listRule) {
 				rule.applyRule(request);
+				Log.d(TAG, "url=" + url +" appleRule " + request);
 			}
 		}
 		return mHttpClient.execute(request);

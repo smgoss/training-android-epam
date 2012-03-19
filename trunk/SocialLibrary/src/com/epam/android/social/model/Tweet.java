@@ -1,22 +1,18 @@
 package com.epam.android.social.model;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.epam.android.common.annotation.JSON;
-import com.epam.android.common.annotation.Tag;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
-@Tag(keys = {"results"}, types = {JSON.JSONArray})
-public class Tweet extends BaseModel{
-
-	
+public class Tweet extends BaseModel {
 	@SuppressWarnings("unused")
 	private static final String TAG = Tweet.class.getSimpleName();
-
+	
 	public static final IModelCreator<Tweet> MODEL_CREATOR = new IModelCreator<Tweet>() {
 
 		public Tweet create(JSONObject jsonObject) {
@@ -50,28 +46,34 @@ public class Tweet extends BaseModel{
 
 	public Tweet(String json) {
 		super(json);
-		
 	}
 
-	
-	public String getProfileUrl(){
-		return getString("profile_image_url");
+	public String getProfileUrl() {
+		try {
+			return getJSONObject().getJSONObject("user").getString("profile_image_url");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		return "";
 	}
-	
-	public String getPublicdDate(){
+
+	public String getPublicdDate() {
 		return getString("created_at");
 	}
-	
-	public String getUserName(){
-		return getString("from_user_name");
-	}
-	
-	public Long getUserID(){
-		return getLong("from_user_id_str");
+
+	public String getUserName() {
+		try {
+			return getJSONObject().getJSONObject("user").getString("name");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return "";
 	}
 
-	public String getText(){
+	public String getText() {
 		return getString("text");
 	}
 }
