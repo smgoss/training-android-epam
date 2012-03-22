@@ -17,6 +17,8 @@ public class FragmentFour extends Fragment {
         View v = inflater.inflate(R.layout.custom_my_layout_right, container, false);
         String foo = "foo";
 		return v;
+		
+		
 	}
 
 	@Override

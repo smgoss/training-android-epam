@@ -5,8 +5,6 @@
         <item name="android:listSelector">@drawable/list_item</item>
         <item name="android:divider">@color/red</item>
         <item name="android:dividerHeight">2dip</item>
-
-        
     </style>
 
     <style name="TextViewStyle" parent="@android:style/Widget.TextView">
@@ -38,7 +36,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18dp</item>
     </style>
-    
+
     <style name="ProgressBarStyle" parent="@android:style/Widget.ProgressBar">
         <item name="android:indeterminateDrawable">@drawable/progress_medium</item>
         <item name="android:indeterminateBehavior">cycle</item>
@@ -46,6 +44,36 @@
         <item name="android:maxWidth">36dip</item>
         <item name="android:minHeight">36dip</item>
         <item name="android:maxHeight">36dip</item>
+    </style>
+
+    <style name="Toast" parent="MatchParent">
+        <item name="android:background">@drawable/bg_toast</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">25dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Toast_Title" parent="WrapContent">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+
+    <style name="Toast_Text" parent="WrapContent">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">17dp</item>
+    </style>
+
+    <style name="MatchParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+
+    <style name="WrapContent" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>
