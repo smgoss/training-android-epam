@@ -6,13 +6,19 @@ package com.epam.android.layouts;
 //TODO sliding tabs
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.epam.android.common.utils.Utils;
 import com.epam.android.layouts.adapter.MyLayoutPagerAdapter;
 import com.epam.android.social.R;
 
@@ -56,8 +62,10 @@ public class MyLayoutActivity extends FragmentActivity {
 	}
 
 	public void onToastButtonClick(View view) {
-		Toast.makeText(this, "Toast message to customize", Toast.LENGTH_LONG)
-				.show();
+					
+			Utils.showMessage(this, "Title", "no message");
+			
+		
 	}
 
 	public void onProgressButtonClick(View view) {
