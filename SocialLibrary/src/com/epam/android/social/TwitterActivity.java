@@ -26,7 +26,6 @@ public class TwitterActivity extends BaseArrayModelByAnnotationActivity<TweetNot
 		mListView = (ListView) findViewById(R.id.array_model_list);
 		mListView.setAdapter(new TweetAdapter(TwitterActivity.this,
 				R.layout.tweet, result));
-
 	}
 
 	@Override
