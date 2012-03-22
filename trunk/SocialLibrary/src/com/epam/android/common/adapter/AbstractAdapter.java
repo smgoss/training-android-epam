@@ -76,5 +76,9 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	public void setCurrentPosition(int currentPosition) {
 		this.currentPosition = currentPosition;
 	}
+	
+	public void remove(int position){
+		this.mList.remove(position);
+	}
 
 }
