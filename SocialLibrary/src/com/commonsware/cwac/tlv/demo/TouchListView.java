@@ -71,9 +71,11 @@ public class TouchListView extends ListView {
 	private int dragndropBackgroundColor = 0x00000000;
 	private boolean isReturn = false;
 	private boolean touch = false;
+	private boolean isRightSlide = false;
+	private boolean isLeftSlide = false;
 	private int startX = -1;
+	private int finalX = -1;
 	private View currentItem;
-	private static final int widthFromRemove = 3/4;
 
 	public TouchListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
@@ -356,10 +358,10 @@ public class TouchListView extends ListView {
 		if ((mDragListener != null || mDropListener != null)
 				&& mDragView != null) {
 			int action = ev.getAction();
+			Rect r = mTempRect;
 			switch (action) {
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
-				Rect r = mTempRect;
 				mDragView.getDrawingRect(r);
 				stopDragging();
 
@@ -394,6 +396,8 @@ public class TouchListView extends ListView {
 				}
 				isReturn = false;
 				touch = false;
+				isRightSlide = false;
+				isLeftSlide = false;
 				break;
 
 			case MotionEvent.ACTION_DOWN:
@@ -403,11 +407,17 @@ public class TouchListView extends ListView {
 
 				if (x == startX) {
 					isReturn = true;
+					isRightSlide = false;
+					isLeftSlide = false;
 				}
 
 				if (!touch) {
 					startX = x;
+					finalX = startX + r.width() * 3 / 5;
 					touch = true;
+					isRightSlide = false;
+					isLeftSlide = false;
+					
 				}
 
 				dragView(x, y);
@@ -483,9 +493,9 @@ public class TouchListView extends ListView {
 	}
 
 	private void dragView(int x, int y) {
-		float alpha = 1.0f;
+		float alpha = 0.99f;
 		int width = mDragView.getWidth();
-
+		float stepAlpha = (float) width * 3 / 500000;
 		if (mRemoveMode == SLIDE_RIGHT) {
 			if (x > width / 2) {
 				alpha = ((float) (width - x)) / (width / 2);
@@ -497,20 +507,30 @@ public class TouchListView extends ListView {
 			}
 			mWindowParams.alpha = alpha;
 		} else if (mRemoveMode == SLIDE) {
-			if (x < width / 2) {
-				alpha = ((float) x) / (width / 2);
-			}
-			if (x > width / 2) {
-				alpha = ((float) (width - x)) / (width / 2);
-			}
-			
-			if (alpha >= 0) {
-				mWindowParams.alpha = alpha;
+			if (Math.abs(startX - x) > 0.05 * width) {
+				if (!isLeftSlide && x > startX) {
+					Log.d(TAG, "Right slide " + alpha);
+					alpha = (float) (1 - stepAlpha
+							* (x - startX - 0.05 * width));
+					isRightSlide = true;
+				} else {
+
+					if (!isRightSlide && x < startX) {
+						alpha = (float) (1 - stepAlpha
+								* (startX - x - 0.05 * width));
+						Log.d(TAG, "Left slide " + alpha);
+						isLeftSlide = true;
+					}
+				}
 			}
 		}
+		if (alpha > 0 && alpha < 1) {
+			mWindowParams.alpha = alpha;
+		}
+
 		// mWindowParams.y = mDragPoint + mCoordOffset;
 		mWindowManager.updateViewLayout(mDragView, mWindowParams);
-		Log.d(TAG, "x= " + x + "width="+ width + "alpha=" + alpha);
+		// Log.d(TAG, "x= " + x + "width="+ width + "alpha=" + alpha);
 
 	}
 
