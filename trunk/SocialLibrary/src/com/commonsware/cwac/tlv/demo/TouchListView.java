@@ -17,15 +17,12 @@ package com.commonsware.cwac.tlv.demo;
  * limitations under the License.
  */
 
-import com.epam.android.social.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Gravity;
@@ -37,7 +34,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.epam.android.social.R;
 
 public class TouchListView extends ListView {
 	private static final String TAG = TouchListView.class.getSimpleName();
@@ -74,7 +72,6 @@ public class TouchListView extends ListView {
 	private boolean isRightSlide = false;
 	private boolean isLeftSlide = false;
 	private int startX = -1;
-	private int finalX = -1;
 	private View currentItem;
 
 	public TouchListView(Context context, AttributeSet attrs) {
@@ -365,8 +362,8 @@ public class TouchListView extends ListView {
 				mDragView.getDrawingRect(r);
 				stopDragging();
 
-				if (mRemoveMode == SLIDE && !isReturn
-						&& Math.abs(startX - ev.getX()) >= r.width() * 3 / 5) {
+				if (mRemoveMode == SLIDE && isReturn
+						&& Math.abs(startX - ev.getX()) > r.width() * 3 / 5) {
 
 					if (mRemoveListener != null) {
 						mRemoveListener.remove(mFirstDragPos);
@@ -376,13 +373,13 @@ public class TouchListView extends ListView {
 				} else
 
 				if (mRemoveMode == SLIDE_RIGHT
-						&& Math.abs(startX - ev.getX()) >= r.width() * 3 / 5) {
+						&& Math.abs(startX - ev.getX()) > r.width() * 3 / 5) {
 					if (mRemoveListener != null) {
 						mRemoveListener.remove(mFirstDragPos);
 					}
 					unExpandViews(true);
 				} else if (mRemoveMode == SLIDE_LEFT
-						&& Math.abs(startX - ev.getX()) >= r.width() * 3 / 5) {
+						&& Math.abs(startX - ev.getX()) > r.width() * 3 / 5) {
 					if (mRemoveListener != null) {
 						mRemoveListener.remove(mFirstDragPos);
 					}
@@ -405,7 +402,7 @@ public class TouchListView extends ListView {
 				int x = (int) ev.getX();
 				int y = (int) ev.getY();
 
-				if (x == startX) {
+				if (Math.abs(startX - x) <=  r.width()/24) {
 					isReturn = true;
 					isRightSlide = false;
 					isLeftSlide = false;
@@ -413,11 +410,10 @@ public class TouchListView extends ListView {
 
 				if (!touch) {
 					startX = x;
-					finalX = startX + r.width() * 3 / 5;
 					touch = true;
 					isRightSlide = false;
 					isLeftSlide = false;
-					
+
 				}
 
 				dragView(x, y);
@@ -489,11 +485,10 @@ public class TouchListView extends ListView {
 		mWindowManager.addView(v, mWindowParams);
 
 		mDragView = v;
-		currentItem.setVisibility(View.INVISIBLE);
 	}
 
 	private void dragView(int x, int y) {
-		float alpha = 0.99f;
+		float alpha = 1f;
 		int width = mDragView.getWidth();
 		float stepAlpha = (float) width * 3 / 500000;
 		if (mRemoveMode == SLIDE_RIGHT) {
@@ -508,8 +503,8 @@ public class TouchListView extends ListView {
 			mWindowParams.alpha = alpha;
 		} else if (mRemoveMode == SLIDE) {
 			if (Math.abs(startX - x) > 0.05 * width) {
+				currentItem.setVisibility(View.INVISIBLE);
 				if (!isLeftSlide && x > startX) {
-					Log.d(TAG, "Right slide " + alpha);
 					alpha = (float) (1 - stepAlpha
 							* (x - startX - 0.05 * width));
 					isRightSlide = true;
@@ -518,19 +513,20 @@ public class TouchListView extends ListView {
 					if (!isRightSlide && x < startX) {
 						alpha = (float) (1 - stepAlpha
 								* (startX - x - 0.05 * width));
-						Log.d(TAG, "Left slide " + alpha);
 						isLeftSlide = true;
 					}
 				}
+
+				if (alpha > 0 && alpha <= 1) {
+					mWindowParams.alpha = alpha;
+				}
+
 			}
-		}
-		if (alpha > 0 && alpha < 1) {
-			mWindowParams.alpha = alpha;
+
 		}
 
 		// mWindowParams.y = mDragPoint + mCoordOffset;
 		mWindowManager.updateViewLayout(mDragView, mWindowParams);
-		// Log.d(TAG, "x= " + x + "width="+ width + "alpha=" + alpha);
 
 	}
 
