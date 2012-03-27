@@ -1,12 +1,13 @@
 package com.epam.android.social.api;
 
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
-import android.util.Log;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.epam.android.social.helper.OAuthHelper;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 
 public class TwitterAPI {
 	private static final String TAG = TwitterAPI.class.getSimpleName();
@@ -35,8 +36,18 @@ public class TwitterAPI {
 	public String getUserTimeLine() {
 		return "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2";
 	}
-	
-	public String getReetweetByUser(){
+
+	public String getReetweetByUser() {
 		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&include_entities=true";
+	}
+
+	public HttpPost updateStatus(String status)
+			throws UnsupportedEncodingException {
+		HttpPost httpPost = new HttpPost(
+				"https://api.twitter.com/1/statuses/update.json");
+		List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+		pairs.add(new BasicNameValuePair("status", status));
+		httpPost.setEntity(new UrlEncodedFormEntity(pairs));
+		return httpPost;
 	}
 }

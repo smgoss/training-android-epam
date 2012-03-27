@@ -18,7 +18,7 @@ public class TwitterMainFragmentActivity extends FragmentActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.custom_main_fragment);
+		setContentView(R.layout.twitter_main_fragment);
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new TwitterMainPagerAdapter(
 				getSupportFragmentManager(),getApplicationContext()));

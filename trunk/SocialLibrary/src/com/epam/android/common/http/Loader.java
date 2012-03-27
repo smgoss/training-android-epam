@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 import org.json.XML;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.epam.android.common.annotation.JSON;
@@ -121,16 +123,27 @@ public class Loader {
 
 	}
 
-	private String execute(String url) throws ClientProtocolException,
+	public String execute(String url) throws ClientProtocolException,
 			IOException {
 		HttpGet request = new HttpGet(url);
 		if (listRule != null) {
 			for (IRule rule : listRule) {
 				rule.applyRule(request);
-				Log.d(TAG, "url=" + url +" appleRule " + request);
+				Log.d(TAG, "url=" + url + " appleRule " + request);
 			}
 		}
 		return mHttpClient.execute(request);
+	}
+
+	public String post(HttpPost httpPost) throws ClientProtocolException,
+			IOException {
+		if (listRule != null) {
+			for (IRule rule : listRule) {
+				rule.applyRule(httpPost);
+			}
+		}
+		
+		return mHttpClient.execute(httpPost);
 	}
 
 	public void addRule(IRule rule) {
