@@ -1,0 +1,112 @@
+package com.epam.android.social.fragments;
+
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.epam.android.common.http.Loader;
+import com.epam.android.social.R;
+import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.TwitterConstants;
+
+public class AddTweetFragment extends DialogFragment {
+
+	private static final String TAG = AddTweetFragment.class.getSimpleName();
+
+	private Button tweetButton;
+
+	private Button cancelButton;
+
+	private EditText tweetText;
+
+	private TextView messageCountSymbols;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.tweet_add, null, false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle arg0) {
+		super.onActivityCreated(arg0);
+
+		if (tweetButton == null || cancelButton == null || tweetText == null
+				|| messageCountSymbols == null) {
+			
+			tweetButton = (Button) getView().findViewById(R.id.tweetButton);
+			cancelButton = (Button) getView().findViewById(R.id.canselButton);
+			tweetText = (EditText) getView().findViewById(R.id.tweetText);
+			messageCountSymbols = (TextView) getView().findViewById(
+					R.id.messageCoutSymbols);
+			messageCountSymbols.setText(String
+					.valueOf(TwitterConstants.MAX_LENGTH_TWEET));
+
+			tweetButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					try {
+						Loader.get(getActivity()).post(
+								TwitterAPI.getInstance().updateStatus(tweetText.getText().toString()));
+						getDialog().cancel();
+					} catch (ClientProtocolException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+
+			cancelButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					getDialog().cancel();
+				}
+			});
+
+			tweetText.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					messageCountSymbols.setText(String
+							.valueOf(TwitterConstants.MAX_LENGTH_TWEET - count));
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+
+				}
+
+			});
+
+		}
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setStyle(STYLE_NO_TITLE, getTheme());
+	}
+
+}
