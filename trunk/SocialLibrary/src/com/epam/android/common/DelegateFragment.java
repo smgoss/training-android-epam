@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,9 +39,9 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	private ProgressDialog mProgressDialog;
 
 	public abstract String getUrl();
-	
-	private View view = null;
-	
+
+	private boolean isFragmentStateSaved = false;
+
 	@Override
 	public void showLoading() {
 
@@ -61,7 +60,8 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 		} else {
 			Log.d("dialog", "not null" + this.toString());
 		}
-		if (!mProgressDialog.isShowing() && this.getActivity().getWindow() != null) {
+		if (!mProgressDialog.isShowing()
+				&& this.getActivity().getWindow() != null) {
 			mProgressDialog.setTitle(TITLE);
 			mProgressDialog.setMessage(MSG);
 			mProgressDialog.show();
@@ -81,7 +81,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	@Override
 	public void hideLoading() {
 		if (mProgressDialog != null && mProgressDialog.isShowing()
-				&&  getActivity().getWindow() != null) {
+				&& getActivity().getWindow() != null) {
 			mProgressDialog.dismiss();
 			Log.d("dialog", "dismiss " + this.toString());
 			if (!mAsyncTaskManager.isLastTask(getDelegateKey())) {
@@ -142,10 +142,15 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "onCreate");
+
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		mAsyncTaskManager = AsyncTaskManager.get(getActivity());
 		mAsyncTaskManager.addActivityTasks(getDelegateKey());
+
+		if (savedInstanceState != null) {
+			isFragmentStateSaved = true;
+		}
 
 	}
 
@@ -153,13 +158,8 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d(TAG, "onCreateView");
-		if (view == null) {
-			view = inflater.inflate(getLayoutResource(), container, false);
-			return view;
-		}
-		
-		return view.getRootView();
-		
+		return inflater.inflate(getLayoutResource(), container, false);
+
 	}
 
 	public abstract int getLayoutResource();
@@ -182,7 +182,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	@Override
 	public void onResume() {
-		
+
 		Log.d(TAG, "onResume");
 		mAsyncTaskManager.setDeleteStatus(false, getDelegateKey());
 
@@ -219,7 +219,9 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 		};
 
 		getActivity().registerReceiver(receiver, filter);
-		startTasks();
+		if (!isFragmentStateSaved) {
+			startTasks();
+		}
 		super.onResume();
 	}
 
@@ -240,15 +242,15 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	protected void onTaskPreExecute(Intent intent) {
 		showLoading();
-	} 
+	}
 
 	public void onTaskPostExecute(Intent intent) {
 		hideLoading();
 		success(intent);
 	}
-	
+
 	private List<String> loadedList;
-	
+
 	private boolean isLoaded(String key) {
 
 		if (loadedList == null) {
@@ -261,7 +263,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 			} else {
 				loadedList.add(key);
 				return true;
- 
+
 			}
 		}
 	}
@@ -282,14 +284,13 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
+		Log.d(TAG, "onActivityCreated");
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		Log.d(TAG, "onSaveInstanseState");
 		super.onSaveInstanceState(outState);
-		
+		Log.d(TAG, "onSaveInstanseState");
 	}
 }

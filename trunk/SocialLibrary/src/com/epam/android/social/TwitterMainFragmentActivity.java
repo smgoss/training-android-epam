@@ -6,9 +6,6 @@ import android.support.v4.view.ViewPager;
 
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
 import com.viewpagerindicator.PageIndicator;
-import com.viewpagerindicator.TabPageIndicator;
-import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.TitleProvider;
 
 public class TwitterMainFragmentActivity extends FragmentActivity{
 

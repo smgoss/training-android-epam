@@ -5,25 +5,24 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.android.common.adapter.AbstractAdapter;
 import com.epam.android.social.R;
-import com.epam.android.social.model.TweetNotLogin;
+import com.epam.android.social.model.Tweet;
 
-public class TweetAdapter extends AbstractAdapter<TweetNotLogin> {
+public class TweetAdapter extends AbstractAdapter<Tweet> {
 
 	private static final String TAG = TweetAdapter.class.getSimpleName();
 
-	public TweetAdapter(Context c, int pItemResource, List<TweetNotLogin> pList) {
+	public TweetAdapter(Context c, int pItemResource, List<Tweet> pList) {
 		super(c, pItemResource, pList);
 	}
 
 	@Override
-	public void init(View view, TweetNotLogin item) {
+	public void init(View view, Tweet item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
 		mImageLoader.bind(this, userAvatar, item.getProfileUrl());
 

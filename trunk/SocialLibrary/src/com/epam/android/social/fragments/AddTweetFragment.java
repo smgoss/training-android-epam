@@ -1,8 +1,6 @@
 package com.epam.android.social.fragments;
 
-import java.io.IOException;
-
-import org.apache.http.client.ClientProtocolException;
+import java.io.UnsupportedEncodingException;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.epam.android.common.http.Loader;
+import com.epam.android.common.task.HttpPostAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.TwitterConstants;
@@ -46,7 +44,7 @@ public class AddTweetFragment extends DialogFragment {
 
 		if (tweetButton == null || cancelButton == null || tweetText == null
 				|| messageCountSymbols == null) {
-			
+
 			tweetButton = (Button) getView().findViewById(R.id.tweetButton);
 			cancelButton = (Button) getView().findViewById(R.id.canselButton);
 			tweetText = (EditText) getView().findViewById(R.id.tweetText);
@@ -58,15 +56,17 @@ public class AddTweetFragment extends DialogFragment {
 			tweetButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+
 					try {
-						Loader.get(getActivity()).post(
-								TwitterAPI.getInstance().updateStatus(tweetText.getText().toString()));
-						getDialog().cancel();
-					} catch (ClientProtocolException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+						new HttpPostAsyncTask(getActivity()).execute(TwitterAPI
+								.getInstance().getUpdateStatusRequest(
+										tweetText.getText().toString()));
+					} catch (UnsupportedEncodingException e) {
+						Log.e(TAG,
+								"particular character converter not unavailable",
+								e);
 					}
+					getDialog().cancel();
 				}
 			});
 
@@ -83,8 +83,6 @@ public class AddTweetFragment extends DialogFragment {
 				@Override
 				public void onTextChanged(CharSequence s, int start,
 						int before, int count) {
-					messageCountSymbols.setText(String
-							.valueOf(TwitterConstants.MAX_LENGTH_TWEET - count));
 				}
 
 				@Override
@@ -95,7 +93,9 @@ public class AddTweetFragment extends DialogFragment {
 				@Override
 				public void beforeTextChanged(CharSequence s, int start,
 						int count, int after) {
-
+					messageCountSymbols.setText(String
+							.valueOf(TwitterConstants.MAX_LENGTH_TWEET - start
+									- after));
 				}
 
 			});
