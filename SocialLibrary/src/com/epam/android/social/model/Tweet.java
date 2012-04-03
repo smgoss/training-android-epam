@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
@@ -12,7 +13,7 @@ import com.epam.android.common.model.IModelCreator;
 public class Tweet extends BaseModel {
 	@SuppressWarnings("unused")
 	private static final String TAG = Tweet.class.getSimpleName();
-	
+
 	public static final IModelCreator<Tweet> MODEL_CREATOR = new IModelCreator<Tweet>() {
 
 		public Tweet create(JSONObject jsonObject) {
@@ -50,12 +51,12 @@ public class Tweet extends BaseModel {
 
 	public String getProfileUrl() {
 		try {
-			return getJSONObject().getJSONObject("user").getString("profile_image_url");
+			return getJSONObject().getJSONObject("user").getString(
+					"profile_image_url");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "error on gson when get Profile Url", e);
 		}
-		
+
 		return "";
 	}
 
@@ -67,9 +68,8 @@ public class Tweet extends BaseModel {
 		try {
 			return getJSONObject().getJSONObject("user").getString("name");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+			Log.e(TAG, "error on gson when get User Name", e);
+		}
 		return "";
 	}
 

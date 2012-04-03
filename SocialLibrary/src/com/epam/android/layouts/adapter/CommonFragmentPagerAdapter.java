@@ -5,9 +5,9 @@ import java.util.List;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public abstract class CommonFragmentPagerAdapter extends FragmentPagerAdapter {
+public abstract class CommonFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
 	private List<Fragment> fragments;
 	

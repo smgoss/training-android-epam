@@ -5,7 +5,7 @@ import java.util.List;
 import android.widget.ListView;
 
 import com.epam.android.common.BaseArrayModelByAnnotationActivity;
-import com.epam.android.social.adapter.TweetAdapter;
+import com.epam.android.social.adapter.TweetNotLoginAdapter;
 import com.epam.android.social.model.TweetNotLogin;
 
 public class TwitterActivity extends BaseArrayModelByAnnotationActivity<TweetNotLogin> {
@@ -24,7 +24,7 @@ public class TwitterActivity extends BaseArrayModelByAnnotationActivity<TweetNot
 	@Override
 	protected void success(List<TweetNotLogin> result) {
 		mListView = (ListView) findViewById(R.id.array_model_list);
-		mListView.setAdapter(new TweetAdapter(TwitterActivity.this,
+		mListView.setAdapter(new TweetNotLoginAdapter(TwitterActivity.this,
 				R.layout.tweet, result));
 	}
 

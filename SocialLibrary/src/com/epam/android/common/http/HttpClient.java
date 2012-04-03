@@ -53,6 +53,7 @@ public class HttpClient {
 
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, UTF_8);
+		HttpProtocolParams.setHttpElementCharset(params, UTF_8);
 		HttpConnectionParams.setConnectionTimeout(params, SO_TIMEOUT);
 		HttpConnectionParams.setSoTimeout(params, SO_TIMEOUT);
 
