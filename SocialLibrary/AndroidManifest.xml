@@ -30,8 +30,9 @@
         <activity android:name=".TestListViewActivity" />
         <activity android:name=".MultiSampleActivity" />
         <activity android:name=".TwitterActivity" />
+        <activity android:name=".TwitterMainFragmentActivity"/>
         <activity android:name=".TwitterLoginActivity" />
-        <activity android:name=".TwitterMainFragmentActivity" />
+        <activity android:name=".TwitterTimeLineFragmentActivity" />
         <activity android:name="com.epam.android.layouts.MyLayoutActivity" />
         <activity android:name="com.epam.android.layouts.TabsActivity" />
         <activity android:name="com.epam.android.layouts.FirstTabActivity" />

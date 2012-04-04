@@ -62,16 +62,17 @@ public class MainActivity extends Activity {
 	
 	
 	public void onMyLayoutButtonClick(View view){
-		startActivity(new Intent(this, MyLayoutActivity.class));
+//		startActivity(new Intent(this, MyLayoutActivity.class));
+		startActivity(new Intent(this, TwitterMainFragmentActivity.class));
 	}
 	
 	public void onTwitterButtonClick(View view){
-		if(!OAuthHelper.getInstanse().isLogged(getApplicationContext())){
-			startActivity(new Intent(this, TwitterLoginActivity.class));
-		}
-		else{
-			startActivity(new Intent(this, TwitterMainFragmentActivity.class));
-		}
+//		if(!OAuthHelper.getInstanse().isLogged()){
+//			startActivity(new Intent(this, TwitterLoginActivity.class));
+//		}
+//		else{
+//			startActivity(new Intent(this, TwitterTimeLineFragmentActivity.class));
+//		}
 	}
 	
 	private boolean isOnline() {

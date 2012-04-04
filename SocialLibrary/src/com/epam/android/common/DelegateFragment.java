@@ -174,8 +174,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 	@Override
 	public void onDestroy() {
-		Log.d(TAG, "onDestroy");
-
+		Log.d(TAG, "onDestroy " + getDelegateKey());
 		mAsyncTaskManager.setDeleteStatus(true, getDelegateKey());
 		super.onDestroy();
 	}
@@ -220,6 +219,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 		getActivity().registerReceiver(receiver, filter);
 		if (!isFragmentStateSaved) {
+			Log.d(TAG, "!!!!start Task !!!!!!!");
 			startTasks();
 		}
 		super.onResume();
