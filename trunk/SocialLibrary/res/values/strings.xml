@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">SocialLibrary</string>
+    <string name="app_name">Twitter for Android</string>
     <string name="model_button">Load model</string>
     <string name="arraymodel_button">Load arraymodel</string>
     <string name="parse_xml_to_json_button">Parse XML To JSON</string>

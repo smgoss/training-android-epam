@@ -50,6 +50,9 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&include_entities=true&count=19";
 	}
 
+	public String verifyCredentials(){
+		return "https://api.twitter.com/1/account/verify_credentials.json";
+	}
 	private HttpPost generatePostRequest(Hashtable<String, String> requetParams)
 			throws UnsupportedEncodingException {
 		HttpPost httpPost = new HttpPost(

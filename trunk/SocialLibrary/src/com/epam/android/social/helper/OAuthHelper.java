@@ -1,5 +1,9 @@
 package com.epam.android.social.helper;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Hashtable;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -9,15 +13,18 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import android.R.color;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.epam.android.common.http.Loader;
+import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
+import com.epam.android.social.model.TwitterUserInfo;
 
 public class OAuthHelper {
 
@@ -39,29 +46,30 @@ public class OAuthHelper {
 
 	private static OAuthHelper instanse;
 
-	private Context context;
+	private Context mContext;
 
-	private OAuthHelper() {
-		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-		provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
-				AUTHORIZE_URL);
+	private String userName = null;
+
+	public OAuthHelper(Context context) {
+		if (instanse == null) {
+			consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
+					CONSUMER_SECRET);
+			provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
+					AUTHORIZE_URL);
+			mContext = context;
+		}
 		// TODO restore
 	}
 
 	public static OAuthHelper getInstanse() {
-		if (instanse == null) {
-			instanse = new OAuthHelper();
-		}
 		return instanse;
 	}
 
-	public boolean isLogged(Context context) {
-		this.context = context;
-		SharedPreferences preferences = context.getSharedPreferences(
+	public boolean isLogged(String userName) {
+		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		if (preferences.getString(TwitterConstants.TOKEN, null) != null
-				&& preferences.getString(TwitterConstants.TOKEN_SECRET, null) != null) {
-			restoreToken();
+		if (preferences.getString(userName, null) != null) {
+			restoreToken(userName);
 			return true;
 		}
 		return false;
@@ -78,7 +86,7 @@ public class OAuthHelper {
 		if (url.startsWith(REDIRECT_URL)) {
 			String oauthVerifier = getOauthVerifierFromUrl(url);
 			setRetrieveAccessToken(oauthVerifier);
-			saveToken(oauthVerifier);
+			saveToken();
 			return true;
 
 		} else {
@@ -112,23 +120,51 @@ public class OAuthHelper {
 		}
 	}
 
-	private void restoreToken() {
-		SharedPreferences preferences = context.getSharedPreferences(
+	private void restoreToken(String userName) {
+		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		consumer.setTokenWithSecret(
-				preferences.getString(TwitterConstants.TOKEN, ""),
-				preferences.getString(TwitterConstants.TOKEN_SECRET, ""));
+		String temp = preferences.getString(userName, "");
+		consumer.setTokenWithSecret(temp.split("&")[0], temp.split("&")[1]);
+		// consumer.setTokenWithSecret(
+		// preferences.getString(TwitterConstants.TOKEN, ""),
+		// preferences.getString(TwitterConstants.TOKEN_SECRET, ""));
 	}
 
-	private void saveToken(String oauthVerifier) {
-		SharedPreferences.Editor editor = context.getSharedPreferences(
+	private void saveToken() {
+
+		SharedPreferences preferences = mContext.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		String accountList = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, "");
+		SharedPreferences.Editor editor = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE)
 				.edit();
 		editor.putString(TwitterConstants.TOKEN, consumer.getToken());
 		editor.putString(TwitterConstants.TOKEN_SECRET,
 				consumer.getTokenSecret());
+		editor.putString(getLogginedUserName(), consumer.getToken() + "&"
+				+ consumer.getTokenSecret());
+		editor.putString(ApplicationConstants.ACCOUNT_LIST, accountList + "&"
+				+ getLogginedUserName());
 		editor.commit();
 
+	}
+
+	private String getLogginedUserName() {
+		Loader loader = Loader.get(mContext);
+		if (userName == null) {
+			try {
+				TwitterUserInfo user = new TwitterUserInfo(
+						loader.execute(TwitterAPI.getInstance()
+								.verifyCredentials()));
+				userName = user.getUserName();
+			} catch (ClientProtocolException e) {
+				Log.e(TAG, "error on HTTP protocol ", e);
+			} catch (IOException e) {
+				Log.e(TAG, "IOException when get user info ", e);
+			}
+		}
+		return userName;
 	}
 
 }
