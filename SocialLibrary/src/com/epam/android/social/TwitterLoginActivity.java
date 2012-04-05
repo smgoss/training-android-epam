@@ -1,5 +1,7 @@
 package com.epam.android.social;
 
+import java.io.IOException;
+
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
@@ -53,20 +55,21 @@ public class TwitterLoginActivity extends Activity {
 		return new WebViewClient() {
 
 			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				Log.d(TAG, "page started " + url);
-				if (helper.isTokenSaved(url)) {
-					webView.setVisibility(WebView.INVISIBLE);
-				}
-			}
-
-			@Override
 			public void onPageFinished(WebView view, String url) {
 				Log.d(TAG, "page finished " + url);
-				if (helper.isTokenSaved(url)) {
-					finish();
-					startActivity(intent);
+				try {
+					if (helper.isTokenSaved(url)) {
+						webView.setVisibility(WebView.INVISIBLE);
+						finish();
+						startActivity(intent);
 
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 

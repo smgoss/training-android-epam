@@ -1,17 +1,34 @@
 package com.epam.android.social.fragments;
 
+import java.io.IOException;
+import java.util.List;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
+import com.epam.android.social.TwitterLoginActivity;
+import com.epam.android.social.TwitterTimeLineFragmentActivity;
+import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.helper.OAuthHelper;
+import com.epam.android.social.model.TwitterUserInfo;
 
 public class AddAccountsFragment extends Fragment {
 
@@ -23,60 +40,99 @@ public class AddAccountsFragment extends Fragment {
 
 	private ImageButton addAccountButton;
 
-	private int sizeAvatarOnPixel;
+	private int lastAccountPictureID = 100500;
 
-	private final int sizeAvatarOnDip = 40;
-
-	private String[] userAccount = new String[] { "Ilya.shknaj", "Shknaj" };
+	private boolean isFirst = true;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		restoreAccounts();
 		addAccountButton = (ImageButton) getView().findViewById(
-				R.id.addAccountButton);
+				R.id.accountPicture);
 		addAccountButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				addPictureNewAccount();
-				// startActivity(new Intent(getView().getContext(),
-				// TwitterLoginActivity.class));
+				startActivity(new Intent(getView().getContext(),
+						TwitterLoginActivity.class));
 			}
 		});
+
 	}
 
-	private void addPictureNewAccount() {
+	private void restoreAccounts() {
+		SharedPreferences preferences = getActivity().getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		String userInfoSerialized = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
+		ObjectSerializer serializer = new ObjectSerializer();
+		try {
+			List<TwitterUserInfo> listAccounts = (List<TwitterUserInfo>) serializer
+					.deserialize(userInfoSerialized);
 
-		 relativeLayout = (RelativeLayout) getView().findViewById(
-		 R.id.accountLayout);
-		// Resources r = getResources();
-		// sizeAvatarOnPixel = (int) TypedValue.applyDimension(
-		// TypedValue.COMPLEX_UNIT_DIP, sizeAvatarOnDip,
-		// r.getDisplayMetrics());
-		// params = new LayoutParams(sizeAvatarOnPixel, sizeAvatarOnPixel);
-		// ImageView imageView = new ImageView(getView().getContext());
-		// imageView.setImageDrawable(getResources().getDrawable(R.drawable.ava));
-		// imageView.setId(5);
-		// imageView.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// Toast.makeText(getView().getContext(), "text",
-		// Toast.LENGTH_SHORT).show();
-		// }
-		// });
-		// params.addRule(RelativeLayout.RIGHT_OF, R.id.addAccountButton);
-		// params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-		// params.leftMargin = 5;
-		// relativeLayout.addView(imageView, params);
-		LayoutInflater inflater = (LayoutInflater)
-			    getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			if (listAccounts != null) {
+				for (int i = 0; i < listAccounts.size(); i++) {
+					addNewAccount(listAccounts.get(i).getUserName(),
+							getResources().getDrawable(R.drawable.ava));
+				}
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void addNewAccount(String accontName, Drawable accountAvatar) {
+		relativeLayout = (RelativeLayout) getView().findViewById(
+				R.id.accountLayout);
+		LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		RelativeLayout layoutItem = (RelativeLayout) inflater.inflate(
-		        R.layout.account, null, false);
-		((TextView)layoutItem.findViewById(R.id.accountName)).setText("hello");
-		relativeLayout.addView(layoutItem);
-		
-		
+				R.layout.account, null, false);
+		TextView accountName = (TextView) layoutItem
+				.findViewById(R.id.accountName);
+		accountName.setText(accontName);
+		ImageView accountPicture = (ImageView) layoutItem
+				.findViewById(R.id.accountPicture);
+		accountPicture.setImageDrawable(accountAvatar);
+		accountPicture.setTag(accontName);
+		layoutItem.setId(lastAccountPictureID);
+		accountPicture.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				try {
+					OAuthHelper.getInstanse().isLogged((String) v.getTag());
+					startActivity(new Intent(getView().getContext(),
+							TwitterTimeLineFragmentActivity.class));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		RelativeLayout.LayoutParams layoutParams = new LayoutParams(
+				RelativeLayout.LayoutParams.WRAP_CONTENT,
+				RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+		if (isFirst) {
+			layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.accountPicture);
+			isFirst = false;
+		} else {
+			layoutParams.addRule(RelativeLayout.RIGHT_OF,
+					lastAccountPictureID - 1);
+		}
+		relativeLayout.addView(layoutItem, layoutParams);
+		lastAccountPictureID++;
 	}
 
 	@Override

@@ -1,32 +1,18 @@
 package com.epam.android.social.model;
 
+import java.io.Serializable;
+
 import org.json.JSONObject;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.epam.android.common.model.BaseModel;
-import com.epam.android.common.model.IModelCreator;
 
-public class TwitterUserInfo extends BaseModel{
-	public static final IModelCreator<TwitterUserInfo> MODEL_CREATOR = new IModelCreator<TwitterUserInfo>() {
-
-		public TwitterUserInfo create(JSONObject jsonObject) {
-			return new TwitterUserInfo(jsonObject);
-		}
-
-	};
-
-	public static final Parcelable.Creator<TwitterUserInfo> CREATOR = new Creator<TwitterUserInfo>() {
-
-		public TwitterUserInfo[] newArray(int size) {
-			return new TwitterUserInfo[size];
-		}
-
-		public TwitterUserInfo createFromParcel(Parcel in) {
-			return new TwitterUserInfo(in);
-		}
-	};
+public class TwitterUserInfo extends BaseModel implements Serializable {
+	private String token;
+	private String tokenSecret;
+	private String userName;
+	private String userProfileUrl;
 
 	public TwitterUserInfo() {
 		super();
@@ -34,21 +20,45 @@ public class TwitterUserInfo extends BaseModel{
 
 	public TwitterUserInfo(JSONObject json) {
 		super(json);
+		setValuesFormJson();
 	}
 
 	public TwitterUserInfo(Parcel in) {
 		super(in);
+		setValuesFormJson();
 	}
 
 	public TwitterUserInfo(String json) {
 		super(json);
+		setValuesFormJson();
 	}
-	
-	public String getUserName(){
-		return getString("screen_name");
+
+	public String getUserName() {
+		return userName;
 	}
-	
-	public String getProfileUrl(){
-		return getString("profile_image_url");
+
+	public String getProfileUrl() {
+		return userProfileUrl;
+	}
+
+	private void setValuesFormJson() {
+		userName = getString("screen_name");
+		userProfileUrl = getString("profile_image_url");
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getTokenSecret() {
+		return tokenSecret;
+	}
+
+	public void setTokenSecret(String tokenSecret) {
+		this.tokenSecret = tokenSecret;
 	}
 }
