@@ -2,7 +2,8 @@ package com.epam.android.social.helper;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
@@ -21,6 +22,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.epam.android.common.http.Loader;
+import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
@@ -48,15 +50,21 @@ public class OAuthHelper {
 
 	private Context mContext;
 
-	private String userName = null;
+	private List<TwitterUserInfo> listUsers;
 
-	public OAuthHelper(Context context) {
+	private ObjectSerializer serializer;
+
+	private String userInfoSerialized;
+
+	private OAuthHelper(Context context) {
 		if (instanse == null) {
 			consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
 					CONSUMER_SECRET);
 			provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
 					AUTHORIZE_URL);
 			mContext = context;
+			listUsers = new ArrayList<TwitterUserInfo>();
+			serializer = new ObjectSerializer();
 		}
 		// TODO restore
 	}
@@ -65,13 +73,32 @@ public class OAuthHelper {
 		return instanse;
 	}
 
-	public boolean isLogged(String userName) {
+	public static OAuthHelper newInstanse(Context context) {
+		if (instanse == null) {
+			instanse = new OAuthHelper(context);
+		}
+		return instanse;
+	}
+
+	public boolean isLogged(String userName) throws IOException,
+			ClassNotFoundException {
 		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		if (preferences.getString(userName, null) != null) {
-			restoreToken(userName);
-			return true;
+
+		userInfoSerialized = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
+
+		if (userInfoSerialized != null) {
+			listUsers = (List<TwitterUserInfo>) serializer
+					.deserialize(userInfoSerialized);
+			for (int j = 0; j < listUsers.size(); j++) {
+				if (listUsers.get(j).getUserName().equals(userName)) {
+					restoreToken(listUsers.get(j));
+					return true;
+				}
+			}
 		}
+
 		return false;
 	}
 
@@ -81,7 +108,8 @@ public class OAuthHelper {
 		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
 	}
 
-	public boolean isTokenSaved(String url) {
+	public boolean isTokenSaved(String url) throws IOException,
+			ClassNotFoundException {
 		// TODO rename isTokenSaved, save token
 		if (url.startsWith(REDIRECT_URL)) {
 			String oauthVerifier = getOauthVerifierFromUrl(url);
@@ -120,51 +148,49 @@ public class OAuthHelper {
 		}
 	}
 
-	private void restoreToken(String userName) {
-		SharedPreferences preferences = mContext.getSharedPreferences(
-				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		String temp = preferences.getString(userName, "");
-		consumer.setTokenWithSecret(temp.split("&")[0], temp.split("&")[1]);
-		// consumer.setTokenWithSecret(
-		// preferences.getString(TwitterConstants.TOKEN, ""),
-		// preferences.getString(TwitterConstants.TOKEN_SECRET, ""));
+	private void restoreToken(TwitterUserInfo user) throws IOException,
+			ClassNotFoundException {
+		consumer.setTokenWithSecret(user.getToken(), user.getTokenSecret());
+
 	}
 
-	private void saveToken() {
+	private void saveToken() throws IOException, ClassNotFoundException {
 
 		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		String accountList = preferences.getString(
-				ApplicationConstants.ACCOUNT_LIST, "");
+		userInfoSerialized = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
+		if (userInfoSerialized != null) {
+			listUsers = (List<TwitterUserInfo>) serializer
+					.deserialize(userInfoSerialized);
+		}
+		TwitterUserInfo user = getUser();
+		user.setToken(consumer.getToken());
+		user.setTokenSecret(consumer.getTokenSecret());
+		listUsers.add(user);
+
 		SharedPreferences.Editor editor = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE)
 				.edit();
-		editor.putString(TwitterConstants.TOKEN, consumer.getToken());
-		editor.putString(TwitterConstants.TOKEN_SECRET,
-				consumer.getTokenSecret());
-		editor.putString(getLogginedUserName(), consumer.getToken() + "&"
-				+ consumer.getTokenSecret());
-		editor.putString(ApplicationConstants.ACCOUNT_LIST, accountList + "&"
-				+ getLogginedUserName());
+		editor.putString(ApplicationConstants.ACCOUNT_LIST,
+				serializer.serialize((Serializable) listUsers));
 		editor.commit();
 
 	}
 
-	private String getLogginedUserName() {
+	private TwitterUserInfo getUser() {
 		Loader loader = Loader.get(mContext);
-		if (userName == null) {
-			try {
-				TwitterUserInfo user = new TwitterUserInfo(
-						loader.execute(TwitterAPI.getInstance()
-								.verifyCredentials()));
-				userName = user.getUserName();
-			} catch (ClientProtocolException e) {
-				Log.e(TAG, "error on HTTP protocol ", e);
-			} catch (IOException e) {
-				Log.e(TAG, "IOException when get user info ", e);
-			}
+		try {
+			TwitterUserInfo user = new TwitterUserInfo(
+					loader.execute(TwitterAPI.getInstance().verifyCredentials()));
+			return user;
+		} catch (ClientProtocolException e) {
+			Log.e(TAG, "error on HTTP protocol ", e);
+		} catch (IOException e) {
+			Log.e(TAG, "IOException when get user info ", e);
 		}
-		return userName;
+
+		return null;
 	}
 
 }

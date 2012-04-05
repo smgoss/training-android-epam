@@ -19,7 +19,7 @@ public class SocialApplication extends CommonApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		oAuthHelper = new OAuthHelper(getApplicationContext());
+		oAuthHelper = OAuthHelper.newInstanse(getApplicationContext());
 		Loader.get(this).addRule(new IRule() {
 			
 			@Override
