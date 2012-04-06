@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Twitter for Android</string>
-    <string name="model_button">Load model</string>
-    <string name="arraymodel_button">Load arraymodel</string>
-    <string name="parse_xml_to_json_button">Parse XML To JSON</string>
     <string name="not_internet">No Internet Connection</string>
-    <string name="run_asynctask_button">Run Asynctask</string>
-    <string name="test_asynctask_text">Testing Asynctask</string>
-    <string name="test_multi_task">Testing MultiTask</string>
-    <string name="my_layout">My layout</string>
-    <string name="english">English</string>
-    <string name="russian">Русский</string>
-    <string name="twitter_search">Twitter Search</string>
-    <string name="twitter_login">Twitter</string>
-    <string name="task_working">Working (%1$d)</string>
-    <string name="task_starting">Starting</string>
-    <string name="task_cancelled">Task is cancelled by user</string>
-    <string name="task_completed">Task is completed with result OK</string>
     <string name="cancel">Cancel</string>
     <string name="tweet">Tweet</string>
 
