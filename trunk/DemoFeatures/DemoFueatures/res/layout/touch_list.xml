@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.commonsware.cwac.tlv.demo.TouchListView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tlv="http://schemas.android.com/apk/res/com.epam.android.social"
+    android:id="@+id/m_touch_list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:drawSelectorOnTop="false"
+    tlv:grabber="@+id/touch_item"
+    tlv:remove_mode="slide" />
