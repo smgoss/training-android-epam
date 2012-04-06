@@ -1,11 +1,9 @@
 package com.epam.android.layouts.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.epam.android.common.adapter.CommonFragmentPagerAdapter;
 import com.epam.android.layouts.fragments.FragmentFour;
 import com.epam.android.layouts.fragments.FragmentOne;
 import com.epam.android.layouts.fragments.FragmentThree;
