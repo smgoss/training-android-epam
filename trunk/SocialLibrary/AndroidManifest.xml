@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/ApplicationTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".TwitterMainFragmentActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,22 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ModelSampleActivity" />
-        <activity android:name=".ArrayModelSampleActivity" />
-        <activity android:name=".ArrayModelFromXMLSampleActivity" />
-        <activity android:name=".TestAsyncTaskActivity" />
-        <activity android:name=".TestListViewActivity" />
-        <activity android:name=".MultiSampleActivity" />
         <activity android:name=".TwitterActivity" />
-        <activity android:name=".TwitterMainFragmentActivity"/>
         <activity android:name=".TwitterLoginActivity" />
         <activity android:name=".TwitterTimeLineFragmentActivity" />
-        <activity android:name="com.epam.android.layouts.MyLayoutActivity" />
-        <activity android:name="com.epam.android.layouts.TabsActivity" />
-        <activity android:name="com.epam.android.layouts.FirstTabActivity" />
-        <activity android:name="com.epam.android.layouts.SecondTabActivity" />
-        <activity android:name="com.epam.android.layouts.ThirdTabActivity" />
-        <activity android:name="com.epam.android.layouts.OtherActivity" />
     </application>
 
 </manifest>

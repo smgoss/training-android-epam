@@ -3,7 +3,7 @@ package com.epam.android.social.adapter;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
-import com.epam.android.layouts.adapter.CommonFragmentPagerAdapter;
+import com.epam.android.common.adapter.CommonFragmentPagerAdapter;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.fragments.SearchTweetsFragment;
