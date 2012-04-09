@@ -13,17 +13,22 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter implemen
 
 		
 	private static final String TAG = TwitterMainPagerAdapter.class.getSimpleName();
+	
 	private String [] titles ;
-	public TwitterMainPagerAdapter(FragmentManager fm,Context context) {
+	
+	private String accountName;
+	public TwitterMainPagerAdapter(FragmentManager fm,Context context,String accountName) {
 		super(fm);
 		titles = context.getResources().getStringArray(R.array.titles);
+		this.accountName = accountName;
+		initFragments();
 	}
 
 	@Override
 	public void initFragments() {
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getHomeTimeLine()));
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getRetweetedByMe()));
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getReetweetByUser()));
+			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getHomeTimeLine(),accountName));
+			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getRetweetedByMe(),accountName));
+			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getReetweetByUser(),accountName));
 	}
 
 	@Override

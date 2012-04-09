@@ -27,6 +27,8 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 		implements OnClickListener {
 
 	private static final String ARG_QUERY = "query";
+	
+	private static final String ARG_USER_NAME = "user_name";
 
 	private static final String TAG = SearchTweetsFragment.class
 			.getSimpleName();
@@ -47,10 +49,11 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 
 	private boolean isLoading;
 
-	public static SearchTweetsFragment newInstance(String query) {
+	public static SearchTweetsFragment newInstance(String query,String accountName) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
 		bundle.putString(ARG_QUERY, query);
+		bundle.putString(ARG_USER_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -120,7 +123,8 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 	@Override
 	public String getDelegateKey() {
 		if (delegateKey == null) {
-			delegateKey = getArguments().getString(ARG_QUERY);
+			delegateKey = getArguments().getString(ARG_QUERY) + getArguments().getString(ARG_USER_NAME);
+			Log.d(TAG, "delegate key" + delegateKey);
 		}
 		return delegateKey;
 	}

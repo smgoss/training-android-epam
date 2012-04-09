@@ -18,7 +18,6 @@ public abstract class CommonFragmentPagerAdapter extends FragmentStatePagerAdapt
 	public CommonFragmentPagerAdapter(FragmentManager fm) {
 		super(fm);
 		fragments = new ArrayList<Fragment>();
-		initFragments();
 	}
 	
 	@Override
