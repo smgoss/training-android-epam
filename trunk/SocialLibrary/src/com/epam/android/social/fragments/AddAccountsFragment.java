@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,11 +77,9 @@ public class AddAccountsFragment extends Fragment {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d(TAG, "crash when desirialize", e);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.d(TAG, "crash when convert deserialize object", e);
 		}
 
 	}
@@ -106,14 +105,15 @@ public class AddAccountsFragment extends Fragment {
 			public void onClick(View v) {
 				try {
 					OAuthHelper.getInstanse().isLogged((String) v.getTag());
-					startActivity(new Intent(getView().getContext(),
-							TwitterTimeLineFragmentActivity.class));
+					Intent intent = new Intent(getView().getContext(),
+							TwitterTimeLineFragmentActivity.class);
+					intent.putExtra(ApplicationConstants.USER_ID,
+							String.valueOf(v.getTag()));
+					startActivity(intent);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.d(TAG, "crash when loading data", e);
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.d(TAG, "crash when converting data", e);
 				}
 			}
 		});
