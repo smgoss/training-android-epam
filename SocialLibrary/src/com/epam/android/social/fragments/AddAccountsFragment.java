@@ -36,7 +36,7 @@ public class AddAccountsFragment extends Fragment {
 
 	private RelativeLayout.LayoutParams params;
 
-	private ImageButton addAccountButton;
+	private ImageView addAccountButton;
 
 	private int lastAccountPictureID = 100500;
 
@@ -46,7 +46,7 @@ public class AddAccountsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		restoreAccounts();
-		addAccountButton = (ImageButton) getView().findViewById(
+		addAccountButton = (ImageView) getView().findViewById(
 				R.id.accountPicture);
 		addAccountButton.setOnClickListener(new OnClickListener() {
 

@@ -117,4 +117,10 @@ public class AsyncTaskManager {
 		mRunnableStorage.put(activityKey + taskKey, runnable);
 		mHandler.postDelayed(runnable, TASK_LIFETIME);
 	}
+	
+	public void restoreActivityTask(String activityKey,HashMap<String,CommonAsyncTask> ativityTask){
+		mAsyncTaskActivity.put(activityKey, ativityTask);
+	}
+	
+	
 }

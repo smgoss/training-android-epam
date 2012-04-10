@@ -124,9 +124,9 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 	public String getDelegateKey() {
 		if (delegateKey == null) {
 			delegateKey = getArguments().getString(ARG_QUERY) + getArguments().getString(ARG_USER_NAME);
-			Log.d(TAG, "delegate key" + delegateKey);
+			Log.d(TAG, "delegate key=" + delegateKey);
 		}
-		return delegateKey;
+ 		return delegateKey;
 	}
 
 	@Override
