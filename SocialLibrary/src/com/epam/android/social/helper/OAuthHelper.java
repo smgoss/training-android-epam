@@ -19,10 +19,12 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
+import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
@@ -55,6 +57,8 @@ public class OAuthHelper {
 	private ObjectSerializer serializer;
 
 	private String userInfoSerialized;
+	
+	private TwitterUserInfo user;
 
 	private OAuthHelper(Context context) {
 		if (instanse == null) {
@@ -164,7 +168,7 @@ public class OAuthHelper {
 			listUsers = (List<TwitterUserInfo>) serializer
 					.deserialize(userInfoSerialized);
 		}
-		TwitterUserInfo user = getUser();
+		user = getUser();
 		user.setToken(consumer.getToken());
 		user.setTokenSecret(consumer.getTokenSecret());
 		listUsers.add(user);
@@ -191,6 +195,14 @@ public class OAuthHelper {
 		}
 
 		return null;
+	}
+	
+	public String getUserName() {
+		return user.getUserName();
+	}
+	
+	public Drawable getAvatarDrawable(){
+		return mContext.getResources().getDrawable(R.drawable.ava);
 	}
 
 }

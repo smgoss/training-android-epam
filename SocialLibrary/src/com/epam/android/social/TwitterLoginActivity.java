@@ -22,6 +22,7 @@ import android.webkit.WebViewClient;
 
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
+import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.OAuthHelper;
 
 public class TwitterLoginActivity extends Activity {
@@ -50,7 +51,7 @@ public class TwitterLoginActivity extends Activity {
 		asyncTask.execute(null);
 
 	}
-	
+
 	private WebViewClient getWebViewClient() {
 		return new WebViewClient() {
 
@@ -60,6 +61,9 @@ public class TwitterLoginActivity extends Activity {
 				try {
 					if (helper.isTokenSaved(url)) {
 						webView.setVisibility(WebView.INVISIBLE);
+						AddAccountsFragment.getLogin().onSuccessLogin(
+								helper.getUserName(),
+								helper.getAvatarDrawable());
 						finish();
 						startActivity(intent);
 
@@ -118,7 +122,7 @@ public class TwitterLoginActivity extends Activity {
 		}
 
 	}
-	
+
 	public void showLoading() {
 
 		if (mProgressDialog == null) {
