@@ -3,12 +3,44 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <Button
+    <ImageView
+        android:id="@+id/homeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/home_icon" />
+
+    <ImageView
         android:id="@+id/tweetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:onClick="onTweetButtonClick"
-        android:text="Add" />
+        android:layout_marginRight="5dp"
+        android:src="@drawable/add_icon" />
+
+    <ImageView
+        android:id="@+id/messagesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/messages_icon" />
+
+    <ImageView
+        android:id="@+id/favoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_toLeftOf="@id/messagesButton"
+        android:src="@drawable/favorite_icon" />
+
+    <ImageView
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@id/messagesButton"
+        android:src="@drawable/search_icon" />
 
 </RelativeLayout>
