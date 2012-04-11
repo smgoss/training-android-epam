@@ -36,17 +36,19 @@ public class AddAccountsFragment extends Fragment {
 
 	private RelativeLayout.LayoutParams params;
 
-	private ImageView addAccountButton;
+	private ImageButton addAccountButton;
 
 	private int lastAccountPictureID = 100500;
 
 	private boolean isFirst = true;
+	
+	private static AddAccountsFragment.ILogin login;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		restoreAccounts();
-		addAccountButton = (ImageView) getView().findViewById(
+		addAccountButton = (ImageButton) getView().findViewById(
 				R.id.accountPicture);
 		addAccountButton.setOnClickListener(new OnClickListener() {
 
@@ -54,8 +56,16 @@ public class AddAccountsFragment extends Fragment {
 			public void onClick(View v) {
 				startActivity(new Intent(getView().getContext(),
 						TwitterLoginActivity.class));
-			}
+				};
 		});
+		
+		login = new ILogin() {
+			
+			@Override
+			public void onSuccessLogin(String accontName, Drawable accountAvatar) {
+				addNewAccount(accontName, accountAvatar);
+			}
+		};
 
 	}
 
@@ -136,6 +146,14 @@ public class AddAccountsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.account, null, false);
+	}
+	
+	public static interface ILogin{
+		public void onSuccessLogin(String accontName, Drawable accountAvatar);
+	}
+	
+	public static AddAccountsFragment.ILogin getLogin(){
+		return login;
 	}
 
 }
