@@ -6,11 +6,19 @@
     <string name="cancel">Cancel</string>
     <string name="tweet">Tweet</string>
     <string name="add_account_button">Add Acc</string>
+    <string name="you_loggined_on_this_account">You loggined on this account</string>
+    <string name="tweets">Tweets</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="send_tweet">Send Tweet</string>
+    <string name="show_all_tweets">Show all tweets</string>
+    <string name="favorite">Favorite</string>
+    <string name="simular_to">Similar to</string>
 
     <string-array name="titles">
         <item>Timeline</item>
         <item>By me</item>
-        <item>By User</item>
+        <item>Profile</item>
     </string-array>
 
 </resources>

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import com.epam.android.common.adapter.CommonFragmentPagerAdapter;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.fragments.ProfileFragment;
 import com.epam.android.social.fragments.SearchTweetsFragment;
 import com.viewpagerindicator.TitleProvider;
 
@@ -28,7 +29,7 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter implemen
 	public void initFragments() {
 			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getHomeTimeLine(),accountName));
 			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getRetweetedByMe(),accountName));
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getReetweetByUser(),accountName));
+			getFragments().add(new ProfileFragment());
 	}
 
 	@Override

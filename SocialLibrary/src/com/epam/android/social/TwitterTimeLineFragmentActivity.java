@@ -8,6 +8,7 @@ import android.util.Log;
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.viewpagerindicator.PageIndicator;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 

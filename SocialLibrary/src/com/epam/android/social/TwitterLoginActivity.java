@@ -8,20 +8,15 @@ import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.OAuthHelper;
 
@@ -51,7 +46,7 @@ public class TwitterLoginActivity extends Activity {
 		asyncTask.execute(null);
 
 	}
-
+	
 	private WebViewClient getWebViewClient() {
 		return new WebViewClient() {
 
@@ -122,7 +117,7 @@ public class TwitterLoginActivity extends Activity {
 		}
 
 	}
-
+	
 	public void showLoading() {
 
 		if (mProgressDialog == null) {

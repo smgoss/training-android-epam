@@ -11,9 +11,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.content.Context;
-
-import com.epam.android.common.task.HttpPostAsyncTask;
 import com.epam.android.social.constants.TwitterRequestParams;
 
 public class TwitterAPI {
@@ -31,7 +28,7 @@ public class TwitterAPI {
 	}
 
 	public String getRetweetedByMe() {
-		return "https://api.twitter.com/1/statuses/retweeted_by_me.json?include_entities=true&count=20";
+		return "https://api.twitter.com/1/statuses/retweeted_by_me.json?page=";
 	}
 
 	public String getRetweetOfMe() {
@@ -39,20 +36,26 @@ public class TwitterAPI {
 	}
 
 	public String getHomeTimeLine() {
-		return "https://api.twitter.com/1/statuses/home_timeline.json?";
+		return "https://api.twitter.com/1/statuses/home_timeline.json?page=";
 	}
 
 	public String getUserTimeLine() {
-		return "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2";
+		return "https://api.twitter.com/1/statuses/user_timeline.json?";
 	}
 
 	public String getReetweetByUser() {
-		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&include_entities=true&count=19";
+		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&page=";
 	}
 
-	public String verifyCredentials(){
+	public String verifyCredentials() {
 		return "https://api.twitter.com/1/account/verify_credentials.json";
 	}
+
+	public String fullProgileInfo(String profileName) {
+		return "https://api.twitter.com/1/users/lookup.json?screen_name="
+				+ profileName + "&include_entities=true";
+	}
+
 	private HttpPost generatePostRequest(Hashtable<String, String> requetParams)
 			throws UnsupportedEncodingException {
 		HttpPost httpPost = new HttpPost(

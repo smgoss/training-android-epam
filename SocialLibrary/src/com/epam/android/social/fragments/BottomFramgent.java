@@ -12,14 +12,14 @@ import android.widget.Toast;
 
 import com.epam.android.social.R;
 
-public class HeaderFramgent extends Fragment {
+public class BottomFramgent extends Fragment {
 
-	private static final String TAG = HeaderFramgent.class.getSimpleName();
+	private static final String TAG = BottomFramgent.class.getSimpleName();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.header, null, false);
+		return inflater.inflate(R.layout.bottom, null, false);
 	}
 
 	@Override
