@@ -44,6 +44,7 @@ public class AddAccountsFragment extends Fragment {
 	
 	private static AddAccountsFragment.ILogin login;
 
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -54,8 +55,9 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getView().getContext(),
-						TwitterLoginActivity.class));
+				startActivityForResult(new Intent(getView().getContext(),
+						TwitterLoginActivity.class),1);
+
 				};
 		});
 		
@@ -155,5 +157,8 @@ public class AddAccountsFragment extends Fragment {
 	public static AddAccountsFragment.ILogin getLogin(){
 		return login;
 	}
-
+	
+	
+	
+	
 }

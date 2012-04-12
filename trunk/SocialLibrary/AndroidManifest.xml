@@ -25,7 +25,9 @@
         </activity>
         <activity android:name=".TwitterActivity" />
         <activity android:name=".TwitterLoginActivity" />
-        <activity android:name=".TwitterTimeLineFragmentActivity" />
+        <activity
+            android:name=".TwitterTimeLineFragmentActivity"
+            android:theme="@style/Theme.PageIndicatorDefaults" />
     </application>
 
 </manifest>

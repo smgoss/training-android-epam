@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
@@ -57,7 +58,7 @@ public class OAuthHelper {
 	private ObjectSerializer serializer;
 
 	private String userInfoSerialized;
-	
+
 	private TwitterUserInfo user;
 
 	private OAuthHelper(Context context) {
@@ -169,16 +170,24 @@ public class OAuthHelper {
 					.deserialize(userInfoSerialized);
 		}
 		user = getUser();
-		user.setToken(consumer.getToken());
-		user.setTokenSecret(consumer.getTokenSecret());
-		listUsers.add(user);
+		if (!listContainUser(user.getUserName(), listUsers)) {
+			user.setToken(consumer.getToken());
+			user.setTokenSecret(consumer.getTokenSecret());
+			listUsers.add(user);
 
-		SharedPreferences.Editor editor = mContext.getSharedPreferences(
-				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE)
-				.edit();
-		editor.putString(ApplicationConstants.ACCOUNT_LIST,
-				serializer.serialize((Serializable) listUsers));
-		editor.commit();
+			SharedPreferences.Editor editor = mContext.getSharedPreferences(
+					ApplicationConstants.SHARED_PREFERENSE,
+					Context.MODE_PRIVATE).edit();
+			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+					serializer.serialize((Serializable) listUsers));
+			editor.commit();
+		} else {
+			Toast.makeText(
+					mContext,
+					mContext.getResources().getString(
+							R.string.you_loggined_on_this_account),
+					Toast.LENGTH_SHORT).show();
+		}
 
 	}
 
@@ -205,4 +214,12 @@ public class OAuthHelper {
 		return mContext.getResources().getDrawable(R.drawable.ava);
 	}
 
+	private boolean listContainUser(String userName, List<TwitterUserInfo> list) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getUserName().equals(userName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

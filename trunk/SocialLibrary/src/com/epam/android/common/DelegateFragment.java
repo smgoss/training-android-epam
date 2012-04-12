@@ -1,6 +1,7 @@
 package com.epam.android.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -41,6 +42,8 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	public abstract String getUrl();
 
 	private boolean isFragmentStateSaved = false;
+
+	private HashMap<String, CommonAsyncTask> activityTasks;
 
 	@Override
 	public void showLoading() {
@@ -175,14 +178,27 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "onDestroy " + getDelegateKey());
+		saveActivityTasks();
 		mAsyncTaskManager.setDeleteStatus(true, getDelegateKey());
+
 		super.onDestroy();
+	}
+
+	private void saveActivityTasks() {
+		activityTasks = mAsyncTaskManager.getActivityTasks(getDelegateKey());
+	}
+
+	private void restoreActivityTask() {
+		mAsyncTaskManager.restoreActivityTask(getDelegateKey(), activityTasks);
 	}
 
 	@Override
 	public void onResume() {
 
 		Log.d(TAG, "onResume");
+		if (activityTasks != null) {
+			restoreActivityTask();
+		}
 		mAsyncTaskManager.setDeleteStatus(false, getDelegateKey());
 
 		IntentFilter filter = new IntentFilter();

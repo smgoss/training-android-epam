@@ -6,29 +6,22 @@ import java.util.List;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.epam.android.common.BaseArrayModelByAnnotationFragment;
 import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
-import com.epam.android.social.adapter.TweetNotLoginAdapter;
 import com.epam.android.social.model.Tweet;
-import com.epam.android.social.model.TweetNotLogin;
 
-public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
-		implements OnClickListener {
+public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
 
 	private static final String ARG_QUERY = "query";
-	
-	private static final String ARG_USER_NAME = "user_name";
+
+	private static final String ARG_PROFILE_NAME = "profile_name";
 
 	private static final String TAG = SearchTweetsFragment.class
 			.getSimpleName();
@@ -49,11 +42,14 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 
 	private boolean isLoading;
 
-	public static SearchTweetsFragment newInstance(String query,String accountName) {
+	private int loadedPage = 1;
+
+	public static SearchTweetsFragment newInstance(String query,
+			String accountName) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
-		bundle.putString(ARG_QUERY, query);
-		bundle.putString(ARG_USER_NAME, accountName);
+		bundle.putString(ARG_QUERY, query + 1);
+		bundle.putString(ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -63,7 +59,17 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 		super.onCreate(savedInstanceState);
 		loadMore = new Button(getContext());
 		loadMore.setText("load more");
-		loadMore.setOnClickListener(SearchTweetsFragment.this);
+		loadMore.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				loadedPage++;
+				getArguments().putString(ARG_QUERY,
+						getArguments().getString(ARG_QUERY) + loadedPage);
+				startTasks();
+
+			}
+		});
 		Log.d(TAG, "onCreate");
 	}
 
@@ -85,6 +91,7 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 			outState.putParcelableArrayList(getDelegateKey(),
 					(ArrayList<? extends Parcelable>) currentList);
 		}
+
 	}
 
 	private void setList(List<Tweet> list) {
@@ -123,10 +130,16 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 	@Override
 	public String getDelegateKey() {
 		if (delegateKey == null) {
-			delegateKey = getArguments().getString(ARG_QUERY) + getArguments().getString(ARG_USER_NAME);
+			delegateKey = getArguments().getString(ARG_QUERY)
+					+ getArguments().getString(ARG_PROFILE_NAME);
 			Log.d(TAG, "delegate key=" + delegateKey);
 		}
- 		return delegateKey;
+		return delegateKey;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
 	}
 
 	@Override
@@ -135,7 +148,7 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 			currentList = new ArrayList<Tweet>();
 			currentList.addAll(result);
 			setList(currentList);
-			Log.d(TAG, "success = "  + result.size());
+			Log.d(TAG, "success = " + result.size());
 		} else {
 			currentList.addAll(result);
 			adapter.notifyDataSetChanged();
@@ -145,12 +158,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet>
 	@Override
 	public int getLayoutResource() {
 		return R.layout.load_array_model;
-	}
-
-	@Override
-	public void onClick(View v) {
-		getArguments().putString(ARG_QUERY, "HTC");
-		startTasks();
 	}
 
 	@Override

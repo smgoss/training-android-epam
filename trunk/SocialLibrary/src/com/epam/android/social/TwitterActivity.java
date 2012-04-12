@@ -8,7 +8,8 @@ import com.epam.android.common.BaseArrayModelByAnnotationActivity;
 import com.epam.android.social.adapter.TweetNotLoginAdapter;
 import com.epam.android.social.model.TweetNotLogin;
 
-public class TwitterActivity extends BaseArrayModelByAnnotationActivity<TweetNotLogin> {
+public class TwitterActivity extends
+		BaseArrayModelByAnnotationActivity<TweetNotLogin> {
 
 	private static final String TAG = TwitterActivity.class.getSimpleName();
 

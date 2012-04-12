@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/profileInfo_profileAvatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ava" />
+
+    <TextView
+        android:id="@+id/profileInfo_profileName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/profileInfo_profileAvatar"
+        android:text="IlyaShknaj"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/profileInfo_profileScreenName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileInfo_profileName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/profileInfo_profileAvatar"
+        android:text="/@IlyaShknaj"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/profileInfo_profileDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileInfo_profileAvatar"
+        android:paddingTop="5dp"
+        android:text="Здесь все обо мне.Здесь все обо мне.Здесь все обо мне.Здесь все обо мне" />
+
+    <TextView
+        android:id="@+id/profileInfo_profileUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileInfo_profileDescription"
+        android:paddingTop="5dp"
+        android:text="google.ru" />
+
+    <RelativeLayout
+        android:id="@+id/profileInfo_tweetsFollowingFollowersTextViewOnHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileInfo_profileUrl"
+        android:paddingTop="5dp" >
+
+        <LinearLayout
+            android:id="@+id/profileInfo_tweetsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/profileInfo_tweetCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tweets"
+                android:textColor="@color/silver" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profileInfo_followingLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/profileInfo_followingCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/following"
+                android:textColor="@color/silver" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profileInfo_followersLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/profileInfo_followersCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="22" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/followers"
+                android:textColor="@color/silver" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
