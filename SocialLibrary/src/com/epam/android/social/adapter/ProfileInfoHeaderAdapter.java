@@ -1,7 +1,5 @@
 package com.epam.android.social.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,11 +35,19 @@ public class ProfileInfoHeaderAdapter {
 
 		TextView description = (TextView) convertView
 				.findViewById(R.id.profileInfo_profileDescription);
-		description.setText(item.getDescription());
+		if (item.getDescription() != null && item.getDescription().length() != 0 ) {
+			description.setText(item.getDescription());
+		} else {
+			description.setVisibility(View.GONE);
+		}
 
 		TextView url = (TextView) convertView
 				.findViewById(R.id.profileInfo_profileUrl);
-		url.setText(item.getUrl());
+		if (item.getUrl() != null) {
+			url.setText(item.getUrl());
+		} else {
+			url.setVisibility(View.GONE);
+		}
 
 		TextView tweetCount = (TextView) convertView
 				.findViewById(R.id.profileInfo_tweetCount);

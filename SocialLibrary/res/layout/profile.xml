@@ -4,18 +4,19 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <fragment
+    <LinearLayout
+        android:id="@+id/profileInfoFragment"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        class="com.epam.android.social.fragments.ProfileInfoHeaderFragment" />
-    
+        android:layout_height="wrap_content" >
+    </LinearLayout>
+
     <Button
         android:id="@+id/profile_sendTweetButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/send_tweet" />
-    
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

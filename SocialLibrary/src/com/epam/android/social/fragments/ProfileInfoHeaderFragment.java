@@ -8,17 +8,17 @@ import android.util.Log;
 import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.ProfileInfoHeaderAdapter;
-import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.model.ProfileInfo;
 
 public class ProfileInfoHeaderFragment extends
-		BaseArrayModelFragment<ProfileInfo> {
+		BaseArrayModelFragmentWithCustonLoad<ProfileInfo> {
 
-	private static final String TAG = ProfileInfoHeaderFragment.class.getSimpleName();
-	
+	private static final String TAG = ProfileInfoHeaderFragment.class
+			.getSimpleName();
+
 	private static final String ARG_QUERY = "query";
 
-	private String query = TwitterAPI.getInstance().fullProgileInfo("keddr");
+	private String query;
 
 	public static ProfileInfoHeaderFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
@@ -28,13 +28,13 @@ public class ProfileInfoHeaderFragment extends
 		return fragment;
 	}
 
-	public ProfileInfoHeaderFragment(){
+	public ProfileInfoHeaderFragment() {
 		Log.d(TAG, "constructor ProfileInfoHeaderFragment");
 	}
-	
+
 	@Override
 	public String getUrl() {
-		return query;
+		return getArguments().getString(ARG_QUERY);
 	}
 
 	@Override

@@ -55,6 +55,10 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/users/lookup.json?screen_name="
 				+ profileName + "&include_entities=true";
 	}
+	
+	public String directMessages(){
+		return "https://api.twitter.com/1/direct_messages.json?count=1&page=1";
+	}
 
 	private HttpPost generatePostRequest(Hashtable<String, String> requetParams)
 			throws UnsupportedEncodingException {

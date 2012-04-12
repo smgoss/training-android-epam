@@ -10,14 +10,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
-import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.model.Tweet;
 
-public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
+public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustonLoad<Tweet> {
 
 	private static final String ARG_QUERY = "query";
 
@@ -25,10 +23,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
 
 	private static final String TAG = SearchTweetsFragment.class
 			.getSimpleName();
-
-	private static final String URL = "http://search.twitter.com/search.json?q=";
-
-	private ProgressBar mProgressBar;
 
 	private ListView mListView;
 
@@ -39,8 +33,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
 	private List<Tweet> currentList;
 
 	private TweetAdapter adapter;
-
-	private boolean isLoading;
 
 	private int loadedPage = 1;
 
@@ -114,15 +106,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		Log.d(TAG, "onViewCreated");
-		if (isLoading) {
-			showLoading();
-		}
-	}
-
-	@Override
 	public String getUrl() {
 		return getArguments().getString(ARG_QUERY);
 	}
@@ -135,11 +118,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
 			Log.d(TAG, "delegate key=" + delegateKey);
 		}
 		return delegateKey;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
 	}
 
 	@Override
@@ -160,30 +138,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragment<Tweet> {
 		return R.layout.load_array_model;
 	}
 
-	@Override
-	public void showLoading() {
-		mProgressBar = (ProgressBar) getView().findViewById(
-				R.id.progress_bar_on_listView);
-		mProgressBar.setVisibility(View.VISIBLE);
-
-		isLoading = true;
-	}
-
-	@Override
-	public void showProgress(String textMessage) {
-		mProgressBar = (ProgressBar) getView().findViewById(
-				R.id.progress_bar_on_listView);
-		mProgressBar.setVisibility(View.VISIBLE);
-		isLoading = true;
-	}
-
-	@Override
-	public void hideLoading() {
-		if (mProgressBar != null
-				&& mProgressBar.getVisibility() == View.VISIBLE) {
-			mProgressBar.setVisibility(View.INVISIBLE);
-		}
-		isLoading = false;
-	}
+	
 
 }
