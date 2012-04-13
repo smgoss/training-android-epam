@@ -14,10 +14,16 @@
     <string name="show_all_tweets">Show all tweets</string>
     <string name="favorite">Favorite</string>
     <string name="simular_to">Similar to</string>
+    <string name="change_profile">Change profile</string>
+    <string name="change_avatar">Change profile avatar</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="url">URL</string>
+    <string name="location">Location</string>
+    <string name="save">Save</string>
 
     <string-array name="titles">
         <item>Timeline</item>
-        <item>By me</item>
         <item>Profile</item>
     </string-array>
 

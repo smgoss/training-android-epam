@@ -8,7 +8,7 @@ import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 
-public abstract class BaseArrayModelFragmentWithCustonLoad<B extends BaseModel>
+public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 		extends BaseArrayModelFragment<B> {
 	private ProgressBar mProgressBar;
 

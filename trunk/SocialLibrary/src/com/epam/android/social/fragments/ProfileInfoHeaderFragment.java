@@ -2,39 +2,98 @@ package com.epam.android.social.fragments;
 
 import java.util.List;
 
+import android.R.anim;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.ProfileInfoHeaderAdapter;
+import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.model.ProfileInfo;
 
 public class ProfileInfoHeaderFragment extends
-		BaseArrayModelFragmentWithCustonLoad<ProfileInfo> {
+		BaseArrayModelFragmentWithCustomLoad<ProfileInfo> {
 
 	private static final String TAG = ProfileInfoHeaderFragment.class
 			.getSimpleName();
 
 	private static final String ARG_QUERY = "query";
 
-	private String query;
+	private static final String ARG_ACCOUNT_NAME = "accountName";
 
-	public static ProfileInfoHeaderFragment newInstance(String query) {
+	private LinearLayout tweetsButton;
+
+	private LinearLayout followingButton;
+
+	private LinearLayout followersButton;
+
+	public static ProfileInfoHeaderFragment newInstance(String query,
+			String currentAccountName) {
 		Bundle bundle = new Bundle();
 		ProfileInfoHeaderFragment fragment = new ProfileInfoHeaderFragment();
 		bundle.putString(ARG_QUERY, query);
+		bundle.putString(ARG_ACCOUNT_NAME, currentAccountName);
 		fragment.setArguments(bundle);
 		return fragment;
-	}
-
-	public ProfileInfoHeaderFragment() {
-		Log.d(TAG, "constructor ProfileInfoHeaderFragment");
 	}
 
 	@Override
 	public String getUrl() {
 		return getArguments().getString(ARG_QUERY);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		tweetsButton = (LinearLayout) getView().findViewById(
+				R.id.profileInfo_tweetsLayout);
+		tweetsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getView().getContext(), "onTweetButtonClick",
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		followersButton = (LinearLayout) getView().findViewById(
+				R.id.profileInfo_followersLayout);
+		followersButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getView().getContext(),
+						"onfollowersButtonClick", Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		followingButton = (LinearLayout) getView().findViewById(
+				R.id.profileInfo_followingLayout);
+		followingButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				FragmentTransaction transaction = getFragmentManager()
+						.beginTransaction();
+				transaction.setCustomAnimations(android.R.anim.slide_in_left,
+						android.R.anim.slide_out_right);
+				transaction.addToBackStack(getTag());
+				transaction.add(R.id.test, FollowFragment.newInstance(
+						TwitterAPI.getInstance().getFollowing(
+								getArguments().getString(ARG_ACCOUNT_NAME)),
+						getArguments().getString(ARG_ACCOUNT_NAME)));
+				transaction.commit();
+			}
+		});
+
 	}
 
 	@Override
@@ -48,8 +107,8 @@ public class ProfileInfoHeaderFragment extends
 	}
 
 	private void initView(List<ProfileInfo> result) {
-		ProfileInfoHeaderAdapter adapter = new ProfileInfoHeaderAdapter(
-				getContext(), getView(), result.get(0));
+		new ProfileInfoHeaderAdapter(getContext(), getView(), result.get(0),
+				getArguments().getString(ARG_ACCOUNT_NAME));
 	}
 
 }

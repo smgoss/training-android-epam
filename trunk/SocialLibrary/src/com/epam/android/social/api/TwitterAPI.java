@@ -39,24 +39,46 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/statuses/home_timeline.json?page=";
 	}
 
-	public String getUserTimeLine() {
-		return "https://api.twitter.com/1/statuses/user_timeline.json?";
+	public String getUserTimeLine(String screenName) {
+		return "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name="
+				+ screenName + "&count=2&page=";
 	}
 
 	public String getReetweetByUser() {
 		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&page=";
 	}
 
+	// TODO See more about cursor
+	public String getFollowing(String screenName) {
+		return "https://api.twitter.com/1/friends/ids.json?cursor=-1&screen_name="
+				+ screenName;
+	}
+
 	public String verifyCredentials() {
 		return "https://api.twitter.com/1/account/verify_credentials.json";
 	}
 
-	public String fullProgileInfo(String profileName) {
+	public String getFullProfileInfo(String profileName) {
 		return "https://api.twitter.com/1/users/lookup.json?screen_name="
 				+ profileName + "&include_entities=true";
 	}
-	
-	public String directMessages(){
+
+	// TODO it's menthod load only 100 users
+	public String getShorProfileInfo(List<Integer> idsUser) {
+
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < idsUser.size(); i++) {
+			builder.append(idsUser.get(i));
+			if (i + 1 != idsUser.size()) {
+				builder.append(",");
+			}
+		}
+
+		return "https://api.twitter.com/1/friendships/lookup.json?user_id="
+				+ builder.toString();
+	}
+
+	public String directMessages() {
 		return "https://api.twitter.com/1/direct_messages.json?count=1&page=1";
 	}
 
