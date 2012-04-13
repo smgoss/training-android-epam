@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    
     <ProgressBar
         android:id="@+id/progress_bar_on_listView"
         style="@android:style/Widget.ProgressBar.Large"

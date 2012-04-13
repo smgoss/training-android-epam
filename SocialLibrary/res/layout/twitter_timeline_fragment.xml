@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/test"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-    <com.viewpagerindicator.TabPageIndicator
-        android:id="@+id/indicator"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dip" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="1" >
-    </android.support.v4.view.ViewPager>
+        <com.viewpagerindicator.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip" />
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="0px"
+            android:layout_weight="1" >
+        </android.support.v4.view.ViewPager>
 
-    <fragment
-        android:layout_marginBottom="5dp"
-        android:name="com.epam.android.social.fragments.BottomFramgent"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        <fragment
+            android:name="com.epam.android.social.fragments.BottomFramgent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

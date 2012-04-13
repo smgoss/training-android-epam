@@ -10,18 +10,10 @@
         android:layout_height="wrap_content" >
     </LinearLayout>
 
-    <Button
-        android:id="@+id/profile_sendTweetButton"
+    <LinearLayout
+        android:id="@+id/profileTweetsFragment"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/send_tweet" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/tweets"
-        android:textSize="15sp" />
+        android:layout_height="wrap_content" >
+    </LinearLayout>
 
 </LinearLayout>

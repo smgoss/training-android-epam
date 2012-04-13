@@ -15,7 +15,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.model.Tweet;
 
-public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustonLoad<Tweet> {
+public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<Tweet> {
 
 	private static final String ARG_QUERY = "query";
 
@@ -34,13 +34,13 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustonLoad<T
 
 	private TweetAdapter adapter;
 
-	private int loadedPage = 1;
+	private static int loadedPage = 1;
 
 	public static SearchTweetsFragment newInstance(String query,
 			String accountName) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
-		bundle.putString(ARG_QUERY, query + 1);
+		bundle.putString(ARG_QUERY, query + loadedPage);
 		bundle.putString(ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;

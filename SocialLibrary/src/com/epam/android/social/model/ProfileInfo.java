@@ -66,7 +66,7 @@ public class ProfileInfo extends BaseModel {
 	}
 
 	public String getScreenName() {
-		return "@" + getString("screen_name");
+		return getString("screen_name");
 	}
 
 	public String getUrl() {

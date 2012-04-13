@@ -8,10 +8,9 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.LoadModelAsyncTask;
 
-public abstract class BaseModelActivity<B extends BaseModel> extends
-		DelegateActivity {
+public abstract class BaseModelFragment<B extends BaseModel>  extends DelegateFragment{
 
-	private static final String TAG = BaseModelActivity.class.getName();
+	private static final String TAG = BaseModelFragment.class.getName();
 
 	public abstract String getUrl();
 
@@ -27,7 +26,7 @@ public abstract class BaseModelActivity<B extends BaseModel> extends
 			B result = intent.getParcelableExtra(CommonAsyncTask.RESULT);
 			success(result);
 		} else {
-			Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "Nothing to show");
 		}
 	}
