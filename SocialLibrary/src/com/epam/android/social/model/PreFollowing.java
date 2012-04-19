@@ -14,43 +14,43 @@ import android.util.Log;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
-public class Follow extends BaseModel {
+public class PreFollowing extends BaseModel {
 
-	private static final String TAG = Follow.class.getSimpleName();
+	private static final String TAG = PreFollowing.class.getSimpleName();
 	
-	public static final IModelCreator<Follow> MODEL_CREATOR = new IModelCreator<Follow>() {
+	public static final IModelCreator<PreFollowing> MODEL_CREATOR = new IModelCreator<PreFollowing>() {
 
-		public Follow create(JSONObject jsonObject) {
-			return new Follow(jsonObject);
+		public PreFollowing create(JSONObject jsonObject) {
+			return new PreFollowing(jsonObject);
 		}
 
 	};
 
-	public static final Parcelable.Creator<Follow> CREATOR = new Creator<Follow>() {
+	public static final Parcelable.Creator<PreFollowing> CREATOR = new Creator<PreFollowing>() {
 
-		public Follow[] newArray(int size) {
-			return new Follow[size];
+		public PreFollowing[] newArray(int size) {
+			return new PreFollowing[size];
 		}
 
-		public Follow createFromParcel(Parcel in) {
-			return new Follow(in);
+		public PreFollowing createFromParcel(Parcel in) {
+			return new PreFollowing(in);
 		}
 	};
 
 
-	public Follow() {
+	public PreFollowing() {
 		super();
 	}
 
-	public Follow(JSONObject json) {
+	public PreFollowing(JSONObject json) {
 		super(json);
 	}
 
-	public Follow(Parcel in) {
+	public PreFollowing(Parcel in) {
 		super(in);
 	}
 
-	public Follow(String json) {
+	public PreFollowing(String json) {
 		super(json);
 	}
 

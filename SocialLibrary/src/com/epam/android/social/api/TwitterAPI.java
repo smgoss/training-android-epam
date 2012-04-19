@@ -54,6 +54,11 @@ public class TwitterAPI {
 				+ screenName;
 	}
 
+	public String getFollowers(String screenName) {
+		return "https://api.twitter.com/1/followers/ids.json?cursor=-1&screen_name="
+				+ screenName;
+	}
+
 	public String verifyCredentials() {
 		return "https://api.twitter.com/1/account/verify_credentials.json";
 	}
@@ -63,8 +68,13 @@ public class TwitterAPI {
 				+ profileName + "&include_entities=true";
 	}
 
-	// TODO it's menthod load only 100 users
-	public String getShorProfileInfo(List<Integer> idsUser) {
+	public String getUserAvatar(String userScreenName) {
+		return "https://api.twitter.com/1/users/profile_image?screen_name="
+				+ userScreenName + "&size=normal";
+	}
+
+	// TODO it's method load only 100 users
+	public String getShortProfileInfo(List<Integer> idsUser) {
 
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < idsUser.size(); i++) {
@@ -82,10 +92,10 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/direct_messages.json?count=1&page=1";
 	}
 
-	private HttpPost generatePostRequest(Hashtable<String, String> requetParams)
+	private HttpPost generatePostRequest(String request,
+			Hashtable<String, String> requetParams)
 			throws UnsupportedEncodingException {
-		HttpPost httpPost = new HttpPost(
-				"https://api.twitter.com/1/statuses/update.json");
+		HttpPost httpPost = new HttpPost(request);
 		List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 		Enumeration<String> enumeration = requetParams.keys();
 		String paramKey;
@@ -98,10 +108,32 @@ public class TwitterAPI {
 		return httpPost;
 	}
 
+	private String updateStatus() {
+		return "https://api.twitter.com/1/statuses/update.json";
+	}
+
+	private String updateProfile() {
+		return "https://api.twitter.com/1/account/update_profile.json";
+	}
+	
+	private String updateProfileAvatar(){
+		return "https://api.twitter.com/1/account/update_profile_background_image.json";
+	}
+
 	public HttpPost getUpdateStatusRequest(String status)
 			throws UnsupportedEncodingException {
 		requestParams = new Hashtable<String, String>();
 		requestParams.put(TwitterRequestParams.STATUS, status);
-		return generatePostRequest(requestParams);
+		return generatePostRequest(updateStatus(), requestParams);
+	}
+
+	public HttpPost getUpdateProfileRequest(String name, String description,
+			String url, String location) throws UnsupportedEncodingException {
+		requestParams = new Hashtable<String, String>();
+		requestParams.put(TwitterRequestParams.NAME, name);
+		requestParams.put(TwitterRequestParams.DESCRIPTION, description);
+		requestParams.put(TwitterRequestParams.URL, url);
+		requestParams.put(TwitterRequestParams.LOCATION, location);
+		return generatePostRequest(updateProfile(), requestParams);
 	}
 }
