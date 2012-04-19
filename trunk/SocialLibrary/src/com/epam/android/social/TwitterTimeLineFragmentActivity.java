@@ -1,14 +1,17 @@
 package com.epam.android.social;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.view.View;
 
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.fragments.FollowingFragment;
+import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
-import com.viewpagerindicator.TabPageIndicator;
 
 public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 
@@ -30,6 +33,23 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 
+	}
+
+	public void onItemClick(View view) {
+		FollowingFragment fragment = ((FollowingFragment) getSupportFragmentManager()
+				.findFragmentByTag(FollowingFragment.TAG));
+		setIsFollow(fragment.getFollowingList(), view.getTag());
+		fragment.getAdapter().notifyDataSetChanged();
+
+	}
+
+	private void setIsFollow(List<Following> list, Object itemTag) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getIdUser().equals(itemTag)) {
+				list.get(i).setIsFollow(!list.get(i).isFollow());
+				break;
+			}
+		}
 	}
 
 }

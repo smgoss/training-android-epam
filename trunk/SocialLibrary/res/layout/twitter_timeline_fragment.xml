@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/test"
+    android:id="@+id/twitter_timeline_fragment"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -23,7 +23,7 @@
         </android.support.v4.view.ViewPager>
 
         <fragment
-            android:name="com.epam.android.social.fragments.BottomFramgent"
+            android:name="com.epam.android.social.fragments.BottomFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp" />

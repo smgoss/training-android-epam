@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -34,12 +35,16 @@ public class ProfileInfoHeaderFragment extends
 
 	private LinearLayout followersButton;
 
+	private Button changeProfileButton;
+	
+	private static final int SELECT_PHOTO = 100;
+
 	public static ProfileInfoHeaderFragment newInstance(String query,
-			String currentAccountName) {
+			String accountName) {
 		Bundle bundle = new Bundle();
 		ProfileInfoHeaderFragment fragment = new ProfileInfoHeaderFragment();
 		bundle.putString(ARG_QUERY, query);
-		bundle.putString(ARG_ACCOUNT_NAME, currentAccountName);
+		bundle.putString(ARG_ACCOUNT_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -69,8 +74,17 @@ public class ProfileInfoHeaderFragment extends
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getView().getContext(),
-						"onfollowersButtonClick", Toast.LENGTH_SHORT).show();
+				FragmentTransaction transaction = getFragmentManager()
+						.beginTransaction();
+				transaction.setCustomAnimations(android.R.anim.slide_in_left,
+						android.R.anim.slide_out_right);
+				transaction.addToBackStack(getTag());
+				transaction.add(R.id.twitter_timeline_fragment,
+						FollowingFragment.newInstance(TwitterAPI.getInstance()
+								.getFollowers(
+										getArguments().getString(
+												ARG_ACCOUNT_NAME))));
+				transaction.commit();
 			}
 		});
 
@@ -80,16 +94,36 @@ public class ProfileInfoHeaderFragment extends
 
 			@Override
 			public void onClick(View v) {
-
 				FragmentTransaction transaction = getFragmentManager()
 						.beginTransaction();
 				transaction.setCustomAnimations(android.R.anim.slide_in_left,
 						android.R.anim.slide_out_right);
 				transaction.addToBackStack(getTag());
-				transaction.add(R.id.test, FollowFragment.newInstance(
-						TwitterAPI.getInstance().getFollowing(
-								getArguments().getString(ARG_ACCOUNT_NAME)),
-						getArguments().getString(ARG_ACCOUNT_NAME)));
+				transaction.add(R.id.twitter_timeline_fragment,
+						FollowingFragment.newInstance(TwitterAPI.getInstance()
+								.getFollowing(
+										getArguments().getString(
+												ARG_ACCOUNT_NAME))),FollowingFragment.TAG);
+				transaction.commit();
+			}
+		});
+
+		changeProfileButton = (Button) getView().findViewById(
+				R.id.profileInfo_sendTweetButton);
+		changeProfileButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View paramView) {
+				FragmentTransaction transaction = getFragmentManager()
+						.beginTransaction();
+				transaction.setCustomAnimations(android.R.anim.slide_in_left,
+						android.R.anim.slide_out_right);
+				transaction.addToBackStack(getTag());
+				transaction.add(R.id.twitter_timeline_fragment,
+						ChangeProfileFragment.newInstance(TwitterAPI
+								.getInstance().getFullProfileInfo(
+										getArguments().getString(
+												ARG_ACCOUNT_NAME))));
 				transaction.commit();
 			}
 		});

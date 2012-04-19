@@ -1,4 +1,4 @@
-package com.epam.android.common;
+package com.epam.android.social.fragments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,16 +18,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
+import com.epam.android.social.R;
 
-public abstract class DelegateFragment extends Fragment implements IDelegate {
+public abstract class DelegateFragmentWithCustomLoad extends Fragment implements IDelegate {
 
-	private static final String TAG = DelegateFragment.class.getSimpleName();
+	private static final String TAG = DelegateFragmentWithCustomLoad.class.getSimpleName();
 
 	private static final String TITLE = "Please wait";
 
@@ -42,54 +44,35 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	private boolean isFragmentStateSaved = false;
 
 	private HashMap<String, CommonAsyncTask> activityTasks;
+	
+	private ProgressBar mProgressBar;
+	
+	private boolean isLoading;
 
 	@Override
 	public void showLoading() {
+		mProgressBar = (ProgressBar) getView().findViewById(
+				R.id.progress_bar_on_listView);
+		mProgressBar.setVisibility(View.VISIBLE);
 
-		if (mProgressDialog == null) {
-			mProgressDialog = new ProgressDialog(getActivity());
-			Log.d("dialog", "create" + this.toString());
-			mProgressDialog.setIndeterminate(true);
-			mProgressDialog.setCancelable(true);
-			mProgressDialog.setOnCancelListener(new OnCancelListener() {
-
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					getActivity().finish();
-				}
-			});
-		} else {
-			Log.d("dialog", "not null" + this.toString());
-		}
-		if (!mProgressDialog.isShowing()
-				&& this.getActivity().getWindow() != null) {
-			mProgressDialog.setTitle(TITLE);
-			mProgressDialog.setMessage(MSG);
-			mProgressDialog.show();
-			Log.d("dialog", "show" + this.toString());
-		}
+		isLoading = true;
 	}
 
 	@Override
 	public void showProgress(String textMessage) {
-		if (mProgressDialog == null) {
-			Log.d("dialog", "progress " + this.toString());
-			showLoading();
-		}
-		mProgressDialog.setMessage(textMessage);
+		mProgressBar = (ProgressBar) getView().findViewById(
+				R.id.progress_bar_on_listView);
+		mProgressBar.setVisibility(View.VISIBLE);
+		isLoading = true;
 	}
 
 	@Override
 	public void hideLoading() {
-		if (mProgressDialog != null && mProgressDialog.isShowing()
-				&& getActivity().getWindow() != null) {
-			mProgressDialog.dismiss();
-			Log.d("dialog", "dismiss " + this.toString());
-			if (!mAsyncTaskManager.isLastTask(getDelegateKey())) {
-				Log.d("dialog", "other tasks " + this.toString());
-				showLoading();
-			}
+		if (mProgressBar != null
+				&& mProgressBar.getVisibility() == View.VISIBLE) {
+			mProgressBar.setVisibility(View.INVISIBLE);
 		}
+		isLoading = false;
 	}
 
 	@Override

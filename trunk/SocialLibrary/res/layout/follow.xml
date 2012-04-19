@@ -37,6 +37,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/twitter_follow_me" />
+        android:onClick="onItemClick"
+        android:src="@drawable/twitter_follow" />
 
 </RelativeLayout>
