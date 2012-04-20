@@ -1,5 +1,6 @@
 package com.epam.android.social.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -10,6 +11,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.util.Base64;
 
 import com.epam.android.social.constants.TwitterRequestParams;
 
@@ -112,12 +117,12 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/statuses/update.json";
 	}
 
-	private String updateProfile() {
+	private String getUpdateProfileUrl() {
 		return "https://api.twitter.com/1/account/update_profile.json";
 	}
 	
-	private String updateProfileAvatar(){
-		return "https://api.twitter.com/1/account/update_profile_background_image.json";
+	private String getUpdateProfileAvatarUrl(){
+		return "https://api.twitter.com/1/account/update_profile_image.json";
 	}
 
 	public HttpPost getUpdateStatusRequest(String status)
@@ -134,6 +139,27 @@ public class TwitterAPI {
 		requestParams.put(TwitterRequestParams.DESCRIPTION, description);
 		requestParams.put(TwitterRequestParams.URL, url);
 		requestParams.put(TwitterRequestParams.LOCATION, location);
-		return generatePostRequest(updateProfile(), requestParams);
+		return generatePostRequest(getUpdateProfileUrl(), requestParams);
+	}
+	
+	public HttpPost getUpdateProfileAvatarRequest(Bitmap bitmap) throws UnsupportedEncodingException{
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        if (bitmap.isRecycled()) return null;
+        bitmap.compress(CompressFormat.JPEG, 50 /*
+                  * ignored for
+                  * PNG
+                  */, bos);
+        final byte[] bitmapdata = bos.toByteArray();
+        HttpPost httpPost = new HttpPost(getUpdateProfileAvatarUrl());
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        
+        nameValuePairs.add(new BasicNameValuePair(TwitterRequestParams.IMAGE,
+          Base64.encodeToString(bitmapdata,
+            Base64.DEFAULT)));
+        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(
+          nameValuePairs);
+        httpPost.setEntity(urlEncodedFormEntity);
+        
+        return httpPost;
 	}
 }

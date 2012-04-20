@@ -4,18 +4,19 @@
     android:layout_height="fill_parent"
     android:background="@color/black" >
 
-    <Button
+    <ImageView
         android:id="@+id/galleryCamera_galleryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="onGalleryClick" />
-
-    <Button
-        android:id="@+id/galleryCamera_cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        android:text="onCameraClick" />
+        android:src="@drawable/gallery_icon" />
+
+    <ImageView
+        android:id="@+id/galleryCamera_cameraButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/camera_icon" />
 
 </RelativeLayout>

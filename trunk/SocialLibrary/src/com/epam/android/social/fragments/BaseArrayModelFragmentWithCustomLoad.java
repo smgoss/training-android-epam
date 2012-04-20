@@ -3,6 +3,7 @@ package com.epam.android.social.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.model.BaseModel;
@@ -45,6 +46,13 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 				&& mProgressBar.getVisibility() == View.VISIBLE) {
 			mProgressBar.setVisibility(View.INVISIBLE);
 		}
+
+		RelativeLayout relativeLayout = (RelativeLayout) getView()
+				.findViewById(R.id.changeProfile_mainLayout);
+		if (relativeLayout != null) {
+			relativeLayout.setVisibility(View.VISIBLE);
+		}
+
 		isLoading = false;
 	}
 

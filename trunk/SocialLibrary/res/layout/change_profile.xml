@@ -5,94 +5,110 @@
     android:background="@color/black" >
 
     <RelativeLayout
-        android:id="@+id/changeProfile_avatarLayout"
+        android:id="@+id/changeProfile_mainLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="fill_parent"
+        android:visibility="invisible" >
 
-        <ImageView
-            android:id="@+id/changeProfile_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp" />
+        <RelativeLayout
+            android:id="@+id/changeProfile_avatarLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/changeProfile_avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/changeProfile_avatar"
+                android:text="@string/change_avatar" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/changeProfile_avatar"
-            android:text="@string/change_avatar" />
+            android:layout_below="@id/changeProfile_avatarLayout"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name" />
+
+            <EditText
+                android:id="@+id/changeProfile_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description" />
+
+            <EditText
+                android:id="@+id/changeProfile_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/url" />
+
+            <EditText
+                android:id="@+id/changeProfile_url"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location" />
+
+            <EditText
+                android:id="@+id/changeProfile_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/changeProfile_saveButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/save" />
+
+            <Button
+                android:id="@+id/changeProfile_cancelButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+        </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <ProgressBar
+        android:id="@+id/progress_bar_on_listView"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/changeProfile_avatarLayout"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/name" />
-
-        <EditText
-            android:id="@+id/changeProfile_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/description" />
-
-        <EditText
-            android:id="@+id/changeProfile_description"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/url" />
-
-        <EditText
-            android:id="@+id/changeProfile_url"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/location" />
-
-        <EditText
-            android:id="@+id/changeProfile_location"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-
-        <Button
-            android:id="@+id/changeProfile_saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="@string/save" />
-
-        <Button
-            android:id="@+id/changeProfile_cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/cancel" />
-    </RelativeLayout>
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
 </RelativeLayout>

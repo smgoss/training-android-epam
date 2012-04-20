@@ -12,4 +12,6 @@ public class TwitterRequestParams {
 	public static final String DESCRIPTION = "description";
 
 	public static final String IMAGE = "image";
+	
+	public static final String INCLUDE_ENTRIES = "include_entities";
 }

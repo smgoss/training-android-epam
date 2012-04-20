@@ -8,10 +8,13 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,7 +36,8 @@ import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 import com.google.android.imageloader.ImageLoader.Callback;
 
-public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
+public class ChangeProfileFragment extends
+		BaseArrayModelFragmentWithCustomLoad<ProfileInfo> {
 
 	private static final String TAG = ChangeProfileFragment.class
 			.getSimpleName();
@@ -77,7 +81,7 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 
 	@Override
 	protected void success(List<ProfileInfo> result) {
-		if (loadedAvatar == null) {
+		if (editTextList == null) {
 			initView(result.get(0));
 		} else {
 			restoreTextOnEditBox();
@@ -89,8 +93,10 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 		super.onPause();
 
 		List<String> dataList = new ArrayList<String>();
-		for (int i = 0; i < editTextList.size(); i++) {
-			dataList.add(editTextList.get(i).getText().toString());
+		if (editTextList != null) {
+			for (int i = 0; i < editTextList.size(); i++) {
+				dataList.add(editTextList.get(i).getText().toString());
+			}
 		}
 		getArguments().putStringArrayList(DATA_ON_EDIT_TEXT_LIST,
 				(ArrayList<String>) dataList);
@@ -107,7 +113,6 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 	}
 
 	private void initView(ProfileInfo result) {
-		Log.d(TAG, "initView");
 		avatar = (ImageView) getView().findViewById(R.id.changeProfile_avatar);
 		if (loadedAvatar == null) {
 			ImageLoader.get(getContext()).bind(avatar,
@@ -153,18 +158,25 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 
 			@Override
 			public void onClick(View paramView) {
+				Bitmap bitmap = ((BitmapDrawable) avatar.getDrawable())
+						.getBitmap();
 				try {
-					new HttpPostAsyncTask(getActivity()).execute(TwitterAPI
+					new HttpPostAsyncTask(getContext()).execute(TwitterAPI
 							.getInstance().getUpdateProfileRequest(
 									name.getText().toString(),
 									description.getText().toString(),
 									url.getText().toString(),
 									location.getText().toString()));
+					if (!loadedAvatar.equals(avatar.getDrawable())) {
+						new HttpPostAsyncTask(getContext()).execute(TwitterAPI
+								.getInstance().getUpdateProfileAvatarRequest(
+										bitmap));
+					}
 				} catch (UnsupportedEncodingException e) {
-					Log.e(TAG,
-							"particular character converter not unavailable", e);
+					e.printStackTrace();
 				}
 			}
+
 		});
 
 		Button cancelButton = (Button) getView().findViewById(
@@ -173,7 +185,7 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 
 			@Override
 			public void onClick(View paramView) {
-				// TODO hide fragment
+				getFragmentManager().popBackStack();
 				hideChoiseItem();
 			}
 		});
@@ -185,7 +197,7 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 			@Override
 			public void onClick(View paramView) {
 				showChoiseItem();
-				Button galleryButton = (Button) addedItem
+				ImageView galleryButton = (ImageView) addedItem
 						.findViewById(R.id.galleryCamera_galleryButton);
 				galleryButton.setOnClickListener(new OnClickListener() {
 
@@ -197,7 +209,7 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 					}
 				});
 
-				Button cameraButton = (Button) addedItem
+				ImageView cameraButton = (ImageView) addedItem
 						.findViewById(R.id.galleryCamera_cameraButton);
 				cameraButton.setOnClickListener(new OnClickListener() {
 
@@ -254,7 +266,9 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 	}
 
 	private void hideChoiseItem() {
-		mWindowManager.removeView(addedItem);
+		if (addedItem != null) {
+			mWindowManager.removeView(addedItem);
+		}
 	}
 
 	private void setImageAvatar(Uri uri) {
@@ -304,6 +318,7 @@ public class ChangeProfileFragment extends BaseArrayModelFragment<ProfileInfo> {
 				}
 
 				setImageAvatar(imageUri);
+				imageUri = null;
 				hideChoiseItem();
 			}
 			break;
