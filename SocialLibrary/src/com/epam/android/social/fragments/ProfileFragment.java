@@ -32,6 +32,12 @@ public class ProfileFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
 		transaction.add(R.id.profileInfoFragment, ProfileInfoHeaderFragment
@@ -46,6 +52,7 @@ public class ProfileFragment extends Fragment {
 						getArguments().getString(ARG_CURRENT_ACCOUNT_NAME)));
 		
 		transaction.commit();
+
 	}
 
 	@Override

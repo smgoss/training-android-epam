@@ -17,6 +17,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.OAuthHelper;
 
@@ -29,13 +30,13 @@ public class TwitterLoginActivity extends Activity {
 
 	private static final String MSG = "Loading...";
 
-	private Intent intent;
-
 	private OAuthHelper helper;
 
 	private WebView webView;
 
 	private ProgressDialog mProgressDialog;
+
+	private boolean isSave = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class TwitterLoginActivity extends Activity {
 		asyncTask.execute(null);
 
 	}
-	
+
 	private WebViewClient getWebViewClient() {
 		return new WebViewClient() {
 
@@ -54,21 +55,25 @@ public class TwitterLoginActivity extends Activity {
 			public void onPageFinished(WebView view, String url) {
 				Log.d(TAG, "page finished " + url);
 				try {
-					if (helper.isTokenSaved(url)) {
+					if (helper.isRedirectURL(url) && !isSave) {
+						isSave = true;
+						helper.saveToken(url);
 						webView.setVisibility(WebView.INVISIBLE);
 						AddAccountsFragment.getLogin().onSuccessLogin(
 								helper.getUserName(),
 								helper.getAvatarDrawable());
-						finish();
+						Intent intent = new Intent(getApplicationContext(),
+								TwitterTimeLineFragmentActivity.class);
+						intent.putExtra(ApplicationConstants.USER_NAME,
+								helper.getUserName());
 						startActivity(intent);
+						finish();
 
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.e(TAG, "IOException", e);
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.e(TAG, "Class not found exception", e);
 				}
 			}
 
@@ -86,8 +91,6 @@ public class TwitterLoginActivity extends Activity {
 					.setJavaScriptCanOpenWindowsAutomatically(true);
 			webView.getSettings().setPluginsEnabled(true);
 			webView.setWebViewClient(getWebViewClient());
-			intent = new Intent(TwitterLoginActivity.this,
-					TwitterTimeLineFragmentActivity.class);
 			helper = (OAuthHelper) getApplicationContext().getSystemService(
 					OAuthHelper.OAuthHelper);
 			try {
@@ -117,7 +120,7 @@ public class TwitterLoginActivity extends Activity {
 		}
 
 	}
-	
+
 	public void showLoading() {
 
 		if (mProgressDialog == null) {

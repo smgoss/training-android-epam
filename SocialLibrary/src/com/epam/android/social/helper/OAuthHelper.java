@@ -30,6 +30,7 @@ import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.model.TwitterUserInfo;
+import com.google.android.imageloader.ImageLoader;
 
 public class OAuthHelper {
 
@@ -85,7 +86,7 @@ public class OAuthHelper {
 		return instanse;
 	}
 
-	public boolean isLogged(String userName) throws IOException,
+	public void restoreToken(String userName) throws IOException,
 			ClassNotFoundException {
 		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
@@ -99,12 +100,16 @@ public class OAuthHelper {
 			for (int j = 0; j < listUsers.size(); j++) {
 				if (listUsers.get(j).getUserName().equals(userName)) {
 					restoreToken(listUsers.get(j));
-					return true;
 				}
 			}
 		}
 
-		return false;
+	}
+
+	private void restoreToken(TwitterUserInfo user) throws IOException,
+			ClassNotFoundException {
+		consumer.setTokenWithSecret(user.getToken(), user.getTokenSecret());
+
 	}
 
 	public String getLoginUrl() throws OAuthMessageSignerException,
@@ -113,20 +118,16 @@ public class OAuthHelper {
 		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
 	}
 
-	public boolean isTokenSaved(String url) throws IOException,
-			ClassNotFoundException {
-		// TODO rename isTokenSaved, save token
-		if (url.startsWith(REDIRECT_URL)) {
-			String oauthVerifier = getOauthVerifierFromUrl(url);
-			setRetrieveAccessToken(oauthVerifier);
-			saveToken();
-			return true;
 
-		} else {
+	public boolean isRedirectURL(String url){
+		if (url.startsWith(REDIRECT_URL)){
+			return true;
+		}
+		else{
 			return false;
 		}
 	}
-
+	
 	private String getOauthVerifierFromUrl(String url) {
 		return url.substring(url.indexOf(TwitterConstants.OAUTH_VERIFIER)
 				+ TwitterConstants.OAUTH_VERIFIER.length());
@@ -153,14 +154,9 @@ public class OAuthHelper {
 		}
 	}
 
-	private void restoreToken(TwitterUserInfo user) throws IOException,
-			ClassNotFoundException {
-		consumer.setTokenWithSecret(user.getToken(), user.getTokenSecret());
-
-	}
-
-	private void saveToken() throws IOException, ClassNotFoundException {
-
+	public void saveToken(String url) throws IOException, ClassNotFoundException {
+		String oauthVerifier = getOauthVerifierFromUrl(url);
+		setRetrieveAccessToken(oauthVerifier);
 		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
 		userInfoSerialized = preferences.getString(
@@ -205,13 +201,13 @@ public class OAuthHelper {
 
 		return null;
 	}
-	
+
 	public String getUserName() {
 		return user.getUserName();
 	}
-	
-	public Drawable getAvatarDrawable(){
-		return mContext.getResources().getDrawable(R.drawable.ava);
+
+	public String getAvatarDrawable() {
+		return user.getProfileUrl();
 	}
 
 	private boolean listContainUser(String userName, List<TwitterUserInfo> list) {

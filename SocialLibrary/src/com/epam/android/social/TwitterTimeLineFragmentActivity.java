@@ -29,7 +29,7 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new TwitterMainPagerAdapter(
 				getSupportFragmentManager(), getApplicationContext(),
-				getIntent().getStringExtra(ApplicationConstants.USER_ID)));
+				getIntent().getStringExtra(ApplicationConstants.USER_NAME)));
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 
