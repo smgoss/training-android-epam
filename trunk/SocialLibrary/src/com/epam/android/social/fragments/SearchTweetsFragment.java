@@ -40,7 +40,7 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 			String accountName) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
-		bundle.putString(ARG_QUERY, query + loadedPage);
+		bundle.putString(ARG_QUERY, query);
 		bundle.putString(ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
@@ -56,8 +56,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 			@Override
 			public void onClick(View v) {
 				loadedPage++;
-				getArguments().putString(ARG_QUERY,
-						getArguments().getString(ARG_QUERY) + loadedPage);
 				startTasks();
 
 			}
@@ -107,7 +105,7 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ARG_QUERY);
+		return getArguments().getString(ARG_QUERY) + loadedPage;
 	}
 
 	@Override
