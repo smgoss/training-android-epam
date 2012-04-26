@@ -34,7 +34,7 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 
 	private TweetAdapter adapter;
 
-	private static int loadedPage = 1;
+	private int loadedPage = 1;
 
 	public static SearchTweetsFragment newInstance(String query,
 			String accountName) {
