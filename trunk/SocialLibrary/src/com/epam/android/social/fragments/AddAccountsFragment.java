@@ -25,6 +25,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.helper.ImageHelper;
 import com.epam.android.social.helper.OAuthHelper;
 import com.epam.android.social.model.TwitterUserInfo;
 
@@ -43,6 +44,8 @@ public class AddAccountsFragment extends Fragment {
 	private boolean isFirst = true;
 	
 	private static AddAccountsFragment.ILogin login;
+	
+	private ImageHelper imageHelper;
 
 	
 	@Override
@@ -55,8 +58,8 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(new Intent(getView().getContext(),
-						TwitterLoginActivity.class),1);
+				startActivity(new Intent(getView().getContext(),
+						TwitterLoginActivity.class));
 
 				};
 		});
@@ -64,8 +67,8 @@ public class AddAccountsFragment extends Fragment {
 		login = new ILogin() {
 			
 			@Override
-			public void onSuccessLogin(String accontName, Drawable accountAvatar) {
-				addNewAccount(accontName, accountAvatar);
+			public void onSuccessLogin(String accontName, String accountAvatarUrl) {
+				addNewAccount(accontName, accountAvatarUrl);
 			}
 		};
 
@@ -84,7 +87,7 @@ public class AddAccountsFragment extends Fragment {
 			if (listAccounts != null) {
 				for (int i = 0; i < listAccounts.size(); i++) {
 					addNewAccount(listAccounts.get(i).getUserName(),
-							getResources().getDrawable(R.drawable.ava));
+							listAccounts.get(i).getProfileUrl());
 				}
 			}
 
@@ -96,7 +99,7 @@ public class AddAccountsFragment extends Fragment {
 
 	}
 
-	private void addNewAccount(String accontName, Drawable accountAvatar) {
+	private void addNewAccount(String accontName, String accountAvatarUrl) {
 		relativeLayout = (RelativeLayout) getView().findViewById(
 				R.id.accountLayout);
 		LayoutInflater inflater = (LayoutInflater) getActivity()
@@ -108,7 +111,8 @@ public class AddAccountsFragment extends Fragment {
 		accountName.setText(accontName);
 		ImageView accountPicture = (ImageView) layoutItem
 				.findViewById(R.id.accountPicture);
-		accountPicture.setImageDrawable(accountAvatar);
+		imageHelper = new ImageHelper(getActivity());
+		imageHelper.setAvatar(accountAvatarUrl, accountPicture);
 		accountPicture.setTag(accontName);
 		layoutItem.setId(lastAccountPictureID);
 		accountPicture.setOnClickListener(new OnClickListener() {
@@ -116,10 +120,10 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					OAuthHelper.getInstanse().isLogged((String) v.getTag());
+					OAuthHelper.getInstanse().restoreToken((String) v.getTag());
 					Intent intent = new Intent(getView().getContext(),
 							TwitterTimeLineFragmentActivity.class);
-					intent.putExtra(ApplicationConstants.USER_ID,
+					intent.putExtra(ApplicationConstants.USER_NAME,
 							String.valueOf(v.getTag()));
 					startActivity(intent);
 				} catch (IOException e) {
@@ -151,7 +155,7 @@ public class AddAccountsFragment extends Fragment {
 	}
 	
 	public static interface ILogin{
-		public void onSuccessLogin(String accontName, Drawable accountAvatar);
+		public void onSuccessLogin(String accontName, String accountAvatar);
 	}
 	
 	public static AddAccountsFragment.ILogin getLogin(){

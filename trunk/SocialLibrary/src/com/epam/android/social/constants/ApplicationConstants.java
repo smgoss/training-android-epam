@@ -5,6 +5,7 @@ public class ApplicationConstants {
 	
 	public static final String ACCOUNT_LIST = "account_list";
 	
-	public static final String USER_ID = "user_ud";
+	public static final String USER_NAME = "user_name";
+	
 
 }
