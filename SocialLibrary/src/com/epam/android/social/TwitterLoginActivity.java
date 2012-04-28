@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
@@ -43,7 +44,7 @@ public class TwitterLoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_webview);
 
-		MyAsyncTask asyncTask = new MyAsyncTask();
+		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
 		asyncTask.execute(null);
 
 	}
@@ -81,10 +82,10 @@ public class TwitterLoginActivity extends Activity {
 
 	}
 
-	private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+	private class GetWebViewAsyncTask extends AsyncTask<Void, Void, String> {
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected String doInBackground(Void... params) {
 			webView = (WebView) findViewById(R.id.webview);
 			webView.getSettings().setJavaScriptEnabled(true);
 			webView.getSettings()
@@ -98,19 +99,27 @@ public class TwitterLoginActivity extends Activity {
 			} catch (OAuthMessageSignerException e) {
 				Log.e(TAG, "OAuth Message Signer error ", e);
 			} catch (OAuthNotAuthorizedException e) {
-				Log.e(TAG, "OAuth Not Authorized error", e);
+				Log.e(TAG, "OAuth Not Authorized error "
+						+ getResources().getString(R.string.not_correct_data),
+						e);
+				return getResources().getString(R.string.not_correct_data);
 			} catch (OAuthExpectationFailedException e) {
 				Log.e(TAG, "OAuth Expectation error ", e);
 			} catch (OAuthCommunicationException e) {
 				Log.e(TAG, "OAuth Communication error ", e);
 			}
-			return null;
+			return "";
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			hideLoading();
+			if (result.length() != 0) {
+				Toast.makeText(TwitterLoginActivity.this, result,
+						Toast.LENGTH_SHORT).show();
+				finish();
+			}
 		}
 
 		@Override

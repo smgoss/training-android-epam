@@ -7,6 +7,8 @@ import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
+import oauth.signpost.basic.DefaultOAuthConsumer;
+import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -23,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.epam.android.common.http.HttpClient;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
@@ -48,6 +51,7 @@ public class OAuthHelper {
 	private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize";
 
 	private OAuthConsumer consumer;
+
 	private OAuthProvider provider;
 
 	private static OAuthHelper instanse;
@@ -118,16 +122,14 @@ public class OAuthHelper {
 		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
 	}
 
-
-	public boolean isRedirectURL(String url){
-		if (url.startsWith(REDIRECT_URL)){
+	public boolean isRedirectURL(String url) {
+		if (url.startsWith(REDIRECT_URL)) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
-	
+
 	private String getOauthVerifierFromUrl(String url) {
 		return url.substring(url.indexOf(TwitterConstants.OAUTH_VERIFIER)
 				+ TwitterConstants.OAUTH_VERIFIER.length());
@@ -146,15 +148,17 @@ public class OAuthHelper {
 		} catch (OAuthMessageSignerException e) {
 			Log.d(TAG, "OAuthMessageSignerException ", e);
 		} catch (OAuthNotAuthorizedException e) {
-			Log.d(TAG, "OAuthNotAuthorizedException ", e);
+			Log.d(TAG, "OAuthNotAuthorizedException", e);
 		} catch (OAuthExpectationFailedException e) {
 			Log.d(TAG, "OAuthExpectationFailedException ", e);
 		} catch (OAuthCommunicationException e) {
 			Log.d(TAG, "OAuthCommunicationException ", e);
+
 		}
 	}
 
-	public void saveToken(String url) throws IOException, ClassNotFoundException {
+	public void saveToken(String url) throws IOException,
+			ClassNotFoundException {
 		String oauthVerifier = getOauthVerifierFromUrl(url);
 		setRetrieveAccessToken(oauthVerifier);
 		SharedPreferences preferences = mContext.getSharedPreferences(

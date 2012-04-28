@@ -21,6 +21,8 @@
     <string name="url">URL</string>
     <string name="location">Location</string>
     <string name="save">Save</string>
+    <string name="not_correct_data">May be not correct data setup on your phone</string>
+    <string name="insert_sd_card">Insert SD Card</string>
 
     <string-array name="titles">
         <item>Timeline</item>

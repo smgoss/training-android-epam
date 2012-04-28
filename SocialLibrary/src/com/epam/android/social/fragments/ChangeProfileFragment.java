@@ -1,5 +1,6 @@
 package com.epam.android.social.fragments;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.task.HttpPostAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
@@ -203,9 +203,18 @@ public class ChangeProfileFragment extends
 
 					@Override
 					public void onClick(View v) {
-						Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-						intent.setType("image/*");
-						startActivityForResult(intent, IMAGE_PICK);
+						if (Environment.getExternalStorageDirectory().canRead()) {
+							Intent intent = new Intent(
+									Intent.ACTION_GET_CONTENT);
+							intent.setType("image/*");
+							startActivityForResult(intent, IMAGE_PICK);
+						} else {
+							Toast.makeText(
+									getContext(),
+									getResources().getString(
+											R.string.insert_sd_card),
+									Toast.LENGTH_SHORT).show();
+						}
 					}
 				});
 
@@ -221,19 +230,29 @@ public class ChangeProfileFragment extends
 						values.put(MediaStore.Images.Media.DESCRIPTION,
 								"Image capture by camera");
 
-						imageUri = getView()
-								.getContext()
-								.getContentResolver()
-								.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-										values);
-						Intent intent = new Intent(
-								MediaStore.ACTION_IMAGE_CAPTURE);
-						if (imageUri != null) {
-							intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+						if (Environment.getExternalStorageDirectory()
+								.canWrite()) {
+							imageUri = getView()
+									.getContext()
+									.getContentResolver()
+									.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+											values);
+							Intent intent = new Intent(
+									MediaStore.ACTION_IMAGE_CAPTURE);
+							if (imageUri != null) {
+								intent.putExtra(MediaStore.EXTRA_OUTPUT,
+										imageUri);
+							}
+							intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+							startActivityForResult(intent,
+									CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+						} else {
+							Toast.makeText(
+									getContext(),
+									getResources().getString(
+											R.string.insert_sd_card),
+									Toast.LENGTH_SHORT).show();
 						}
-						intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-						startActivityForResult(intent,
-								CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 					}
 				});
 
