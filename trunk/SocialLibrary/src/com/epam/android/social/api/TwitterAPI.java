@@ -97,6 +97,14 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/direct_messages.json?count=1&page=1";
 	}
 
+	public String search(String searchQuery){
+		return "http://search.twitter.com/search.json?q=" + searchQuery + "&rpp=20&result_type=mixed&page=";
+	}
+	
+	public String searchPeople(String name){
+		return "https://api.twitter.com/1/users/search.json?q=" + name + "&page=";
+	}
+
 	private HttpPost generatePostRequest(String request,
 			Hashtable<String, String> requetParams)
 			throws UnsupportedEncodingException {
@@ -120,8 +128,8 @@ public class TwitterAPI {
 	private String getUpdateProfileUrl() {
 		return "https://api.twitter.com/1/account/update_profile.json";
 	}
-	
-	private String getUpdateProfileAvatarUrl(){
+
+	private String getUpdateProfileAvatarUrl() {
 		return "https://api.twitter.com/1/account/update_profile_image.json";
 	}
 
@@ -141,25 +149,25 @@ public class TwitterAPI {
 		requestParams.put(TwitterRequestParams.LOCATION, location);
 		return generatePostRequest(getUpdateProfileUrl(), requestParams);
 	}
-	
-	public HttpPost getUpdateProfileAvatarRequest(Bitmap bitmap) throws UnsupportedEncodingException{
+
+	public HttpPost getUpdateProfileAvatarRequest(Bitmap bitmap)
+			throws UnsupportedEncodingException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        if (bitmap.isRecycled()) return null;
-        bitmap.compress(CompressFormat.JPEG, 50 /*
-                  * ignored for
-                  * PNG
-                  */, bos);
-        final byte[] bitmapdata = bos.toByteArray();
-        HttpPost httpPost = new HttpPost(getUpdateProfileAvatarUrl());
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        
-        nameValuePairs.add(new BasicNameValuePair(TwitterRequestParams.IMAGE,
-          Base64.encodeToString(bitmapdata,
-            Base64.DEFAULT)));
-        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(
-          nameValuePairs);
-        httpPost.setEntity(urlEncodedFormEntity);
-        
-        return httpPost;
+		if (bitmap.isRecycled())
+			return null;
+		bitmap.compress(CompressFormat.JPEG, 50 /*
+												 * ignored for PNG
+												 */, bos);
+		final byte[] bitmapdata = bos.toByteArray();
+		HttpPost httpPost = new HttpPost(getUpdateProfileAvatarUrl());
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
+		nameValuePairs.add(new BasicNameValuePair(TwitterRequestParams.IMAGE,
+				Base64.encodeToString(bitmapdata, Base64.DEFAULT)));
+		UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(
+				nameValuePairs);
+		httpPost.setEntity(urlEncodedFormEntity);
+
+		return httpPost;
 	}
 }

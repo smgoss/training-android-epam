@@ -7,18 +7,23 @@ import com.epam.android.common.adapter.CommonFragmentPagerAdapter;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.fragments.ProfileFragment;
+import com.epam.android.social.fragments.SearchFragment;
+import com.epam.android.social.fragments.SearchLineFragment;
 import com.epam.android.social.fragments.SearchTweetsFragment;
 import com.viewpagerindicator.TitleProvider;
 
-public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter implements TitleProvider{
+public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
+		implements TitleProvider {
 
-		
-	private static final String TAG = TwitterMainPagerAdapter.class.getSimpleName();
-	
-	private String [] titles ;
-	
+	private static final String TAG = TwitterMainPagerAdapter.class
+			.getSimpleName();
+
+	private String[] titles;
+
 	private String accountName;
-	public TwitterMainPagerAdapter(FragmentManager fm,Context context,String accountName) {
+
+	public TwitterMainPagerAdapter(FragmentManager fm, Context context,
+			String accountName) {
 		super(fm);
 		titles = context.getResources().getStringArray(R.array.titles);
 		this.accountName = accountName;
@@ -27,13 +32,21 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter implemen
 
 	@Override
 	public void initFragments() {
-			getFragments().add(SearchTweetsFragment.newInstance(TwitterAPI.getInstance().getHomeTimeLine(),accountName));
-			getFragments().add(ProfileFragment.newInstance(accountName,accountName));
+		getFragments().add(
+				SearchTweetsFragment.newInstance(TwitterAPI.getInstance()
+						.getHomeTimeLine(), accountName));
+		// getFragments().add(
+		// SearchFragment.newInstance(TwitterAPI.getInstance().search(
+		// "klyshevich")));
+		getFragments().add(
+				ProfileFragment.newInstance(accountName, accountName));
+		// getFragments().add(new SearchLineFragment());
+
 	}
 
 	@Override
 	public String getTitle(int position) {
-		return titles[position%2];
+		return titles[position];
 	}
 
 }

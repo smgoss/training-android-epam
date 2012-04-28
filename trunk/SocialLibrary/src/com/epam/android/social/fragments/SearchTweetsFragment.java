@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -15,7 +16,8 @@ import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.model.Tweet;
 
-public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<Tweet> {
+public class SearchTweetsFragment extends
+		BaseArrayModelFragmentWithCustomLoadAndSaveItems<Tweet> {
 
 	private static final String ARG_QUERY = "query";
 
@@ -23,8 +25,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 
 	private static final String TAG = SearchTweetsFragment.class
 			.getSimpleName();
-
-	private ListView mListView;
 
 	private Button loadMore;
 
@@ -64,46 +64,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mListView = (ListView) getView().findViewById(R.id.array_model_list);
-		if (savedInstanceState != null) {
-			restoreFragment(savedInstanceState);
-		}
-
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		Log.d(TAG, "onSaveInstanceState " + getDelegateKey());
-		if (currentList != null && currentList.size() != 0) {
-			outState.putParcelableArrayList(getDelegateKey(),
-					(ArrayList<? extends Parcelable>) currentList);
-		}
-
-	}
-
-	private void setList(List<Tweet> list) {
-		adapter = new TweetAdapter(getContext(), R.layout.tweet, list);
-		mListView.addFooterView(loadMore);
-		mListView.setAdapter(adapter);
-	}
-
-	private void restoreFragment(Bundle savedInstanceState) {
-		Log.d(TAG, "restoreFragmnet");
-
-		if (savedInstanceState != null) {
-			currentList = savedInstanceState
-					.getParcelableArrayList(getDelegateKey());
-			if (currentList != null && currentList.size() != 0) {
-				setList(currentList);
-			}
-		}
-
-	}
-
-	@Override
 	public String getUrl() {
 		return getArguments().getString(ARG_QUERY) + loadedPage;
 	}
@@ -124,7 +84,6 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 			currentList = new ArrayList<Tweet>();
 			currentList.addAll(result);
 			setList(currentList);
-			Log.d(TAG, "success = " + result.size());
 		} else {
 			currentList.addAll(result);
 			adapter.notifyDataSetChanged();
@@ -136,6 +95,12 @@ public class SearchTweetsFragment extends BaseArrayModelFragmentWithCustomLoad<T
 		return R.layout.load_array_model;
 	}
 
-	
+	@Override
+	public void setList(List<Tweet> list) {
+		adapter = new TweetAdapter(getContext(), R.layout.tweet, list);
+		getListView().addFooterView(loadMore);
+		getListView().setAdapter(adapter);
+
+	}
 
 }

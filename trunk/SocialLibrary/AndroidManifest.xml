@@ -27,6 +27,11 @@
         <activity android:name=".TwitterActivity" />
         <activity android:name=".TwitterLoginActivity" />
         <activity
+            android:name=".SearchFragmentActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.PageIndicatorDefaults" />
+        
+        <activity
             android:name=".TwitterTimeLineFragmentActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
