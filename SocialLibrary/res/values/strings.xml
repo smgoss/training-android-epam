@@ -23,10 +23,16 @@
     <string name="save">Save</string>
     <string name="not_correct_data">May be not correct data setup on your phone</string>
     <string name="insert_sd_card">Insert SD Card</string>
+    <string name="enter_serach_query">Enter a #hashtag or keyword</string>
 
     <string-array name="titles">
         <item>Timeline</item>
         <item>Profile</item>
+    </string-array>
+    
+    <string-array name="search_titles">
+        <item>Tweets</item>
+        <item>People</item>
     </string-array>
 
 </resources>

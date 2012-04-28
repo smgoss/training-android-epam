@@ -11,6 +11,7 @@ import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -50,9 +51,13 @@ public class BottomFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getView().getContext(),
-								"onSearhcButtonClick", Toast.LENGTH_SHORT)
-								.show();
+						FragmentTransaction fragmentTransaction = getFragmentManager()
+								.beginTransaction();
+						fragmentTransaction.addToBackStack(getTag());
+						fragmentTransaction.add(R.id.twitter_timeline_fragment,
+								new SearchLineFragment(),
+								SearchLineFragment.TAG);
+						fragmentTransaction.commit();
 					}
 				});
 

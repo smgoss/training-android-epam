@@ -54,7 +54,7 @@ public class Tweet extends BaseModel {
 			return getJSONObject().getJSONObject("user").getString(
 					"profile_image_url");
 		} catch (JSONException e) {
-			Log.e(TAG, "error on gson when get Profile Url", e);
+			Log.e(TAG, "error on json when get Profile Url", e);
 		}
 
 		return "";

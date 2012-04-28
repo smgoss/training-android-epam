@@ -288,6 +288,7 @@ public class ChangeProfileFragment extends
 		if (addedItem != null) {
 			mWindowManager.removeView(addedItem);
 		}
+		addedItem = null;
 	}
 
 	private void setImageAvatar(Uri uri) {

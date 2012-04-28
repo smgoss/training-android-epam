@@ -11,6 +11,7 @@ import com.epam.android.social.R;
 
 public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 		extends BaseArrayModelFragment<B> {
+	
 	private ProgressBar mProgressBar;
 
 	private boolean isLoading;
