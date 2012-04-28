@@ -83,7 +83,7 @@ public class ProfileInfoHeaderFragment extends
 						FollowingFragment.newInstance(TwitterAPI.getInstance()
 								.getFollowers(
 										getArguments().getString(
-												ARG_ACCOUNT_NAME))));
+												ARG_ACCOUNT_NAME))),FollowingFragment.TAG);
 				transaction.commit();
 			}
 		});

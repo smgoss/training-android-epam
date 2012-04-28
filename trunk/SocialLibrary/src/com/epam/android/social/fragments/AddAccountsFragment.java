@@ -25,7 +25,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.helper.ImageHelper;
+import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.OAuthHelper;
 import com.epam.android.social.model.TwitterUserInfo;
 
@@ -45,7 +45,7 @@ public class AddAccountsFragment extends Fragment {
 	
 	private static AddAccountsFragment.ILogin login;
 	
-	private ImageHelper imageHelper;
+	private ImageGetHelper imageHelper;
 
 	
 	@Override
@@ -111,7 +111,7 @@ public class AddAccountsFragment extends Fragment {
 		accountName.setText(accontName);
 		ImageView accountPicture = (ImageView) layoutItem
 				.findViewById(R.id.accountPicture);
-		imageHelper = new ImageHelper(getActivity());
+		imageHelper = new ImageGetHelper(getActivity());
 		imageHelper.setAvatar(accountAvatarUrl, accountPicture);
 		accountPicture.setTag(accontName);
 		layoutItem.setId(lastAccountPictureID);
