@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".TwitterActivity" />
         <activity android:name=".TwitterLoginActivity" />
+        <activity android:name=".FacebookLoginActivity" />
         <activity
             android:name=".SearchFragmentActivity"
             android:configChanges="orientation"

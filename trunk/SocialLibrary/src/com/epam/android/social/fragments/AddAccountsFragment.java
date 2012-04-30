@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,8 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.epam.android.common.utils.ObjectSerializer;
+import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
-import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.ImageGetHelper;
@@ -42,12 +41,11 @@ public class AddAccountsFragment extends Fragment {
 	private int lastAccountPictureID = 100500;
 
 	private boolean isFirst = true;
-	
+
 	private static AddAccountsFragment.ILogin login;
-	
+
 	private ImageGetHelper imageHelper;
 
-	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -58,16 +56,19 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				// startActivity(new Intent(getView().getContext(),
+				// TwitterLoginActivity.class));
 				startActivity(new Intent(getView().getContext(),
-						TwitterLoginActivity.class));
+						FacebookLoginActivity.class));
 
-				};
+			};
 		});
-		
+
 		login = new ILogin() {
-			
+
 			@Override
-			public void onSuccessLogin(String accontName, String accountAvatarUrl) {
+			public void onSuccessLogin(String accontName,
+					String accountAvatarUrl) {
 				addNewAccount(accontName, accountAvatarUrl);
 			}
 		};
@@ -153,16 +154,13 @@ public class AddAccountsFragment extends Fragment {
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.account, null, false);
 	}
-	
-	public static interface ILogin{
+
+	public static interface ILogin {
 		public void onSuccessLogin(String accontName, String accountAvatar);
 	}
-	
-	public static AddAccountsFragment.ILogin getLogin(){
+
+	public static AddAccountsFragment.ILogin getLogin() {
 		return login;
 	}
-	
-	
-	
-	
+
 }
