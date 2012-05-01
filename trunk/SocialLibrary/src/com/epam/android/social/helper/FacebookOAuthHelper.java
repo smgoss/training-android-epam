@@ -7,8 +7,6 @@ import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
-import oauth.signpost.basic.DefaultOAuthConsumer;
-import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -21,11 +19,9 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.epam.android.common.http.HttpClient;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
@@ -33,23 +29,21 @@ import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.model.TwitterUserInfo;
-import com.google.android.imageloader.ImageLoader;
 
 public class FacebookOAuthHelper {
 
 	private static final String TAG = FacebookOAuthHelper.class.getSimpleName();
 
-	public static final String FacebookOAuthHelper = "++OAuthHelper++";
+	public static final String FacebookOAuthHelper = "++FacebookOAuthHelper++";
 
-	private static final String CONSUMER_KEY = "Iu2RgC0vqbJ3hx8Bh5AfEQ";
+	private static final String CONSUMER_KEY = "163500670443120";
 
-	private static final String CONSUMER_SECRET = "xoUH0EZRCfBj1y1Om3DtxyYNs46lOwG6tbGyNDrEQo";
+	private static final String CONSUMER_SECRET = "7338c02df8add901b88562f436c0a335";
 
-	private static final String REDIRECT_URL = "http://mysite.ru";
-	private static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
-	private static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
-	private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize";
-
+	private static final String REDIRECT_URL = "fbconnect://success";
+	private static final String REQUEST_URL = "https://graph.facebook.com/oauth/request_token";
+	private static final String ACCESS_URL = "https://graph.facebook.com/oauth/access_token";
+	private static final String AUTHORIZE_URL = "https://graph.facebook.com/oauth/authorize";
 	private OAuthConsumer consumer;
 
 	private OAuthProvider provider;
@@ -161,33 +155,33 @@ public class FacebookOAuthHelper {
 			ClassNotFoundException {
 		String oauthVerifier = getOauthVerifierFromUrl(url);
 		setRetrieveAccessToken(oauthVerifier);
-		SharedPreferences preferences = mContext.getSharedPreferences(
-				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		userInfoSerialized = preferences.getString(
-				ApplicationConstants.ACCOUNT_LIST, null);
-		if (userInfoSerialized != null) {
-			listUsers = (List<TwitterUserInfo>) serializer
-					.deserialize(userInfoSerialized);
-		}
-		user = getUser();
-		if (!listContainUser(user.getUserName(), listUsers)) {
-			user.setToken(consumer.getToken());
-			user.setTokenSecret(consumer.getTokenSecret());
-			listUsers.add(user);
-
-			SharedPreferences.Editor editor = mContext.getSharedPreferences(
-					ApplicationConstants.SHARED_PREFERENSE,
-					Context.MODE_PRIVATE).edit();
-			editor.putString(ApplicationConstants.ACCOUNT_LIST,
-					serializer.serialize((Serializable) listUsers));
-			editor.commit();
-		} else {
-			Toast.makeText(
-					mContext,
-					mContext.getResources().getString(
-							R.string.you_loggined_on_this_account),
-					Toast.LENGTH_SHORT).show();
-		}
+//		SharedPreferences preferences = mContext.getSharedPreferences(
+//				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+//		userInfoSerialized = preferences.getString(
+//				ApplicationConstants.ACCOUNT_LIST, null);
+//		if (userInfoSerialized != null) {
+//			listUsers = (List<TwitterUserInfo>) serializer
+//					.deserialize(userInfoSerialized);
+//		}
+//		user = getUser();
+//		if (!listContainUser(user.getUserName(), listUsers)) {
+//			user.setToken(consumer.getToken());
+//			user.setTokenSecret(consumer.getTokenSecret());
+//			listUsers.add(user);
+//
+//			SharedPreferences.Editor editor = mContext.getSharedPreferences(
+//					ApplicationConstants.SHARED_PREFERENSE,
+//					Context.MODE_PRIVATE).edit();
+//			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+//					serializer.serialize((Serializable) listUsers));
+//			editor.commit();
+//		} else {
+//			Toast.makeText(
+//					mContext,
+//					mContext.getResources().getString(
+//							R.string.you_loggined_on_this_account),
+//					Toast.LENGTH_SHORT).show();
+//		}
 
 	}
 

@@ -3,7 +3,9 @@ package com.epam.android.social.fragments;
 import java.io.IOException;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
+import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.ImageGetHelper;
@@ -56,10 +59,28 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				// startActivity(new Intent(getView().getContext(),
-				// TwitterLoginActivity.class));
-				startActivity(new Intent(getView().getContext(),
-						FacebookLoginActivity.class));
+				new AlertDialog.Builder(getView().getContext())
+						.setTitle("Сеть")
+						.setPositiveButton("Facebook",
+								new DialogInterface.OnClickListener() {
+
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										startActivity(new Intent(getView()
+												.getContext(),
+												FacebookLoginActivity.class));
+
+									}
+								})
+						.setNegativeButton("Twitter",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										startActivity(new Intent(getView()
+												.getContext(),
+												TwitterLoginActivity.class));
+									}
+								}).create().show();
 
 			};
 		});
