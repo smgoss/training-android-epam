@@ -11,5 +11,7 @@ public class FacebookConstants {
 	public static final String OAUTH_VERIFIER = "oauth_verifier=";
 	
 	public static final int MAX_LENGTH_TWEET = 140;
+	
+	
 
 }

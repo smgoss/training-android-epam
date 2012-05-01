@@ -1,11 +1,8 @@
 package com.epam.android.social;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -21,7 +18,6 @@ import android.widget.Toast;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.FacebookOAuthHelper;
-import com.epam.android.social.helper.OAuthHelper;
 
 public class FacebookLoginActivity extends Activity {
 
@@ -61,15 +57,15 @@ public class FacebookLoginActivity extends Activity {
 						isSave = true;
 						helper.saveToken(url);
 						webView.setVisibility(WebView.INVISIBLE);
-						AddAccountsFragment.getLogin().onSuccessLogin(
-								helper.getUserName(),
-								helper.getAvatarDrawable());
-						Intent intent = new Intent(getApplicationContext(),
-								TwitterTimeLineFragmentActivity.class);
-						intent.putExtra(ApplicationConstants.USER_NAME,
-								helper.getUserName());
-						startActivity(intent);
-						finish();
+//						AddAccountsFragment.getLogin().onSuccessLogin(
+//								helper.getUserName(),
+//								helper.getAvatarDrawable());
+//						Intent intent = new Intent(getApplicationContext(),
+//								TwitterTimeLineFragmentActivity.class);
+//						intent.putExtra(ApplicationConstants.USER_NAME,
+//								helper.getUserName());
+//						startActivity(intent);
+//						finish();
 
 					}
 				} catch (IOException e) {
@@ -95,20 +91,22 @@ public class FacebookLoginActivity extends Activity {
 			webView.setWebViewClient(getWebViewClient());
 			helper = (FacebookOAuthHelper) getApplicationContext()
 					.getSystemService(FacebookOAuthHelper.FacebookOAuthHelper);
-			try {
-				webView.loadUrl(helper.getLoginUrl());
-			} catch (OAuthMessageSignerException e) {
-				Log.e(TAG, "OAuth Message Signer error ", e);
-			} catch (OAuthNotAuthorizedException e) {
-				Log.e(TAG, "OAuth Not Authorized error "
-						+ getResources().getString(R.string.not_correct_data),
-						e);
-				return getResources().getString(R.string.not_correct_data);
-			} catch (OAuthExpectationFailedException e) {
-				Log.e(TAG, "OAuth Expectation error ", e);
-			} catch (OAuthCommunicationException e) {
-				Log.e(TAG, "OAuth Communication error ", e);
-			}
+			// try {
+			String lu = "https://www.facebook.com/dialog/oauth?client_id=282917675133350&redirect_uri=fbconnect://success&scope=user_about_me&display=touch&type=user_agent";
+			webView.loadUrl(lu);
+			// webView.loadUrl(helper.getLoginUrl());
+			// } catch (OAuthMessageSignerException e) {
+			// Log.e(TAG, "OAuth Message Signer error ", e);
+			// } catch (OAuthNotAuthorizedException e) {
+			// Log.e(TAG, "OAuth Not Authorized error "
+			// + getResources().getString(R.string.not_correct_data),
+			// e);
+			// return getResources().getString(R.string.not_correct_data);
+			// } catch (OAuthExpectationFailedException e) {
+			// Log.e(TAG, "OAuth Expectation error ", e);
+			// } catch (OAuthCommunicationException e) {
+			// Log.e(TAG, "OAuth Communication error ", e);
+			// }
 			return "";
 		}
 
