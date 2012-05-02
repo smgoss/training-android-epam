@@ -11,17 +11,17 @@ import com.epam.android.common.CommonApplication;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.http.Loader.IRule;
 import com.epam.android.social.helper.FacebookOAuthHelper;
-import com.epam.android.social.helper.OAuthHelper;
+import com.epam.android.social.helper.TwitterOAuthHelper;
 
 public class SocialApplication extends CommonApplication {
 
-	private OAuthHelper oAuthHelper;
+	private TwitterOAuthHelper oAuthHelper;
 	private FacebookOAuthHelper FacebookOAuthHelper;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		oAuthHelper = OAuthHelper.newInstanse(getApplicationContext());
+		oAuthHelper = TwitterOAuthHelper.newInstanse(getApplicationContext());
 		FacebookOAuthHelper = FacebookOAuthHelper.newInstanse(getApplicationContext());
 		Loader.get(this).addRule(new IRule() {
 
@@ -68,7 +68,7 @@ public class SocialApplication extends CommonApplication {
 
 	@Override
 	public Object getSystemService(String name) {
-		if (name.equals(OAuthHelper.OAuthHelper)) {
+		if (name.equals(TwitterOAuthHelper.OAuthHelper)) {
 			return oAuthHelper;
 		}
 		if (name.equals(FacebookOAuthHelper.FacebookOAuthHelper)) {

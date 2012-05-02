@@ -35,9 +35,9 @@ import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.model.TwitterUserInfo;
 import com.google.android.imageloader.ImageLoader;
 
-public class OAuthHelper {
+public class TwitterOAuthHelper {
 
-	private static final String TAG = OAuthHelper.class.getSimpleName();
+	private static final String TAG = TwitterOAuthHelper.class.getSimpleName();
 
 	public static final String OAuthHelper = "++OAuthHelper++";
 
@@ -54,7 +54,7 @@ public class OAuthHelper {
 
 	private OAuthProvider provider;
 
-	private static OAuthHelper instanse;
+	private static TwitterOAuthHelper instanse;
 
 	private Context mContext;
 
@@ -66,7 +66,7 @@ public class OAuthHelper {
 
 	private TwitterUserInfo user;
 
-	private OAuthHelper(Context context) {
+	private TwitterOAuthHelper(Context context) {
 		if (instanse == null) {
 			consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
 					CONSUMER_SECRET);
@@ -79,13 +79,13 @@ public class OAuthHelper {
 		// TODO restore
 	}
 
-	public static OAuthHelper getInstanse() {
+	public static TwitterOAuthHelper getInstanse() {
 		return instanse;
 	}
 
-	public static OAuthHelper newInstanse(Context context) {
+	public static TwitterOAuthHelper newInstanse(Context context) {
 		if (instanse == null) {
-			instanse = new OAuthHelper(context);
+			instanse = new TwitterOAuthHelper(context);
 		}
 		return instanse;
 	}

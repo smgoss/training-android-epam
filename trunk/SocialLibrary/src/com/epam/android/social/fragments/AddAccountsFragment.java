@@ -28,7 +28,7 @@ import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.ImageGetHelper;
-import com.epam.android.social.helper.OAuthHelper;
+import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.TwitterUserInfo;
 
 public class AddAccountsFragment extends Fragment {
@@ -60,8 +60,8 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(getView().getContext())
-						.setTitle("Сеть")
-						.setPositiveButton("Facebook",
+						.setTitle(getResources().getString(R.string.choise_social_network))
+						.setPositiveButton(getResources().getString(R.string.facebook),
 								new DialogInterface.OnClickListener() {
 
 									public void onClick(DialogInterface dialog,
@@ -72,7 +72,7 @@ public class AddAccountsFragment extends Fragment {
 
 									}
 								})
-						.setNegativeButton("Twitter",
+						.setNegativeButton(getResources().getString(R.string.twitter),
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int whichButton) {
@@ -142,7 +142,7 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					OAuthHelper.getInstanse().restoreToken((String) v.getTag());
+					TwitterOAuthHelper.getInstanse().restoreToken((String) v.getTag());
 					Intent intent = new Intent(getView().getContext(),
 							TwitterTimeLineFragmentActivity.class);
 					intent.putExtra(ApplicationConstants.USER_NAME,

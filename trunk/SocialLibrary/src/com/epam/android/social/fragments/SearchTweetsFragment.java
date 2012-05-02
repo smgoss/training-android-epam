@@ -8,42 +8,59 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.epam.android.common.BaseArrayModelByAnnotationFragment;
 import com.epam.android.social.R;
+import com.epam.android.social.adapter.SearchAdapter;
 import com.epam.android.social.adapter.TweetAdapter;
+import com.epam.android.social.model.SearchResult;
 import com.epam.android.social.model.Tweet;
 
 public class SearchTweetsFragment extends
-		BaseArrayModelFragmentWithCustomLoadAndSaveItems<Tweet> {
+		BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<SearchResult> {
+
+	private static final String TAG = SearchTweetsFragment.class.getSimpleName();
 
 	private static final String ARG_QUERY = "query";
 
-	private static final String ARG_PROFILE_NAME = "profile_name";
+	private List<SearchResult> currentList;
 
-	private static final String TAG = SearchTweetsFragment.class
-			.getSimpleName();
+	private SearchAdapter adapter;
 
 	private Button loadMore;
 
-	private String delegateKey;
-
-	private List<Tweet> currentList;
-
-	private TweetAdapter adapter;
-
 	private int loadedPage = 1;
 
-	public static SearchTweetsFragment newInstance(String query,
-			String accountName) {
+	public static SearchTweetsFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
 		bundle.putString(ARG_QUERY, query);
-		bundle.putString(ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
+	}
+
+	@Override
+	public String getUrl() {
+		return getArguments().getString(ARG_QUERY) + loadedPage;
+	}
+
+	@Override
+	protected void success(List<SearchResult> result) {
+		if (currentList == null) {
+			currentList = new ArrayList<SearchResult>();
+			currentList.addAll(result);
+			setList(currentList);
+		} else {
+			currentList.addAll(result);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public int getLayoutResource() {
+		return R.layout.load_array_model;
 	}
 
 	@Override
@@ -64,43 +81,10 @@ public class SearchTweetsFragment extends
 	}
 
 	@Override
-	public String getUrl() {
-		return getArguments().getString(ARG_QUERY) + loadedPage;
-	}
-
-	@Override
-	public String getDelegateKey() {
-		if (delegateKey == null) {
-			delegateKey = getArguments().getString(ARG_QUERY)
-					+ getArguments().getString(ARG_PROFILE_NAME);
-			Log.d(TAG, "delegate key=" + delegateKey);
-		}
-		return delegateKey;
-	}
-
-	@Override
-	protected void success(List<Tweet> result) {
-		if (currentList == null) {
-			currentList = new ArrayList<Tweet>();
-			currentList.addAll(result);
-			setList(currentList);
-		} else {
-			currentList.addAll(result);
-			adapter.notifyDataSetChanged();
-		}
-	}
-
-	@Override
-	public int getLayoutResource() {
-		return R.layout.load_array_model;
-	}
-
-	@Override
-	public void setList(List<Tweet> list) {
-		adapter = new TweetAdapter(getContext(), R.layout.tweet, list);
+	public void setList(List<SearchResult> list) {
+		adapter = new SearchAdapter(getContext(), R.layout.tweet, list);
 		getListView().addFooterView(loadMore);
 		getListView().setAdapter(adapter);
 
 	}
-
 }

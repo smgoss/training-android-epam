@@ -5,11 +5,12 @@ import android.support.v4.app.FragmentManager;
 
 import com.epam.android.common.adapter.CommonFragmentPagerAdapter;
 import com.epam.android.social.R;
+import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.fragments.ProfileFragment;
-import com.epam.android.social.fragments.SearchFragment;
-import com.epam.android.social.fragments.SearchLineFragment;
 import com.epam.android.social.fragments.SearchTweetsFragment;
+import com.epam.android.social.fragments.SearchLineFragment;
+import com.epam.android.social.fragments.TweetTimeLineFragment;
 import com.viewpagerindicator.TitleProvider;
 
 public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
@@ -33,14 +34,15 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 	@Override
 	public void initFragments() {
 		getFragments().add(
-				SearchTweetsFragment.newInstance(TwitterAPI.getInstance()
+				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
 						.getHomeTimeLine(), accountName));
-		// getFragments().add(
-		// SearchFragment.newInstance(TwitterAPI.getInstance().search(
-		// "klyshevich")));
+		
+//		getFragments().add(
+//				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
+//						.getUserTimeLine(accountName), accountName));
+		
 		getFragments().add(
 				ProfileFragment.newInstance(accountName, accountName));
-		// getFragments().add(new SearchLineFragment());
 
 	}
 

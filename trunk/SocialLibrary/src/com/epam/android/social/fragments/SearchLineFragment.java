@@ -35,8 +35,18 @@ public class SearchLineFragment extends Fragment {
 					Intent intent = new Intent(getView().getContext(),
 							SearchFragmentActivity.class);
 					intent.putExtra(ApplicationConstants.QUERY, queryText
-							.getText().toString());
+							.getText().toString().trim());
+					if (getActivity().getIntent().getBooleanExtra(
+							ApplicationConstants.IS_FIRST_SEARCH, true)) {
+						intent.putExtra(ApplicationConstants.IS_FIRST_SEARCH,
+								false);
+					} else {
+						getActivity().finish();
+						intent.putExtra(ApplicationConstants.IS_FIRST_SEARCH,
+								false);
+					}
 					startActivity(intent);
+
 					getFragmentManager().popBackStack();
 					return true;
 				}

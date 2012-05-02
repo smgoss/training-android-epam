@@ -15,7 +15,7 @@ public class ProfileInfoHeaderAdapter {
 	private ImageLoader mImageLoader;
 
 	private String accountName;
-	
+
 	private Context context;
 
 	public ProfileInfoHeaderAdapter(Context c, View convertView,
@@ -86,13 +86,18 @@ public class ProfileInfoHeaderAdapter {
 				.findViewById(R.id.profileInfo_sendTweetButton);
 		sendTweetButton.setVisibility(View.VISIBLE);
 		if (accountName.equals(item.getScreenName())) {
-			sendTweetButton.setText(context.getResources().getString(R.string.change_profile));
+			sendTweetButton.setText(context.getResources().getString(
+					R.string.change_profile));
 		}
-
-		TextView profileTweetsTextView = (TextView) convertView
-				.findViewById(R.id.profile_tweetsTextView);
-		profileTweetsTextView.setVisibility(View.VISIBLE);
-
+		
+		Button tweetButton = (Button) convertView.findViewById(R.id.profileInfo_tweetButton);
+		tweetButton.setVisibility(View.VISIBLE);
+		
+		Button followingButton = (Button) convertView.findViewById(R.id.profileInfo_followingButton);
+		followingButton.setVisibility(View.VISIBLE);
+		
+		Button followersButton = (Button) convertView.findViewById(R.id.profileInfo_followersButton);
+		followersButton.setVisibility(View.VISIBLE);
 	}
 
 }

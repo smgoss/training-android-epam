@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
-import com.epam.android.social.helper.OAuthHelper;
+import com.epam.android.social.helper.TwitterOAuthHelper;
 
 public class TwitterLoginActivity extends Activity {
 
@@ -31,7 +31,7 @@ public class TwitterLoginActivity extends Activity {
 
 	private static final String MSG = "Loading...";
 
-	private OAuthHelper helper;
+	private TwitterOAuthHelper helper;
 
 	private WebView webView;
 
@@ -92,8 +92,8 @@ public class TwitterLoginActivity extends Activity {
 					.setJavaScriptCanOpenWindowsAutomatically(true);
 			webView.getSettings().setPluginsEnabled(true);
 			webView.setWebViewClient(getWebViewClient());
-			helper = (OAuthHelper) getApplicationContext().getSystemService(
-					OAuthHelper.OAuthHelper);
+			helper = (TwitterOAuthHelper) getApplicationContext().getSystemService(
+					TwitterOAuthHelper.OAuthHelper);
 			try {
 				webView.loadUrl(helper.getLoginUrl());
 			} catch (OAuthMessageSignerException e) {

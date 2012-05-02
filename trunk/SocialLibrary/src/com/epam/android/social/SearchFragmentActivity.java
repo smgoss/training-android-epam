@@ -11,8 +11,10 @@ import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 public class SearchFragmentActivity extends FragmentActivity {
@@ -23,25 +25,27 @@ public class SearchFragmentActivity extends FragmentActivity {
 
 	private PageIndicator indicator;
 
+	private SearchPagerAdapter adapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.twitter_timeline_fragment);
 		viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(new SearchPagerAdapter(
-				getSupportFragmentManager(), getApplicationContext(),
-				getIntent().getStringExtra(ApplicationConstants.QUERY)));
+		adapter = new SearchPagerAdapter(getSupportFragmentManager(),
+				getApplicationContext(), getIntent().getStringExtra(
+						ApplicationConstants.QUERY));
+		viewPager.setAdapter(adapter);
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 
 	}
-	
-	public void onItemClick(View view) {
-		SearchPeopleFragment fragment = ((SearchPeopleFragment) getSupportFragmentManager()
-				.findFragmentByTag(SearchPeopleFragment.TAG));
-		setIsFollow(fragment.getFollowingList(), view.getTag());
-		fragment.getAdapter().notifyDataSetChanged();
 
+	public void onItemClick(View view) {
+		//TODO say about find by id
+		SearchPeopleFragment fragment = (SearchPeopleFragment) adapter.getSearchPeopleFragment();
+		setIsFollow(fragment.getPeopleList(), view.getTag());
+		fragment.getAdapter().notifyDataSetChanged();
 	}
 
 	private void setIsFollow(List<Following> list, Object itemTag) {

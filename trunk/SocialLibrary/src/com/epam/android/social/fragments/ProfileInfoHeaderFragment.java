@@ -29,15 +29,13 @@ public class ProfileInfoHeaderFragment extends
 
 	private static final String ARG_ACCOUNT_NAME = "accountName";
 
-	private LinearLayout tweetsButton;
+	private LinearLayout tweetsLinerLayout;
 
-	private LinearLayout followingButton;
+	private LinearLayout followingLinerLayout;
 
-	private LinearLayout followersButton;
+	private LinearLayout followersLinerLayout;
 
 	private Button changeProfileButton;
-	
-	private static final int SELECT_PHOTO = 100;
 
 	public static ProfileInfoHeaderFragment newInstance(String query,
 			String accountName) {
@@ -57,54 +55,33 @@ public class ProfileInfoHeaderFragment extends
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		tweetsButton = (LinearLayout) getView().findViewById(
+		tweetsLinerLayout = (LinearLayout) getView().findViewById(
 				R.id.profileInfo_tweetsLayout);
-		tweetsButton.setOnClickListener(new OnClickListener() {
+		tweetsLinerLayout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getView().getContext(), "onTweetButtonClick",
-						Toast.LENGTH_SHORT).show();
+				onTweetButtonClick();
 			}
 		});
 
-		followersButton = (LinearLayout) getView().findViewById(
+		followersLinerLayout = (LinearLayout) getView().findViewById(
 				R.id.profileInfo_followersLayout);
-		followersButton.setOnClickListener(new OnClickListener() {
+		followersLinerLayout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				FragmentTransaction transaction = getFragmentManager()
-						.beginTransaction();
-				transaction.setCustomAnimations(android.R.anim.slide_in_left,
-						android.R.anim.slide_out_right);
-				transaction.addToBackStack(getTag());
-				transaction.add(R.id.twitter_timeline_fragment,
-						FollowingFragment.newInstance(TwitterAPI.getInstance()
-								.getFollowers(
-										getArguments().getString(
-												ARG_ACCOUNT_NAME))));
-				transaction.commit();
+				onFollowersButtonClick();
 			}
 		});
 
-		followingButton = (LinearLayout) getView().findViewById(
+		followingLinerLayout = (LinearLayout) getView().findViewById(
 				R.id.profileInfo_followingLayout);
-		followingButton.setOnClickListener(new OnClickListener() {
+		followingLinerLayout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				FragmentTransaction transaction = getFragmentManager()
-						.beginTransaction();
-				transaction.setCustomAnimations(android.R.anim.slide_in_left,
-						android.R.anim.slide_out_right);
-				transaction.addToBackStack(getTag());
-				transaction.add(R.id.twitter_timeline_fragment,
-						FollowingFragment.newInstance(TwitterAPI.getInstance()
-								.getFollowing(
-										getArguments().getString(
-												ARG_ACCOUNT_NAME))),FollowingFragment.TAG);
-				transaction.commit();
+				onFollowingButtonClick();
 			}
 		});
 
@@ -128,6 +105,36 @@ public class ProfileInfoHeaderFragment extends
 			}
 		});
 
+		Button tweetButton = (Button) getView().findViewById(
+				R.id.profileInfo_tweetButton);
+		tweetButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View paramView) {
+				onTweetButtonClick();
+			}
+		});
+
+		Button followingButton = (Button) getView().findViewById(
+				R.id.profileInfo_followingButton);
+		followingButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View paramView) {
+				onFollowingButtonClick();
+
+			}
+		});
+
+		Button followersButton = (Button) getView().findViewById(
+				R.id.profileInfo_followersButton);
+		followersButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View paramView) {
+				onFollowersButtonClick();
+			}
+		});
 	}
 
 	@Override
@@ -145,5 +152,44 @@ public class ProfileInfoHeaderFragment extends
 				getArguments().getString(ARG_ACCOUNT_NAME));
 	}
 
+	private void onTweetButtonClick() {
+		FragmentTransaction transaction = getFragmentManager()
+				.beginTransaction();
+		transaction.setCustomAnimations(android.R.anim.slide_in_left,
+				android.R.anim.slide_out_right);
+		transaction.addToBackStack(getTag());
+		transaction.add(R.id.twitter_timeline_fragment, TweetTimeLineFragment
+				.newInstance(
+						TwitterAPI.getInstance().getUserTimeLine(
+								getArguments().getString(ARG_ACCOUNT_NAME)),
+						getArguments().getString(ARG_ACCOUNT_NAME)));
+		transaction.commit();
+	}
+
+	private void onFollowingButtonClick() {
+		FragmentTransaction transaction = getFragmentManager()
+				.beginTransaction();
+		transaction.setCustomAnimations(android.R.anim.slide_in_left,
+				android.R.anim.slide_out_right);
+		transaction.addToBackStack(getTag());
+		transaction.add(R.id.twitter_timeline_fragment, FollowingFragment
+				.newInstance(TwitterAPI.getInstance().getFollowing(
+						getArguments().getString(ARG_ACCOUNT_NAME))),
+				FollowingFragment.TAG);
+		transaction.commit();
+	}
+
+	private void onFollowersButtonClick() {
+		FragmentTransaction transaction = getFragmentManager()
+				.beginTransaction();
+		transaction.setCustomAnimations(android.R.anim.slide_in_left,
+				android.R.anim.slide_out_right);
+		transaction.addToBackStack(getTag());
+		transaction.add(R.id.twitter_timeline_fragment, FollowingFragment
+				.newInstance(TwitterAPI.getInstance().getFollowers(
+						getArguments().getString(ARG_ACCOUNT_NAME))),
+				FollowingFragment.TAG);
+		transaction.commit();
+	}
 
 }

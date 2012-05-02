@@ -19,13 +19,14 @@ public class SearchPeopleFragment extends
 
 	private FollowingAdapter adapter;
 	
-	private List<Following> followingList;
+	private List<Following> peopleList;
 
 	public static SearchPeopleFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		SearchPeopleFragment fragment = new SearchPeopleFragment();
 		bundle.putString(ARG_QUERY, query);
 		fragment.setArguments(bundle);
+		fragment.setTargetFragment(fragment, 100);
 		return fragment;
 	}
 
@@ -36,8 +37,9 @@ public class SearchPeopleFragment extends
 
 	@Override
 	protected void success(List<Following> result) {
+		peopleList = result;
 		adapter = new FollowingAdapter(getView().getContext(), R.layout.follow,
-				result);
+				peopleList);
 		ListView listView = (ListView) getView().findViewById(
 				R.id.array_model_list);
 		listView.setAdapter(adapter);
@@ -49,8 +51,8 @@ public class SearchPeopleFragment extends
 		return R.layout.load_array_model;
 	}
 	
-	public List<Following> getFollowingList(){
-		return followingList;
+	public List<Following> getPeopleList(){
+		return peopleList;
 	}
 	
 	public FollowingAdapter getAdapter(){
