@@ -32,37 +32,7 @@ public class FacebookAPI {
 		return facebookAPI;
 	}
 
-	public String getRetweetedByMe() {
-		return "https://api.twitter.com/1/statuses/retweeted_by_me.json?page=";
-	}
-
-	public String getRetweetOfMe() {
-		return "https://api.twitter.com/1/statuses/retweets_of_me.json?";
-	}
-
-	public String getHomeTimeLine() {
-		return "https://api.twitter.com/1/statuses/home_timeline.json?page=";
-	}
-
-	public String getUserTimeLine(String screenName) {
-		return "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name="
-				+ screenName + "&count=2&page=";
-	}
-
-	public String getReetweetByUser() {
-		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&page=";
-	}
-
-	// TODO See more about cursor
-	public String getFollowing(String screenName) {
-		return "https://api.twitter.com/1/friends/ids.json?cursor=-1&screen_name="
-				+ screenName;
-	}
-
-	public String getFollowers(String screenName) {
-		return "https://api.twitter.com/1/followers/ids.json?cursor=-1&screen_name="
-				+ screenName;
-	}
+	
 
 	public String verifyCredentials() {
 		return "https://api.twitter.com/1/account/verify_credentials.json";
