@@ -130,16 +130,33 @@
         android:layout_below="@id/profileInfo_tweetsFollowingFollowersTextViewOnHeader"
         android:layout_marginTop="10dp"
         android:text="@string/send_tweet"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/profile_tweetsTextView"
+    <Button
+        android:id="@+id/profileInfo_tweetButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/profileInfo_sendTweetButton"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="@string/tweets"
-        android:textSize="15sp"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/profileInfo_followingButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileInfo_tweetButton"
+        android:layout_marginTop="5dp"
+        android:text="@string/following"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/profileInfo_followersButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileInfo_followingButton"
+        android:layout_marginTop="5dp"
+        android:text="@string/followers"
         android:visibility="invisible" />
 
 </RelativeLayout>

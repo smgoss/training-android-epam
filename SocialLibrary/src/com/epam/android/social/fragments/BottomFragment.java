@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.epam.android.social.R;
@@ -54,6 +55,9 @@ public class BottomFragment extends Fragment {
 						FragmentTransaction fragmentTransaction = getFragmentManager()
 								.beginTransaction();
 						fragmentTransaction.addToBackStack(getTag());
+						fragmentTransaction
+								.setCustomAnimations(android.R.anim.fade_in,
+										android.R.anim.fade_out);
 						fragmentTransaction.add(R.id.twitter_timeline_fragment,
 								new SearchLineFragment(),
 								SearchLineFragment.TAG);
@@ -88,34 +92,9 @@ public class BottomFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						// Toast.makeText(getView().getContext(),
-						// "onMessageButtonClick", Toast.LENGTH_SHORT).show();
-						WindowManager mWindowManager;
-
-						WindowManager.LayoutParams mWindowParams;
-
-						View view = LayoutInflater.from(getActivity()).inflate(
-								R.layout.gallery_camera_item, null);
-						mWindowParams = new WindowManager.LayoutParams();
-
-						mWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
-						// mWindowParams.x = 50;
-						mWindowParams.y = 50;
-						mWindowParams.y = getView().findViewById(
-								R.id.changeProfile_avatarLayout).getScrollY();
-
-						mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-						mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-						mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-								| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-								| WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-						mWindowParams.format = PixelFormat.TRANSLUCENT;
-						mWindowParams.windowAnimations = 0;
-
-						mWindowManager = (WindowManager) getView().getContext()
-								.getApplicationContext()
-								.getSystemService("window");
-						mWindowManager.addView(view, mWindowParams);
+						Toast.makeText(getView().getContext(),
+								"onMessageButtonClick", Toast.LENGTH_SHORT)
+								.show();
 					}
 				});
 	}

@@ -35,6 +35,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoadAndSaveItems<B extends
 	private void restoreFragment(Bundle savedInstanceState) {
 
 		if (savedInstanceState != null) {
+			currentList.clear();
 			currentList = savedInstanceState
 					.getParcelableArrayList(getDelegateKey());
 			if (currentList != null && currentList.size() != 0) {

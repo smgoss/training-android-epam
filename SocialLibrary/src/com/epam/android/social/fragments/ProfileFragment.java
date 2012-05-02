@@ -45,11 +45,6 @@ public class ProfileFragment extends Fragment {
 						TwitterAPI.getInstance().getFullProfileInfo(
 								getArguments().getString(ARG_PROFILE_NAME)),
 						getArguments().getString(ARG_CURRENT_ACCOUNT_NAME)));
-		transaction.add(R.id.profileTweetsFragment, SearchTweetsFragment
-				.newInstance(
-						TwitterAPI.getInstance().getUserTimeLine(
-								getArguments().getString(ARG_CURRENT_ACCOUNT_NAME)),
-						getArguments().getString(ARG_CURRENT_ACCOUNT_NAME)));
 		
 		transaction.commit();
 

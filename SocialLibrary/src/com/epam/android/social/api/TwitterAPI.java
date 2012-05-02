@@ -34,6 +34,7 @@ public class TwitterAPI {
 
 	public String getRetweetedByMe() {
 		return "https://api.twitter.com/1/statuses/retweeted_by_me.json?page=";
+		
 	}
 
 	public String getRetweetOfMe() {
@@ -46,11 +47,12 @@ public class TwitterAPI {
 
 	public String getUserTimeLine(String screenName) {
 		return "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name="
-				+ screenName + "&count=2&page=";
+				+ screenName + "&count=20&page=";
 	}
 
-	public String getReetweetByUser() {
-		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name=episod&page=";
+	public String getReetweetByUser(String name) {
+		return "https://api.twitter.com/1/statuses/retweeted_by_user.json?screen_name="
+				+ name + "&page=";
 	}
 
 	// TODO See more about cursor
@@ -97,12 +99,14 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/direct_messages.json?count=1&page=1";
 	}
 
-	public String search(String searchQuery){
-		return "http://search.twitter.com/search.json?q=" + searchQuery + "&rpp=20&result_type=mixed&page=";
+	public String search(String searchQuery) {
+		return "http://search.twitter.com/search.json?q=" + searchQuery
+				+ "&rpp=20&result_type=mixed&page=";
 	}
-	
-	public String searchPeople(String name){
-		return "https://api.twitter.com/1/users/search.json?q=" + name + "&page=";
+
+	public String searchPeople(String name) {
+		return "https://api.twitter.com/1/users/search.json?q=" + name
+				+ "&page=";
 	}
 
 	private HttpPost generatePostRequest(String request,

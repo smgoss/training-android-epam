@@ -9,5 +9,6 @@ public class ApplicationConstants {
 	
 	public static final String QUERY = "query";
 	
+	public static final String IS_FIRST_SEARCH = "is_first_search";
 
 }
