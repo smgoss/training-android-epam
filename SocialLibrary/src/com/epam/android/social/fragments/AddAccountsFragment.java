@@ -21,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.epam.android.common.preferences.AccountsListPrefs;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
@@ -31,7 +30,6 @@ import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.AccountPref;
-import com.epam.android.social.model.TwitterUserInfo;
 
 public class AddAccountsFragment extends Fragment {
 
