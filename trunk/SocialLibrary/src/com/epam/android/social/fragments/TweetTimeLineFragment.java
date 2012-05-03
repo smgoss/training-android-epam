@@ -11,12 +11,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.epam.android.common.adapter.AbstractAdapter;
+import com.epam.android.common.adapter.IAdapterCreator;
+import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.model.IModelCreator;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Tweet;
 
-public class TweetTimeLineFragment extends
+public class TweetTimeLineFragment<B extends AbstractAdapter> extends
 		BaseArrayModelFragmentWithCustomLoadAndSaveItems<Tweet> {
 
 	private static final String TAG = TweetTimeLineFragment.class
@@ -32,10 +36,10 @@ public class TweetTimeLineFragment extends
 
 	private int loadedPage = 1;
 
-	public static TweetTimeLineFragment newInstance(String query,
-			String accountName) {
+	public static <T extends AbstractAdapter> TweetTimeLineFragment<T> newInstance(
+			String query, String accountName) {
 		Bundle bundle = new Bundle();
-		TweetTimeLineFragment fragment = new TweetTimeLineFragment();
+		TweetTimeLineFragment<T> fragment = new TweetTimeLineFragment<T>();
 		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
@@ -98,18 +102,19 @@ public class TweetTimeLineFragment extends
 		return R.layout.load_array_model;
 	}
 
-	public void setList(List<Tweet> list) {
-		adapter = new TweetAdapter(getContext(), R.layout.tweet, list);
-		getListView().addFooterView(loadMore);
-		getListView().setAdapter(adapter);
-
-	}
-
 	@Override
 	public List<Tweet> getCurrentList() {
 		return currentList;
 	}
 
-	
+	@Override
+	public void setList(List<Tweet> list) {
+		adapter = (TweetAdapter) ((IAdapterCreator<B>) AbstractAdapter
+				.getAdapterCreatorFromTemplate(this)).create(getContext(),
+				R.layout.tweet, list);
+		getListView().addFooterView(loadMore);
+		getListView().setAdapter(adapter);
+
+	}
 
 }

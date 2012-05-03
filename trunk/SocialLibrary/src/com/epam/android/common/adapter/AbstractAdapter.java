@@ -3,17 +3,24 @@
  */
 package com.epam.android.common.adapter;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.model.IModelCreator;
 import com.google.android.imageloader.ImageLoader;
 
 public abstract class AbstractAdapter<T> extends BaseAdapter {
 
+	private static final String TAG = AbstractAdapter.class.getSimpleName();
+	
 	private final Context mContext;
 
 	private final List<T> mList;
@@ -79,6 +86,28 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	
 	public void remove(int position){
 		this.mList.remove(position);
+	}
+	
+	public static <B extends AbstractAdapter> IAdapterCreator<B> getAdapterCreatorFromTemplate(
+			Object object) {
+ 		Class someClass = (Class) ((ParameterizedType) object.getClass()
+ 				.getGenericSuperclass()).getActualTypeArguments()[0];
+		Log.d(TAG, someClass.getCanonicalName());
+		Field modelCreator = someClass.getDeclaredFields()[1];
+		
+		Field temp = ((Class) object.getClass().getDeclaredFields()[1].getGenericType()).getDeclaredFields()[0];
+		
+		
+		try {
+			return (IAdapterCreator<B>) temp.get(object);
+		} catch (IllegalArgumentException e) {
+			// TODO Error in getModelCreatorFromTemplate
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Error in getModelCreatorFromTemplate
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
