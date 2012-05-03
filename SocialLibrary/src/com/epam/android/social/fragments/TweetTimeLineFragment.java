@@ -107,18 +107,17 @@ public class TweetTimeLineFragment extends
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 		if (currentList != null && currentList.size() != 0) {
 			outState.putParcelableArrayList(getDelegateKey(),
 					(ArrayList<? extends Parcelable>) currentList);
 		}
+		super.onSaveInstanceState(outState);
 
 	}
 	
 	private void restoreFragment(Bundle savedInstanceState) {
 
 		if (savedInstanceState != null) {
-			currentList.clear();
 			currentList = savedInstanceState
 					.getParcelableArrayList(getDelegateKey());
 			if (currentList != null && currentList.size() != 0) {
@@ -131,7 +130,6 @@ public class TweetTimeLineFragment extends
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Log.d(TAG, "TUT!!!!!");
 		mListView = (ListView) getView().findViewById(R.id.array_model_list);
 		if (savedInstanceState != null) {
 			restoreFragment(savedInstanceState);

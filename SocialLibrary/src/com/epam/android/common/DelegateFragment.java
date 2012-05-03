@@ -149,10 +149,6 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 		mAsyncTaskManager = AsyncTaskManager.get(getActivity());
 		mAsyncTaskManager.addActivityTasks(getDelegateKey());
 
-		if (savedInstanceState != null) {
-			isFragmentStateSaved = true;
-		}
-
 	}
 
 	@Override
@@ -217,9 +213,9 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 						onTaskPreExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-//						if (isLoaded(getUrl())) {
-							onTaskPostExecute(intent);
-//						}
+						// if (isLoaded(getUrl())) {
+						onTaskPostExecute(intent);
+						// }
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
 						onTaskProgressUpdate(intent);
@@ -233,7 +229,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 
 		getActivity().registerReceiver(receiver, filter);
 		if (!isFragmentStateSaved) {
-			Log.d(TAG, "!!!!start Task !!!!!!!");
+			Log.d(TAG, "start Task");
 			startTasks();
 		}
 		super.onResume();
@@ -306,5 +302,11 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		Log.d(TAG, "onSaveInstanseState");
+		if (outState != null) {
+			isFragmentStateSaved = true;
+		}
+		else{
+			isFragmentStateSaved = false;
+		}
 	}
 }
