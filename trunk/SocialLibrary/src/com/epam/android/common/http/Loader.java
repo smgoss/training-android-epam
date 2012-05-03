@@ -142,7 +142,7 @@ public class Loader {
 				rule.applyRule(httpPost);
 			}
 		}
-		
+
 		return mHttpClient.execute(httpPost);
 	}
 

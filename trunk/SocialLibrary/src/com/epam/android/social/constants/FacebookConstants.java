@@ -2,7 +2,7 @@ package com.epam.android.social.constants;
 
 public class FacebookConstants {
 
-	public static final String APP_ID = "163500670443120";
+	public static final String APP_ID = "182164375240212";
 	
 	public static final String TOKEN_SECRET = "token_secret";
 

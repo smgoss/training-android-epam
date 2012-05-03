@@ -33,9 +33,9 @@ public class FacebookAPI {
 	}
 
 	
-
+//	https://graph.facebook.com/me
 	public String verifyCredentials() {
-		return "https://api.twitter.com/1/account/verify_credentials.json";
+		return "https://graph.facebook.com/me?";
 	}
 
 	public String getFullProfileInfo(String profileName) {

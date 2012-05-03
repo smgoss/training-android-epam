@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.FacebookConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.FacebookOAuthHelper;
 
@@ -57,15 +58,18 @@ public class FacebookLoginActivity extends Activity {
 						isSave = true;
 						helper.saveToken(url);
 						webView.setVisibility(WebView.INVISIBLE);
-//						AddAccountsFragment.getLogin().onSuccessLogin(
-//								helper.getUserName(),
-//								helper.getAvatarDrawable());
-//						Intent intent = new Intent(getApplicationContext(),
-//								TwitterTimeLineFragmentActivity.class);
-//						intent.putExtra(ApplicationConstants.USER_NAME,
-//								helper.getUserName());
-//						startActivity(intent);
-//						finish();
+						AddAccountsFragment.getLogin().onSuccessLogin(
+								helper.getUserName(),
+								helper.getAvatarDrawable());
+
+						Toast.makeText(FacebookLoginActivity.this, "OK", 1)
+								.show();
+						// Intent intent = new Intent(getApplicationContext(),
+						// TwitterTimeLineFragmentActivity.class);
+						// intent.putExtra(ApplicationConstants.USER_NAME,
+						// helper.getUserName());
+						// startActivity(intent);
+						// finish();
 
 					}
 				} catch (IOException e) {
@@ -92,7 +96,7 @@ public class FacebookLoginActivity extends Activity {
 			helper = (FacebookOAuthHelper) getApplicationContext()
 					.getSystemService(FacebookOAuthHelper.FacebookOAuthHelper);
 			// try {
-			String lu = "https://www.facebook.com/dialog/oauth?client_id=282917675133350&redirect_uri=fbconnect://success&scope=user_about_me&display=touch&type=user_agent";
+			String lu = "https://www.facebook.com/dialog/oauth?client_id="+FacebookConstants.APP_ID+"&redirect_uri=fbconnect://success&scope=user_about_me&display=touch&type=user_agent";
 			webView.loadUrl(lu);
 			// webView.loadUrl(helper.getLoginUrl());
 			// } catch (OAuthMessageSignerException e) {
