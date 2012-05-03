@@ -35,7 +35,7 @@ public class FacebookAPI {
 	
 //	https://graph.facebook.com/me
 	public String verifyCredentials() {
-		return "https://graph.facebook.com/me?";
+		return "https://graph.facebook.com/me?fields=id,name,picture&";
 	}
 
 	public String getFullProfileInfo(String profileName) {
