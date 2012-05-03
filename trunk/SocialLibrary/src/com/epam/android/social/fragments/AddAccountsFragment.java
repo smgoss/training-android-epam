@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.epam.android.common.preferences.AccountsListPrefs;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
@@ -58,8 +59,11 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(getView().getContext())
-						.setTitle(getResources().getString(R.string.choise_social_network))
-						.setPositiveButton(getResources().getString(R.string.facebook),
+						.setTitle(
+								getResources().getString(
+										R.string.choise_social_network))
+						.setPositiveButton(
+								getResources().getString(R.string.facebook),
 								new DialogInterface.OnClickListener() {
 
 									public void onClick(DialogInterface dialog,
@@ -70,7 +74,8 @@ public class AddAccountsFragment extends Fragment {
 
 									}
 								})
-						.setNegativeButton(getResources().getString(R.string.twitter),
+						.setNegativeButton(
+								getResources().getString(R.string.twitter),
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int whichButton) {
@@ -95,6 +100,12 @@ public class AddAccountsFragment extends Fragment {
 	}
 
 	private void restoreAccounts() {
+//
+//		AccountsListPrefs accounts = AccountsListPrefs.getInstance();
+//		accounts.setContext(getView().getContext());
+//		
+		
+
 		SharedPreferences preferences = getActivity().getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
 		String userInfoSerialized = preferences.getString(
@@ -140,7 +151,8 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					TwitterOAuthHelper.getInstanse().restoreToken((String) v.getTag());
+					TwitterOAuthHelper.getInstanse().restoreToken(
+							(String) v.getTag());
 					Intent intent = new Intent(getView().getContext(),
 							TwitterTimeLineFragmentActivity.class);
 					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,

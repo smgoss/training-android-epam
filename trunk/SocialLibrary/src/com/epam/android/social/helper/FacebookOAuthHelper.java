@@ -30,7 +30,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.api.FacebookAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.FacebookConstants;
-import com.epam.android.social.model.FacebookUserInfo;
+import com.epam.android.social.model.AccountPref;
 
 public class FacebookOAuthHelper {
 
@@ -54,13 +54,13 @@ public class FacebookOAuthHelper {
 
 	private Context mContext;
 
-	private List<FacebookUserInfo> listUsers;
+	private List<AccountPref> listUsers;
 
 	private ObjectSerializer serializer;
 
 	private String userInfoSerialized;
 
-	private FacebookUserInfo user;
+	private AccountPref user;
 
 	private String s;
 
@@ -71,7 +71,7 @@ public class FacebookOAuthHelper {
 			provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
 					AUTHORIZE_URL);
 			mContext = context;
-			listUsers = new ArrayList<FacebookUserInfo>();
+			listUsers = new ArrayList<AccountPref>();
 			serializer = new ObjectSerializer();
 		}
 	}
@@ -96,7 +96,7 @@ public class FacebookOAuthHelper {
 				ApplicationConstants.ACCOUNT_LIST, null);
 
 		if (userInfoSerialized != null) {
-			listUsers = (List<FacebookUserInfo>) serializer
+			listUsers = (List<AccountPref>) serializer
 					.deserialize(userInfoSerialized);
 			for (int j = 0; j < listUsers.size(); j++) {
 				if (listUsers.get(j).getUserName().equals(userName)) {
@@ -107,7 +107,7 @@ public class FacebookOAuthHelper {
 
 	}
 
-	private void restoreToken(FacebookUserInfo user) throws IOException,
+	private void restoreToken(AccountPref user) throws IOException,
 			ClassNotFoundException {
 		consumer.setTokenWithSecret(user.getToken(), user.getTokenSecret());
 
@@ -180,7 +180,7 @@ public class FacebookOAuthHelper {
 		userInfoSerialized = preferences.getString(
 				ApplicationConstants.ACCOUNT_LIST, null);
 		if (userInfoSerialized != null) {
-			listUsers = (List<FacebookUserInfo>) serializer
+			listUsers = (List<AccountPref>) serializer
 					.deserialize(userInfoSerialized);
 		}
 		s = decodeUrl(url).getString("fbconnect://success#access_token");
@@ -206,12 +206,12 @@ public class FacebookOAuthHelper {
 
 	}
 
-	private FacebookUserInfo getUser() {
+	private AccountPref getUser() {
 		Loader loader = Loader.get(mContext);
 		try {
-			FacebookUserInfo oneUser = new FacebookUserInfo(
-					loader.execute(FacebookAPI.getInstance()
-							.verifyCredentials() + "access_token=" + s));
+			AccountPref oneUser = new AccountPref(loader.execute(FacebookAPI
+					.getInstance().verifyCredentials() + "access_token=" + s),
+					"facebook");
 			return oneUser;
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "error on HTTP protocol ", e);
@@ -230,8 +230,8 @@ public class FacebookOAuthHelper {
 		return user.getProfileUrl();
 	}
 
-	private boolean listContainUser(String userName, List<FacebookUserInfo> list) {
-		
+	private boolean listContainUser(String userName, List<AccountPref> list) {
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getUserName().equals(userName)) {
 				return true;
