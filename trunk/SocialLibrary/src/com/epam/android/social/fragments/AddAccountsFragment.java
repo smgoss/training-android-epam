@@ -37,8 +37,6 @@ public class AddAccountsFragment extends Fragment {
 
 	private RelativeLayout relativeLayout;
 
-	private RelativeLayout.LayoutParams params;
-
 	private ImageButton addAccountButton;
 
 	private int lastAccountPictureID = 100500;
@@ -145,7 +143,7 @@ public class AddAccountsFragment extends Fragment {
 					TwitterOAuthHelper.getInstanse().restoreToken((String) v.getTag());
 					Intent intent = new Intent(getView().getContext(),
 							TwitterTimeLineFragmentActivity.class);
-					intent.putExtra(ApplicationConstants.USER_NAME,
+					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
 							String.valueOf(v.getTag()));
 					startActivity(intent);
 				} catch (IOException e) {

@@ -4,11 +4,13 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.fragments.BottomFragment;
 import com.epam.android.social.fragments.FollowingFragment;
 import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
@@ -29,9 +31,17 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new TwitterMainPagerAdapter(
 				getSupportFragmentManager(), getApplicationContext(),
-				getIntent().getStringExtra(ApplicationConstants.USER_NAME)));
+				getIntent().getStringExtra(ApplicationConstants.ARG_PROFILE_NAME)));
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
+
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+		transaction.add(
+				R.id.twitterTimeLine_bottomFragment,
+				BottomFragment.newInstance(getIntent().getStringExtra(
+						ApplicationConstants.ARG_PROFILE_NAME)));
+		transaction.commit();
 
 	}
 

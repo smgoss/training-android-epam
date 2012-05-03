@@ -34,7 +34,7 @@ public class SearchFragmentActivity extends FragmentActivity {
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		adapter = new SearchPagerAdapter(getSupportFragmentManager(),
 				getApplicationContext(), getIntent().getStringExtra(
-						ApplicationConstants.QUERY));
+						ApplicationConstants.ARG_QUERY));
 		viewPager.setAdapter(adapter);
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);

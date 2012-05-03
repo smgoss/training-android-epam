@@ -4,26 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
 
-import com.epam.android.common.BaseArrayModelByAnnotationFragment;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.SearchAdapter;
-import com.epam.android.social.adapter.TweetAdapter;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.SearchResult;
-import com.epam.android.social.model.Tweet;
 
 public class SearchTweetsFragment extends
 		BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<SearchResult> {
 
-	private static final String TAG = SearchTweetsFragment.class.getSimpleName();
-
-	private static final String ARG_QUERY = "query";
+	public static final String TAG = SearchTweetsFragment.class.getSimpleName();
 
 	private List<SearchResult> currentList;
 
@@ -36,14 +30,18 @@ public class SearchTweetsFragment extends
 	public static SearchTweetsFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		SearchTweetsFragment fragment = new SearchTweetsFragment();
-		bundle.putString(ARG_QUERY, query);
+		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
 
+	private SearchTweetsFragment(){
+		
+	}
+	
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ARG_QUERY) + loadedPage;
+		return getArguments().getString(ApplicationConstants.ARG_QUERY) + loadedPage;
 	}
 
 	@Override

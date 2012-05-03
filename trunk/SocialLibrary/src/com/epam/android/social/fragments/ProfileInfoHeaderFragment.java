@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.ProfileInfoHeaderAdapter;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.ProfileInfo;
 
 public class ProfileInfoHeaderFragment extends
@@ -24,10 +25,6 @@ public class ProfileInfoHeaderFragment extends
 
 	private static final String TAG = ProfileInfoHeaderFragment.class
 			.getSimpleName();
-
-	private static final String ARG_QUERY = "query";
-
-	private static final String ARG_ACCOUNT_NAME = "accountName";
 
 	private LinearLayout tweetsLinerLayout;
 
@@ -41,15 +38,19 @@ public class ProfileInfoHeaderFragment extends
 			String accountName) {
 		Bundle bundle = new Bundle();
 		ProfileInfoHeaderFragment fragment = new ProfileInfoHeaderFragment();
-		bundle.putString(ARG_QUERY, query);
-		bundle.putString(ARG_ACCOUNT_NAME, accountName);
+		bundle.putString(ApplicationConstants.ARG_QUERY, query);
+		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
 
+	private ProfileInfoHeaderFragment(){
+		
+	}
+	
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ARG_QUERY);
+		return getArguments().getString(ApplicationConstants.ARG_QUERY);
 	}
 
 	@Override
@@ -96,11 +97,15 @@ public class ProfileInfoHeaderFragment extends
 				transaction.setCustomAnimations(android.R.anim.slide_in_left,
 						android.R.anim.slide_out_right);
 				transaction.addToBackStack(getTag());
-				transaction.add(R.id.twitter_timeline_fragment,
-						ChangeProfileFragment.newInstance(TwitterAPI
-								.getInstance().getFullProfileInfo(
-										getArguments().getString(
-												ARG_ACCOUNT_NAME))));
+				transaction
+						.add(R.id.twitter_timeline_fragment,
+								ChangeProfileFragment
+										.newInstance(TwitterAPI
+												.getInstance()
+												.getFullProfileInfo(
+														getArguments()
+																.getString(
+																		ApplicationConstants.ARG_PROFILE_NAME))));
 				transaction.commit();
 			}
 		});
@@ -149,7 +154,7 @@ public class ProfileInfoHeaderFragment extends
 
 	private void initView(List<ProfileInfo> result) {
 		new ProfileInfoHeaderAdapter(getContext(), getView(), result.get(0),
-				getArguments().getString(ARG_ACCOUNT_NAME));
+				getArguments().getString(ApplicationConstants.ARG_PROFILE_NAME));
 	}
 
 	private void onTweetButtonClick() {
@@ -158,11 +163,19 @@ public class ProfileInfoHeaderFragment extends
 		transaction.setCustomAnimations(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		transaction.addToBackStack(getTag());
-		transaction.add(R.id.twitter_timeline_fragment, TweetTimeLineFragment
-				.newInstance(
-						TwitterAPI.getInstance().getUserTimeLine(
-								getArguments().getString(ARG_ACCOUNT_NAME)),
-						getArguments().getString(ARG_ACCOUNT_NAME)));
+		transaction
+				.add(R.id.twitter_timeline_fragment,
+						TweetTimeLineFragment
+								.newInstance(
+										TwitterAPI
+												.getInstance()
+												.getUserTimeLine(
+														getArguments()
+																.getString(
+																		ApplicationConstants.ARG_PROFILE_NAME)),
+										getArguments()
+												.getString(
+														ApplicationConstants.ARG_PROFILE_NAME)));
 		transaction.commit();
 	}
 
@@ -174,7 +187,8 @@ public class ProfileInfoHeaderFragment extends
 		transaction.addToBackStack(getTag());
 		transaction.add(R.id.twitter_timeline_fragment, FollowingFragment
 				.newInstance(TwitterAPI.getInstance().getFollowing(
-						getArguments().getString(ARG_ACCOUNT_NAME))),
+						getArguments().getString(
+								ApplicationConstants.ARG_PROFILE_NAME))),
 				FollowingFragment.TAG);
 		transaction.commit();
 	}
@@ -187,7 +201,8 @@ public class ProfileInfoHeaderFragment extends
 		transaction.addToBackStack(getTag());
 		transaction.add(R.id.twitter_timeline_fragment, FollowingFragment
 				.newInstance(TwitterAPI.getInstance().getFollowers(
-						getArguments().getString(ARG_ACCOUNT_NAME))),
+						getArguments().getString(
+								ApplicationConstants.ARG_PROFILE_NAME))),
 				FollowingFragment.TAG);
 		transaction.commit();
 	}

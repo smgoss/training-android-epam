@@ -12,14 +12,13 @@ import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.FollowingAdapter;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 import com.epam.android.social.model.PreFollowing;
 
 public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 
 	public static final String TAG = FollowingFragment.class.getSimpleName();
-
-	private static final String ARG_QUERY = "query";
 
 	private static String followingURL;
 	
@@ -30,9 +29,13 @@ public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 	public static FollowingFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		FollowingFragment fragment = new FollowingFragment();
-		bundle.putString(ARG_QUERY, query);
+		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		fragment.setArguments(bundle);
 		return fragment;
+	}
+	
+	private FollowingFragment(){
+		
 	}
 
 	@Override
@@ -43,13 +46,13 @@ public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 	@Override
 	public void startTasks() {
 		executeActivityTasks(new LoadModelAsyncTask<PreFollowing>(
-				getArguments().getString(ARG_QUERY), this,
+				getArguments().getString(ApplicationConstants.ARG_QUERY), this,
 				PreFollowing.MODEL_CREATOR));
 	}
 
 	@Override
 	public void success(Intent intent) {
-		if (isAsyncTaskResult(getArguments().getString(ARG_QUERY), intent)) {
+		if (isAsyncTaskResult(getArguments().getString(ApplicationConstants.ARG_QUERY), intent)) {
 			PreFollowing preFollowing = intent
 					.getParcelableExtra(CommonAsyncTask.RESULT);
 

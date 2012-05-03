@@ -8,21 +8,16 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.TweetAdapter;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Tweet;
 
 public class TweetTimeLineFragment extends
 		BaseArrayModelFragmentWithCustomLoad<Tweet> {
-
-
-	private static final String ARG_QUERY = "query";
-
-	private static final String ARG_PROFILE_NAME = "profile_name";
 
 	private static final String TAG = TweetTimeLineFragment.class
 			.getSimpleName();
@@ -36,17 +31,21 @@ public class TweetTimeLineFragment extends
 	private TweetAdapter adapter;
 
 	private int loadedPage = 1;
-	
+
 	private ListView mListView;
 
 	public static TweetTimeLineFragment newInstance(String query,
 			String accountName) {
 		Bundle bundle = new Bundle();
 		TweetTimeLineFragment fragment = new TweetTimeLineFragment();
-		bundle.putString(ARG_QUERY, query);
-		bundle.putString(ARG_PROFILE_NAME, accountName);
+		bundle.putString(ApplicationConstants.ARG_QUERY, query);
+		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
 		return fragment;
+	}
+
+	private TweetTimeLineFragment() {
+
 	}
 
 	@Override
@@ -68,14 +67,17 @@ public class TweetTimeLineFragment extends
 
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ARG_QUERY) + loadedPage;
+		return getArguments().getString(ApplicationConstants.ARG_QUERY)
+				+ loadedPage;
 	}
 
 	@Override
 	public String getDelegateKey() {
 		if (delegateKey == null) {
-			delegateKey = getArguments().getString(ARG_QUERY)
-					+ getArguments().getString(ARG_PROFILE_NAME);
+			delegateKey = getArguments().getString(
+					ApplicationConstants.ARG_QUERY)
+					+ getArguments().getString(
+							ApplicationConstants.ARG_PROFILE_NAME);
 			Log.d(TAG, "delegate key=" + delegateKey);
 		}
 		return delegateKey;
@@ -104,7 +106,7 @@ public class TweetTimeLineFragment extends
 		mListView.setAdapter(adapter);
 
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		if (currentList != null && currentList.size() != 0) {
@@ -114,7 +116,7 @@ public class TweetTimeLineFragment extends
 		super.onSaveInstanceState(outState);
 
 	}
-	
+
 	private void restoreFragment(Bundle savedInstanceState) {
 
 		if (savedInstanceState != null) {

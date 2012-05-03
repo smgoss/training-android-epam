@@ -5,10 +5,10 @@ public class ApplicationConstants {
 	
 	public static final String ACCOUNT_LIST = "account_list";
 	
-	public static final String USER_NAME = "user_name";
-	
-	public static final String QUERY = "query";
-	
 	public static final String IS_FIRST_SEARCH = "is_first_search";
+	
+	public static final String ARG_PROFILE_NAME = "profile_name";
+	
+	public static final String ARG_QUERY = "query";
 
 }

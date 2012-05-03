@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.epam.android.common.task.HttpPostAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 import com.google.android.imageloader.ImageLoader.Callback;
@@ -41,10 +42,6 @@ public class ChangeProfileFragment extends
 
 	private static final String TAG = ChangeProfileFragment.class
 			.getSimpleName();
-
-	private static final String ARG_QUERY = "query";
-
-	private static final String ARG_ACCOUNT_NAME = "accountName";
 
 	private static final String DATA_ON_EDIT_TEXT_LIST = "dataOnEditTextList";
 
@@ -69,14 +66,18 @@ public class ChangeProfileFragment extends
 	public static ChangeProfileFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		ChangeProfileFragment fragment = new ChangeProfileFragment();
-		bundle.putString(ARG_QUERY, query);
+		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
 
+	private ChangeProfileFragment(){
+		
+	}
+	
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ARG_QUERY);
+		return getArguments().getString(ApplicationConstants.ARG_QUERY);
 	}
 
 	@Override
