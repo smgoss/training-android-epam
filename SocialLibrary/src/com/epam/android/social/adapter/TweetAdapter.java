@@ -4,19 +4,32 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.android.common.adapter.AbstractAdapter;
+import com.epam.android.common.adapter.IAdapterCreator;
+import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.epam.android.social.model.Tweet;
 
 public class TweetAdapter extends AbstractAdapter<Tweet> {
 
 	private static final String TAG = TweetAdapter.class.getSimpleName();
-
+	
+	public static final IAdapterCreator<TweetAdapter> ADAPTER_CREATOR = new IAdapterCreator<TweetAdapter>() {
+		
+		@Override
+		public TweetAdapter create(Context c, int pItemResource,
+				List<? extends BaseModel> pList) {
+			return new TweetAdapter(c, pItemResource, (List<Tweet>) pList);
+		}
+	};
+	
 	public TweetAdapter(Context c, int pItemResource, List<Tweet> pList) {
 		super(c, pItemResource, pList);
 	}

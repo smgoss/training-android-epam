@@ -2,17 +2,12 @@ package com.epam.android.social.fragments;
 
 import java.util.List;
 
-import android.R.anim;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.ProfileInfoHeaderAdapter;
