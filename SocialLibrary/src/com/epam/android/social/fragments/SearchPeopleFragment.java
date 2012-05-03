@@ -5,9 +5,9 @@ import java.util.List;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.FollowingAdapter;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 
 public class SearchPeopleFragment extends
@@ -15,8 +15,6 @@ public class SearchPeopleFragment extends
 
 	public static final String TAG = SearchPeopleFragment.class.getSimpleName();
 	
-	private static final String ARG_QUERY = "query";
-
 	private FollowingAdapter adapter;
 	
 	private List<Following> peopleList;
@@ -24,15 +22,19 @@ public class SearchPeopleFragment extends
 	public static SearchPeopleFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
 		SearchPeopleFragment fragment = new SearchPeopleFragment();
-		bundle.putString(ARG_QUERY, query);
+		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		fragment.setArguments(bundle);
 		fragment.setTargetFragment(fragment, 100);
 		return fragment;
 	}
 
+	private SearchPeopleFragment(){
+		
+	}
+	
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ARG_QUERY);
+		return getArguments().getString(ApplicationConstants.ARG_QUERY);
 	}
 
 	@Override

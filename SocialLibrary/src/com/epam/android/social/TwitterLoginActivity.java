@@ -65,7 +65,7 @@ public class TwitterLoginActivity extends Activity {
 								helper.getAvatarDrawable());
 						Intent intent = new Intent(getApplicationContext(),
 								TwitterTimeLineFragmentActivity.class);
-						intent.putExtra(ApplicationConstants.USER_NAME,
+						intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
 								helper.getUserName());
 						startActivity(intent);
 						finish();
@@ -92,8 +92,8 @@ public class TwitterLoginActivity extends Activity {
 					.setJavaScriptCanOpenWindowsAutomatically(true);
 			webView.getSettings().setPluginsEnabled(true);
 			webView.setWebViewClient(getWebViewClient());
-			helper = (TwitterOAuthHelper) getApplicationContext().getSystemService(
-					TwitterOAuthHelper.OAuthHelper);
+			helper = (TwitterOAuthHelper) getApplicationContext()
+					.getSystemService(TwitterOAuthHelper.OAuthHelper);
 			try {
 				webView.loadUrl(helper.getLoginUrl());
 			} catch (OAuthMessageSignerException e) {

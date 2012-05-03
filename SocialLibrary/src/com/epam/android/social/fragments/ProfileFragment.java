@@ -9,12 +9,11 @@ import android.view.ViewGroup;
 
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.ApplicationConstants;
 
 public class ProfileFragment extends Fragment {
 
 	private static final String TAG = ProfileFragment.class.getSimpleName();
-
-	private static final String ARG_PROFILE_NAME = "profile_name";
 
 	private static final String ARG_CURRENT_ACCOUNT_NAME = "accountName";
 
@@ -23,9 +22,13 @@ public class ProfileFragment extends Fragment {
 		Bundle bundle = new Bundle();
 		ProfileFragment fragment = new ProfileFragment();
 		bundle.putString(ARG_CURRENT_ACCOUNT_NAME, currentAccountName);
-		bundle.putString(ARG_PROFILE_NAME, profileName);
+		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, profileName);
 		fragment.setArguments(bundle);
 		return fragment;
+	}
+	
+	private ProfileFragment(){
+		
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class ProfileFragment extends Fragment {
 		transaction.add(R.id.profileInfoFragment, ProfileInfoHeaderFragment
 				.newInstance(
 						TwitterAPI.getInstance().getFullProfileInfo(
-								getArguments().getString(ARG_PROFILE_NAME)),
+								getArguments().getString(ApplicationConstants.ARG_PROFILE_NAME)),
 						getArguments().getString(ARG_CURRENT_ACCOUNT_NAME)));
 		
 		transaction.commit();

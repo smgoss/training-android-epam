@@ -34,11 +34,7 @@ public class TwitterAPI {
 
 	public String getRetweetedByMe() {
 		return "https://api.twitter.com/1/statuses/retweeted_by_me.json?page=";
-		
-	}
 
-	public String getRetweetOfMe() {
-		return "https://api.twitter.com/1/statuses/retweets_of_me.json?";
 	}
 
 	public String getHomeTimeLine() {
@@ -95,8 +91,8 @@ public class TwitterAPI {
 				+ builder.toString();
 	}
 
-	public String directMessages() {
-		return "https://api.twitter.com/1/direct_messages.json?count=1&page=1";
+	public String getFavorite() {
+		return "https://api.twitter.com/1/favorites.json?count=20&page=";
 	}
 
 	public String search(String searchQuery) {

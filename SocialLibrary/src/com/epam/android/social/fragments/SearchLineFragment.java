@@ -34,7 +34,7 @@ public class SearchLineFragment extends Fragment {
 				if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 					Intent intent = new Intent(getView().getContext(),
 							SearchFragmentActivity.class);
-					intent.putExtra(ApplicationConstants.QUERY, queryText
+					intent.putExtra(ApplicationConstants.ARG_QUERY, queryText
 							.getText().toString().trim());
 					if (getActivity().getIntent().getBooleanExtra(
 							ApplicationConstants.IS_FIRST_SEARCH, true)) {

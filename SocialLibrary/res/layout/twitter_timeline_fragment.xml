@@ -22,11 +22,11 @@
             android:layout_weight="1" >
         </android.support.v4.view.ViewPager>
 
-        <fragment
-            android:name="com.epam.android.social.fragments.BottomFragment"
+        <RelativeLayout
+            android:id="@+id/twitterTimeLine_bottomFragment"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp" />
+            android:layout_height="wrap_content" >
+        </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>
