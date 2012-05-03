@@ -2,6 +2,7 @@ package com.epam.android.social.helper;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +20,17 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
-import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.api.FacebookAPI;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.constants.TwitterConstants;
-import com.epam.android.social.model.TwitterUserInfo;
+import com.epam.android.social.constants.FacebookConstants;
+import com.epam.android.social.model.FacebookUserInfo;
 
 public class FacebookOAuthHelper {
 
@@ -52,13 +54,15 @@ public class FacebookOAuthHelper {
 
 	private Context mContext;
 
-	private List<TwitterUserInfo> listUsers;
+	private List<FacebookUserInfo> listUsers;
 
 	private ObjectSerializer serializer;
 
 	private String userInfoSerialized;
 
-	private TwitterUserInfo user;
+	private FacebookUserInfo user;
+
+	private String s;
 
 	private FacebookOAuthHelper(Context context) {
 		if (instanse == null) {
@@ -67,10 +71,9 @@ public class FacebookOAuthHelper {
 			provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
 					AUTHORIZE_URL);
 			mContext = context;
-			listUsers = new ArrayList<TwitterUserInfo>();
+			listUsers = new ArrayList<FacebookUserInfo>();
 			serializer = new ObjectSerializer();
 		}
-		// TODO restore
 	}
 
 	public static FacebookOAuthHelper getInstanse() {
@@ -93,7 +96,7 @@ public class FacebookOAuthHelper {
 				ApplicationConstants.ACCOUNT_LIST, null);
 
 		if (userInfoSerialized != null) {
-			listUsers = (List<TwitterUserInfo>) serializer
+			listUsers = (List<FacebookUserInfo>) serializer
 					.deserialize(userInfoSerialized);
 			for (int j = 0; j < listUsers.size(); j++) {
 				if (listUsers.get(j).getUserName().equals(userName)) {
@@ -104,7 +107,7 @@ public class FacebookOAuthHelper {
 
 	}
 
-	private void restoreToken(TwitterUserInfo user) throws IOException,
+	private void restoreToken(FacebookUserInfo user) throws IOException,
 			ClassNotFoundException {
 		consumer.setTokenWithSecret(user.getToken(), user.getTokenSecret());
 
@@ -113,7 +116,8 @@ public class FacebookOAuthHelper {
 	public String getLoginUrl() throws OAuthMessageSignerException,
 			OAuthNotAuthorizedException, OAuthExpectationFailedException,
 			OAuthCommunicationException {
-		return provider.retrieveRequestToken(consumer, REDIRECT_URL);
+		return "";// provider.retrieveRequestToken(consumer, REDIRECT_URL);
+					// //TODO ADDDDDD
 	}
 
 	public boolean isRedirectURL(String url) {
@@ -125,14 +129,15 @@ public class FacebookOAuthHelper {
 	}
 
 	private String getOauthVerifierFromUrl(String url) {
-		return url.substring(url.indexOf(TwitterConstants.OAUTH_VERIFIER)
-				+ TwitterConstants.OAUTH_VERIFIER.length());
+		return url.substring(url.indexOf(FacebookConstants.OAUTH_VERIFIER)
+				+ FacebookConstants.OAUTH_VERIFIER.length());
 	}
 
 	public void sign(HttpUriRequest request)
 			throws OAuthMessageSignerException,
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			OAuthNotAuthorizedException {
+		request.setHeader("access_token", s);
 		consumer.sign(request);
 	}
 
@@ -151,46 +156,63 @@ public class FacebookOAuthHelper {
 		}
 	}
 
+	public static Bundle decodeUrl(String s) {
+		Bundle params = new Bundle();
+		if (s != null) {
+			String array[] = s.split("&");
+			for (String parameter : array) {
+				String v[] = parameter.split("=");
+				if (v.length == 2) {
+					params.putString(URLDecoder.decode(v[0]),
+							URLDecoder.decode(v[1]));
+				}
+			}
+		}
+		return params;
+	}
+
 	public void saveToken(String url) throws IOException,
 			ClassNotFoundException {
 		String oauthVerifier = getOauthVerifierFromUrl(url);
-		setRetrieveAccessToken(oauthVerifier);
-//		SharedPreferences preferences = mContext.getSharedPreferences(
-//				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-//		userInfoSerialized = preferences.getString(
-//				ApplicationConstants.ACCOUNT_LIST, null);
-//		if (userInfoSerialized != null) {
-//			listUsers = (List<TwitterUserInfo>) serializer
-//					.deserialize(userInfoSerialized);
-//		}
-//		user = getUser();
-//		if (!listContainUser(user.getUserName(), listUsers)) {
-//			user.setToken(consumer.getToken());
-//			user.setTokenSecret(consumer.getTokenSecret());
-//			listUsers.add(user);
-//
-//			SharedPreferences.Editor editor = mContext.getSharedPreferences(
-//					ApplicationConstants.SHARED_PREFERENSE,
-//					Context.MODE_PRIVATE).edit();
-//			editor.putString(ApplicationConstants.ACCOUNT_LIST,
-//					serializer.serialize((Serializable) listUsers));
-//			editor.commit();
-//		} else {
-//			Toast.makeText(
-//					mContext,
-//					mContext.getResources().getString(
-//							R.string.you_loggined_on_this_account),
-//					Toast.LENGTH_SHORT).show();
-//		}
+		// setRetrieveAccessToken(oauthVerifier);
+		SharedPreferences preferences = mContext.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		userInfoSerialized = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
+		if (userInfoSerialized != null) {
+			listUsers = (List<FacebookUserInfo>) serializer
+					.deserialize(userInfoSerialized);
+		}
+		s = decodeUrl(url).getString("fbconnect://success#access_token");
+		user = getUser();
+		if (!listContainUser(user.getUserName(), listUsers)) {
+			user.setToken(s);
+			// user.setTokenSecret(consumer.getTokenSecret());
+			listUsers.add(user);
+
+			SharedPreferences.Editor editor = mContext.getSharedPreferences(
+					ApplicationConstants.SHARED_PREFERENSE,
+					Context.MODE_PRIVATE).edit();
+			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+					serializer.serialize((Serializable) listUsers));
+			editor.commit();
+		} else {
+			Toast.makeText(
+					mContext,
+					mContext.getResources().getString(
+							R.string.you_loggined_on_this_account),
+					Toast.LENGTH_SHORT).show();
+		}
 
 	}
 
-	private TwitterUserInfo getUser() {
+	private FacebookUserInfo getUser() {
 		Loader loader = Loader.get(mContext);
 		try {
-			TwitterUserInfo user = new TwitterUserInfo(
-					loader.execute(TwitterAPI.getInstance().verifyCredentials()));
-			return user;
+			FacebookUserInfo oneUser = new FacebookUserInfo(
+					loader.execute(FacebookAPI.getInstance()
+							.verifyCredentials() + "access_token=" + s));
+			return oneUser;
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "error on HTTP protocol ", e);
 		} catch (IOException e) {
@@ -208,7 +230,8 @@ public class FacebookOAuthHelper {
 		return user.getProfileUrl();
 	}
 
-	private boolean listContainUser(String userName, List<TwitterUserInfo> list) {
+	private boolean listContainUser(String userName, List<FacebookUserInfo> list) {
+		
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getUserName().equals(userName)) {
 				return true;
