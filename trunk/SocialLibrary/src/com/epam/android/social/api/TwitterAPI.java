@@ -39,11 +39,16 @@ public class TwitterAPI {
 
 	public String getHomeTimeLine() {
 		return "https://api.twitter.com/1/statuses/home_timeline.json?page=";
+
 	}
 
 	public String getUserTimeLine(String screenName) {
 		return "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name="
 				+ screenName + "&count=20&page=";
+	}
+
+	public String getMentions() {
+		return "https://api.twitter.com/1/statuses/mentions.json?include_entities=true&page=";
 	}
 
 	public String getReetweetByUser(String name) {
@@ -76,6 +81,10 @@ public class TwitterAPI {
 				+ userScreenName + "&size=normal";
 	}
 
+	public String getDirectMessages() {
+		return "https://api.twitter.com/1/direct_messages.json?count=20&page=";
+	}
+	
 	// TODO it's method load only 100 users
 	public String getShortProfileInfo(List<Integer> idsUser) {
 

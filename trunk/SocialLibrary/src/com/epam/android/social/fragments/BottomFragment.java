@@ -112,9 +112,24 @@ public class BottomFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getView().getContext(),
-								"onMessageButtonClick", Toast.LENGTH_SHORT)
-								.show();
+						FragmentTransaction fragmentTransaction = getFragmentManager()
+								.beginTransaction();
+						fragmentTransaction.addToBackStack(getTag());
+						fragmentTransaction
+								.setCustomAnimations(android.R.anim.fade_in,
+										android.R.anim.fade_out);
+						fragmentTransaction
+								.add(R.id.twitter_timeline_fragment,
+										TweetTimeLineFragment
+												.newInstance(
+														TwitterAPI
+																.getInstance()
+																.getDirectMessages(),
+														getArguments()
+																.getString(
+																		ApplicationConstants.ARG_PROFILE_NAME)),
+										SearchTweetsFragment.TAG);
+						fragmentTransaction.commit();
 					}
 				});
 	}

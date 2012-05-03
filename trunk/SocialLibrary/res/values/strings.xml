@@ -30,6 +30,7 @@
 
     <string-array name="titles">
         <item>Timeline</item>
+        <item>Connect</item>
         <item>Profile</item>
     </string-array>
     

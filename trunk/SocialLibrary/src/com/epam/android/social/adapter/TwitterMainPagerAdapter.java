@@ -38,13 +38,17 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 						.getHomeTimeLine(), accountName));
 
 		getFragments().add(
+				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
+						.getMentions(), accountName));
+
+		getFragments().add(
 				ProfileFragment.newInstance(accountName, accountName));
 
 	}
 
 	@Override
 	public String getTitle(int position) {
-		return titles[position % 2];
+		return titles[position];
 	}
 
 }
