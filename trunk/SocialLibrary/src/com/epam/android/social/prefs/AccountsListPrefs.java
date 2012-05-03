@@ -1,4 +1,4 @@
-package com.epam.android.common.preferences;
+package com.epam.android.social.prefs;
 
 import com.epam.android.social.model.AccountPref;
 
