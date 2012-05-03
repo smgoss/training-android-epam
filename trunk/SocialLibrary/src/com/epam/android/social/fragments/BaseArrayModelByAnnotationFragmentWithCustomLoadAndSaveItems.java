@@ -21,8 +21,6 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 
 	private boolean isLoading;
 
-	private List<B> currentList;
-
 	private ListView mListView;
 	
 	@Override
@@ -70,9 +68,9 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (currentList != null && currentList.size() != 0) {
+		if (getCurrentList() != null && getCurrentList().size() != 0) {
 			outState.putParcelableArrayList(getDelegateKey(),
-					(ArrayList<? extends Parcelable>) currentList);
+					(ArrayList<? extends Parcelable>) getCurrentList());
 		}
 
 	}
@@ -80,10 +78,9 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 	private void restoreFragment(Bundle savedInstanceState) {
 
 		if (savedInstanceState != null) {
-			currentList = savedInstanceState
-					.getParcelableArrayList(getDelegateKey());
-			if (currentList != null && currentList.size() != 0) {
-				setList(currentList);
+			if (getCurrentList() != null && getCurrentList().size() != 0) {
+				setList((List<B>) savedInstanceState
+						.getParcelableArrayList(getDelegateKey()));
 			}
 		}
 
@@ -104,6 +101,8 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 	}
 
 	public abstract void setList(List<B> list);
+	
+	public abstract List<B> getCurrentList();
 
 
 }

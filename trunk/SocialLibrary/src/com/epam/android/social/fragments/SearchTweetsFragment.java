@@ -85,4 +85,9 @@ public class SearchTweetsFragment extends
 		getListView().setAdapter(adapter);
 
 	}
+
+	@Override
+	public List<SearchResult> getCurrentList() {
+		return currentList;
+	}
 }

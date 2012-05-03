@@ -5,41 +5,32 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
-import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 
 public abstract class BaseArrayModelFragmentWithCustomLoadAndSaveItems<B extends BaseModel>
 		extends BaseArrayModelFragmentWithCustomLoad<B> {
 
-	private List<B> currentList;
-
 	private ListView mListView;
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		if (currentList != null && currentList.size() != 0) {
+		if (getCurrentList() != null && getCurrentList().size() != 0) {
 			outState.putParcelableArrayList(getDelegateKey(),
-					(ArrayList<? extends Parcelable>) currentList);
+					(ArrayList<? extends Parcelable>) getCurrentList());
 		}
+		super.onSaveInstanceState(outState);
 
 	}
 
 	private void restoreFragment(Bundle savedInstanceState) {
 
 		if (savedInstanceState != null) {
-			currentList.clear();
-			currentList = savedInstanceState
-					.getParcelableArrayList(getDelegateKey());
-			if (currentList != null && currentList.size() != 0) {
-				setList(currentList);
+			if (getCurrentList() != null && getCurrentList().size() != 0) {
+				setList((List<B>) savedInstanceState
+						.getParcelableArrayList(getDelegateKey()));
 			}
 		}
 
@@ -60,5 +51,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoadAndSaveItems<B extends
 	}
 
 	public abstract void setList(List<B> list);
+	
+	public abstract List<B> getCurrentList();
 
 }
