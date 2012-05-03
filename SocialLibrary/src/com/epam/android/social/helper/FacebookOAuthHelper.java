@@ -185,24 +185,24 @@ public class FacebookOAuthHelper {
 		}
 		s = decodeUrl(url).getString("fbconnect://success#access_token");
 		user = getUser();
-		if (!listContainUser(user.getUserName(), listUsers)) {
-			user.setToken(s);
-			// user.setTokenSecret(consumer.getTokenSecret());
-			listUsers.add(user);
-
-			SharedPreferences.Editor editor = mContext.getSharedPreferences(
-					ApplicationConstants.SHARED_PREFERENSE,
-					Context.MODE_PRIVATE).edit();
-			editor.putString(ApplicationConstants.ACCOUNT_LIST,
-					serializer.serialize((Serializable) listUsers));
-			editor.commit();
-		} else {
-			Toast.makeText(
-					mContext,
-					mContext.getResources().getString(
-							R.string.you_loggined_on_this_account),
-					Toast.LENGTH_SHORT).show();
-		}
+//		if (!listContainUser(user.getUserName(), listUsers)) {
+//			user.setToken(s);
+//			// user.setTokenSecret(consumer.getTokenSecret());
+//			listUsers.add(user);
+//
+//			SharedPreferences.Editor editor = mContext.getSharedPreferences(
+//					ApplicationConstants.SHARED_PREFERENSE,
+//					Context.MODE_PRIVATE).edit();
+//			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+//					serializer.serialize((Serializable) listUsers));
+//			editor.commit();
+//		} else {
+//			Toast.makeText(
+//					mContext,
+//					mContext.getResources().getString(
+//							R.string.you_loggined_on_this_account),
+//					Toast.LENGTH_SHORT).show();
+//		}
 
 	}
 

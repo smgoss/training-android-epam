@@ -30,6 +30,7 @@ import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
+import com.epam.android.social.model.AccountPref;
 import com.epam.android.social.model.TwitterUserInfo;
 
 public class AddAccountsFragment extends Fragment {
@@ -112,7 +113,7 @@ public class AddAccountsFragment extends Fragment {
 				ApplicationConstants.ACCOUNT_LIST, null);
 		ObjectSerializer serializer = new ObjectSerializer();
 		try {
-			List<TwitterUserInfo> listAccounts = (List<TwitterUserInfo>) serializer
+			List<AccountPref> listAccounts = (List<AccountPref>) serializer
 					.deserialize(userInfoSerialized);
 
 			if (listAccounts != null) {
