@@ -17,7 +17,7 @@ import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Tweet;
 
 public class TweetTimeLineFragment extends
-		BaseArrayModelFragmentWithCustomLoad<Tweet> {
+		BaseArrayModelFragmentWithCustomLoadAndSaveItems<Tweet> {
 
 	private static final String TAG = TweetTimeLineFragment.class
 			.getSimpleName();
@@ -31,8 +31,6 @@ public class TweetTimeLineFragment extends
 	private TweetAdapter adapter;
 
 	private int loadedPage = 1;
-
-	private ListView mListView;
 
 	public static TweetTimeLineFragment newInstance(String query,
 			String accountName) {
@@ -102,41 +100,16 @@ public class TweetTimeLineFragment extends
 
 	public void setList(List<Tweet> list) {
 		adapter = new TweetAdapter(getContext(), R.layout.tweet, list);
-		mListView.addFooterView(loadMore);
-		mListView.setAdapter(adapter);
+		getListView().addFooterView(loadMore);
+		getListView().setAdapter(adapter);
 
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		if (currentList != null && currentList.size() != 0) {
-			outState.putParcelableArrayList(getDelegateKey(),
-					(ArrayList<? extends Parcelable>) currentList);
-		}
-		super.onSaveInstanceState(outState);
-
+	public List<Tweet> getCurrentList() {
+		return currentList;
 	}
 
-	private void restoreFragment(Bundle savedInstanceState) {
-
-		if (savedInstanceState != null) {
-			currentList = savedInstanceState
-					.getParcelableArrayList(getDelegateKey());
-			if (currentList != null && currentList.size() != 0) {
-				setList(currentList);
-			}
-		}
-
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mListView = (ListView) getView().findViewById(R.id.array_model_list);
-		if (savedInstanceState != null) {
-			restoreFragment(savedInstanceState);
-		}
-
-	}
+	
 
 }

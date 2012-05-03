@@ -5,6 +5,7 @@ import java.util.List;
 import com.epam.android.social.adapter.SearchPagerAdapter;
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.fragments.BottomFragment;
 import com.epam.android.social.fragments.FollowingFragment;
 import com.epam.android.social.fragments.SearchPeopleFragment;
 import com.epam.android.social.model.Following;
@@ -13,6 +14,7 @@ import com.viewpagerindicator.PageIndicator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +40,14 @@ public class SearchFragmentActivity extends FragmentActivity {
 		viewPager.setAdapter(adapter);
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
+		
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+		transaction.add(
+				R.id.twitterTimeLine_bottomFragment,
+				BottomFragment.newInstance(getIntent().getStringExtra(
+						ApplicationConstants.ARG_PROFILE_NAME)));
+		transaction.commit();
 
 	}
 
