@@ -25,6 +25,7 @@
         <RelativeLayout
             android:id="@+id/twitterTimeLine_bottomFragment"
             android:layout_width="fill_parent"
+            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" >
         </RelativeLayout>
     </LinearLayout>
