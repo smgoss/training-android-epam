@@ -36,11 +36,7 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 		getFragments().add(
 				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
 						.getHomeTimeLine(), accountName));
-		
-//		getFragments().add(
-//				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
-//						.getUserTimeLine(accountName), accountName));
-		
+
 		getFragments().add(
 				ProfileFragment.newInstance(accountName, accountName));
 
@@ -48,7 +44,7 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 
 	@Override
 	public String getTitle(int position) {
-		return titles[position];
+		return titles[position % 2];
 	}
 
 }
