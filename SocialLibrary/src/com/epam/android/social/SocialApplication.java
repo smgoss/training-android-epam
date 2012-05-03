@@ -15,21 +15,21 @@ import com.epam.android.social.helper.TwitterOAuthHelper;
 
 public class SocialApplication extends CommonApplication {
 
-	private TwitterOAuthHelper oAuthHelper;
-	private FacebookOAuthHelper FacebookOAuthHelper;
+	private TwitterOAuthHelper twitterOAuthHelper;
+	private FacebookOAuthHelper facebookOAuthHelper;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		oAuthHelper = TwitterOAuthHelper.newInstanse(getApplicationContext());
-		FacebookOAuthHelper = FacebookOAuthHelper.newInstanse(getApplicationContext());
+		twitterOAuthHelper = TwitterOAuthHelper.newInstanse(getApplicationContext());
+		facebookOAuthHelper = FacebookOAuthHelper.newInstanse(getApplicationContext());
 		Loader.get(this).addRule(new IRule() {
 
 			@Override
 			public void applyRule(HttpUriRequest request) {
 				if (request.getURI().toString().contains("twitter")) {
 					try {
-						oAuthHelper.sign(request);
+						twitterOAuthHelper.sign(request);
 					} catch (OAuthMessageSignerException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -46,7 +46,7 @@ public class SocialApplication extends CommonApplication {
 				}
 				if (request.getURI().toString().contains("facebook")) {
 					try {
-						FacebookOAuthHelper.sign(request);
+						facebookOAuthHelper.sign(request);
 					} catch (OAuthMessageSignerException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -69,10 +69,10 @@ public class SocialApplication extends CommonApplication {
 	@Override
 	public Object getSystemService(String name) {
 		if (name.equals(TwitterOAuthHelper.OAuthHelper)) {
-			return oAuthHelper;
+			return twitterOAuthHelper;
 		}
-		if (name.equals(FacebookOAuthHelper.FacebookOAuthHelper)) {
-			return FacebookOAuthHelper;
+		if (name.equals(facebookOAuthHelper.FacebookOAuthHelper)) {
+			return facebookOAuthHelper;
 		}
 
 		return super.getSystemService(name);

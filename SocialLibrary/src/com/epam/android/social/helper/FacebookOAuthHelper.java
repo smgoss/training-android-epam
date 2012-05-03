@@ -17,6 +17,7 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.params.BasicHttpParams;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -43,9 +44,12 @@ public class FacebookOAuthHelper {
 	private static final String CONSUMER_SECRET = "7338c02df8add901b88562f436c0a335";
 
 	private static final String REDIRECT_URL = "fbconnect://success";
-	private static final String REQUEST_URL = "https://graph.facebook.com/oauth/request_token";
-	private static final String ACCESS_URL = "https://graph.facebook.com/oauth/access_token";
-	private static final String AUTHORIZE_URL = "https://graph.facebook.com/oauth/authorize";
+	// private static final String REQUEST_URL =
+	// "https://graph.facebook.com/oauth/request_token";
+	// private static final String ACCESS_URL =
+	// "https://graph.facebook.com/oauth/access_token";
+	// private static final String AUTHORIZE_URL =
+	// "https://graph.facebook.com/oauth/authorize";
 	private OAuthConsumer consumer;
 
 	private OAuthProvider provider;
@@ -66,10 +70,10 @@ public class FacebookOAuthHelper {
 
 	private FacebookOAuthHelper(Context context) {
 		if (instanse == null) {
-			consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
-					CONSUMER_SECRET);
-			provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
-					AUTHORIZE_URL);
+			// consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
+			// CONSUMER_SECRET);
+			// provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
+			// AUTHORIZE_URL);
 			mContext = context;
 			listUsers = new ArrayList<AccountPref>();
 			serializer = new ObjectSerializer();
@@ -137,8 +141,9 @@ public class FacebookOAuthHelper {
 			throws OAuthMessageSignerException,
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			OAuthNotAuthorizedException {
-		request.setHeader("access_token", s);
-		consumer.sign(request);
+		// request.setParams(new BasicHttpParams().setParameter("access_token",
+		// s));
+		// consumer.sign(request);
 	}
 
 	private void setRetrieveAccessToken(String oauthVerifier) {
@@ -185,24 +190,24 @@ public class FacebookOAuthHelper {
 		}
 		s = decodeUrl(url).getString("fbconnect://success#access_token");
 		user = getUser();
-//		if (!listContainUser(user.getUserName(), listUsers)) {
-//			user.setToken(s);
-//			// user.setTokenSecret(consumer.getTokenSecret());
-//			listUsers.add(user);
-//
-//			SharedPreferences.Editor editor = mContext.getSharedPreferences(
-//					ApplicationConstants.SHARED_PREFERENSE,
-//					Context.MODE_PRIVATE).edit();
-//			editor.putString(ApplicationConstants.ACCOUNT_LIST,
-//					serializer.serialize((Serializable) listUsers));
-//			editor.commit();
-//		} else {
-//			Toast.makeText(
-//					mContext,
-//					mContext.getResources().getString(
-//							R.string.you_loggined_on_this_account),
-//					Toast.LENGTH_SHORT).show();
-//		}
+		// if (!listContainUser(user.getUserName(), listUsers)) {
+		// user.setToken(s);
+		// // user.setTokenSecret(consumer.getTokenSecret());
+		// listUsers.add(user);
+		//
+		// SharedPreferences.Editor editor = mContext.getSharedPreferences(
+		// ApplicationConstants.SHARED_PREFERENSE,
+		// Context.MODE_PRIVATE).edit();
+		// editor.putString(ApplicationConstants.ACCOUNT_LIST,
+		// serializer.serialize((Serializable) listUsers));
+		// editor.commit();
+		// } else {
+		// Toast.makeText(
+		// mContext,
+		// mContext.getResources().getString(
+		// R.string.you_loggined_on_this_account),
+		// Toast.LENGTH_SHORT).show();
+		// }
 
 	}
 
