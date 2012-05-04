@@ -120,8 +120,12 @@ public class FacebookOAuthHelper {
 	public String getLoginUrl() throws OAuthMessageSignerException,
 			OAuthNotAuthorizedException, OAuthExpectationFailedException,
 			OAuthCommunicationException {
-		return "";// provider.retrieveRequestToken(consumer, REDIRECT_URL);
-					// //TODO ADDDDDD
+		return "https://www.facebook.com/dialog/oauth?client_id="
+				+ FacebookConstants.APP_ID
+				+ "&redirect_uri=fbconnect://success&scope=user_about_me&display=touch&type=user_agent";
+		// provider.retrieveRequestToken(consumer,
+		// REDIRECT_URL);
+		// //TODO ADDDDDD
 	}
 
 	public boolean isRedirectURL(String url) {
@@ -191,7 +195,7 @@ public class FacebookOAuthHelper {
 		s = decodeUrl(url).getString("fbconnect://success#access_token");
 		user = getUser();
 		// if (!listContainUser(user.getUserName(), listUsers)) {
-		// user.setToken(s);
+		 user.setToken(s);
 		// // user.setTokenSecret(consumer.getTokenSecret());
 		// listUsers.add(user);
 		//
@@ -215,8 +219,7 @@ public class FacebookOAuthHelper {
 		Loader loader = Loader.get(mContext);
 		try {
 			AccountPref oneUser = new AccountPref(loader.execute(FacebookAPI
-					.getInstance().verifyCredentials() + "access_token=" + s),
-					"facebook");
+					.getInstance().verifyCredentials() + s), "facebook");
 			return oneUser;
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "error on HTTP protocol ", e);
@@ -243,5 +246,13 @@ public class FacebookOAuthHelper {
 			}
 		}
 		return false;
+	}
+
+	public String getAccountType() {
+		return "facebook";
+	}
+	
+	public String getToken() {
+		return user.getToken();
 	}
 }

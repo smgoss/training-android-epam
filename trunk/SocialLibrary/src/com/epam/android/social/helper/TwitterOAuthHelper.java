@@ -222,4 +222,8 @@ public class TwitterOAuthHelper {
 		}
 		return false;
 	}
+
+	public String getAccountType() {
+		return "twitter";
+	}
 }

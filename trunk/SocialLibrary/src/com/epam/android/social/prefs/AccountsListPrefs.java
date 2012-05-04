@@ -17,7 +17,7 @@ public class AccountsListPrefs {
 			this.account.setId(settings.getString("id", ""));
 			this.account.setUserName(settings.getString("name", ""));
 			this.account.setUserProfileUrl(settings.getString("picture", ""));
-			this.account.setType(settings.getString("type", ""));
+			this.account.setAccountType(settings.getString("type", ""));
 		}
 	}
 
@@ -33,7 +33,7 @@ public class AccountsListPrefs {
 		editor.putString("id", this.account.getId());
 		editor.putString("name", this.account.getUserName());
 		editor.putString("picture", this.account.getProfileUrl());
-		editor.putString("type", this.account.getType());
+		editor.putString("type", this.account.getAccountType());
 		editor.commit();
 	}
 	
@@ -42,7 +42,7 @@ public class AccountsListPrefs {
 		editor.putString("id", account.getId());
 		editor.putString("name", account.getUserName());
 		editor.putString("picture", account.getProfileUrl());
-		editor.putString("type", account.getType());
+		editor.putString("type", account.getAccountType());
 		editor.commit();
 	}
 
