@@ -10,7 +10,7 @@ import com.epam.android.common.model.BaseModel;
 
 public class AccountPref extends BaseModel implements Serializable {
 	private String id;
-	private String type;
+	private String accountType;
 	private String userName;
 	private String userProfileUrl;
 	private String token;
@@ -20,8 +20,9 @@ public class AccountPref extends BaseModel implements Serializable {
 		super();
 	}
 
-	public AccountPref(JSONObject json, String type) {
+	public AccountPref(JSONObject json, String accountType) {
 		super(json);
+		this.accountType = accountType;
 		setValuesFormJson();
 	}
 
@@ -72,12 +73,12 @@ public class AccountPref extends BaseModel implements Serializable {
 		this.id = id;
 	}
 
-	public String getType() {
-		return type;
+	public String getAccountType() {
+		return accountType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	public String getUserProfileUrl() {
@@ -91,7 +92,5 @@ public class AccountPref extends BaseModel implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	
 
 }

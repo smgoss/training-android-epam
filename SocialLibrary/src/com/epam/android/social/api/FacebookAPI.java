@@ -35,7 +35,7 @@ public class FacebookAPI {
 	
 //	https://graph.facebook.com/me
 	public String verifyCredentials() {
-		return "https://graph.facebook.com/me?fields=id,name,picture&";
+		return "https://graph.facebook.com/me?fields=id,name,picture&access_token=";
 	}
 
 	public String getFullProfileInfo(String profileName) {
@@ -73,6 +73,10 @@ public class FacebookAPI {
 	
 	public String searchPeople(String name){
 		return "https://api.twitter.com/1/users/search.json?q=" + name + "&page=";
+	}
+	
+	public String statuses(){
+		return "https://graph.facebook.com/me/friends?access_token=";
 	}
 
 	private HttpPost generatePostRequest(String request,
