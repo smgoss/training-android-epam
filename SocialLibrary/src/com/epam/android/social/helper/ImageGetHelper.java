@@ -85,8 +85,7 @@ public class ImageGetHelper {
 					context.getExternalFilesDir(null));
 			Bitmap bitmap = BitmapFactory.decodeFile(filePath + fileName);
 			return bitmap;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}

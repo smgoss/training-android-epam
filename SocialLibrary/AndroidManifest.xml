@@ -36,6 +36,10 @@
             android:name=".TwitterTimeLineFragmentActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
+        <activity
+            android:name=".facebook.ListStatusesActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.PageIndicatorDefaults" />
     </application>
 
 </manifest>

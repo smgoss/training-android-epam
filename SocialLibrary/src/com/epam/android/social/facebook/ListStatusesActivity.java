@@ -6,7 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.social.api.FacebookAPI;
-import com.epam.android.social.model.AccountPref;
+import com.epam.android.social.model.Account;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ public class ListStatusesActivity extends ListActivity {
 		Loader loader = Loader.get(this);
 		String oneUser;
 		try {
-			oneUser = loader.execute(FacebookAPI.getInstance().statuses()
+			oneUser = loader.execute(FacebookAPI.getInstance().getStatuses()
 					+ token);
 			return oneUser;
 		} catch (ClientProtocolException e) {

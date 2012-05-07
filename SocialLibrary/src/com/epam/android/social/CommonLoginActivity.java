@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.epam.android.social.constants.FacebookConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.FacebookOAuthHelper;
+import com.epam.android.social.model.Account;
+import com.epam.android.social.prefs.AccountsListPrefs;
 
 public abstract class CommonLoginActivity<E> extends Activity {
 	public static final String TAG = CommonLoginActivity.class.getSimpleName();
@@ -32,11 +34,15 @@ public abstract class CommonLoginActivity<E> extends Activity {
 
 	protected boolean isSave = false;
 
+	protected Account account;
+
+	protected AccountsListPrefs accountsListPrefs;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_webview);
-
+		accountsListPrefs = AccountsListPrefs.newInstanse(this);
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
 		asyncTask.execute(null);
 

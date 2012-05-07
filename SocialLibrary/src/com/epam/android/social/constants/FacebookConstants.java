@@ -12,6 +12,9 @@ public class FacebookConstants {
 	
 	public static final int MAX_LENGTH_TWEET = 140;
 	
+	public static final String USER_NAME = "name";
+	public static final String PROFILE_URL= "picture";
+	
 	
 
 }
