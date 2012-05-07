@@ -11,8 +11,9 @@ import com.epam.android.common.CommonApplication;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.http.Loader.IRule;
 import com.epam.android.social.helper.FacebookOAuthHelper;
-import com.epam.android.social.helper.ImageHelper;
+import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
+import com.epam.android.social.prefs.AccountsListPrefs;
 
 public class SocialApplication extends CommonApplication {
 
@@ -24,7 +25,8 @@ public class SocialApplication extends CommonApplication {
 		super.onCreate();
 		twitterOAuthHelper = TwitterOAuthHelper.newInstanse(getApplicationContext());
 		facebookOAuthHelper = FacebookOAuthHelper.newInstanse(getApplicationContext());
-		ImageHelper.newInstance(getApplicationContext());
+		ImageGetHelper.newInstance(getApplicationContext());
+		AccountsListPrefs.newInstanse(getApplicationContext());
 		
 		Loader.get(this).addRule(new IRule() {
 

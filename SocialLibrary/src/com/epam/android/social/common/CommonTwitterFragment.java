@@ -32,7 +32,6 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private int loadedPage = 1;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,6 +69,9 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	@Override
 	protected void success(List<T> result) {
+		if (result.size() < 20) {
+			hideLoadMoreButton();
+		}
 		if (currentList == null) {
 			currentList = new ArrayList<T>();
 			currentList.addAll(result);
@@ -78,6 +80,10 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 			currentList.addAll(result);
 			adapter.notifyDataSetChanged();
 		}
+	}
+
+	private void hideLoadMoreButton() {
+		loadMore.setVisibility(View.INVISIBLE);
 	}
 
 	@Override

@@ -1,33 +1,11 @@
 package com.epam.android.social.helper;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import oauth.signpost.OAuthConsumer;
-import oauth.signpost.OAuthProvider;
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
-
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpUriRequest;
-
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
-import com.epam.android.social.R;
-import com.epam.android.social.api.FacebookAPI;
-import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.constants.FacebookConstants;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
 
@@ -61,7 +39,7 @@ public class FacebookOAuthHelper {
 			mContext = context;
 			listUsers = new ArrayList<Account>();
 			serializer = new ObjectSerializer();
-			accountsListPrefs = AccountsListPrefs.newInstanse(context);
+			accountsListPrefs = AccountsListPrefs.getInstanse();
 		}
 	}
 

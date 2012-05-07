@@ -1,35 +1,34 @@
 package com.epam.android.social.prefs;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.constants.AccountType;
+import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Account;
 
 public class AccountsListPrefs {
-	private final String PREFS_NAME = "++accounts++";
-	private SharedPreferences settings;
-	private Context context;
-	private Account account;
-	private Integer id;
+	private static final String TAG = AccountsListPrefs.class.getSimpleName();
 
 	private List<Account> listAccounts;
+
 	private Context mContext;
 
-	private ObjectSerializer serializer;
-	private String userInfoSerialized;
 	private static AccountsListPrefs instanse;
 
 	private AccountsListPrefs(Context context) {
 		if (instanse == null) {
 			mContext = context;
 			listAccounts = new ArrayList<Account>();
-			serializer = new ObjectSerializer();
+			restoreFromPreference();
 		}
 	}
 
@@ -40,43 +39,84 @@ public class AccountsListPrefs {
 	public static AccountsListPrefs newInstanse(Context context) {
 		if (instanse == null) {
 			instanse = new AccountsListPrefs(context);
+
 		}
 		return instanse;
 	}
 
-	private AccountsListPrefs() {
-		if (this.context != null) {
-			this.account.setId(settings.getString("id", ""));
-			this.account.setUserName(settings.getString("name", ""));
-			this.account.setProfileUrl(settings.getString("picture", ""));
-			this.account.setToken(settings.getString("token", ""));
-			this.account.setTokenSecret(settings.getString("token_secret", ""));
+	private void restoreFromPreference() {
+		SharedPreferences preferences = mContext.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		String desirealizedAccountList = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
+
+		try {
+			@SuppressWarnings("unchecked")
+			List<Account> accounts = (List<Account>) ObjectSerializer
+					.deserialize(desirealizedAccountList);
+			setListAccounts(accounts);
+		} catch (IOException e) {
+			Log.e(TAG, "error when desirialize accountList", e);
+		} catch (ClassNotFoundException e) {
+			Log.e(TAG, "error when conver accountList", e);
+		}
+
+	}
+
+	private void addAcountToPreference(Account currentAccount) {
+		SharedPreferences preferences = mContext.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		String desirealizedAccountList = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
+
+		try {
+			@SuppressWarnings("unchecked")
+			List<Account> accounts = (List<Account>) ObjectSerializer
+					.deserialize(desirealizedAccountList);
+			accounts.add(currentAccount);
+			String serializedAccountList = ObjectSerializer
+					.serialize((Serializable) accounts);
+			Editor editor = preferences.edit();
+			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+					serializedAccountList);
+			editor.commit();
+
+		} catch (IOException e) {
+			Log.e(TAG, "error when desirialize accountList", e);
+		} catch (ClassNotFoundException e) {
+			Log.e(TAG, "error when conver accountList", e);
 		}
 	}
 
-	public void commit() {
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("id", this.account.getId());
-		editor.putString("name", this.account.getUserName());
-		editor.putString("picture", this.account.getProfileUrl());
-		editor.putString("token", this.account.getToken());
-		editor.putString("token_secret", this.account.getTokenSecret());
-		editor.commit();
-	}
+	private void removeAccountFromPrederence(Account currentAccount) {
+		SharedPreferences preferences = mContext.getSharedPreferences(
+				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
+		String desirealizedAccountList = preferences.getString(
+				ApplicationConstants.ACCOUNT_LIST, null);
 
-	public void commit(Account account) {
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("id", account.getId());
-		editor.putString("name", account.getUserName());
-		editor.putString("picture", account.getProfileUrl());
-		editor.putString("token", account.getToken());
-		editor.putString("token_secret", account.getTokenSecret());
-		editor.commit();
+		try {
+			@SuppressWarnings("unchecked")
+			List<Account> accounts = (List<Account>) ObjectSerializer
+					.deserialize(desirealizedAccountList);
+			accounts.remove(currentAccount);
+			String serializedAccountList = ObjectSerializer
+					.serialize((Serializable) accounts);
+			Editor editor = preferences.edit();
+			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+					serializedAccountList);
+			editor.commit();
+
+		} catch (IOException e) {
+			Log.e(TAG, "error when desirialize accountList", e);
+		} catch (ClassNotFoundException e) {
+			Log.e(TAG, "error when conver accountList", e);
+		}
 	}
 
 	public void addAccount(Account account) {
 		if (!isContain(account)) {
 			listAccounts.add(account);
+			addAcountToPreference(account);
 		}
 	}
 
@@ -90,6 +130,7 @@ public class AccountsListPrefs {
 	public void remAccount(Account account) {
 		if (isContain(account)) {
 			listAccounts.remove(account);
+			removeAccountFromPrederence(account);
 		}
 	}
 
@@ -109,67 +150,4 @@ public class AccountsListPrefs {
 		return account.getAccountType();
 	}
 
-	public void restoreToken(String userName) throws IOException,
-			ClassNotFoundException {
-
-//		SharedPreferences preferences = mContext.getSharedPreferences(
-//				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-//
-//		userInfoSerialized = preferences.getString(
-//				ApplicationConstants.ACCOUNT_LIST, null);
-//
-//		if (userInfoSerialized != null) {
-//			listUsers = (List<Account>) serializer
-//					.deserialize(userInfoSerialized);
-//			for (int j = 0; j < listUsers.size(); j++) {
-//				if (listUsers.get(j).getUserName().equals(userName)) {
-//					restoreToken(listUsers.get(j));
-//				}
-//			}
-//		}
-
-	}
-
-//addACCOUNT	
-//	SharedPreferences.Editor editor = mContext.getSharedPreferences(
-//			ApplicationConstants.SHARED_PREFERENSE,
-//			Context.MODE_PRIVATE).edit();
-//	editor.putString(ApplicationConstants.ACCOUNT_LIST,
-//			serializer.serialize((Serializable) listUsers));
-//	editor.commit();
-	
-	
-	
-//	SharedPreferences preferences = mContext.getSharedPreferences(
-//			ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-//	userInfoSerialized = preferences.getString(
-//			ApplicationConstants.ACCOUNT_LIST, null);
-//	if (userInfoSerialized != null) {
-//		listUsers = (List<Account>) serializer
-//				.deserialize(userInfoSerialized);
-//}
-	
-	
-	
-	
-//	public void restoreToken(String userName) throws IOException,
-//	ClassNotFoundException {
-//
-//SharedPreferences preferences = mContext.getSharedPreferences(
-//		ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-//
-//userInfoSerialized = preferences.getString(
-//		ApplicationConstants.ACCOUNT_LIST, null);
-//
-//if (userInfoSerialized != null) {
-//	listUsers = (List<Account>) serializer
-//			.deserialize(userInfoSerialized);
-//	for (int j = 0; j < listUsers.size(); j++) {
-//		if (listUsers.get(j).getUserName().equals(userName)) {
-//			restoreToken(listUsers.get(j));
-//		}
-//	}
-//}
-//
-//}
 }

@@ -27,7 +27,7 @@ import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.facebook.ListStatusesActivity;
-import com.epam.android.social.helper.ImageHelper;
+import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
@@ -47,13 +47,13 @@ public class AddAccountsFragment extends Fragment {
 	private static AddAccountsFragment.ILogin login;
 
 	private AccountsListPrefs accountsListPrefs;
+	
 	private List<Account> listAccounts;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		accountsListPrefs = AccountsListPrefs.newInstanse(getView()
-				.getContext());
+		accountsListPrefs = AccountsListPrefs.getInstanse();
 		restoreAccounts();
 		addAccountButton = (ImageButton) getView().findViewById(
 				R.id.accountPicture);
@@ -127,7 +127,7 @@ public class AddAccountsFragment extends Fragment {
 		accountName.setText(accontName);
 		ImageView accountPicture = (ImageView) layoutItem
 				.findViewById(R.id.accountPicture);
-		ImageHelper.getInstance().setAvatar(accountAvatarUrl, accountPicture);
+		ImageGetHelper.getInstance().setAvatar(accountAvatarUrl, accountPicture);
 		accountPicture.setTag(accontName);
 		layoutItem.setId(lastAccountPictureID);
 		accountPicture.setOnClickListener(new OnClickListener() {
