@@ -7,8 +7,6 @@ import java.util.List;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
-import oauth.signpost.basic.DefaultOAuthConsumer;
-import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -21,19 +19,16 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.epam.android.common.http.HttpClient;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
-import com.epam.android.social.model.TwitterUserInfo;
-import com.google.android.imageloader.ImageLoader;
+import com.epam.android.social.model.Account;
 
 public class TwitterOAuthHelper {
 
@@ -58,13 +53,13 @@ public class TwitterOAuthHelper {
 
 	private Context mContext;
 
-	private List<TwitterUserInfo> listUsers;
+	private List<Account> listUsers;
 
 	private ObjectSerializer serializer;
 
 	private String userInfoSerialized;
 
-	private TwitterUserInfo user;
+	private Account user;
 
 	private TwitterOAuthHelper(Context context) {
 		if (instanse == null) {
@@ -73,7 +68,7 @@ public class TwitterOAuthHelper {
 			provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL,
 					AUTHORIZE_URL);
 			mContext = context;
-			listUsers = new ArrayList<TwitterUserInfo>();
+			listUsers = new ArrayList<Account>();
 			serializer = new ObjectSerializer();
 		}
 		// TODO restore
@@ -99,7 +94,7 @@ public class TwitterOAuthHelper {
 				ApplicationConstants.ACCOUNT_LIST, null);
 
 		if (userInfoSerialized != null) {
-			listUsers = (List<TwitterUserInfo>) serializer
+			listUsers = (List<Account>) serializer
 					.deserialize(userInfoSerialized);
 			for (int j = 0; j < listUsers.size(); j++) {
 				if (listUsers.get(j).getUserName().equals(userName)) {
@@ -110,7 +105,7 @@ public class TwitterOAuthHelper {
 
 	}
 
-	private void restoreToken(TwitterUserInfo user) throws IOException,
+	private void restoreToken(Account user) throws IOException,
 			ClassNotFoundException {
 		consumer.setTokenWithSecret(user.getToken(), user.getTokenSecret());
 
@@ -166,7 +161,7 @@ public class TwitterOAuthHelper {
 		userInfoSerialized = preferences.getString(
 				ApplicationConstants.ACCOUNT_LIST, null);
 		if (userInfoSerialized != null) {
-			listUsers = (List<TwitterUserInfo>) serializer
+			listUsers = (List<Account>) serializer
 					.deserialize(userInfoSerialized);
 		}
 		user = getUser();
@@ -191,11 +186,11 @@ public class TwitterOAuthHelper {
 
 	}
 
-	private TwitterUserInfo getUser() {
+	private Account getUser() {
 		Loader loader = Loader.get(mContext);
 		try {
-			TwitterUserInfo user = new TwitterUserInfo(
-					loader.execute(TwitterAPI.getInstance().verifyCredentials()));
+			Account user = new Account(loader.execute(TwitterAPI.getInstance()
+					.verifyCredentials()), "twitter");
 			return user;
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "error on HTTP protocol ", e);
@@ -214,7 +209,7 @@ public class TwitterOAuthHelper {
 		return user.getProfileUrl();
 	}
 
-	private boolean listContainUser(String userName, List<TwitterUserInfo> list) {
+	private boolean listContainUser(String userName, List<Account> list) {
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getUserName().equals(userName)) {
 				return true;

@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,15 +20,16 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.facebook.ListStatusesActivity;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
-import com.epam.android.social.model.AccountPref;
+import com.epam.android.social.model.Account;
+import com.epam.android.social.prefs.AccountsListPrefs;
 
 public class AddAccountsFragment extends Fragment {
 
@@ -47,9 +47,14 @@ public class AddAccountsFragment extends Fragment {
 
 	private ImageGetHelper imageHelper;
 
+	private AccountsListPrefs accountsListPrefs;
+	private List<Account> listAccounts;
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		accountsListPrefs = AccountsListPrefs.newInstanse(getView()
+				.getContext());
 		restoreAccounts();
 		addAccountButton = (ImageButton) getView().findViewById(
 				R.id.accountPicture);
@@ -91,45 +96,27 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onSuccessLogin(String accontName,
-					String accountAvatarUrl) {
-				addNewAccount(accontName, accountAvatarUrl);
+					String accountAvatarUrl, String accountType, String token) {
+				addNewAccount(accontName, accountAvatarUrl, accountType, token);
 			}
 		};
 
 	}
 
 	private void restoreAccounts() {
-//
-//		AccountsListPrefs accounts = AccountsListPrefs.getInstance();
-//		accounts.setContext(getView().getContext());
-//		
-		
-
-		SharedPreferences preferences = getActivity().getSharedPreferences(
-				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
-		String userInfoSerialized = preferences.getString(
-				ApplicationConstants.ACCOUNT_LIST, null);
-		ObjectSerializer serializer = new ObjectSerializer();
-		try {
-			List<AccountPref> listAccounts = (List<AccountPref>) serializer
-					.deserialize(userInfoSerialized);
-
-			if (listAccounts != null) {
-				for (int i = 0; i < listAccounts.size(); i++) {
-					addNewAccount(listAccounts.get(i).getUserName(),
-							listAccounts.get(i).getProfileUrl());
-				}
+		listAccounts = accountsListPrefs.getListAccounts();
+		if (listAccounts != null) {
+			for (Account oneAccount : listAccounts) {
+				addNewAccount(oneAccount.getUserName(),
+						oneAccount.getProfileUrl(),
+						oneAccount.getAccountType(), oneAccount.getToken());
 			}
-
-		} catch (IOException e) {
-			Log.d(TAG, "crash when desirialize", e);
-		} catch (ClassNotFoundException e) {
-			Log.d(TAG, "crash when convert deserialize object", e);
 		}
 
 	}
 
-	private void addNewAccount(String accontName, String accountAvatarUrl) {
+	private void addNewAccount(String accontName, String accountAvatarUrl,
+			final String accountType, final String token) {
 		relativeLayout = (RelativeLayout) getView().findViewById(
 				R.id.accountLayout);
 		LayoutInflater inflater = (LayoutInflater) getActivity()
@@ -150,13 +137,22 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					TwitterOAuthHelper.getInstanse().restoreToken(
-							(String) v.getTag());
-					Intent intent = new Intent(getView().getContext(),
-							TwitterTimeLineFragmentActivity.class);
-					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
-							String.valueOf(v.getTag()));
-					startActivity(intent);
+					if (ApplicationConstants.FACEBOOK.equals(accountType)) {
+						Intent intent = new Intent(getView().getContext(),
+								ListStatusesActivity.class);
+						intent.putExtra("token", token);
+						startActivity(intent);
+
+					} else if (ApplicationConstants.TWITTER.equals(accountType)) {
+						TwitterOAuthHelper.getInstanse().restoreToken(
+								(String) v.getTag());
+						Intent intent = new Intent(getView().getContext(),
+								TwitterTimeLineFragmentActivity.class);
+						intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
+								String.valueOf(v.getTag()));
+						startActivity(intent);
+					}
+
 				} catch (IOException e) {
 					Log.d(TAG, "crash when loading data", e);
 				} catch (ClassNotFoundException e) {
@@ -186,7 +182,8 @@ public class AddAccountsFragment extends Fragment {
 	}
 
 	public static interface ILogin {
-		public void onSuccessLogin(String accontName, String accountAvatar);
+		public void onSuccessLogin(String accontName, String accountAvatar,
+				String accountType, String token);
 	}
 
 	public static AddAccountsFragment.ILogin getLogin() {

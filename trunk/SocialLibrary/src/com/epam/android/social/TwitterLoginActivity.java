@@ -63,7 +63,7 @@ public class TwitterLoginActivity extends Activity {
 						AddAccountsFragment.getLogin().onSuccessLogin(
 								helper.getUserName(),
 								helper.getAvatarDrawable(),
-								helper.getAccountType());
+								helper.getAccountType(), null);
 						Intent intent = new Intent(getApplicationContext(),
 								TwitterTimeLineFragmentActivity.class);
 						intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,

@@ -45,21 +45,21 @@ public class SocialApplication extends CommonApplication {
 					}
 				}
 				if (request.getURI().toString().contains("facebook")) {
-					try {
-						facebookOAuthHelper.sign(request);
-					} catch (OAuthMessageSignerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (OAuthExpectationFailedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (OAuthCommunicationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (OAuthNotAuthorizedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					try {
+//						facebookOAuthHelper.sign(request);
+//					} catch (OAuthMessageSignerException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (OAuthExpectationFailedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (OAuthCommunicationException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (OAuthNotAuthorizedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 			}
 			
