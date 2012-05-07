@@ -11,7 +11,4 @@ public class ApplicationConstants {
 
 	public static final String ARG_QUERY = "query";
 
-	public static final String FACEBOOK = "facebook";
-	public static final String TWITTER = "twitter";
-
 }

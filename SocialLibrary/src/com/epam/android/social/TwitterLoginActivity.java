@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.fragments.AddAccountsFragment;
 import com.epam.android.social.helper.TwitterOAuthHelper;
@@ -63,7 +64,7 @@ public class TwitterLoginActivity extends Activity {
 						AddAccountsFragment.getLogin().onSuccessLogin(
 								helper.getUserName(),
 								helper.getAvatarDrawable(),
-								helper.getAccountType(), null);
+								AccountType.TWITTER, null);
 						Intent intent = new Intent(getApplicationContext(),
 								TwitterTimeLineFragmentActivity.class);
 						intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,

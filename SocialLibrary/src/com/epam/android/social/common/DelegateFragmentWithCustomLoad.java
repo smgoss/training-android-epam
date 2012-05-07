@@ -1,4 +1,4 @@
-package com.epam.android.social.fragments;
+package com.epam.android.social.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;

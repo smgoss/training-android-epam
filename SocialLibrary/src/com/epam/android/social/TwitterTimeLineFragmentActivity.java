@@ -42,7 +42,7 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 				BottomFragment.newInstance(getIntent().getStringExtra(
 						ApplicationConstants.ARG_PROFILE_NAME)));
 		transaction.commit();
-
+		
 	}
 
 	public void onItemClick(View view) {

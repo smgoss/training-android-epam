@@ -24,9 +24,10 @@ import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
+import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.facebook.ListStatusesActivity;
-import com.epam.android.social.helper.ImageGetHelper;
+import com.epam.android.social.helper.ImageHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
@@ -44,8 +45,6 @@ public class AddAccountsFragment extends Fragment {
 	private boolean isFirst = true;
 
 	private static AddAccountsFragment.ILogin login;
-
-	private ImageGetHelper imageHelper;
 
 	private AccountsListPrefs accountsListPrefs;
 	private List<Account> listAccounts;
@@ -96,7 +95,7 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onSuccessLogin(String accontName,
-					String accountAvatarUrl, String accountType, String token) {
+					String accountAvatarUrl, AccountType accountType, String token) {
 				addNewAccount(accontName, accountAvatarUrl, accountType, token);
 			}
 		};
@@ -116,7 +115,7 @@ public class AddAccountsFragment extends Fragment {
 	}
 
 	private void addNewAccount(String accontName, String accountAvatarUrl,
-			final String accountType, final String token) {
+			final AccountType accountType, final String token) {
 		relativeLayout = (RelativeLayout) getView().findViewById(
 				R.id.accountLayout);
 		LayoutInflater inflater = (LayoutInflater) getActivity()
@@ -128,8 +127,7 @@ public class AddAccountsFragment extends Fragment {
 		accountName.setText(accontName);
 		ImageView accountPicture = (ImageView) layoutItem
 				.findViewById(R.id.accountPicture);
-		imageHelper = new ImageGetHelper(getActivity());
-		imageHelper.setAvatar(accountAvatarUrl, accountPicture);
+		ImageHelper.getInstance().setAvatar(accountAvatarUrl, accountPicture);
 		accountPicture.setTag(accontName);
 		layoutItem.setId(lastAccountPictureID);
 		accountPicture.setOnClickListener(new OnClickListener() {
@@ -137,13 +135,13 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					if (ApplicationConstants.FACEBOOK.equals(accountType)) {
+					if (accountType == AccountType.FACEBOOK) {
 						Intent intent = new Intent(getView().getContext(),
 								ListStatusesActivity.class);
 						intent.putExtra("token", token);
 						startActivity(intent);
 
-					} else if (ApplicationConstants.TWITTER.equals(accountType)) {
+					} else if (accountType == AccountType.TWITTER) {
 						TwitterOAuthHelper.getInstanse().restoreToken(
 								(String) v.getTag());
 						Intent intent = new Intent(getView().getContext(),
@@ -183,7 +181,7 @@ public class AddAccountsFragment extends Fragment {
 
 	public static interface ILogin {
 		public void onSuccessLogin(String accontName, String accountAvatar,
-				String accountType, String token);
+				AccountType accountType, String token);
 	}
 
 	public static AddAccountsFragment.ILogin getLogin() {

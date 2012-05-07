@@ -1,6 +1,5 @@
 package com.epam.android.social.fragments;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,9 @@ import android.widget.Toast;
 import com.epam.android.common.task.HttpPostAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.common.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.helper.ImageHelper;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 import com.google.android.imageloader.ImageLoader.Callback;
@@ -325,7 +326,7 @@ public class ChangeProfileFragment extends
 					}
 					if (imageUri == null) {
 						try {
-							imageUri = tryGetImageFromBadDevice();
+							imageUri = ImageHelper.tryGetImageFromBadDevice(getActivity());
 						} catch (Exception e) {
 							Log.e("VA", "error get image uri", e);
 						}
@@ -346,89 +347,6 @@ public class ChangeProfileFragment extends
 		}
 	}
 
-	private Uri tryGetImageFromBadDevice() {
-		// Describe the columns you'd like to have returned.
-		// Selecting from the Thumbnails location gives you both
-		// the Thumbnail Image ID, as well as the original image
-		// ID
-		String[] projection = {
-				MediaStore.Images.Thumbnails._ID, // The columns
-				// we want
-				MediaStore.Images.Thumbnails.IMAGE_ID,
-				MediaStore.Images.Thumbnails.KIND,
-				MediaStore.Images.Thumbnails.DATA };
-		String selection = MediaStore.Images.Thumbnails.KIND + "=" + // Select
-																		// only
-																		// mini's
-				MediaStore.Images.Thumbnails.MINI_KIND;
-
-		String sort = MediaStore.Images.Thumbnails._ID + " DESC";
-
-		// At the moment, this is a bit of a hack, as I'm
-		// returning ALL images, and just taking the latest one.
-		// There is a better way to narrow this down I think
-		// with a WHERE clause which is currently the selection
-		// variable
-		Cursor myCursor = getActivity().managedQuery(
-				MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, projection,
-				selection, null, sort);
-
-		long imageId = 0l;
-		long thumbnailImageId = 0l;
-		String thumbnailPath = "";
-
-		try {
-			myCursor.moveToFirst();
-			imageId = myCursor
-					.getLong(myCursor
-							.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.IMAGE_ID));
-			thumbnailImageId = myCursor.getLong(myCursor
-					.getColumnIndexOrThrow(MediaStore.Images.Thumbnails._ID));
-			thumbnailPath = myCursor.getString(myCursor
-					.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.DATA));
-		} finally {
-			myCursor.close();
-		}
-
-		// Create new Cursor to obtain the file Path for the
-		// large image
-
-		String[] largeFileProjection = { MediaStore.Images.ImageColumns._ID,
-				MediaStore.Images.ImageColumns.DATA };
-
-		String largeFileSort = MediaStore.Images.ImageColumns._ID + " DESC";
-		myCursor = getActivity().managedQuery(
-				MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				largeFileProjection, null, null, largeFileSort);
-		String largeImagePath = "";
-
-		try {
-			myCursor.moveToFirst();
-
-			// This will actually give yo uthe file path
-			// location of the image.
-			largeImagePath = myCursor
-					.getString(myCursor
-							.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
-			Log.d("BD", "lmp" + largeImagePath);
-		} finally {
-			myCursor.close();
-		}
-		// These are the two URI's you'll be interested in. They
-		// give you a handle to the actual images
-		Uri uriLargeImage = Uri.withAppendedPath(
-				MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				String.valueOf(imageId));
-		Log.d("BD", "uriLargeImage" + uriLargeImage);
-		return uriLargeImage;
-		/*
-		 * Uri uriThumbnailImage = Uri .withAppendedPath(
-		 * MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
-		 * String.valueOf(thumbnailImageId));
-		 */
-
-		// I've left out the remaining code, as all I do is
-		// assign the URI's to my own objects anyways...
-	}
+	
 
 }

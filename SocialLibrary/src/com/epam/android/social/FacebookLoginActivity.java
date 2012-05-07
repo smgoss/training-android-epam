@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
 import com.epam.android.social.api.FacebookAPI;
+import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.FacebookConstants;
 import com.epam.android.social.facebook.ListStatusesActivity;
@@ -42,7 +43,7 @@ public class FacebookLoginActivity extends
 				saveToken(url);
 				webView.setVisibility(WebView.INVISIBLE);
 				AddAccountsFragment.getLogin().onSuccessLogin(getUserName(),
-						getAvatarDrawable(), getAccountType(), getToken());
+						getAvatarDrawable(), AccountType.FACEBOOK, getToken());
 
 				Toast.makeText(FacebookLoginActivity.this, "OK", 1).show();
 				Intent intent = new Intent(getApplicationContext(),
@@ -122,7 +123,7 @@ public class FacebookLoginActivity extends
 		try {
 			Account oneUser = new Account(loader.execute(FacebookAPI
 					.getInstance().getUser() + s),
-					ApplicationConstants.FACEBOOK);
+					AccountType.FACEBOOK);
 			return oneUser;
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "error on HTTP protocol ", e);
@@ -145,8 +146,5 @@ public class FacebookLoginActivity extends
 		return account.getToken();
 	}
 
-	public String getAccountType() {
-		return account.getAccountType();
-	}
 
 }

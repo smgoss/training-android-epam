@@ -1,7 +1,6 @@
 package com.epam.android.social.prefs;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.epam.android.common.utils.ObjectSerializer;
-import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.model.Account;
 
 public class AccountsListPrefs {
@@ -48,7 +47,6 @@ public class AccountsListPrefs {
 	private AccountsListPrefs() {
 		if (this.context != null) {
 			this.account.setId(settings.getString("id", ""));
-			this.account.setAccountType(settings.getString("type", ""));
 			this.account.setUserName(settings.getString("name", ""));
 			this.account.setProfileUrl(settings.getString("picture", ""));
 			this.account.setToken(settings.getString("token", ""));
@@ -59,7 +57,6 @@ public class AccountsListPrefs {
 	public void commit() {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("id", this.account.getId());
-		editor.putString("type", this.account.getAccountType());
 		editor.putString("name", this.account.getUserName());
 		editor.putString("picture", this.account.getProfileUrl());
 		editor.putString("token", this.account.getToken());
@@ -70,7 +67,6 @@ public class AccountsListPrefs {
 	public void commit(Account account) {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("id", account.getId());
-		editor.putString("type", account.getAccountType());
 		editor.putString("name", account.getUserName());
 		editor.putString("picture", account.getProfileUrl());
 		editor.putString("token", account.getToken());
@@ -109,7 +105,7 @@ public class AccountsListPrefs {
 		return listAccounts.contains(account);
 	}
 
-	public String getAccountType(Account account) {
+	public AccountType getAccountType(Account account) {
 		return account.getAccountType();
 	}
 
