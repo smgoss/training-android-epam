@@ -42,7 +42,7 @@ public abstract class CommonLoginActivity<E> extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_webview);
-		accountsListPrefs = AccountsListPrefs.newInstanse(this);
+		accountsListPrefs = AccountsListPrefs.getInstanse();
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
 		asyncTask.execute(null);
 

@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,7 +32,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.common.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.helper.ImageHelper;
+import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 import com.google.android.imageloader.ImageLoader.Callback;
@@ -326,7 +325,7 @@ public class ChangeProfileFragment extends
 					}
 					if (imageUri == null) {
 						try {
-							imageUri = ImageHelper.tryGetImageFromBadDevice(getActivity());
+							imageUri = ImageGetHelper.tryGetImageFromBadDevice(getActivity());
 						} catch (Exception e) {
 							Log.e("VA", "error get image uri", e);
 						}
