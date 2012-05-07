@@ -31,9 +31,12 @@
             android:name=".SearchFragmentActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
-        
         <activity
             android:name=".TwitterTimeLineFragmentActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.PageIndicatorDefaults" />
+        <activity
+            android:name=".FacebookTimeLineFragmentActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
         <activity

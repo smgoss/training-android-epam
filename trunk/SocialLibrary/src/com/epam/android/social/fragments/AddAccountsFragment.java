@@ -21,12 +21,12 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.epam.android.social.FacebookLoginActivity;
+import com.epam.android.social.FacebookTimeLineFragmentActivity;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.facebook.ListStatusesActivity;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
@@ -47,7 +47,7 @@ public class AddAccountsFragment extends Fragment {
 	private static AddAccountsFragment.ILogin login;
 
 	private AccountsListPrefs accountsListPrefs;
-	
+
 	private List<Account> listAccounts;
 
 	@Override
@@ -95,7 +95,8 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onSuccessLogin(String accontName,
-					String accountAvatarUrl, AccountType accountType, String token) {
+					String accountAvatarUrl, AccountType accountType,
+					String token) {
 				addNewAccount(accontName, accountAvatarUrl, accountType, token);
 			}
 		};
@@ -127,7 +128,8 @@ public class AddAccountsFragment extends Fragment {
 		accountName.setText(accontName);
 		ImageView accountPicture = (ImageView) layoutItem
 				.findViewById(R.id.accountPicture);
-		ImageGetHelper.getInstance().setAvatar(accountAvatarUrl, accountPicture);
+		ImageGetHelper.getInstance()
+				.setAvatar(accountAvatarUrl, accountPicture);
 		accountPicture.setTag(accontName);
 		layoutItem.setId(lastAccountPictureID);
 		accountPicture.setOnClickListener(new OnClickListener() {
@@ -135,21 +137,21 @@ public class AddAccountsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
+					Intent intent = null;
 					if (accountType == AccountType.FACEBOOK) {
-						Intent intent = new Intent(getView().getContext(),
-								ListStatusesActivity.class);
-						intent.putExtra("token", token);
-						startActivity(intent);
+						intent = new Intent(getView().getContext(),
+								FacebookTimeLineFragmentActivity.class);
 
 					} else if (accountType == AccountType.TWITTER) {
 						TwitterOAuthHelper.getInstanse().restoreToken(
 								(String) v.getTag());
-						Intent intent = new Intent(getView().getContext(),
+						intent = new Intent(getView().getContext(),
 								TwitterTimeLineFragmentActivity.class);
-						intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
-								String.valueOf(v.getTag()));
-						startActivity(intent);
+
 					}
+					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
+							String.valueOf(v.getTag()));
+					startActivity(intent);
 
 				} catch (IOException e) {
 					Log.d(TAG, "crash when loading data", e);

@@ -1,22 +1,12 @@
 package com.epam.android.social.api;
 
-import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.util.Base64;
-
-import com.epam.android.social.constants.TwitterRequestParams;
 
 public class FacebookAPI {
 	private static final String TAG = FacebookAPI.class.getSimpleName();
@@ -32,7 +22,6 @@ public class FacebookAPI {
 		return facebookAPI;
 	}
 
-	// https://graph.facebook.com/me
 	public String getUser() {
 		return "https://graph.facebook.com/me?fields=id,name,picture&access_token=";
 	}
@@ -63,7 +52,7 @@ public class FacebookAPI {
 	}
 
 	public String getStatuses() {
-		return "https://graph.facebook.com/me/friends?access_token=";
+		return "https://graph.facebook.com/me/statuses&access_token=";
 	}
 
 	private String updateStatus() {

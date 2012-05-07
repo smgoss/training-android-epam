@@ -23,11 +23,13 @@ public class SocialApplication extends CommonApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		twitterOAuthHelper = TwitterOAuthHelper.newInstanse(getApplicationContext());
-		facebookOAuthHelper = FacebookOAuthHelper.newInstanse(getApplicationContext());
+		twitterOAuthHelper = TwitterOAuthHelper
+				.newInstanse(getApplicationContext());
+		facebookOAuthHelper = FacebookOAuthHelper
+				.newInstanse(getApplicationContext());
 		ImageGetHelper.newInstance(getApplicationContext());
 		AccountsListPrefs.newInstanse(getApplicationContext());
-		
+
 		Loader.get(this).addRule(new IRule() {
 
 			@Override
@@ -49,25 +51,9 @@ public class SocialApplication extends CommonApplication {
 						e.printStackTrace();
 					}
 				}
-				if (request.getURI().toString().contains("facebook")) {
-//					try {
-//						facebookOAuthHelper.sign(request);
-//					} catch (OAuthMessageSignerException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					} catch (OAuthExpectationFailedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					} catch (OAuthCommunicationException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					} catch (OAuthNotAuthorizedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-				}
+
 			}
-			
+
 		});
 	}
 
@@ -76,7 +62,7 @@ public class SocialApplication extends CommonApplication {
 		if (name.equals(TwitterOAuthHelper.OAuthHelper)) {
 			return twitterOAuthHelper;
 		}
-		if (name.equals(facebookOAuthHelper.FacebookOAuthHelper)) {
+		if (name.equals(FacebookOAuthHelper.OAuthHelper)) {
 			return facebookOAuthHelper;
 		}
 
