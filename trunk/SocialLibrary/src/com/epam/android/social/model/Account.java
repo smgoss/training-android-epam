@@ -7,13 +7,13 @@ import org.json.JSONObject;
 import android.os.Parcel;
 
 import com.epam.android.common.model.BaseModel;
-import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.FacebookConstants;
 import com.epam.android.social.constants.TwitterConstants;
 
 public class Account extends BaseModel implements Serializable {
 	private String id;
-	private String accountType;
+	private AccountType accountType;
 	private String userName;
 	private String profileUrl;
 	private String token;
@@ -23,7 +23,7 @@ public class Account extends BaseModel implements Serializable {
 		super();
 	}
 
-	public Account(JSONObject json, String accountType) {
+	public Account(JSONObject json, AccountType accountType) {
 		super(json);
 		this.accountType = accountType;
 		setValuesFormJson();
@@ -34,17 +34,17 @@ public class Account extends BaseModel implements Serializable {
 		setValuesFormJson();
 	}
 
-	public Account(String json, String accountType) {
+	public Account(String json, AccountType accountType) {
 		super(json);
 		this.accountType = accountType;
 		setValuesFormJson();
 	}
 
 	private void setValuesFormJson() {
-		if (ApplicationConstants.FACEBOOK.equals(accountType)) {
+		if (accountType == AccountType.FACEBOOK) {
 			userName = getString(FacebookConstants.USER_NAME);
 			profileUrl = getString(FacebookConstants.PROFILE_URL);
-		} else if (ApplicationConstants.TWITTER.equals(accountType)) {
+		} else if (accountType == AccountType.TWITTER) {
 			userName = getString(TwitterConstants.USER_NAME);
 			profileUrl = getString(TwitterConstants.PROFILE_URL);
 		}
@@ -58,11 +58,11 @@ public class Account extends BaseModel implements Serializable {
 		this.id = id;
 	}
 
-	public String getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(String accountType) {
+	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
 

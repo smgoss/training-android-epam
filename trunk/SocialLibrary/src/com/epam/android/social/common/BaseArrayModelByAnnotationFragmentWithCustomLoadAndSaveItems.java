@@ -1,4 +1,4 @@
-package com.epam.android.social.fragments;
+package com.epam.android.social.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +100,7 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 		return mListView;
 	}
 
-	public abstract void setList(List<B> list);
+	public abstract <B extends BaseModel> void setList(List<B> list);
 	
 	public abstract List<B> getCurrentList();
 

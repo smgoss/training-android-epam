@@ -26,6 +26,7 @@ import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
 import com.epam.android.social.model.Account;
@@ -190,7 +191,7 @@ public class TwitterOAuthHelper {
 		Loader loader = Loader.get(mContext);
 		try {
 			Account user = new Account(loader.execute(TwitterAPI.getInstance()
-					.verifyCredentials()), "twitter");
+					.verifyCredentials()), AccountType.TWITTER);
 			return user;
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "error on HTTP protocol ", e);
@@ -218,7 +219,5 @@ public class TwitterOAuthHelper {
 		return false;
 	}
 
-	public String getAccountType() {
-		return "twitter";
-	}
+
 }

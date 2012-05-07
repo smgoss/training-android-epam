@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.ProfileInfoHeaderAdapter;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.common.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.ProfileInfo;
 

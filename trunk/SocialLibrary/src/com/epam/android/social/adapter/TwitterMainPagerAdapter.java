@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.epam.android.common.adapter.CommonFragmentPagerAdapter;
 import com.epam.android.social.R;
-import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.fragments.ProfileFragment;
 import com.epam.android.social.fragments.TweetTimeLineFragment;
@@ -33,11 +32,11 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 	public void initFragments() {
 
 		getFragments().add(
-				TweetTimeLineFragment.<TweetAdapter> newInstance(TwitterAPI
-						.getInstance().getHomeTimeLine(), accountName));
+				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
+						.getHomeTimeLine(), accountName));
 		getFragments().add(
-				TweetTimeLineFragment.<TweetAdapter> newInstance(TwitterAPI
-						.getInstance().getMentions(), accountName));
+				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
+						.getMentions(), accountName));
 
 		getFragments().add(
 				ProfileFragment.newInstance(accountName, accountName));
