@@ -14,7 +14,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.helper.DataConvertHelper;
 import com.epam.android.social.model.TwitterDialogs;
 
-public class TwitterDialogsAdapter extends AbstractAdapter<TwitterDialogs>{
+public class TwitterDialogsAdapter extends AbstractAdapter<TwitterDialogs> {
 
 	public TwitterDialogsAdapter(Context c, int pItemResource,
 			List<TwitterDialogs> pList) {
@@ -25,8 +25,7 @@ public class TwitterDialogsAdapter extends AbstractAdapter<TwitterDialogs>{
 	public void init(View view, TwitterDialogs item) {
 		
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		mImageLoader.bind(this, userAvatar, item.getSenderProfileUrl());
-
+		mImageLoader.setAvatar(item.getSenderProfileUrl(), userAvatar);
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getSenderScreenName());
 
@@ -39,5 +38,4 @@ public class TwitterDialogsAdapter extends AbstractAdapter<TwitterDialogs>{
 		TextView tweetText = (TextView) view.findViewById(R.id.tweetText);
 		tweetText.setText(item.getText());
 	}
-
 }

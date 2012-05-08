@@ -7,12 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.epam.android.social.R;
+import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 
 public class ProfileInfoHeaderAdapter {
 
-	private ImageLoader mImageLoader;
+	private ImageGetHelper mImageLoader;
 
 	private String accountName;
 
@@ -20,8 +21,7 @@ public class ProfileInfoHeaderAdapter {
 
 	public ProfileInfoHeaderAdapter(Context c, View convertView,
 			ProfileInfo item, String accountName) {
-		mImageLoader = (ImageLoader) c.getApplicationContext()
-				.getSystemService(ImageLoader.IMAGE_LOADER_SERVICE);
+		mImageLoader = ImageGetHelper.getInstance();
 		this.accountName = accountName;
 		context = c;
 		init(convertView, item);
@@ -31,7 +31,7 @@ public class ProfileInfoHeaderAdapter {
 	private void init(View convertView, ProfileInfo item) {
 		ImageView profileAvatar = (ImageView) convertView
 				.findViewById(R.id.profileInfo_profileAvatar);
-		mImageLoader.bind(profileAvatar, item.getProfileAvatarUrl(), null);
+		mImageLoader.setAvatar(item.getProfileAvatarUrl(), profileAvatar);
 
 		TextView name = (TextView) convertView
 				.findViewById(R.id.profileInfo_profileName);

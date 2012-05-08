@@ -81,7 +81,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 			setList(currentList);
 		} else {
 			currentList.addAll(result);
-			if(result.size() != loadedItems){
+			if(result.size() < loadedItems){
 				hideLoadMoreButton();
 			}
 			adapter.notifyDataSetChanged();
@@ -105,7 +105,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public <B extends BaseModel> void setList(List<B> list) {
 		adapter = createAdapter(list);
-		if (list.size() == loadedItems) {
+		if (list.size() >= loadedItems) {
 			getListView().addFooterView(loadMore);
 		}
 		getListView().setAdapter(adapter);
