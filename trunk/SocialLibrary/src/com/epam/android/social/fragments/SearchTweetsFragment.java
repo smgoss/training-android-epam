@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.SearchAdapter;
-import com.epam.android.social.common.CommonTwitterByAnnotationFragment;
+import com.epam.android.social.common.fragments.CommonTwitterByAnnotationFragment;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.SearchResult;
 

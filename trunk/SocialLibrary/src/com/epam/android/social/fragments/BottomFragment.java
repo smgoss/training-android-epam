@@ -53,20 +53,7 @@ public class BottomFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						if (getFragmentManager().findFragmentByTag(
-								SearchLineFragment.TAG) == null) {
-							FragmentTransaction fragmentTransaction = getFragmentManager()
-									.beginTransaction();
-							fragmentTransaction.addToBackStack(getTag());
-							fragmentTransaction.setCustomAnimations(
-									android.R.anim.fade_in,
-									android.R.anim.fade_out);
-							fragmentTransaction.add(
-									R.id.twitter_timeline_fragment,
-									new SearchLineFragment(),
-									SearchLineFragment.TAG);
-							fragmentTransaction.commit();
-						}
+						getActivity().startSearch(null, false, null, false);
 
 					}
 				});
@@ -120,7 +107,7 @@ public class BottomFragment extends Fragment {
 										android.R.anim.fade_out);
 						fragmentTransaction
 								.add(R.id.twitter_timeline_fragment,
-										TweetTimeLineFragment
+										TwitterDialogsFragment
 												.newInstance(
 														TwitterAPI
 																.getInstance()

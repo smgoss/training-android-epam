@@ -23,7 +23,7 @@
     <string name="save">Save</string>
     <string name="not_correct_data">May be not correct data setup on your phone</string>
     <string name="insert_sd_card">Insert SD Card</string>
-    <string name="enter_serach_query">Enter a #hashtag or keyword</string>
+    <string name="twitter_search">Enter a #hashtag or keyword</string>
     <string name="twitter">Twitter</string>
     <string name="facebook">Facebook</string>
     <string name="choise_social_network">Choise social network</string>

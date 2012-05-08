@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.FollowingAdapter;
-import com.epam.android.social.common.CommonTwitterFragment;
+import com.epam.android.social.common.fragments.CommonTwitterFragment;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 

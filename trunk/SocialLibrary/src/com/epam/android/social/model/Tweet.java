@@ -11,7 +11,6 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
 public class Tweet extends BaseModel {
-	@SuppressWarnings("unused")
 	private static final String TAG = Tweet.class.getSimpleName();
 
 	public static final IModelCreator<Tweet> MODEL_CREATOR = new IModelCreator<Tweet>() {

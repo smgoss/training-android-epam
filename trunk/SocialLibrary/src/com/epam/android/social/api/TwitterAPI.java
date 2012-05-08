@@ -82,7 +82,11 @@ public class TwitterAPI {
 	}
 
 	public String getDirectMessages() {
-		return "https://api.twitter.com/1/direct_messages.json?count=20&page=";
+		return "https://api.twitter.com/1/direct_messages.json?count=20&include_entities=true&page=";
+	}
+	
+	public String getDirectMessagesWithUser(long id){
+		return "https://api.twitter.com/1/direct_messages/show/" + id;
 	}
 	
 	// TODO it's method load only 100 users
