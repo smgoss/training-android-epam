@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.epam.android.common.utils.GetSystemService;
 import com.epam.android.social.R;
 import com.google.android.imageloader.ImageLoader;
 import com.google.android.imageloader.ImageLoader.Callback;
@@ -26,9 +27,9 @@ public class ImageGetHelper {
 
 	private static final String TAG = ImageGetHelper.class.getSimpleName();
 
-	private static Context context;
+	private Context context;
 
-	private static String filePath = "%s/";
+	private String filePath = "%s/";
 
 	private static ImageGetHelper instance;
 
@@ -44,10 +45,10 @@ public class ImageGetHelper {
 	}
 
 	private ImageGetHelper(Context context) {
-		ImageGetHelper.context = context;
+		this.context = context;
 	}
 
-	private static void saveBitmap(Bitmap bitmap, String fileName) {
+	private void saveBitmap(Bitmap bitmap, String fileName) {
 		OutputStream outStream = null;
 		if (Environment.getExternalStorageDirectory().canWrite()) {
 			filePath = String.format(filePath,
@@ -69,21 +70,21 @@ public class ImageGetHelper {
 		}
 	}
 
-	public static void setAvatar(final String fileName,
+	public void setAvatar(final String url,
 			final ImageView imageView) {
 
-		if (getAvatarFromSdCard(String.valueOf(fileName.hashCode()), imageView) != null) {
+		if (getAvatarFromSdCard(String.valueOf(url.hashCode()), imageView) != null) {
 			imageView.setImageBitmap(getAvatarFromSdCard(
-					String.valueOf(fileName.hashCode()), imageView));
+					String.valueOf(url.hashCode()), imageView));
 		} else {
-			ImageLoader imageLoader = new ImageLoader();
-			imageLoader.bind(imageView, fileName, new Callback() {
+			ImageLoader imageLoader = (ImageLoader) GetSystemService.get(context, ImageLoader.IMAGE_LOADER_SERVICE);
+			imageLoader.bind(imageView, url, new Callback() {
 
 				@Override
 				public void onImageLoaded(ImageView view, String url) {
 					saveBitmap(
 							((BitmapDrawable) view.getDrawable()).getBitmap(),
-							String.valueOf(fileName.hashCode()));
+							String.valueOf(url.hashCode()));
 				}
 
 				@Override
@@ -97,7 +98,7 @@ public class ImageGetHelper {
 
 	}
 
-	private static Bitmap getAvatarFromSdCard(String fileName,
+	private Bitmap getAvatarFromSdCard(String fileName,
 			ImageView imageView) {
 		if (Environment.getExternalStorageDirectory().canRead()) {
 			filePath = String.format(filePath,

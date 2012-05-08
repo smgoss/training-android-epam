@@ -17,6 +17,7 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.epam.android.social.helper.DataConvertHelper;
 import com.epam.android.social.model.Tweet;
+import com.google.android.imageloader.ImageLoader;
 
 public class TweetAdapter extends AbstractAdapter<Tweet> {
 
@@ -38,8 +39,7 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 	@Override
 	public void init(View view, Tweet item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		mImageLoader.bind(this, userAvatar, item.getProfileUrl());
-
+		mImageLoader.setAvatar(item.getProfileUrl(), userAvatar);
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getUserName());
 

@@ -77,7 +77,7 @@ private static final int loadedItems = 20;
 			setList(currentList);
 		} else {
 			currentList.addAll(result);
-			if(result.size() != loadedItems){
+			if(result.size() < loadedItems){
 				hideLoadMoreButton();
 			}
 			adapter.notifyDataSetChanged();
@@ -100,7 +100,7 @@ private static final int loadedItems = 20;
 	@Override
 	public <B extends BaseModel> void setList(List<B> list) {
 		adapter = createAdapter(list);
-		if (list.size() == loadedItems) {
+		if (list.size() >= loadedItems) {
 			getListView().addFooterView(loadMore);
 		}
 		getListView().setAdapter(adapter);

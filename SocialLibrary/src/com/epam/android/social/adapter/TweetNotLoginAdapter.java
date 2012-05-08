@@ -25,8 +25,7 @@ public class TweetNotLoginAdapter extends AbstractAdapter<TweetNotLogin> {
 	@Override
 	public void init(View view, TweetNotLogin item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		mImageLoader.bind(this, userAvatar, item.getProfileUrl());
-
+		mImageLoader.setAvatar(item.getProfileUrl(), userAvatar);
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getUserName());
 

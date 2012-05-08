@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
+import com.epam.android.social.helper.ImageGetHelper;
 import com.google.android.imageloader.ImageLoader;
 
 public abstract class AbstractAdapter<T> extends BaseAdapter {
@@ -29,14 +30,13 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 
 	private int currentPosition = 0;
 
-	protected ImageLoader mImageLoader;
+	protected ImageGetHelper mImageLoader;
 
 	public AbstractAdapter(Context c, int pItemResource, List<T> pList) {
 		mList = pList;
 		mContext = c;
 		mItemResource = pItemResource;
-		mImageLoader = (ImageLoader) c.getApplicationContext()
-				.getSystemService(ImageLoader.IMAGE_LOADER_SERVICE);
+		mImageLoader = ImageGetHelper.getInstance();
 	}
 
 	public int getCount() {
@@ -88,26 +88,4 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 		this.mList.remove(position);
 	}
 	
-	public static <B extends AbstractAdapter> IAdapterCreator<B> getAdapterCreatorFromTemplate(
-			Object object) {
- 		Class someClass = (Class) ((ParameterizedType) object.getClass()
- 				.getGenericSuperclass()).getActualTypeArguments()[0];
-		Log.d(TAG, someClass.getCanonicalName());
-		Field modelCreator = someClass.getDeclaredFields()[1];
-		
-		Field temp = ((Class) object.getClass().getDeclaredFields()[1].getGenericType()).getDeclaredFields()[0];
-		
-		
-		try {
-			return (IAdapterCreator<B>) temp.get(object);
-		} catch (IllegalArgumentException e) {
-			// TODO Error in getModelCreatorFromTemplate
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Error in getModelCreatorFromTemplate
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 }
