@@ -12,7 +12,7 @@ import com.epam.android.common.task.LoadModelAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.adapter.FollowingAdapter;
 import com.epam.android.social.api.TwitterAPI;
-import com.epam.android.social.common.DelegateFragmentWithCustomLoad;
+import com.epam.android.social.common.fragments.DelegateFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 import com.epam.android.social.model.PreFollowing;

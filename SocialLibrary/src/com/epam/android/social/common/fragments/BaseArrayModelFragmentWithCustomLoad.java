@@ -1,4 +1,4 @@
-package com.epam.android.social.common;
+package com.epam.android.social.common.fragments;
 
 import android.os.Bundle;
 import android.view.View;

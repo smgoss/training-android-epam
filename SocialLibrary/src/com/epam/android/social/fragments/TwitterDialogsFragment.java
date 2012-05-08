@@ -7,21 +7,21 @@ import android.widget.BaseAdapter;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
-import com.epam.android.social.adapter.TweetAdapter;
+import com.epam.android.social.adapter.TwitterDialogsAdapter;
 import com.epam.android.social.common.fragments.CommonTwitterFragment;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.model.Tweet;
+import com.epam.android.social.model.TwitterDialogs;
 
-public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
+public class TwitterDialogsFragment extends CommonTwitterFragment<TwitterDialogs>{
 
-	private static final String TAG = TweetTimeLineFragment.class
+	private static final String TAG = TwitterDialogsFragment.class
 			.getSimpleName();
 
 	
-	public static TweetTimeLineFragment newInstance(String query,
+	public static TwitterDialogsFragment newInstance(String query,
 			String accountName) {
 		Bundle bundle = new Bundle();
-		TweetTimeLineFragment fragment = new TweetTimeLineFragment();
+		TwitterDialogsFragment fragment = new TwitterDialogsFragment();
 		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, accountName);
 		fragment.setArguments(bundle);
@@ -29,16 +29,15 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 	}
 
 	
-	private TweetTimeLineFragment() {
+	private TwitterDialogsFragment() {
 
 	}
-
-	@SuppressWarnings("unchecked")
+	
+	
 	@Override
 	public BaseAdapter createAdapter(List<? extends BaseModel> list) {
-		return new TweetAdapter(getContext(), R.layout.tweet,
-				(List<Tweet>) list);
+		return new TwitterDialogsAdapter(getContext(), R.layout.tweet,
+				(List<TwitterDialogs>) list);
 	}
-
 
 }

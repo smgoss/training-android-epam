@@ -1,10 +1,9 @@
-package com.epam.android.social.common;
+package com.epam.android.social.common.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,12 +13,11 @@ import android.widget.Button;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.fragments.TweetTimeLineFragment;
 
-public abstract class CommonTwitterFragment<T extends BaseModel> extends
-		BaseArrayModelFragmentWithCustomLoadAndSaveItems<T> {
+public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
+		extends BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<T> {
 
-	private static final String TAG = CommonTwitterFragment.class
+	private static final String TAG = CommonTwitterByAnnotationFragment.class
 			.getSimpleName();
 
 	private Button loadMore;
@@ -31,6 +29,10 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	private BaseAdapter adapter;
 
 	private int loadedPage = 1;
+	
+private static final int loadedItems = 20;
+	
+	private static final int loadMoreButtonID = 444;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,23 +71,25 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	@Override
 	protected void success(List<T> result) {
-		if (result.size() < 20) {
-			hideLoadMoreButton();
-		}
 		if (currentList == null) {
 			currentList = new ArrayList<T>();
 			currentList.addAll(result);
 			setList(currentList);
 		} else {
 			currentList.addAll(result);
+			if(result.size() != loadedItems){
+				hideLoadMoreButton();
+			}
 			adapter.notifyDataSetChanged();
 		}
 	}
 
 	private void hideLoadMoreButton() {
-		loadMore.setVisibility(View.INVISIBLE);
+		if(loadMore!=null && getView().findViewById(loadMoreButtonID) != null){
+			getListView().removeView(loadMore);
+		}
 	}
-
+	
 	@Override
 	public int getLayoutResource() {
 		return R.layout.load_array_model;
@@ -96,7 +100,9 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public <B extends BaseModel> void setList(List<B> list) {
 		adapter = createAdapter(list);
-		getListView().addFooterView(loadMore);
+		if (list.size() == loadedItems) {
+			getListView().addFooterView(loadMore);
+		}
 		getListView().setAdapter(adapter);
 
 	}

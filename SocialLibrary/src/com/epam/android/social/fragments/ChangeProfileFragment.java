@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.epam.android.common.task.HttpPostAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
-import com.epam.android.social.common.BaseArrayModelFragmentWithCustomLoad;
+import com.epam.android.social.common.fragments.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.model.ProfileInfo;
