@@ -30,11 +30,24 @@
         <activity
             android:name=".SearchFragmentActivity"
             android:configChanges="orientation"
-            android:theme="@style/Theme.PageIndicatorDefaults" />
+            android:noHistory="true"
+            android:theme="@style/Theme.PageIndicatorDefaults" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".TwitterTimeLineFragmentActivity"
             android:configChanges="orientation"
-            android:theme="@style/Theme.PageIndicatorDefaults" />
+            android:theme="@style/Theme.PageIndicatorDefaults" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchFragmentActivity" />
+        </activity>
         <activity
             android:name=".FacebookTimeLineFragmentActivity"
             android:configChanges="orientation"
@@ -43,6 +56,10 @@
             android:name=".facebook.ListStatusesActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
+
+        <provider
+            android:name=".common.providers.SearchProvider"
+            android:authorities="com.epam.android.social.common.providers.SearchProvider" />
     </application>
 
 </manifest>
