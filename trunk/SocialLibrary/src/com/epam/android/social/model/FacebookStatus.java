@@ -12,43 +12,43 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
 @Tag(keys = { "data", "paging" }, types = { JSON.JSONArray, JSON.JSONObject })
-public class StatusFacebook extends BaseModel {
+public class FacebookStatus extends BaseModel {
 
 	@SuppressWarnings("unused")
-	private static final String TAG = StatusFacebook.class.getSimpleName();
+	private static final String TAG = FacebookStatus.class.getSimpleName();
 
-	public static final IModelCreator<StatusFacebook> MODEL_CREATOR = new IModelCreator<StatusFacebook>() {
+	public static final IModelCreator<FacebookStatus> MODEL_CREATOR = new IModelCreator<FacebookStatus>() {
 
-		public StatusFacebook create(JSONObject jsonObject) {
-			return new StatusFacebook(jsonObject);
+		public FacebookStatus create(JSONObject jsonObject) {
+			return new FacebookStatus(jsonObject);
 		}
 
 	};
 
-	public static final Parcelable.Creator<StatusFacebook> CREATOR = new Creator<StatusFacebook>() {
+	public static final Parcelable.Creator<FacebookStatus> CREATOR = new Creator<FacebookStatus>() {
 
-		public StatusFacebook[] newArray(int size) {
-			return new StatusFacebook[size];
+		public FacebookStatus[] newArray(int size) {
+			return new FacebookStatus[size];
 		}
 
-		public StatusFacebook createFromParcel(Parcel in) {
-			return new StatusFacebook(in);
+		public FacebookStatus createFromParcel(Parcel in) {
+			return new FacebookStatus(in);
 		}
 	};
 
-	public StatusFacebook() {
+	public FacebookStatus() {
 		super();
 	}
 
-	public StatusFacebook(JSONObject json) {
+	public FacebookStatus(JSONObject json) {
 		super(json);
 	}
 
-	public StatusFacebook(Parcel in) {
+	public FacebookStatus(Parcel in) {
 		super(in);
 	}
 
-	public StatusFacebook(String json) {
+	public FacebookStatus(String json) {
 		super(json);
 	}
 

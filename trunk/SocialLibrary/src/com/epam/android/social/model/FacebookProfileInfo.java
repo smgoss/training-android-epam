@@ -1,11 +1,9 @@
 package com.epam.android.social.model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;

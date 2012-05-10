@@ -27,7 +27,7 @@ public class FacebookAPI {
 	}
 
 	public String getFullProfileInfo(String profileName) {
-		return "";
+		return "https://graph.facebook.com/me?access_token=";
 	}
 
 	public String getUserAvatar(String userScreenName) {
