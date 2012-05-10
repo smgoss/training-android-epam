@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="6dp" >
 
         <TextView
             android:id="@+id/userName"
@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_weight="1"
-            android:text="USER" />
+            android:text="USER"
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/postDate"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:ellipsize="end"
-            android:text="DATE" />
+            android:text="DATE"
+            android:textSize="14dp" />
     </LinearLayout>
 
     <TextView
@@ -35,7 +37,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:padding="10dp"
-        android:text="TEXT" />
+        android:padding="6dp"
+        android:text="TEXT"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/tvPlaceName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Location name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </LinearLayout>

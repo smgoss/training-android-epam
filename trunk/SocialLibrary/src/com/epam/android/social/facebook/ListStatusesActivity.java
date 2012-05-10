@@ -18,7 +18,7 @@ public class ListStatusesActivity extends
 
 	private ListView mListView;
 
-	private ArrayModelListAdapter adapter;
+	private StatusArrayModelListAdapter adapter;
 
 	@Override
 	public String getUrl() {
@@ -35,7 +35,7 @@ public class ListStatusesActivity extends
 	@Override
 	protected void success(List<StatusFacebook> result) {
 		mListView = (ListView) findViewById(R.id.lvStatuses);
-		adapter = new ArrayModelListAdapter(ListStatusesActivity.this,
+		adapter = new StatusArrayModelListAdapter(ListStatusesActivity.this,
 				R.layout.load_model, result);
 		mListView.setAdapter(adapter);
 
