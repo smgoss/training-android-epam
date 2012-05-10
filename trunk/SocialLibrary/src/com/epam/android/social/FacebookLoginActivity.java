@@ -60,9 +60,7 @@ public class FacebookLoginActivity extends Activity {
 						helper.saveToken(url);
 						webView.setVisibility(WebView.INVISIBLE);
 						AddAccountsFragment.getLogin().onSuccessLogin(
-								helper.getUserName(),
-								helper.getAvatarDrawable(),
-								AccountType.TWITTER, null);
+								helper.getAccount());
 						Intent intent = new Intent(getApplicationContext(),
 								ListStatusesActivity.class);
 						intent.putExtra("token", helper.getToken());

@@ -5,12 +5,12 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
 
 public class StatusFacebook extends BaseModel {
+
 	@SuppressWarnings("unused")
 	private static final String TAG = StatusFacebook.class.getSimpleName();
 
@@ -49,55 +49,11 @@ public class StatusFacebook extends BaseModel {
 		super(json);
 	}
 
-	public String getId() {
-		return getString("id");
+	public String getName() {
+		return getString("name");
 	}
 
-	public String getProfileUrl() {
-		try {
-			return getJSONObject().getJSONObject("user").getString(
-					"profile_image_url");
-		} catch (JSONException e) {
-			Log.e(TAG, "error on json when get Profile Url", e);
-		}
-
-		return "";
-	}
-
-	public String getPublicdDate() {
-		return getString("updated_time");
-	}
-
-	public String getFromUserName() {
-		try {
-			return getJSONObject().getJSONObject("from").getString("name");
-		} catch (JSONException e) {
-			Log.e(TAG, "error on json when get Profile Url", e);
-		}
-
-		return "";
-	}
-
-	public String getFromUserId() {
-		try {
-			return getJSONObject().getJSONObject("from").getString("id");
-		} catch (JSONException e) {
-			Log.e(TAG, "error on json when get Profile Url", e);
-		}
-
-		return "";
-	}
-
-	public String getUserName() {
-		try {
-			return getJSONObject().getJSONObject("user").getString("name");
-		} catch (JSONException e) {
-			Log.e(TAG, "error on gson when get User Name", e);
-		}
-		return "";
-	}
-
-	public String getText() {
-		return getString("message");
+	private JSONObject getJSONData() {
+		return getJSONObject("data");
 	}
 }

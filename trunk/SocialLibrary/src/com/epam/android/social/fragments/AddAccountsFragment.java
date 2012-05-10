@@ -21,12 +21,12 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.epam.android.social.FacebookLoginActivity;
-import com.epam.android.social.FacebookTimeLineFragmentActivity;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.facebook.ListStatusesActivity;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
@@ -94,10 +94,8 @@ public class AddAccountsFragment extends Fragment {
 		login = new ILogin() {
 
 			@Override
-			public void onSuccessLogin(String accontName,
-					String accountAvatarUrl, AccountType accountType,
-					String token) {
-				addNewAccount(accontName, accountAvatarUrl, accountType, token);
+			public void onSuccessLogin(final Account account) {
+				addNewAccount(account);
 			}
 		};
 
@@ -107,16 +105,13 @@ public class AddAccountsFragment extends Fragment {
 		listAccounts = accountsListPrefs.getListAccounts();
 		if (listAccounts != null) {
 			for (Account oneAccount : listAccounts) {
-				addNewAccount(oneAccount.getUserName(),
-						oneAccount.getProfileUrl(),
-						oneAccount.getAccountType(), oneAccount.getToken());
+				addNewAccount(oneAccount);
 			}
 		}
 
 	}
 
-	private void addNewAccount(String accontName, String accountAvatarUrl,
-			final AccountType accountType, final String token) {
+	private void addNewAccount(final Account account) {
 		relativeLayout = (RelativeLayout) getView().findViewById(
 				R.id.accountLayout);
 		LayoutInflater inflater = (LayoutInflater) getActivity()
@@ -125,12 +120,19 @@ public class AddAccountsFragment extends Fragment {
 				R.layout.account, null, false);
 		TextView accountName = (TextView) layoutItem
 				.findViewById(R.id.accountName);
-		accountName.setText(accontName);
+		accountName.setText(account.getUserName());
 		ImageView accountPicture = (ImageView) layoutItem
 				.findViewById(R.id.accountPicture);
 		ImageGetHelper.getInstance()
-				.setAvatar(accountAvatarUrl, accountPicture);
-		accountPicture.setTag(accontName);
+				.setAvatar(account.getProfileUrl(), accountPicture);
+		
+		// BAG
+		if (account.getAccountType() == AccountType.FACEBOOK){
+			accountPicture.setTag(account.getToken());			
+		} else if (account.getAccountType() == AccountType.TWITTER){
+			accountPicture.setTag(account.getUserName());			
+		}
+		
 		layoutItem.setId(lastAccountPictureID);
 		accountPicture.setOnClickListener(new OnClickListener() {
 
@@ -138,11 +140,11 @@ public class AddAccountsFragment extends Fragment {
 			public void onClick(View v) {
 				try {
 					Intent intent = null;
-					if (accountType == AccountType.FACEBOOK) {
+					if (account.getAccountType() == AccountType.FACEBOOK) {
 						intent = new Intent(getView().getContext(),
-								FacebookTimeLineFragmentActivity.class);
+								ListStatusesActivity.class);
 
-					} else if (accountType == AccountType.TWITTER) {
+					} else if (account.getAccountType() == AccountType.TWITTER) {
 						TwitterOAuthHelper.getInstanse().restoreToken(
 								(String) v.getTag());
 						intent = new Intent(getView().getContext(),
@@ -151,6 +153,7 @@ public class AddAccountsFragment extends Fragment {
 					}
 					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
 							String.valueOf(v.getTag()));
+
 					startActivity(intent);
 
 				} catch (IOException e) {
@@ -182,8 +185,7 @@ public class AddAccountsFragment extends Fragment {
 	}
 
 	public static interface ILogin {
-		public void onSuccessLogin(String accontName, String accountAvatar,
-				AccountType accountType, String token);
+		public void onSuccessLogin(final Account account);
 	}
 
 	public static AddAccountsFragment.ILogin getLogin() {
