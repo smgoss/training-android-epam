@@ -60,7 +60,7 @@ public class TwitterOAuthHelper {
 
 	private String userInfoSerialized;
 
-	private Account user;
+	private Account account;
 
 	private TwitterOAuthHelper(Context context) {
 		if (instanse == null) {
@@ -165,11 +165,12 @@ public class TwitterOAuthHelper {
 			listUsers = (List<Account>) serializer
 					.deserialize(userInfoSerialized);
 		}
-		user = getUser();
-		if (!listContainUser(user.getUserName(), listUsers)) {
-			user.setToken(consumer.getToken());
-			user.setTokenSecret(consumer.getTokenSecret());
-			listUsers.add(user);
+		account = getUser();
+		if (!listContainUser(account.getUserName(), listUsers)) {
+			account.setToken(consumer.getToken());
+			account.setTokenSecret(consumer.getTokenSecret());
+			account.setAccountType(AccountType.TWITTER);
+			listUsers.add(account);
 
 			SharedPreferences.Editor editor = mContext.getSharedPreferences(
 					ApplicationConstants.SHARED_PREFERENSE,
@@ -202,12 +203,16 @@ public class TwitterOAuthHelper {
 		return null;
 	}
 
+	public Account getAccount() {
+		return account;
+	}
+	
 	public String getUserName() {
-		return user.getUserName();
+		return account.getUserName();
 	}
 
 	public String getAvatarDrawable() {
-		return user.getProfileUrl();
+		return account.getProfileUrl();
 	}
 
 	private boolean listContainUser(String userName, List<Account> list) {

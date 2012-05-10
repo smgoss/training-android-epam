@@ -45,7 +45,7 @@ public class FacebookOAuthHelper {
 
 	private String userInfoSerialized;
 
-	private Account user;
+	private Account account;
 
 	private String token;
 
@@ -130,11 +130,12 @@ public class FacebookOAuthHelper {
 			listUsers = (List<Account>) serializer
 					.deserialize(userInfoSerialized);
 		}
-		user = getUser();
-		if (!listContainUser(user.getUserName(), listUsers)) {
-			user.setToken(token);
-			user.setTokenSecret(null);
-			listUsers.add(user);
+		account = getUser();
+		if (!listContainUser(account.getUserName(), listUsers)) {
+			account.setToken(token);
+			account.setTokenSecret(null);
+			account.setAccountType(AccountType.FACEBOOK);
+			listUsers.add(account);
 
 			SharedPreferences.Editor editor = mContext.getSharedPreferences(
 					ApplicationConstants.SHARED_PREFERENSE,
@@ -167,13 +168,7 @@ public class FacebookOAuthHelper {
 		return null;
 	}
 
-	public String getUserName() {
-		return user.getUserName();
-	}
-
-	public String getAvatarDrawable() {
-		return user.getProfileUrl();
-	}
+	
 
 	private boolean listContainUser(String userName, List<Account> list) {
 		for (int i = 0; i < list.size(); i++) {
@@ -184,15 +179,15 @@ public class FacebookOAuthHelper {
 		return false;
 	}
 
-	public static Bundle decodeUrl(String s) {
+	private Bundle decodeUrl(String str) {
 		Bundle params = new Bundle();
-		if (s != null) {
-			String array[] = s.split("&");
+		if (str != null) {
+			String array[] = str.split("&");
 			for (String parameter : array) {
-				String v[] = parameter.split("=");
-				if (v.length == 2) {
-					params.putString(URLDecoder.decode(v[0]),
-							URLDecoder.decode(v[1]));
+				String sstr[] = parameter.split("=");
+				if (sstr.length == 2) {
+					params.putString(URLDecoder.decode(sstr[0]),
+							URLDecoder.decode(sstr[1]));
 				}
 			}
 		}
@@ -201,5 +196,17 @@ public class FacebookOAuthHelper {
 
 	public String getToken() {
 		return token;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+	
+	public String getUserName() {
+		return account.getUserName();
+	}
+
+	public String getAvatarDrawable() {
+		return account.getProfileUrl();
 	}
 }

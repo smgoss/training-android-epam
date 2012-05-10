@@ -1,49 +1,48 @@
 package com.epam.android.social.facebook;
 
-import java.io.IOException;
+import java.util.List;
 
-import org.apache.http.client.ClientProtocolException;
-
-import com.epam.android.common.http.Loader;
-import com.epam.android.social.api.FacebookAPI;
-import com.epam.android.social.model.Account;
-
-import android.app.ListActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ListStatusesActivity extends ListActivity {
+import com.epam.android.common.BaseModelActivity;
+import com.epam.android.social.R;
+import com.epam.android.social.api.FacebookAPI;
+import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.model.StatusFacebook;
 
-	private ListView lv;
-	private String token;
+public class ListStatusesActivity extends
+		BaseModelActivity<StatusFacebook> {
+
+	private static final String TAG = ListStatusesActivity.class
+			.getSimpleName();
+
+	private ListView mListView;
+
+	private ArrayModelListAdapter adapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		lv = getListView();
-		token = getIntent().getStringExtra("token");
-		Toast.makeText(this, getUser(), 1).show();
+	public String getUrl() {
+		// return "http://dl.dropbox.com/u/16403954/array_bm.json";
+		return FacebookAPI.getInstance().getUser()
+				+ getIntent().getStringExtra(
+						ApplicationConstants.ARG_PROFILE_NAME);
 	}
 
-	private String getUser() {
-		Loader loader = Loader.get(this);
-		String oneUser;
-		try {
-			oneUser = loader.execute(FacebookAPI.getInstance().getStatuses()
-					+ token);
-			return oneUser;
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		return null;
+	@Override
+	public int getLayoutResource() {
+		return R.layout.statuses;
+	}
 
+	@Override
+	protected void success(StatusFacebook result) {
+		mListView = (ListView) findViewById(R.id.lvStatuses);
+		Toast.makeText(ListStatusesActivity.this, result.getName(), 1).show();
+//		adapter = new ArrayModelListAdapter(ListStatusesActivity.this,
+//				R.layout.load_model, result);
+//		mListView.setAdapter(adapter);
+		
 	}
 
 }
