@@ -100,7 +100,7 @@ public class FacebookOAuthHelper {
 				+ FacebookConstants.APP_ID
 				+ "&redirect_uri="
 				+ FacebookConstants.REDIRECT_URL
-				+ "&scope=user_about_me,user_status&display=touch&type=user_agent";
+				+ "&scope=user_about_me,user_status,friends_status&display=touch&type=user_agent";
 	}
 
 	public boolean isRedirectURL(String url) {
