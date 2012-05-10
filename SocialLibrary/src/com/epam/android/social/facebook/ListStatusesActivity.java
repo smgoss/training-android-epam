@@ -8,10 +8,10 @@ import com.epam.android.common.BaseArrayModelByAnnotationActivity;
 import com.epam.android.social.R;
 import com.epam.android.social.api.FacebookAPI;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.model.StatusFacebook;
+import com.epam.android.social.model.FacebookStatus;
 
 public class ListStatusesActivity extends
-		BaseArrayModelByAnnotationActivity<StatusFacebook> {
+		BaseArrayModelByAnnotationActivity<FacebookStatus> {
 
 	private static final String TAG = ListStatusesActivity.class
 			.getSimpleName();
@@ -33,10 +33,10 @@ public class ListStatusesActivity extends
 	}
 
 	@Override
-	protected void success(List<StatusFacebook> result) {
+	protected void success(List<FacebookStatus> result) {
 		mListView = (ListView) findViewById(R.id.lvStatuses);
 		adapter = new StatusArrayModelListAdapter(ListStatusesActivity.this,
-				R.layout.load_model, result);
+				R.layout.post_item, result);
 		mListView.setAdapter(adapter);
 
 	}

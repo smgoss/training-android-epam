@@ -1,11 +1,8 @@
 package com.epam.android.social.facebook;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.view.View;
@@ -14,20 +11,20 @@ import android.widget.TextView;
 import com.epam.android.common.adapter.AbstractAdapter;
 import com.epam.android.social.R;
 import com.epam.android.social.helper.DataConvertHelper;
-import com.epam.android.social.model.StatusFacebook;
+import com.epam.android.social.model.FacebookStatus;
 
 public class StatusArrayModelListAdapter extends
-		AbstractAdapter<StatusFacebook> {
+		AbstractAdapter<FacebookStatus> {
 	private static final String TAG = StatusArrayModelListAdapter.class
 			.getSimpleName();
 
 	public StatusArrayModelListAdapter(Context c, int pItemResource,
-			List<StatusFacebook> pList) {
+			List<FacebookStatus> pList) {
 		super(c, pItemResource, pList);
 	}
 
 	@Override
-	public void init(View view, StatusFacebook item) {
+	public void init(View view, FacebookStatus item) {
 
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getFromName());

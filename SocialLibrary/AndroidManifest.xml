@@ -49,11 +49,11 @@
                 android:value=".SearchFragmentActivity" />
         </activity>
         <activity
-            android:name=".FacebookTimeLineFragmentActivity"
+            android:name=".facebook.ListStatusesActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
         <activity
-            android:name=".facebook.ListStatusesActivity"
+            android:name=".facebook.UserInfoActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.PageIndicatorDefaults" />
 

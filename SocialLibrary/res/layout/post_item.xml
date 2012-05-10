@@ -39,7 +39,7 @@
         android:layout_centerVertical="true"
         android:padding="6dp"
         android:text="TEXT"
-        android:textSize="24dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/tvPlaceName"

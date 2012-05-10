@@ -26,7 +26,7 @@ import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.facebook.ListStatusesActivity;
+import com.epam.android.social.facebook.UserInfoActivity;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
@@ -142,7 +142,7 @@ public class AddAccountsFragment extends Fragment {
 					Intent intent = null;
 					if (account.getAccountType() == AccountType.FACEBOOK) {
 						intent = new Intent(getView().getContext(),
-								ListStatusesActivity.class);
+								UserInfoActivity.class);
 
 					} else if (account.getAccountType() == AccountType.TWITTER) {
 						TwitterOAuthHelper.getInstanse().restoreToken(
