@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:background="@color/silver"
+    >
+
+    <ImageView
+        android:id="@+id/actionOnTweet_answerButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/repeat_icon" />
+
+    <ImageView
+        android:id="@+id/actionOnTweet_retweetButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/actionOnTweet_answerButton"
+        android:src="@drawable/retweet_icon" />
+
+    <ImageView
+        android:id="@+id/actionOnTweet_favoriteButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="7dp"
+        android:src="@drawable/favorite2_icon" />
+
+    <ImageView
+        android:id="@+id/actionOnTweet_aboutButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@id/actionOnTweet_favoriteButton"
+        android:src="@drawable/people_icon" />
+
+    <ImageView
+        android:id="@+id/actionOnTweet_shareButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/share_icon" />
+
+</RelativeLayout>

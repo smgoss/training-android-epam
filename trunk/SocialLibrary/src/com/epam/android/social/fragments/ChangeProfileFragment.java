@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -71,10 +72,10 @@ public class ChangeProfileFragment extends
 		return fragment;
 	}
 
-	private ChangeProfileFragment(){
-		
+	private ChangeProfileFragment() {
+
 	}
-	
+
 	@Override
 	public String getUrl() {
 		return getArguments().getString(ApplicationConstants.ARG_QUERY);
@@ -263,8 +264,10 @@ public class ChangeProfileFragment extends
 	}
 
 	private void showChoiseItem() {
-		addedItem = LayoutInflater.from(getActivity()).inflate(
-				R.layout.gallery_camera_item, null);
+		if (addedItem == null) {
+			addedItem = LayoutInflater.from(getActivity()).inflate(
+					R.layout.gallery_camera_item, null);
+		}
 		mWindowParams = new WindowManager.LayoutParams();
 
 		mWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
@@ -279,8 +282,10 @@ public class ChangeProfileFragment extends
 
 		mWindowParams.width = LayoutParams.FILL_PARENT;
 
-		mWindowManager = (WindowManager) getContext()
-				.getSystemService("window");
+		if (mWindowManager == null) {
+			mWindowManager = (WindowManager) getContext().getSystemService(
+					Context.WINDOW_SERVICE);
+		}
 		mWindowManager.addView(addedItem, mWindowParams);
 
 	}
@@ -325,7 +330,8 @@ public class ChangeProfileFragment extends
 					}
 					if (imageUri == null) {
 						try {
-							imageUri = ImageGetHelper.tryGetImageFromBadDevice(getActivity());
+							imageUri = ImageGetHelper
+									.tryGetImageFromBadDevice(getActivity());
 						} catch (Exception e) {
 							Log.e("VA", "error get image uri", e);
 						}
@@ -345,7 +351,5 @@ public class ChangeProfileFragment extends
 			break;
 		}
 	}
-
-	
 
 }
