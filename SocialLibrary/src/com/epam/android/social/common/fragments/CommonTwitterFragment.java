@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.fragments.TweetTimeLineFragment;
 
 public abstract class CommonTwitterFragment<T extends BaseModel> extends
 		BaseArrayModelFragmentWithCustomLoadAndSaveItems<T> {
@@ -31,9 +30,9 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	private BaseAdapter adapter;
 
 	private int loadedPage = 1;
-		
+
 	private static final int loadedItems = 20;
-	
+
 	private static final int loadMoreButtonID = 444;
 
 	@Override
@@ -81,7 +80,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 			setList(currentList);
 		} else {
 			currentList.addAll(result);
-			if(result.size() < loadedItems){
+			if (result.size() < loadedItems) {
 				hideLoadMoreButton();
 			}
 			adapter.notifyDataSetChanged();
@@ -90,7 +89,8 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	}
 
 	private void hideLoadMoreButton() {
-		if(loadMore!=null && getView().findViewById(loadMoreButtonID) != null){
+		if (loadMore != null
+				&& getView().findViewById(loadMoreButtonID) != null) {
 			getListView().removeView(loadMore);
 		}
 	}
@@ -115,6 +115,12 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public List<T> getCurrentList() {
 		return currentList;
+	}
+
+	@Override
+	public void onRefreshStart() {
+		Toast.makeText(getContext(), "onRefreesh", Toast.LENGTH_SHORT).show();
+		onRefreshCompele();
 	}
 
 }

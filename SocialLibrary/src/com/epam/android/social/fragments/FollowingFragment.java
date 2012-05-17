@@ -16,16 +16,22 @@ import com.epam.android.social.common.fragments.DelegateFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 import com.epam.android.social.model.PreFollowing;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 
 	public static final String TAG = FollowingFragment.class.getSimpleName();
 
 	private static String followingURL;
-	
+
 	private FollowingAdapter adapter;
-	
+
 	private List<Following> followingList;
+
+	private PullToRefreshListView mPullRefreshListView;
+
+	private ListView mListView;
 
 	public static FollowingFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
@@ -34,9 +40,9 @@ public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
-	private FollowingFragment(){
-		
+
+	private FollowingFragment() {
+
 	}
 
 	@Override
@@ -53,7 +59,9 @@ public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 
 	@Override
 	public void success(Intent intent) {
-		if (isAsyncTaskResult(getArguments().getString(ApplicationConstants.ARG_QUERY), intent)) {
+		if (isAsyncTaskResult(
+				getArguments().getString(ApplicationConstants.ARG_QUERY),
+				intent)) {
 			PreFollowing preFollowing = intent
 					.getParcelableExtra(CommonAsyncTask.RESULT);
 
@@ -67,20 +75,30 @@ public class FollowingFragment extends DelegateFragmentWithCustomLoad {
 		if (isAsyncTaskResult(followingURL, intent)) {
 			followingList = intent
 					.getParcelableArrayListExtra(CommonAsyncTask.RESULT);
-			adapter = new FollowingAdapter(getView()
-					.getContext(), R.layout.follow, followingList);
-			ListView listView = (ListView) getView().findViewById(
-					R.id.array_model_list);
-			listView.setAdapter(adapter);
+			adapter = new FollowingAdapter(getView().getContext(),
+					R.layout.follow, followingList);
+			mPullRefreshListView = (PullToRefreshListView) getView()
+					.findViewById(R.id.pull_refresh_list);
+			mPullRefreshListView.setOnRefreshListener(new OnRefreshListener() {
+
+				@Override
+				public void onRefresh() {
+					mPullRefreshListView.onRefreshComplete();
+
+				}
+			});
+
+			mListView = mPullRefreshListView.getRefreshableView();
+			mListView.setAdapter(adapter);
 		}
 
 	}
-	
-	public FollowingAdapter getAdapter(){
+
+	public FollowingAdapter getAdapter() {
 		return adapter;
 	}
 
-	public List<Following> getFollowingList(){
+	public List<Following> getFollowingList() {
 		return followingList;
 	}
 

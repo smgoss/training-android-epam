@@ -26,9 +26,9 @@ public class ProfileFragment extends Fragment {
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
-	private ProfileFragment(){
-		
+
+	private ProfileFragment() {
+
 	}
 
 	@Override
@@ -43,12 +43,19 @@ public class ProfileFragment extends Fragment {
 
 		FragmentTransaction transaction = getFragmentManager()
 				.beginTransaction();
-		transaction.add(R.id.profileInfoFragment, ProfileInfoHeaderFragment
-				.newInstance(
-						TwitterAPI.getInstance().getFullProfileInfo(
-								getArguments().getString(ApplicationConstants.ARG_PROFILE_NAME)),
-						getArguments().getString(ARG_CURRENT_ACCOUNT_NAME)));
-		
+		transaction
+				.add(R.id.profileInfoFragment,
+						ProfileInfoHeaderFragment
+								.newInstance(
+										TwitterAPI
+												.getInstance()
+												.getFullProfileInfo(
+														getArguments()
+																.getString(
+																		ApplicationConstants.ARG_PROFILE_NAME)),
+										getArguments().getString(
+												ARG_CURRENT_ACCOUNT_NAME)));
+
 		transaction.commit();
 
 	}
