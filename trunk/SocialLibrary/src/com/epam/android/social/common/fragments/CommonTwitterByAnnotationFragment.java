@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
@@ -29,9 +30,9 @@ public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
 	private BaseAdapter adapter;
 
 	private int loadedPage = 1;
-	
-private static final int loadedItems = 20;
-	
+
+	private static final int loadedItems = 20;
+
 	private static final int loadMoreButtonID = 444;
 
 	@Override
@@ -77,7 +78,7 @@ private static final int loadedItems = 20;
 			setList(currentList);
 		} else {
 			currentList.addAll(result);
-			if(result.size() < loadedItems){
+			if (result.size() < loadedItems) {
 				hideLoadMoreButton();
 			}
 			adapter.notifyDataSetChanged();
@@ -85,11 +86,12 @@ private static final int loadedItems = 20;
 	}
 
 	private void hideLoadMoreButton() {
-		if(loadMore!=null && getView().findViewById(loadMoreButtonID) != null){
+		if (loadMore != null
+				&& getView().findViewById(loadMoreButtonID) != null) {
 			getListView().removeView(loadMore);
 		}
 	}
-	
+
 	@Override
 	public int getLayoutResource() {
 		return R.layout.load_array_model;
@@ -110,6 +112,12 @@ private static final int loadedItems = 20;
 	@Override
 	public List<T> getCurrentList() {
 		return currentList;
+	}
+
+	@Override
+	public void onRefreshStart() {
+		Toast.makeText(getContext(), "onRefreesh", Toast.LENGTH_SHORT).show();
+		onRefreshCompele();
 	}
 
 }

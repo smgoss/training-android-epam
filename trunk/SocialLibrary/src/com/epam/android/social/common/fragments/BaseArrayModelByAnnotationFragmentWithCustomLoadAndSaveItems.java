@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import com.epam.android.common.BaseArrayModelByAnnotationFragment;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<B extends BaseModel>
 		extends BaseArrayModelByAnnotationFragment<B> {
@@ -22,7 +24,9 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 	private boolean isLoading;
 
 	private ListView mListView;
-	
+
+	private PullToRefreshListView mPullRefreshListView;
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -63,7 +67,6 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 
 		isLoading = false;
 	}
-	
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -89,7 +92,18 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mListView = (ListView) getView().findViewById(R.id.array_model_list);
+		mPullRefreshListView = (PullToRefreshListView) getView().findViewById(
+				R.id.pull_refresh_list);
+		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener() {
+
+			@Override
+			public void onRefresh() {
+				onRefreshStart();
+
+			}
+		});
+
+		mListView = mPullRefreshListView.getRefreshableView();
 		if (savedInstanceState != null) {
 			restoreFragment(savedInstanceState);
 		}
@@ -100,9 +114,14 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 		return mListView;
 	}
 
-	public abstract <B extends BaseModel> void setList(List<B> list);
+	protected void onRefreshCompele() {
+		mPullRefreshListView.onRefreshComplete();
+	}
 	
-	public abstract List<B> getCurrentList();
+	public abstract <B extends BaseModel> void setList(List<B> list);
 
+	public abstract List<B> getCurrentList();
+	
+	public abstract void onRefreshStart();
 
 }
