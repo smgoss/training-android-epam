@@ -4,6 +4,7 @@
     <style name="ApplicationTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:listViewStyle">@style/ListViewStyle</item>
         <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:windowBackground">@drawable/bg_gradient</item>
     </style>
 
 </resources>

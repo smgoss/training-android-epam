@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <include
-        android:id="@+id/twitter_main_logo"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.14" />
+
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        layout="@layout/logo" />
+        android:layout_height="0dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.10"
+        android:text="@string/app_name"
+        android:textColor="@color/blue"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:id="@+id/accountLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.23" >
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/twitter_main_logo"
-        android:background="@drawable/account_background"
-        android:orientation="horizontal" >
+        android:layout_height="0dip"
+        android:layout_weight="0.52"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-        <fragment
+        <Button
+            style="@style/AddAccountButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_splash"
+            android:onClick="onAddAccountClick"
+            android:text="@string/add_account_button" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            class="com.epam.android.social.fragments.AddAccountsFragment" />
+            android:background="@drawable/bg_circles" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

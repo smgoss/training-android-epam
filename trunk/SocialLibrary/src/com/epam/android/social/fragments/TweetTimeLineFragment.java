@@ -2,12 +2,8 @@ package com.epam.android.social.fragments;
 
 import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -23,12 +19,6 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 
 	private static final String TAG = TweetTimeLineFragment.class
 			.getSimpleName();
-
-	private View actionView;
-
-	private WindowManager mWindowManager;
-
-	private WindowManager.LayoutParams mWindowParams;
 
 	public static TweetTimeLineFragment newInstance(String query,
 			String accountName) {
@@ -53,43 +43,10 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// addActionTweetView(view);
 			}
 
 		});
 	}
-
-	// private void addActionTweetView(View view) {
-	// if (actionView == null) {
-	// actionView = LayoutInflater.from(getActivity()).inflate(
-	// R.layout.action_on_tweet, null);
-	// }
-	//
-	// if (mWindowManager == null) {
-	// mWindowManager = (WindowManager) getContext().getSystemService(
-	// Context.WINDOW_SERVICE);
-	// }
-	//
-	// mWindowParams = new WindowManager.LayoutParams();
-	//
-	// mWindowParams.alpha = 0.9f;
-	// // mWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
-	// mWindowParams.x = view.getScrollX();
-	//
-	// mWindowParams.y = view.getScrollY();
-	//
-	// mWindowParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-	// | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-	// mWindowParams.height = view.getHeight();
-	//
-	// mWindowParams.width = LayoutParams.FILL_PARENT;
-	//
-	// mWindowManager.addView(actionView, mWindowParams);
-	// }
-	//
-	// private void removeActionTweetView() {
-	//
-	// }
 
 	@SuppressWarnings("unchecked")
 	@Override

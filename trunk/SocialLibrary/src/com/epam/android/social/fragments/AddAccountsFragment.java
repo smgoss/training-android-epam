@@ -3,30 +3,25 @@ package com.epam.android.social.fragments;
 import java.io.IOException;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.epam.android.social.FacebookLoginActivity;
 import com.epam.android.social.R;
-import com.epam.android.social.TwitterLoginActivity;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
-import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.facebook.UserInfoActivity;
 import com.epam.android.social.helper.ImageGetHelper;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
@@ -34,15 +29,9 @@ import com.epam.android.social.prefs.AccountsListPrefs;
 
 public class AddAccountsFragment extends Fragment {
 
-	private static final String TAG = AddAccountsFragment.class.getSimpleName();
-
-	private RelativeLayout relativeLayout;
-
-	private ImageButton addAccountButton;
+	public static final String TAG = AddAccountsFragment.class.getSimpleName();
 
 	private int lastAccountPictureID = 100500;
-
-	private boolean isFirst = true;
 
 	private static AddAccountsFragment.ILogin login;
 
@@ -50,46 +39,27 @@ public class AddAccountsFragment extends Fragment {
 
 	private List<Account> listAccounts;
 
+	private boolean isFirst = true;
+
+	private static AddAccountsFragment instance;
+
+	public static AddAccountsFragment getInstance() {
+		if (instance == null) {
+			instance = new AddAccountsFragment();
+		}
+
+		return instance;
+	}
+
+	private AddAccountsFragment() {
+
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		accountsListPrefs = AccountsListPrefs.getInstanse();
 		restoreAccounts();
-		addAccountButton = (ImageButton) getView().findViewById(
-				R.id.accountPicture);
-		addAccountButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				new AlertDialog.Builder(getView().getContext())
-						.setTitle(
-								getResources().getString(
-										R.string.choise_social_network))
-						.setPositiveButton(
-								getResources().getString(R.string.facebook),
-								new DialogInterface.OnClickListener() {
-
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										startActivity(new Intent(getView()
-												.getContext(),
-												FacebookLoginActivity.class));
-
-									}
-								})
-						.setNegativeButton(
-								getResources().getString(R.string.twitter),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										startActivity(new Intent(getView()
-												.getContext(),
-												TwitterLoginActivity.class));
-									}
-								}).create().show();
-
-			};
-		});
 
 		login = new ILogin() {
 
@@ -112,45 +82,38 @@ public class AddAccountsFragment extends Fragment {
 	}
 
 	private void addNewAccount(final Account account) {
-		relativeLayout = (RelativeLayout) getView().findViewById(
+		LinearLayout accountLayout = (LinearLayout) getActivity().findViewById(
 				R.id.accountLayout);
-		LayoutInflater inflater = (LayoutInflater) getActivity()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		RelativeLayout layoutItem = (RelativeLayout) inflater.inflate(
-				R.layout.account, null, false);
-		TextView accountName = (TextView) layoutItem
+
+		LinearLayout accountItem = (LinearLayout) LayoutInflater.from(
+				getActivity()).inflate(R.layout.account_item, null, false);
+
+		TextView accountName = (TextView) accountItem
 				.findViewById(R.id.accountName);
-		accountName.setText(account.getUserName());
-		ImageView accountPicture = (ImageView) layoutItem
+
+		ImageView accountPicture = (ImageView) accountItem
 				.findViewById(R.id.accountPicture);
-		ImageGetHelper.getInstance()
-				.setAvatar(account.getProfileUrl(), accountPicture);
-		
-		// BAG
-		if (account.getAccountType() == AccountType.FACEBOOK){
-			accountPicture.setTag(account.getToken());			
-		} else if (account.getAccountType() == AccountType.TWITTER){
-			accountPicture.setTag(account.getUserName());			
-		}
-		
-		layoutItem.setId(lastAccountPictureID);
+
+		accountName.setText(account.getUserName());
+
+		ImageGetHelper.getInstance().setAvatar(account.getProfileUrl(),
+				accountPicture);
+
+		accountItem.setId(lastAccountPictureID);
+
+		accountPicture.setTag(account.getUserName());
+
 		accountPicture.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				try {
 					Intent intent = null;
-					if (account.getAccountType() == AccountType.FACEBOOK) {
-						intent = new Intent(getView().getContext(),
-								UserInfoActivity.class);
+					TwitterOAuthHelper.getInstanse().restoreToken(
+							(String) v.getTag());
+					intent = new Intent(getActivity(),
+							TwitterTimeLineFragmentActivity.class);
 
-					} else if (account.getAccountType() == AccountType.TWITTER) {
-						TwitterOAuthHelper.getInstanse().restoreToken(
-								(String) v.getTag());
-						intent = new Intent(getView().getContext(),
-								TwitterTimeLineFragmentActivity.class);
-
-					}
 					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
 							String.valueOf(v.getTag()));
 
@@ -163,25 +126,22 @@ public class AddAccountsFragment extends Fragment {
 				}
 			}
 		});
-		RelativeLayout.LayoutParams layoutParams = new LayoutParams(
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
+				RelativeLayout.LayoutParams.WRAP_CONTENT, 1f);
 
-		if (isFirst) {
-			layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.accountPicture);
-			isFirst = false;
-		} else {
-			layoutParams.addRule(RelativeLayout.RIGHT_OF,
-					lastAccountPictureID - 1);
-		}
-		relativeLayout.addView(layoutItem, layoutParams);
+		// if (isFirst) {
+		// layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL,
+		// lastAccountPictureID);
+		// layoutParams.
+		// isFirst = false;
+		// } else {
+		// layoutParams.addRule(RelativeLayout.RIGHT_OF,
+		// lastAccountPictureID - 1);
+		// }
+
+		accountLayout.addView(accountItem, layoutParams);
 		lastAccountPictureID++;
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.account, null, false);
 	}
 
 	public static interface ILogin {

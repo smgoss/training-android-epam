@@ -10,5 +10,7 @@ public class ApplicationConstants {
 	public static final String ARG_PROFILE_NAME = "profile_name";
 
 	public static final String ARG_QUERY = "query";
+	
+	public static final String REFRESH = "refresh";
 
 }

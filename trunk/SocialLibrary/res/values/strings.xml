@@ -5,7 +5,7 @@
     <string name="not_internet">No Internet Connection</string>
     <string name="cancel">Cancel</string>
     <string name="tweet">Tweet</string>
-    <string name="add_account_button">Add Acc</string>
+    <string name="add_account_button">Add new account</string>
     <string name="you_loggined_on_this_account">You loggined on this account</string>
     <string name="tweets">Tweets</string>
     <string name="following">Following</string>
