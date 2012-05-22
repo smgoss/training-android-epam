@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AccountTextStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="AddAccountButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AccountPictureStyle" parent="@android:style/Widget.ImageButton">
+        <item name="android:background">@drawable/rectangle_rounded_all</item>
+    </style>
+
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
         <item name="android:divider">@color/red</item>
@@ -36,8 +49,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18dp</item>
     </style>
-
-
 
     <style name="Toast" parent="MatchParent">
         <item name="android:background">@drawable/bg_toast</item>

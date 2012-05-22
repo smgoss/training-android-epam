@@ -206,7 +206,7 @@ public class TwitterOAuthHelper {
 	public Account getAccount() {
 		return account;
 	}
-	
+
 	public String getUserName() {
 		return account.getUserName();
 	}
@@ -223,6 +223,5 @@ public class TwitterOAuthHelper {
 		}
 		return false;
 	}
-
 
 }
