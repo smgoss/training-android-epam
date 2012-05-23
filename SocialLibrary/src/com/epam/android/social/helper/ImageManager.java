@@ -1,113 +1,48 @@
 package com.epam.android.social.helper;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.epam.android.common.utils.GetSystemService;
-import com.epam.android.social.R;
-import com.google.android.imageloader.ImageLoader;
-import com.google.android.imageloader.ImageLoader.Callback;
+public class ImageManager {
 
-public class ImageGetHelper {
+	private static final String TAG = ImageManager.class.getSimpleName();
 
-	private static final String TAG = ImageGetHelper.class.getSimpleName();
+	private static Context mContext;
 
-	private Context context;
+	private static ImageManager instance;
 
-	private String filePath = "%s/";
-
-	private static ImageGetHelper instance;
-
-	public static ImageGetHelper newInstance(Context context) {
+	public static ImageManager newInstance(Context context) {
 		if (instance == null) {
-			instance = new ImageGetHelper(context);
+			instance = new ImageManager(context);
 		}
 		return instance;
 	}
 
-	public static ImageGetHelper getInstance() {
+	public static ImageManager getInstance() {
 		return instance;
 	}
 
-	private ImageGetHelper(Context context) {
-		this.context = context;
-	}
-
-	private void saveBitmap(Bitmap bitmap, String fileName) {
-		OutputStream outStream = null;
-		if (Environment.getExternalStorageDirectory().canWrite()) {
-			filePath = String.format(filePath,
-					context.getExternalFilesDir(null));
-			File file = new File(filePath, fileName);
-			if (file != null) {
-				try {
-					outStream = new FileOutputStream(file);
-					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-					outStream.flush();
-					outStream.close();
-
-				} catch (FileNotFoundException e) {
-					Log.e(TAG, "File not found error", e);
-				} catch (IOException e) {
-					Log.e(TAG, "IO exeption", e);
-				}
-			}
-		}
-	}
-
-	public void setAvatar(final String url,
-			final ImageView imageView) {
-
-		if (getAvatarFromSdCard(String.valueOf(url.hashCode()), imageView) != null) {
-			imageView.setImageBitmap(getAvatarFromSdCard(
-					String.valueOf(url.hashCode()), imageView));
-		} else {
-			ImageLoader imageLoader = (ImageLoader) GetSystemService.get(context, ImageLoader.IMAGE_LOADER_SERVICE);
-			imageLoader.bind(imageView, url, new Callback() {
-
-				@Override
-				public void onImageLoaded(ImageView view, String url) {
-					saveBitmap(
-							((BitmapDrawable) view.getDrawable()).getBitmap(),
-							String.valueOf(url.hashCode()));
-				}
-
-				@Override
-				public void onImageError(ImageView view, String url,
-						Throwable error) {
-					imageView.setImageDrawable(context.getResources()
-							.getDrawable(R.drawable.ic_launcher));
-				}
-			});
-		}
-
-	}
-
-	private Bitmap getAvatarFromSdCard(String fileName,
-			ImageView imageView) {
-		if (Environment.getExternalStorageDirectory().canRead()) {
-			filePath = String.format(filePath,
-					context.getExternalFilesDir(null));
-			Bitmap bitmap = BitmapFactory.decodeFile(filePath + fileName);
-			return bitmap;
-		} else {
-			return null;
-		}
+	private ImageManager(Context context) {
+		ImageManager.mContext = context;
 	}
 
 	public static Uri tryGetImageFromBadDevice(Activity activity) {
@@ -193,6 +128,93 @@ public class ImageGetHelper {
 
 		// I've left out the remaining code, as all I do is
 		// assign the URI's to my own objects anyways...
+	}
+
+	public static String getHashUrl(String url) {
+		byte[] defaultBytes = url.getBytes();
+		try {
+			MessageDigest algorithm = MessageDigest.getInstance("MD5");
+			algorithm.reset();
+			algorithm.update(defaultBytes);
+			byte messageDigest[] = algorithm.digest();
+
+			StringBuffer hexString = new StringBuffer();
+			for (int i = 0; i < messageDigest.length; i++) {
+				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			}
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException nsae) {
+
+		} catch (StackOverflowError e) {
+
+		}
+		return null;
+	}
+
+	public static boolean saveImageToFile(String absolutePath, Bitmap bitmap,
+			String url) throws IOException {
+		if (bitmap == null) {
+			return false;
+		}
+		String imageName = getHashUrl(url);
+		if (imageName == null) {
+			return false;
+		}
+		OutputStream outStream = null;
+		Log.d(TAG, "save to file image : " + absolutePath + File.separator
+				+ imageName);
+		File file = new File(absolutePath, imageName);
+		outStream = new FileOutputStream(file);
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+		outStream.flush();
+		outStream.close();
+		System.gc();
+		return true;
+	}
+
+	public static Bitmap loadFromFile(String absolutePath, String path) {
+		if (mContext.getCacheDir().canRead()) {
+			String imageName = getHashUrl(path);
+			if (imageName == null) {
+				return null;
+			}
+			Bitmap bitmap = BitmapFactory.decodeFile(absolutePath
+					+ File.separator + imageName);
+			if (bitmap != null) {
+				Log.d(TAG, "load from file " + absolutePath + File.separator
+						+ imageName);
+			}
+			return bitmap;
+		}
+		return null;
+	}
+
+	public static Bitmap getRoundedCornersImage(Bitmap source, int radiusPixels) {
+		if (source == null) {
+			// we cant proccess null image, go out
+			return null;
+		}
+		final int sourceWidth = source.getWidth();
+		final int sourceHeight = source.getHeight();
+		final Bitmap output = Bitmap.createBitmap(sourceWidth, sourceHeight,
+				Bitmap.Config.ARGB_8888);
+		final Canvas canvas = new Canvas(output);
+
+		final int color = 0xFF000000;
+		final Paint paint = new Paint();
+		paint.setColor(color);
+
+		final Rect rect = new Rect(0, 0, sourceWidth, sourceHeight);
+		final RectF rectF = new RectF(rect);
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		canvas.drawRoundRect(rectF, radiusPixels, radiusPixels, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(source, 0, 0, paint);
+
+		return output;
 	}
 
 }

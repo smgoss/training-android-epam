@@ -33,7 +33,7 @@ import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.common.fragments.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.helper.ImageGetHelper;
+import com.epam.android.social.helper.ImageManager;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 import com.google.android.imageloader.ImageLoader.Callback;
@@ -330,7 +330,7 @@ public class ChangeProfileFragment extends
 					}
 					if (imageUri == null) {
 						try {
-							imageUri = ImageGetHelper
+							imageUri = ImageManager
 									.tryGetImageFromBadDevice(getActivity());
 						} catch (Exception e) {
 							Log.e("VA", "error get image uri", e);

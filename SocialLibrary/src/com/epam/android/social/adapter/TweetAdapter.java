@@ -22,16 +22,16 @@ import com.google.android.imageloader.ImageLoader;
 public class TweetAdapter extends AbstractAdapter<Tweet> {
 
 	private static final String TAG = TweetAdapter.class.getSimpleName();
-	
+
 	public static final IAdapterCreator<TweetAdapter> ADAPTER_CREATOR = new IAdapterCreator<TweetAdapter>() {
-		
+
 		@Override
 		public TweetAdapter create(Context c, int pItemResource,
 				List<? extends BaseModel> pList) {
 			return new TweetAdapter(c, pItemResource, (List<Tweet>) pList);
 		}
 	};
-	
+
 	public TweetAdapter(Context c, int pItemResource, List<Tweet> pList) {
 		super(c, pItemResource, pList);
 	}
@@ -39,7 +39,7 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 	@Override
 	public void init(View view, Tweet item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		mImageLoader.setAvatar(item.getProfileUrl(), userAvatar);
+		mImageLoader.bind(userAvatar, item.getProfileUrl(), null);
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getUserName());
 
@@ -53,7 +53,5 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 		tweetText.setText(item.getText());
 
 	}
-
-	
 
 }

@@ -19,13 +19,15 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.epam.android.common.utils.GetSystemService;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.helper.ImageGetHelper;
+import com.epam.android.social.helper.ImageManager;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
+import com.google.android.imageloader.ImageLoader;
 
 public class AddAccountsFragment extends Fragment {
 
@@ -39,9 +41,9 @@ public class AddAccountsFragment extends Fragment {
 
 	private List<Account> listAccounts;
 
-	private boolean isFirst = true;
-
 	private static AddAccountsFragment instance;
+
+	private ImageLoader mImageLoader;
 
 	public static AddAccountsFragment getInstance() {
 		if (instance == null) {
@@ -58,6 +60,9 @@ public class AddAccountsFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		mImageLoader = (ImageLoader) GetSystemService.get(getActivity(),
+				ImageLoader.IMAGE_LOADER_SERVICE);
+		
 		accountsListPrefs = AccountsListPrefs.getInstanse();
 		restoreAccounts();
 
@@ -68,6 +73,8 @@ public class AddAccountsFragment extends Fragment {
 				addNewAccount(account);
 			}
 		};
+
+
 
 	}
 
@@ -96,8 +103,7 @@ public class AddAccountsFragment extends Fragment {
 
 		accountName.setText(account.getUserName());
 
-		ImageGetHelper.getInstance().setAvatar(account.getProfileUrl(),
-				accountPicture);
+		mImageLoader.bind(accountPicture, account.getProfileUrl(), null);
 
 		accountItem.setId(lastAccountPictureID);
 
