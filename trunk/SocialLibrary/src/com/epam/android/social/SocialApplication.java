@@ -7,17 +7,22 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 import org.apache.http.client.methods.HttpUriRequest;
 
+import android.util.Log;
+
 import com.epam.android.common.CommonApplication;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.http.Loader.IRule;
 import com.epam.android.social.helper.FacebookOAuthHelper;
-import com.epam.android.social.helper.ImageGetHelper;
+import com.epam.android.social.helper.ImageManager;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.prefs.AccountsListPrefs;
 
 public class SocialApplication extends CommonApplication {
 
+	private static final String TAG = SocialApplication.class.getSimpleName();
+
 	private TwitterOAuthHelper twitterOAuthHelper;
+
 	private FacebookOAuthHelper facebookOAuthHelper;
 
 	@Override
@@ -27,7 +32,7 @@ public class SocialApplication extends CommonApplication {
 				.newInstanse(getApplicationContext());
 		facebookOAuthHelper = FacebookOAuthHelper
 				.newInstanse(getApplicationContext());
-		ImageGetHelper.newInstance(getApplicationContext());
+		ImageManager.newInstance(getApplicationContext());
 		AccountsListPrefs.newInstanse(getApplicationContext());
 
 		Loader.get(this).addRule(new IRule() {
@@ -38,17 +43,13 @@ public class SocialApplication extends CommonApplication {
 					try {
 						twitterOAuthHelper.sign(request);
 					} catch (OAuthMessageSignerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, "error on signer", e);
 					} catch (OAuthExpectationFailedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, "expectation failed", e);
 					} catch (OAuthCommunicationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, "error on communication", e);
 					} catch (OAuthNotAuthorizedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, "not authrized error", e);
 					}
 				}
 

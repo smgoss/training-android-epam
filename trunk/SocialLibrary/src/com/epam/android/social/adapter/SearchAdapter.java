@@ -23,7 +23,7 @@ public class SearchAdapter extends AbstractAdapter<SearchResult>{
 	@Override
 	public void init(View view, SearchResult item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		mImageLoader.setAvatar(item.getProfileUrl(), userAvatar);
+		mImageLoader.bind(userAvatar, item.getProfileUrl(), null);
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getUserName());
 

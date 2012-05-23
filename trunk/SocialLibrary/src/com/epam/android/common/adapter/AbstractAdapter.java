@@ -3,25 +3,20 @@
  */
 package com.epam.android.common.adapter;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.epam.android.common.model.BaseModel;
-import com.epam.android.common.model.IModelCreator;
-import com.epam.android.social.helper.ImageGetHelper;
+import com.epam.android.common.utils.GetSystemService;
 import com.google.android.imageloader.ImageLoader;
 
 public abstract class AbstractAdapter<T> extends BaseAdapter {
 
 	private static final String TAG = AbstractAdapter.class.getSimpleName();
-	
+
 	private final Context mContext;
 
 	private final List<T> mList;
@@ -30,13 +25,14 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 
 	private int currentPosition = 0;
 
-	protected ImageGetHelper mImageLoader;
+	protected ImageLoader mImageLoader;
 
 	public AbstractAdapter(Context c, int pItemResource, List<T> pList) {
 		mList = pList;
 		mContext = c;
 		mItemResource = pItemResource;
-		mImageLoader = ImageGetHelper.getInstance();
+		mImageLoader = (ImageLoader) GetSystemService.get(c,
+				ImageLoader.IMAGE_LOADER_SERVICE);
 	}
 
 	public int getCount() {
@@ -83,9 +79,9 @@ public abstract class AbstractAdapter<T> extends BaseAdapter {
 	public void setCurrentPosition(int currentPosition) {
 		this.currentPosition = currentPosition;
 	}
-	
-	public void remove(int position){
+
+	public void remove(int position) {
 		this.mList.remove(position);
 	}
-	
+
 }

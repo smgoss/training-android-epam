@@ -23,9 +23,9 @@ public class TwitterDialogsAdapter extends AbstractAdapter<TwitterDialogs> {
 
 	@Override
 	public void init(View view, TwitterDialogs item) {
-		
+
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
-		mImageLoader.setAvatar(item.getSenderProfileUrl(), userAvatar);
+		mImageLoader.bind(userAvatar, item.getSenderProfileUrl(), null);
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getSenderScreenName());
 
