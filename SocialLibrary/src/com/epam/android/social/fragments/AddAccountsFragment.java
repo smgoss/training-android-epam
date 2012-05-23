@@ -1,6 +1,7 @@
 package com.epam.android.social.fragments;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -9,114 +10,58 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
 
-import com.epam.android.common.utils.GetSystemService;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
+import com.epam.android.social.adapter.AccountAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
-import com.google.android.imageloader.ImageLoader;
 
 public class AddAccountsFragment extends Fragment {
 
 	public static final String TAG = AddAccountsFragment.class.getSimpleName();
 
-	private int lastAccountPictureID = 100500;
-
 	private static AddAccountsFragment.ILogin login;
 
 	private AccountsListPrefs accountsListPrefs;
 
-	private List<Account> listAccounts;
+	private static List<Account> listAccounts;
 
-	private static AddAccountsFragment instance;
+	private static AccountAdapter accountAdapter;
 
-	private ImageLoader mImageLoader;
+	private Gallery accountGallery;
 
-	public static AddAccountsFragment getInstance() {
-		if (instance == null) {
-			instance = new AddAccountsFragment();
-		}
-
-		return instance;
-	}
-
-	private AddAccountsFragment() {
+	public AddAccountsFragment() {
 
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mImageLoader = (ImageLoader) GetSystemService.get(getActivity(),
-				ImageLoader.IMAGE_LOADER_SERVICE);
-		
+
 		accountsListPrefs = AccountsListPrefs.getInstanse();
-		restoreAccounts();
-
-		login = new ILogin() {
-
-			@Override
-			public void onSuccessLogin(final Account account) {
-				addNewAccount(account);
-			}
-		};
-
-
-
-	}
-
-	private void restoreAccounts() {
-		listAccounts = accountsListPrefs.getListAccounts();
-		if (listAccounts != null) {
-			for (Account oneAccount : listAccounts) {
-				addNewAccount(oneAccount);
-			}
-		}
-
-	}
-
-	private void addNewAccount(final Account account) {
-		LinearLayout accountLayout = (LinearLayout) getActivity().findViewById(
-				R.id.accountLayout);
-
-		LinearLayout accountItem = (LinearLayout) LayoutInflater.from(
-				getActivity()).inflate(R.layout.account_item, null, false);
-
-		TextView accountName = (TextView) accountItem
-				.findViewById(R.id.accountName);
-
-		ImageView accountPicture = (ImageView) accountItem
-				.findViewById(R.id.accountPicture);
-
-		accountName.setText(account.getUserName());
-
-		mImageLoader.bind(accountPicture, account.getProfileUrl(), null);
-
-		accountItem.setId(lastAccountPictureID);
-
-		accountPicture.setTag(account.getUserName());
-
-		accountPicture.setOnClickListener(new OnClickListener() {
+		listAccounts = new ArrayList<Account>();
+		accountGallery = (Gallery) getView().findViewById(R.id.Gallery01);
+		accountGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onItemClick(AdapterView<?> paramAdapterView,
+					View paramView, int position, long paramLong) {
 				try {
 					Intent intent = null;
 					TwitterOAuthHelper.getInstanse().restoreToken(
-							(String) v.getTag());
+							listAccounts.get(position).getUserName());
 					intent = new Intent(getActivity(),
 							TwitterTimeLineFragmentActivity.class);
 
 					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
-							String.valueOf(v.getTag()));
+							listAccounts.get(position).getUserName());
 
 					startActivity(intent);
 
@@ -127,22 +72,26 @@ public class AddAccountsFragment extends Fragment {
 				}
 			}
 		});
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT, 1f);
+		restoreAccounts();
 
-		// if (isFirst) {
-		// layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL,
-		// lastAccountPictureID);
-		// layoutParams.
-		// isFirst = false;
-		// } else {
-		// layoutParams.addRule(RelativeLayout.RIGHT_OF,
-		// lastAccountPictureID - 1);
-		// }
+		login = new ILogin() {
 
-		accountLayout.addView(accountItem, layoutParams);
-		lastAccountPictureID++;
+			@Override
+			public void onSuccessLogin(final Account account) {
+				listAccounts.add(account);
+				accountAdapter.notifyDataSetChanged();
+			}
+		};
+
+	}
+
+	private void restoreAccounts() {
+		listAccounts = accountsListPrefs.getListAccounts();
+		if (listAccounts != null) {
+			accountAdapter = new AccountAdapter(listAccounts, getActivity());
+			accountGallery.setAdapter(accountAdapter);
+		}
+
 	}
 
 	public static interface ILogin {
@@ -151,6 +100,20 @@ public class AddAccountsFragment extends Fragment {
 
 	public static AddAccountsFragment.ILogin getLogin() {
 		return login;
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.gallery, container);
+	}
+
+	public static List<Account> getList() {
+		return listAccounts;
+	}
+
+	public static AccountAdapter getAdapter() {
+		return accountAdapter;
 	}
 
 }
