@@ -6,11 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
-
-import com.epam.android.social.fragments.AddAccountsFragment;
 
 public class MainFragmentActivity extends FragmentActivity {
 
@@ -19,15 +16,7 @@ public class MainFragmentActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		isOnline();
-		addAccountFragment();
 
-	}
-
-	private void addAccountFragment() {
-		FragmentTransaction manager = getSupportFragmentManager()
-				.beginTransaction();
-		manager.add(R.id.accountLayout, AddAccountsFragment.getInstance());
-		manager.commit();
 	}
 
 	private boolean isOnline() {
