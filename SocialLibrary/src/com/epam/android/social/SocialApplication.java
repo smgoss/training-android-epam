@@ -12,8 +12,8 @@ import android.util.Log;
 import com.epam.android.common.CommonApplication;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.http.Loader.IRule;
+import com.epam.android.common.utils.ImageManager;
 import com.epam.android.social.helper.FacebookOAuthHelper;
-import com.epam.android.social.helper.ImageManager;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.prefs.AccountsListPrefs;
 

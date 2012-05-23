@@ -1,4 +1,4 @@
-package com.epam.android.social.helper;
+package com.epam.android.common.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -5,17 +5,11 @@ import java.net.URLConnection;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 
 import com.epam.android.common.http.HttpClient;
 import com.epam.android.common.http.Loader;
 import com.epam.android.common.task.AsyncTaskManager;
-import com.epam.android.social.helper.ImageManager;
+import com.epam.android.common.utils.ImageManager;
 import com.google.android.imageloader.BitmapContentHandler;
 import com.google.android.imageloader.ImageLoader;
 
