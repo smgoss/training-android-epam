@@ -5,23 +5,31 @@
         <item name="android:textColor">@color/blue</item>
     </style>
 
+    <style name="TextStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="AddAccountButtonStyle" parent="@android:style/Widget.Button">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="ProfileButtons" parent="@style/AddAccountButtonStyle">
+        <item name="android:background">@drawable/btn_profile</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/custom_tab_indicator</item>
+    </style>
+
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
-        <item name="android:divider">@color/divider</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:dividerHeight">1dip</item>
+        <item name="android:divider">@color/divider</item>
     </style>
 
-    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">@color/green</item>
-        <item name="android:textSize">16dp</item>
-    </style>
 
     <style name="TextViewWhite" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/white</item>
@@ -76,6 +84,12 @@
     <style name="WrapContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ConnectListViewStyle" parent="@android:style/Widget.ListView">
+        <item name="android:listSelector">@drawable/list_item</item>
+        <item name="android:dividerHeight">1dip</item>
+        <item name="android:divider">@color/divider</item>
     </style>
 
     <style name="ItemUserName" parent="@android:style/Widget.TextView">

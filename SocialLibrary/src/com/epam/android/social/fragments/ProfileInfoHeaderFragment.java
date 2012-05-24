@@ -6,21 +6,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.utils.GetSystemService;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
-import com.epam.android.social.common.fragments.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 
 public class ProfileInfoHeaderFragment extends
-		BaseArrayModelFragmentWithCustomLoad<ProfileInfo> {
+		BaseArrayModelFragment<ProfileInfo> {
 
 	private static final String TAG = ProfileInfoHeaderFragment.class
 			.getSimpleName();
@@ -31,7 +30,7 @@ public class ProfileInfoHeaderFragment extends
 
 	private LinearLayout followersLinerLayout;
 
-	private Button changeProfileButton;
+	private LinearLayout userItem;
 
 	public static ProfileInfoHeaderFragment newInstance(String query,
 			String accountName) {
@@ -55,18 +54,21 @@ public class ProfileInfoHeaderFragment extends
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
 		tweetsLinerLayout = (LinearLayout) getView().findViewById(
-				R.id.profileInfo_tweetsLayout);
+				R.id.profileInfo_tweetLayout);
 		tweetsLinerLayout.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				onTweetButtonClick();
+
 			}
 		});
 
 		followersLinerLayout = (LinearLayout) getView().findViewById(
 				R.id.profileInfo_followersLayout);
+
 		followersLinerLayout.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -85,60 +87,6 @@ public class ProfileInfoHeaderFragment extends
 			}
 		});
 
-		changeProfileButton = (Button) getView().findViewById(
-				R.id.profileInfo_sendTweetButton);
-		changeProfileButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View paramView) {
-				FragmentTransaction transaction = getFragmentManager()
-						.beginTransaction();
-				transaction.setCustomAnimations(android.R.anim.slide_in_left,
-						android.R.anim.slide_out_right);
-				transaction.addToBackStack(getTag());
-				transaction
-						.add(R.id.twitter_timeline_fragment,
-								ChangeProfileFragment
-										.newInstance(TwitterAPI
-												.getInstance()
-												.getFullProfileInfo(
-														getArguments()
-																.getString(
-																		ApplicationConstants.ARG_PROFILE_NAME))));
-				transaction.commit();
-			}
-		});
-
-		Button tweetButton = (Button) getView().findViewById(
-				R.id.profileInfo_tweetButton);
-		tweetButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View paramView) {
-				onTweetButtonClick();
-			}
-		});
-
-		Button followingButton = (Button) getView().findViewById(
-				R.id.profileInfo_followingButton);
-		followingButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View paramView) {
-				onFollowingButtonClick();
-
-			}
-		});
-
-		Button followersButton = (Button) getView().findViewById(
-				R.id.profileInfo_followersButton);
-		followersButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View paramView) {
-				onFollowersButtonClick();
-			}
-		});
 	}
 
 	@Override
@@ -202,22 +150,51 @@ public class ProfileInfoHeaderFragment extends
 	}
 
 	private void initView(View convertView, ProfileInfo item) {
+		TextView tweetTextView = (TextView) tweetsLinerLayout
+				.findViewById(R.id.profileButton_nameButton);
+		tweetTextView.setText(getResources().getString(R.string.tweets));
+
+		TextView tweetCountTextView = (TextView) tweetsLinerLayout
+				.findViewById(R.id.profileButton_valueButton);
+		tweetCountTextView.setText(String.valueOf(item.getCountTweets()));
+
+		TextView followingTextView = (TextView) followingLinerLayout
+				.findViewById(R.id.profileButton_nameButton);
+		followingTextView.setText(getResources().getString(R.string.following));
+
+		TextView followingCountTextView = (TextView) followersLinerLayout
+				.findViewById(R.id.profileButton_valueButton);
+		followingCountTextView
+				.setText(String.valueOf(item.getCountFollowing()));
+
+		TextView followersTextView = (TextView) followersLinerLayout
+				.findViewById(R.id.profileButton_nameButton);
+		followersTextView.setText(getResources().getString(R.string.followers));
+
+		TextView followersCountTextView = (TextView) followersLinerLayout
+				.findViewById(R.id.profileButton_valueButton);
+		followersCountTextView
+				.setText(String.valueOf(item.getCountFollowers()));
+
+		userItem = (LinearLayout) getView().findViewById(
+				R.id.profileInfo_userItem);
+
 		ImageLoader imageLoader = (ImageLoader) GetSystemService.get(
 				getContext(), ImageLoader.IMAGE_LOADER_SERVICE);
-		ImageView profileAvatar = (ImageView) convertView
-				.findViewById(R.id.profileInfo_profileAvatar);
+		ImageView profileAvatar = (ImageView) userItem
+				.findViewById(R.id.profileInfoUserItem_avatar);
 		imageLoader.bind(profileAvatar, item.getProfileAvatarUrl(), null);
 
-		TextView name = (TextView) convertView
-				.findViewById(R.id.profileInfo_profileName);
+		TextView name = (TextView) userItem
+				.findViewById(R.id.profileInfoUserItem_name);
 		name.setText(item.getName());
 
-		TextView screenName = (TextView) convertView
-				.findViewById(R.id.profileInfo_profileScreenName);
+		TextView screenName = (TextView) userItem
+				.findViewById(R.id.profileInfoUserItem_screenName);
 		screenName.setText("@" + item.getScreenName());
 
-		TextView description = (TextView) convertView
-				.findViewById(R.id.profileInfo_profileDescription);
+		TextView description = (TextView) userItem
+				.findViewById(R.id.profileInfoUserItem_description);
 		if (item.getDescription() != null
 				&& item.getDescription().length() != 0) {
 			description.setText(item.getDescription());
@@ -226,58 +203,41 @@ public class ProfileInfoHeaderFragment extends
 		}
 
 		TextView url = (TextView) convertView
-				.findViewById(R.id.profileInfo_profileUrl);
+				.findViewById(R.id.profileInfoUserItem_url);
 		if (item.getUrl() != null) {
 			url.setText(item.getUrl());
 		} else {
 			url.setVisibility(View.GONE);
 		}
 
-		TextView tweetCount = (TextView) convertView
-				.findViewById(R.id.profileInfo_tweetCount);
-		tweetCount.setText(String.valueOf(item.getCountTweets()));
+		ImageView changeProfileButton = (ImageView) userItem
+				.findViewById(R.id.profileInfoUser_sendButton);
+		changeProfileButton.setOnClickListener(new OnClickListener() {
 
-		TextView followingCount = (TextView) convertView
-				.findViewById(R.id.profileInfo_followingCount);
-		followingCount.setText(String.valueOf(item.getCountFollowing()));
+			@Override
+			public void onClick(View paramView) {
+				FragmentTransaction transaction = getFragmentManager()
+						.beginTransaction();
+				transaction.setCustomAnimations(android.R.anim.slide_in_left,
+						android.R.anim.slide_out_right);
+				transaction.addToBackStack(getTag());
+				transaction
+						.add(R.id.twitter_timeline_fragment,
+								ChangeProfileFragment
+										.newInstance(TwitterAPI
+												.getInstance()
+												.getFullProfileInfo(
+														getArguments()
+																.getString(
+																		ApplicationConstants.ARG_PROFILE_NAME))));
+				transaction.commit();
+			}
+		});
 
-		TextView followersCount = (TextView) convertView
-				.findViewById(R.id.profileInfo_followersCount);
-		followersCount.setText(String.valueOf(item.getCountFollowers()));
+		LinearLayout main = (LinearLayout) getView().findViewById(
+				R.id.profileInfo_main);
+		main.setVisibility(View.VISIBLE);
 
-		TextView tweetsTextView = (TextView) convertView
-				.findViewById(R.id.profileInfo_tweetTextView);
-		tweetsTextView.setVisibility(View.VISIBLE);
-
-		TextView followersTextView = (TextView) convertView
-				.findViewById(R.id.profileInfo_followersTextView);
-		followersTextView.setVisibility(View.VISIBLE);
-
-		TextView followingTextView = (TextView) convertView
-				.findViewById(R.id.profileInfo_followingTextView);
-		followingTextView.setVisibility(View.VISIBLE);
-
-		Button sendTweetButton = (Button) convertView
-				.findViewById(R.id.profileInfo_sendTweetButton);
-		sendTweetButton.setVisibility(View.VISIBLE);
-		String accountName = getArguments().getString(
-				ApplicationConstants.ARG_PROFILE_NAME);
-		if (accountName.equals(item.getScreenName())) {
-			sendTweetButton.setText(getContext().getResources().getString(
-					R.string.change_profile));
-		}
-
-		Button tweetButton = (Button) convertView
-				.findViewById(R.id.profileInfo_tweetButton);
-		tweetButton.setVisibility(View.VISIBLE);
-
-		Button followingButton = (Button) convertView
-				.findViewById(R.id.profileInfo_followingButton);
-		followingButton.setVisibility(View.VISIBLE);
-
-		Button followersButton = (Button) convertView
-				.findViewById(R.id.profileInfo_followersButton);
-		followersButton.setVisibility(View.VISIBLE);
 	}
 
 }
