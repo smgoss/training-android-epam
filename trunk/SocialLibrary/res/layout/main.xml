@@ -49,11 +49,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_circles" />
+        
+        <!-- //TODO: BG_CIRCLE TO HDPI, LDPI, MDPI -->
+        <!-- <ImageView -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:background="@drawable/bg_circles" /> -->
     </LinearLayout>
 
 </LinearLayout>
