@@ -17,5 +17,7 @@
     <color name="user_name">#33b5e5</color>
     <color name="item_text">#333333</color>
     <color name="time">#777777</color>
+    <color name="btn_profile_default">#33b5e5</color>
+    <color name="btn_profile_pressed">#70d1f5</color>
 
 </resources>

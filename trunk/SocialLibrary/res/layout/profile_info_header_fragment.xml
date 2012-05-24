@@ -1,162 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileInfo_main"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:visibility="invisible" >
 
-    <ProgressBar
-        android:id="@+id/progress_bar_on_listView"
-        style="@android:style/Widget.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.03" />
 
-    <ImageView
-        android:id="@+id/profileInfo_profileAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="centerCrop" />
-
-    <TextView
-        android:id="@+id/profileInfo_profileName"
+    <include
+        android:id="@+id/profileInfo_userItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/profileInfo_profileAvatar"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        layout="@layout/profile_info_user_item" />
 
-    <TextView
-        android:id="@+id/profileInfo_profileScreenName"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.03" />
+
+    <include
+        android:id="@+id/profileInfo_tweetLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_profileName"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/profileInfo_profileAvatar"
-        android:textSize="10sp" />
+        android:layout_height="0dip"
+        android:layout_weight="0.2"
+        layout="@layout/profile_button" />
 
-    <TextView
-        android:id="@+id/profileInfo_profileDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_profileAvatar"
-        android:paddingTop="5dp" />
-
-    <TextView
-        android:id="@+id/profileInfo_profileUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_profileDescription"
-        android:paddingTop="5dp" />
-
-    <RelativeLayout
-        android:id="@+id/profileInfo_tweetsFollowingFollowersTextViewOnHeader"
+    <include
+        android:id="@+id/profileInfo_followingLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_profileUrl"
-        android:paddingTop="5dp" >
+        android:layout_height="0dip"
+        android:layout_marginTop="1dp"
+        android:layout_weight="0.2"
+        layout="@layout/profile_button" />
 
-        <LinearLayout
-            android:id="@+id/profileInfo_tweetsLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/profileInfo_tweetCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/profileInfo_tweetTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tweets"
-                android:textColor="@color/silver"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/profileInfo_followingLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/profileInfo_followingCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/profileInfo_followingTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/following"
-                android:textColor="@color/silver"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/profileInfo_followersLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/profileInfo_followersCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/profileInfo_followersTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/followers"
-                android:textColor="@color/silver"
-                android:visibility="invisible" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/profileInfo_sendTweetButton"
+    <include
+        android:id="@+id/profileInfo_followersLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_tweetsFollowingFollowersTextViewOnHeader"
-        android:layout_marginTop="10dp"
-        android:text="@string/send_tweet"
-        android:visibility="invisible" />
+        android:layout_height="0dip"
+        android:layout_marginTop="1dp"
+        android:layout_weight="0.2"
+        layout="@layout/profile_button" />
 
-    <Button
-        android:id="@+id/profileInfo_tweetButton"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_sendTweetButton"
-        android:layout_marginTop="5dp"
-        android:text="@string/tweets"
-        android:visibility="invisible" />
+        android:layout_height="0dip"
+        android:layout_weight="0.52"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/profileInfo_followingButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_tweetButton"
-        android:layout_marginTop="5dp"
-        android:text="@string/following"
-        android:visibility="invisible" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/profileInfo_followersButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileInfo_followingButton"
-        android:layout_marginTop="5dp"
-        android:text="@string/followers"
-        android:visibility="invisible" />
-
-</RelativeLayout>
+</LinearLayout>
