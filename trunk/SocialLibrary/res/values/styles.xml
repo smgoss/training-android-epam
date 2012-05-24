@@ -75,5 +75,11 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+    
+     <style name="ConnectListViewStyle" parent="@android:style/Widget.ListView">
+        <item name="android:listSelector">@drawable/list_item</item>
+        <item name="android:divider">@color/connect_divider</item>
+        <item name="android:dividerHeight">1dip</item>
+    </style>
 
 </resources>
