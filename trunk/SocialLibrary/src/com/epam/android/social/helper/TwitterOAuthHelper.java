@@ -97,11 +97,14 @@ public class TwitterOAuthHelper {
 		if (userInfoSerialized != null) {
 			listUsers = (List<Account>) serializer
 					.deserialize(userInfoSerialized);
-			for (int j = 0; j < listUsers.size(); j++) {
-				if (listUsers.get(j).getUserName().equals(userName)) {
-					restoreToken(listUsers.get(j));
-				}
+			for (Account user : listUsers) {
+				restoreToken(user);
 			}
+			// for (int j = 0; j < listUsers.size(); j++) {
+			// if (listUsers.get(j).getUserName().equals(userName)) {
+			// restoreToken(listUsers.get(j));
+			// }
+			// }
 		}
 
 	}
@@ -204,7 +207,11 @@ public class TwitterOAuthHelper {
 	}
 
 	public Account getAccount() {
-		return account;
+		if (!listContainUser(account.getUserName(), listUsers)) {
+			return account;
+		}
+		return null;
+
 	}
 
 	public String getUserName() {
@@ -216,12 +223,20 @@ public class TwitterOAuthHelper {
 	}
 
 	private boolean listContainUser(String userName, List<Account> list) {
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getUserName().equals(userName)) {
-				return true;
+		if (userName != null) {
+			for (Account account : list) {
+				if (userName.equals(account.getUserName())) {
+					return true;
+				}
 			}
 		}
 		return false;
+		// for (int i = 0; i < list.size(); i++) {
+		// if (list.get(i).getUserName().equals(userName)) {
+		// return true;
+		// }
+		// }
+		// return false;
 	}
 
 }
