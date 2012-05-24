@@ -10,5 +10,12 @@
     <color name="deep_blue">#0000FF</color>
     <color name="transparent">#00000000</color>
     <color name="silver">#C0C0C0</color>
-	<color name="pink">#FFFAFF</color>
+    <color name="pink">#FFFAFF</color>
+    <color name="connect_divider">#333333</color>
+    <color name="connect_background">#ffffff</color>
+    <color name="connect_background_click">#e7f9ff</color>
+    <color name="connect_item_name">#33b5e5</color>
+    <color name="connect_item_follow">#333333</color>
+    <color name="connect_item_time">#777777</color>
+
 </resources>
