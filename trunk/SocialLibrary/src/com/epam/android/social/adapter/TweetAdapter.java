@@ -40,6 +40,9 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 	public void init(View view, Tweet item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
 		mImageLoader.bind(userAvatar, item.getProfileUrl(), null);
+		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
+		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
+
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getUserName());
 
@@ -52,6 +55,11 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 		TextView tweetText = (TextView) view.findViewById(R.id.tweetText);
 		tweetText.setText(item.getText());
 
+	}
+	
+	private int convertDipToPix(int dip) {
+		final float scale = getContext().getResources().getDisplayMetrics().density;
+		return (int) (dip * scale + 0.5f);
 	}
 
 }

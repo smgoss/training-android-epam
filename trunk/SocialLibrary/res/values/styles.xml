@@ -12,8 +12,10 @@
 
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
-        <item name="android:divider">@color/red</item>
-        <item name="android:dividerHeight">2dip</item>
+        <item name="android:divider">@color/divider</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:dividerHeight">1dip</item>
     </style>
 
     <style name="TextViewStyle" parent="@android:style/Widget.TextView">
@@ -71,15 +73,24 @@
         <item name="android:layout_height">fill_parent</item>
     </style>
 
-    <style name="WrapContent" parent="">
+    <style name="WrapContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    
-     <style name="ConnectListViewStyle" parent="@android:style/Widget.ListView">
-        <item name="android:listSelector">@drawable/list_item</item>
-        <item name="android:divider">@color/connect_divider</item>
-        <item name="android:dividerHeight">1dip</item>
+
+    <style name="ItemUserName" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/user_name</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ItemTime" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/time</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="ItemText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/item_text</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>
