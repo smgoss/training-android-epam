@@ -78,11 +78,24 @@ public class AddAccountsFragment extends Fragment {
 
 			@Override
 			public void onSuccessLogin(final Account account) {
-				listAccounts.add(account);
-				accountAdapter.notifyDataSetChanged();
+				if (!listContainAcccount(account)) {
+					listAccounts.add(account);
+					accountAdapter.notifyDataSetChanged();
+				}
+
 			}
 		};
 
+	}
+
+	private boolean listContainAcccount(Account account) {
+		for (int i = 0; i < listAccounts.size(); i++) {
+			if (listAccounts.get(i).getUserName().equals(account.getUserName())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void restoreAccounts() {
