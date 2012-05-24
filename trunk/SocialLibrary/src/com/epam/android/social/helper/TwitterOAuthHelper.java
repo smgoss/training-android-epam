@@ -169,7 +169,7 @@ public class TwitterOAuthHelper {
 					.deserialize(userInfoSerialized);
 		}
 		account = getUser();
-		if (!listContainUser(account.getUserName(), listUsers)) {
+		if (getUser(account.getUserName()) == null) {
 			account.setToken(consumer.getToken());
 			account.setTokenSecret(consumer.getTokenSecret());
 			account.setAccountType(AccountType.TWITTER);
@@ -207,8 +207,8 @@ public class TwitterOAuthHelper {
 	}
 
 	public Account getAccount() {
-		if (!listContainUser(account.getUserName(), listUsers)) {
-			return account;
+		if (getUser(account.getUserName()) != null) {
+			return getUser(account.getUserName());
 		}
 		return null;
 
@@ -222,15 +222,15 @@ public class TwitterOAuthHelper {
 		return account.getProfileUrl();
 	}
 
-	private boolean listContainUser(String userName, List<Account> list) {
+	private Account getUser(String userName) {
 		if (userName != null) {
-			for (Account account : list) {
-				if (userName.equals(account.getUserName())) {
-					return true;
+			for (int i = 0; i < listUsers.size(); i++) {
+				if (userName.equals(listUsers.get(i).getUserName())) {
+					return listUsers.get(i);
 				}
 			}
 		}
-		return false;
+		return null;
 		// for (int i = 0; i < list.size(); i++) {
 		// if (list.get(i).getUserName().equals(userName)) {
 		// return true;
