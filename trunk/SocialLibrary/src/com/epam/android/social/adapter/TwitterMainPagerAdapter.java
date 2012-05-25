@@ -39,7 +39,8 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 						.getMentions(), accountName));
 
 		getFragments().add(
-				ProfileFragment.newInstance(accountName, accountName));
+				ProfileFragment.newInstance(TwitterAPI.getInstance()
+						.getFullProfileInfo(accountName), accountName));
 
 	}
 
