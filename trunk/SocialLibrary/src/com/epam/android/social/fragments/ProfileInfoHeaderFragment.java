@@ -151,28 +151,28 @@ public class ProfileInfoHeaderFragment extends
 
 	private void initView(View convertView, ProfileInfo item) {
 		TextView tweetTextView = (TextView) tweetsLinerLayout
-				.findViewById(R.id.profileButton_nameButton);
+				.findViewById(R.id.profileButton_name);
 		tweetTextView.setText(getResources().getString(R.string.tweets));
 
 		TextView tweetCountTextView = (TextView) tweetsLinerLayout
-				.findViewById(R.id.profileButton_valueButton);
+				.findViewById(R.id.profileButton_value);
 		tweetCountTextView.setText(String.valueOf(item.getCountTweets()));
 
 		TextView followingTextView = (TextView) followingLinerLayout
-				.findViewById(R.id.profileButton_nameButton);
+				.findViewById(R.id.profileButton_name);
 		followingTextView.setText(getResources().getString(R.string.following));
 
-		TextView followingCountTextView = (TextView) followersLinerLayout
-				.findViewById(R.id.profileButton_valueButton);
+		TextView followingCountTextView = (TextView) followingLinerLayout
+				.findViewById(R.id.profileButton_value);
 		followingCountTextView
 				.setText(String.valueOf(item.getCountFollowing()));
 
 		TextView followersTextView = (TextView) followersLinerLayout
-				.findViewById(R.id.profileButton_nameButton);
+				.findViewById(R.id.profileButton_name);
 		followersTextView.setText(getResources().getString(R.string.followers));
 
 		TextView followersCountTextView = (TextView) followersLinerLayout
-				.findViewById(R.id.profileButton_valueButton);
+				.findViewById(R.id.profileButton_value);
 		followersCountTextView
 				.setText(String.valueOf(item.getCountFollowers()));
 
