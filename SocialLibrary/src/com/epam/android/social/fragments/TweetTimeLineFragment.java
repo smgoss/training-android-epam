@@ -55,4 +55,9 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 				(List<Tweet>) list);
 	}
 
+	@Override
+	public int getProgressBarResource() {
+		return R.id.progress_bar_on_listView;
+	}
+
 }

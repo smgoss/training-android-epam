@@ -23,11 +23,11 @@ import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
 
-public class AddAccountsFragment extends Fragment {
+public class AccountsFragment extends Fragment {
 
-	public static final String TAG = AddAccountsFragment.class.getSimpleName();
+	public static final String TAG = AccountsFragment.class.getSimpleName();
 
-	private static AddAccountsFragment.ILogin login;
+	private static AccountsFragment.ILogin login;
 
 	private AccountsListPrefs accountsListPrefs;
 
@@ -37,7 +37,7 @@ public class AddAccountsFragment extends Fragment {
 
 	private Gallery accountGallery;
 
-	public AddAccountsFragment() {
+	public AccountsFragment() {
 
 	}
 
@@ -115,7 +115,7 @@ public class AddAccountsFragment extends Fragment {
 		public void onSuccessLogin(final Account account);
 	}
 
-	public static AddAccountsFragment.ILogin getLogin() {
+	public static AccountsFragment.ILogin getLogin() {
 		return login;
 	}
 

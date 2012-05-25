@@ -35,5 +35,10 @@ public class SearchPeopleFragment extends
 		return new FollowingAdapter(getContext(), R.layout.follow, (List<Following>) list);
 	}
 
+	@Override
+	public int getProgressBarResource() {
+		return R.id.progress_bar_on_listView;
+	}
+
 	
 }

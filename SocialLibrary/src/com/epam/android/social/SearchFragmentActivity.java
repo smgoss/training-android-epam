@@ -14,7 +14,6 @@ import android.view.View;
 import com.epam.android.social.adapter.SearchPagerAdapter;
 import com.epam.android.social.common.providers.SearchProvider;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.fragments.BottomFragment;
 import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
 
@@ -45,13 +44,7 @@ public class SearchFragmentActivity extends FragmentActivity {
 			indicator = (PageIndicator) findViewById(R.id.indicator);
 			indicator.setViewPager(viewPager);
 
-			FragmentTransaction transaction = getSupportFragmentManager()
-					.beginTransaction();
-			transaction.add(
-					R.id.twitterTimeLine_bottomFragment,
-					BottomFragment.newInstance(getIntent().getStringExtra(
-							ApplicationConstants.ARG_PROFILE_NAME)));
-			transaction.commit();
+			
 
 		}
 	}

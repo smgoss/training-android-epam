@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.facebook.ListStatusesActivity;
-import com.epam.android.social.fragments.AddAccountsFragment;
+import com.epam.android.social.fragments.AccountsFragment;
 import com.epam.android.social.helper.FacebookOAuthHelper;
 
 public class FacebookLoginActivity extends Activity {
@@ -59,7 +59,7 @@ public class FacebookLoginActivity extends Activity {
 						isSave = true;
 						helper.saveToken(url);
 						webView.setVisibility(WebView.INVISIBLE);
-						AddAccountsFragment.getLogin().onSuccessLogin(
+						AccountsFragment.getLogin().onSuccessLogin(
 								helper.getAccount());
 						Intent intent = new Intent(getApplicationContext(),
 								ListStatusesActivity.class);

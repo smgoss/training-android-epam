@@ -1,49 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_bottom_bar_blue" >
 
     <ImageView
         android:id="@+id/homeButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
+        android:layout_weight="1"
         android:src="@drawable/btn_bottom_home" />
 
     <ImageView
-        android:id="@+id/tweetButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/favoriteButton"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/btn_bottom_add" />
+        android:layout_weight="1"
+        android:src="@drawable/btn_bottom_star" />
 
     <ImageView
         android:id="@+id/messagesButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_weight="1"
         android:src="@drawable/btn_bottom_message" />
 
     <ImageView
         android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@+id/messagesButton"
+        android:layout_weight="1"
         android:src="@drawable/btn_bottom_search" />
 
     <ImageView
-        android:id="@+id/favoriteButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/tweetButton"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="30dp"
-        android:layout_toLeftOf="@+id/messagesButton"
-        android:src="@drawable/btn_bottom_star" />
+        android:layout_weight="1"
+        android:src="@drawable/btn_bottom_add" />
 
-</RelativeLayout>
+</LinearLayout>

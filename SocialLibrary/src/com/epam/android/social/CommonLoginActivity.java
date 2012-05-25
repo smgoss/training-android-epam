@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.epam.android.social.constants.FacebookConstants;
-import com.epam.android.social.fragments.AddAccountsFragment;
+import com.epam.android.social.fragments.AccountsFragment;
 import com.epam.android.social.helper.FacebookOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;

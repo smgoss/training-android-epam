@@ -76,10 +76,17 @@ public class TwitterAPI {
 				+ profileName + "&include_entities=true";
 	}
 
-	public String getUserAvatar(String userScreenName) {
+	public String getUserAvatarNormal(String userScreenName) {
 		return "https://api.twitter.com/1/users/profile_image?screen_name="
 				+ userScreenName + "&size=normal";
 	}
+	
+	public String getUserAvatarBig(String userScreenName) {
+		return "https://api.twitter.com/1/users/profile_image?screen_name="
+				+ userScreenName + "&size=bigger";
+	}
+	
+	
 
 	public String getDirectMessages() {
 		return "https://api.twitter.com/1/direct_messages.json?count=20&include_entities=true&page=";

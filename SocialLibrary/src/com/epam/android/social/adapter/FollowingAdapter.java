@@ -35,7 +35,7 @@ public class FollowingAdapter extends AbstractAdapter<Following> {
 		ImageView userAvatar = (ImageView) convertView
 				.findViewById(R.id.follow_avatar);
 		mImageLoader.bind(userAvatar,
-				TwitterAPI.getInstance().getUserAvatar(item.getScreenName()),
+				TwitterAPI.getInstance().getUserAvatarNormal(item.getScreenName()),
 				null);
 
 		ImageView followButton = (ImageView) convertView

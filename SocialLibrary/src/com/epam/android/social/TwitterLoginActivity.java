@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.fragments.AddAccountsFragment;
+import com.epam.android.social.fragments.AccountsFragment;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 
 public class TwitterLoginActivity extends Activity {
@@ -62,7 +62,7 @@ public class TwitterLoginActivity extends Activity {
 						helper.saveToken(url);
 						webView.setVisibility(WebView.INVISIBLE);
 						if (helper.getAccount() != null) {
-							AddAccountsFragment.getLogin().onSuccessLogin(
+							AccountsFragment.getLogin().onSuccessLogin(
 									helper.getAccount());
 						Intent intent = new Intent(getApplicationContext(),
 								TwitterTimeLineFragmentActivity.class);

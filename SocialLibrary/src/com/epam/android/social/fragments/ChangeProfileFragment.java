@@ -352,4 +352,9 @@ public class ChangeProfileFragment extends
 		}
 	}
 
+	@Override
+	public int getProgressBarResource() {
+		return R.id.progress_bar_on_listView;
+	}
+
 }
