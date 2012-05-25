@@ -14,8 +14,11 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="ProfileButtons" parent="@style/AddAccountButtonStyle">
+    <style name="ProfileButton" parent="@style/AddAccountButtonStyle">
         <item name="android:background">@drawable/btn_profile</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
@@ -26,6 +29,7 @@
         <item name="android:listSelector">@drawable/list_item</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">0px</item>
+        <item name="android:shadowColor">@android:color/transparent</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
     </style>
 
