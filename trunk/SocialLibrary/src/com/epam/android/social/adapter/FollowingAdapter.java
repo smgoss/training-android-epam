@@ -34,20 +34,27 @@ public class FollowingAdapter extends AbstractAdapter<Following> {
 
 		ImageView userAvatar = (ImageView) convertView
 				.findViewById(R.id.follow_avatar);
-		mImageLoader.bind(userAvatar,
-				TwitterAPI.getInstance().getUserAvatarNormal(item.getScreenName()),
-				null);
+		mImageLoader.bind(userAvatar, TwitterAPI.getInstance()
+				.getUserAvatarNormal(item.getScreenName()), null);
 
-		ImageView followButton = (ImageView) convertView
-				.findViewById(R.id.follow_followMeButton);
-		if (item.isFollow()) {
-			followButton.setImageDrawable(context.getResources().getDrawable(
-					R.drawable.twitter_follow));
-		} else {
-			followButton.setImageDrawable(context.getResources().getDrawable(
-					R.drawable.twitter_follow_me));
-		}
-		followButton.setTag(item.getIdUser());
+		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
+		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
+
+		// TODO: no design
+		// ImageView followButton = (ImageView) convertView
+		// .findViewById(R.id.follow_followMeButton);
+		// if (item.isFollow()) {
+		// followButton.setImageDrawable(context.getResources().getDrawable(
+		// R.drawable.twitter_follow));
+		// } else {
+		// followButton.setImageDrawable(context.getResources().getDrawable(
+		// R.drawable.twitter_follow_me));
+		// }
+		// followButton.setTag(item.getIdUser());
 	}
 
+	private int convertDipToPix(int dip) {
+		final float scale = getContext().getResources().getDisplayMetrics().density;
+		return (int) (dip * scale + 0.5f);
+	}
 }

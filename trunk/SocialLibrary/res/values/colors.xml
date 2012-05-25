@@ -12,8 +12,8 @@
     <color name="silver">#C0C0C0</color>
     <color name="pink">#FFFAFF</color>
     <color name="divider">#333333</color>
-    <color name="item_background">#ffffff</color>
-    <color name="item_background_click">#e7f9ff</color>
+    <color name="item_background_default">#ffffff</color>
+    <color name="item_background_pressed">#e7f9ff</color>
     <color name="user_name">#33b5e5</color>
     <color name="item_text">#333333</color>
     <color name="time">#777777</color>
