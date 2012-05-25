@@ -31,18 +31,13 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new TwitterMainPagerAdapter(
 				getSupportFragmentManager(), getApplicationContext(),
-				getIntent().getStringExtra(ApplicationConstants.ARG_PROFILE_NAME)));
+				getIntent().getStringExtra(
+						ApplicationConstants.ARG_PROFILE_NAME)));
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 
-		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction();
-		transaction.add(
-				R.id.twitterTimeLine_bottomFragment,
-				BottomFragment.newInstance(getIntent().getStringExtra(
-						ApplicationConstants.ARG_PROFILE_NAME)));
-		transaction.commit();
-		
+	
+
 	}
 
 	public void onItemClick(View view) {
@@ -61,6 +56,5 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 			}
 		}
 	}
-	
 
 }

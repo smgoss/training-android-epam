@@ -10,16 +10,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.utils.GetSystemService;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
+import com.epam.android.social.common.fragments.BaseArrayModelFragmentWithCustomLoad;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.ProfileInfo;
 import com.google.android.imageloader.ImageLoader;
 
 public class ProfileInfoHeaderFragment extends
-		BaseArrayModelFragment<ProfileInfo> {
+		BaseArrayModelFragmentWithCustomLoad<ProfileInfo> {
 
 	private static final String TAG = ProfileInfoHeaderFragment.class
 			.getSimpleName();
@@ -183,7 +183,8 @@ public class ProfileInfoHeaderFragment extends
 				getContext(), ImageLoader.IMAGE_LOADER_SERVICE);
 		ImageView profileAvatar = (ImageView) userItem
 				.findViewById(R.id.profileInfoUserItem_avatar);
-		imageLoader.bind(profileAvatar, item.getProfileAvatarUrl(), null);
+		imageLoader.bind(profileAvatar, TwitterAPI.getInstance()
+				.getUserAvatarBig(item.getScreenName()), null);
 
 		TextView name = (TextView) userItem
 				.findViewById(R.id.profileInfoUserItem_name);
@@ -238,6 +239,11 @@ public class ProfileInfoHeaderFragment extends
 				R.id.profileInfo_main);
 		main.setVisibility(View.VISIBLE);
 
+	}
+
+	@Override
+	public int getProgressBarResource() {
+		return R.id.progress_bar_on_profile;
 	}
 
 }

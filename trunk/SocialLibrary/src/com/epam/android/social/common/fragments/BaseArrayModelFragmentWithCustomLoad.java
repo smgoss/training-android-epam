@@ -27,7 +27,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 	@Override
 	public void showLoading() {
 		mProgressBar = (ProgressBar) getView().findViewById(
-				R.id.progress_bar_on_listView);
+				getProgressBarResource());
 		mProgressBar.setVisibility(View.VISIBLE);
 
 		isLoading = true;
@@ -36,7 +36,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 	@Override
 	public void showProgress(String textMessage) {
 		mProgressBar = (ProgressBar) getView().findViewById(
-				R.id.progress_bar_on_listView);
+				getProgressBarResource());
 		mProgressBar.setVisibility(View.VISIBLE);
 		isLoading = true;
 	}
@@ -56,5 +56,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 
 		isLoading = false;
 	}
+	
+	public abstract int getProgressBarResource();
 
 }

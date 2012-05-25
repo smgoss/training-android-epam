@@ -17,22 +17,10 @@ public class BottomFragment extends Fragment {
 
 	private static final String TAG = BottomFragment.class.getSimpleName();
 
-	public static BottomFragment newInstance(String accountName) {
-		Bundle bundle = new Bundle();
-		BottomFragment fragment = new BottomFragment();
-		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, accountName);
-		fragment.setArguments(bundle);
-		return fragment;
-	}
-
-	private BottomFragment() {
-
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.bottom, null, false);
+		return inflater.inflate(R.layout.bottom, container, false);
 	}
 
 	@Override
@@ -86,8 +74,9 @@ public class BottomFragment extends Fragment {
 														TwitterAPI
 																.getInstance()
 																.getFavorite(),
-														getArguments()
-																.getString(
+														getActivity()
+																.getIntent()
+																.getStringExtra(
 																		ApplicationConstants.ARG_PROFILE_NAME)),
 										SearchTweetsFragment.TAG);
 						fragmentTransaction.commit();
@@ -112,8 +101,9 @@ public class BottomFragment extends Fragment {
 														TwitterAPI
 																.getInstance()
 																.getDirectMessages(),
-														getArguments()
-																.getString(
+														getActivity()
+																.getIntent()
+																.getStringExtra(
 																		ApplicationConstants.ARG_PROFILE_NAME)),
 										SearchTweetsFragment.TAG);
 						fragmentTransaction.commit();

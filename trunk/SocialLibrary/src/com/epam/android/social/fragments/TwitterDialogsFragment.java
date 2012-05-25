@@ -40,4 +40,10 @@ public class TwitterDialogsFragment extends CommonTwitterFragment<TwitterDialogs
 				(List<TwitterDialogs>) list);
 	}
 
+
+	@Override
+	public int getProgressBarResource() {
+		return R.id.progress_bar_on_listView;
+	}
+
 }
