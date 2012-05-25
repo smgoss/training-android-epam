@@ -46,8 +46,8 @@ public class AddAccountsFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		accountsListPrefs = AccountsListPrefs.getInstanse();
+		accountGallery = (Gallery) getView().findViewById(R.id.gallery);
 		listAccounts = new ArrayList<Account>();
-		accountGallery = (Gallery) getView().findViewById(R.id.Gallery01);
 		accountGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -80,6 +80,11 @@ public class AddAccountsFragment extends Fragment {
 			public void onSuccessLogin(final Account account) {
 				if (!listContainAcccount(account)) {
 					listAccounts.add(account);
+					if (accountAdapter == null) {
+						accountAdapter = new AccountAdapter(listAccounts,
+								getActivity());
+						accountGallery.setAdapter(accountAdapter);
+					}
 					accountAdapter.notifyDataSetChanged();
 				}
 
@@ -94,13 +99,12 @@ public class AddAccountsFragment extends Fragment {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	private void restoreAccounts() {
-		listAccounts = accountsListPrefs.getListAccounts();
-		if (listAccounts != null) {
+		if (accountsListPrefs.getListAccounts() != null) {
+			listAccounts = accountsListPrefs.getListAccounts();
 			accountAdapter = new AccountAdapter(listAccounts, getActivity());
 			accountGallery.setAdapter(accountAdapter);
 		}
