@@ -19,15 +19,14 @@
     </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:background">@drawable/custom_tab_indicator</item>
+        <item name="android:background">@drawable/vpi__tab_indicator</item>
     </style>
 
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">0px</item>
-        <item name="android:shadowRadius">20</item>
-        <item name="android:shadowColor">@color/green</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
     </style>
 
     <style name="TextViewWhite" parent="@android:style/Widget.TextView">
@@ -83,6 +82,19 @@
     <style name="WrapContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BottomBar">
+        <item name="android:background">@drawable/bg_bottom_bar_blue</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BottomButton" parent="@android:style/Widget.ImageButton">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="ItemUserName" parent="@android:style/Widget.TextView">
