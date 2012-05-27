@@ -4,68 +4,62 @@
     android:layout_height="fill_parent" >
 
     <LinearLayout
+        android:id="@+id/profileInfo_main"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.03" />
+
+        <include
+            android:id="@+id/profileInfo_userItem"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/profile_info_user_item" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.03" />
+
+        <include
+            android:id="@+id/profileInfo_tweetLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.2"
+            layout="@layout/profile_button" />
+
+        <include
+            android:id="@+id/profileInfo_followingLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginTop="1dp"
+            android:layout_weight="0.2"
+            layout="@layout/profile_button" />
+
+        <include
+            android:id="@+id/profileInfo_followersLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginTop="1dp"
+            android:layout_weight="0.2"
+            layout="@layout/profile_button" />
 
         <LinearLayout
-            android:id="@+id/profileInfo_main"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:visibility="gone" >
+            android:layout_height="0dip"
+            android:layout_weight="0.52"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="0.03" />
-
-            <include
-                android:id="@+id/profileInfo_userItem"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/profile_info_user_item" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="0.03" />
-
-            <include
-                android:id="@+id/profileInfo_tweetLayout"
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="0.2"
-                layout="@layout/profile_button" />
-
-            <include
-                android:id="@+id/profileInfo_followingLayout"
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_marginTop="1dp"
-                android:layout_weight="0.2"
-                layout="@layout/profile_button" />
-
-            <include
-                android:id="@+id/profileInfo_followersLayout"
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_marginTop="1dp"
-                android:layout_weight="0.2"
-                layout="@layout/profile_button" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="0.52"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 
