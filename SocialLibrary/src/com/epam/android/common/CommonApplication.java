@@ -32,8 +32,6 @@ public class CommonApplication extends Application {
 			@Override
 			public Bitmap getContent(URLConnection connection)
 					throws IOException {
-				// todo if file exists get from file
-				// getCacheDir()
 				String absolutePath = getApplicationContext().getCacheDir()
 						.getAbsolutePath();
 				String path = connection.getURL().toString();
@@ -41,9 +39,8 @@ public class CommonApplication extends Application {
 				if (result == null) {
 					Bitmap content = super.getContent(connection);
 					result = ImageManager.getRoundedCornersImage(content, 5);
-					// store to file
 					ImageManager.saveImageToFile(absolutePath, result,
-							connection.getURL().toString());
+							path);
 				}
 				return result;
 			}
