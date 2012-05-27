@@ -3,6 +3,7 @@ package com.epam.android.social.fragments;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +32,8 @@ public class ProfileFragment extends
 
 	private LinearLayout userItem;
 
+	private ProfileInfo profileInfo;
+
 	public static ProfileFragment newInstance(String query, String profileName) {
 		Bundle bundle = new Bundle();
 		ProfileFragment fragment = new ProfileFragment();
@@ -53,6 +56,12 @@ public class ProfileFragment extends
 	@Override
 	public String getUrl() {
 		return getArguments().getString(ApplicationConstants.ARG_QUERY);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelable(getDelegateKey(), (Parcelable) profileInfo);
 	}
 
 	@Override
@@ -91,16 +100,23 @@ public class ProfileFragment extends
 			}
 		});
 
+		if (savedInstanceState != null) {
+			initView(getView(),
+					(ProfileInfo) savedInstanceState
+							.getParcelable(getDelegateKey()));
+		}
+
 	}
 
 	@Override
 	protected void success(List<ProfileInfo> result) {
-		initView(getView(), result.get(0));
+		profileInfo = result.get(0);
+		initView(getView(), profileInfo);
 	}
 
 	@Override
 	public int getLayoutResource() {
-		return R.layout.profile_info_header_fragment;
+		return R.layout.profile_info_fragment;
 	}
 
 	private void onTweetButtonClick() {
@@ -239,10 +255,14 @@ public class ProfileFragment extends
 			}
 		});
 
+		setVisibleLayout();
+
+	}
+
+	private void setVisibleLayout() {
 		LinearLayout main = (LinearLayout) getView().findViewById(
 				R.id.profileInfo_main);
 		main.setVisibility(View.VISIBLE);
-
 	}
 
 	@Override
