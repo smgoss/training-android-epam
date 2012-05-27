@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:gravity="center_vertical"
+    style="@style/BottomBar" >
 
-    <LinearLayout style="@style/BottomBar" >
+    <ImageView
+        android:id="@+id/homeButton"
+        style="@style/BottomButton"
+        android:src="@drawable/btn_bottom_home" />
 
-        <ImageView
-            android:id="@+id/homeButton"
-            style="@style/BottomButton"
-            android:src="@drawable/btn_bottom_home" />
+    <ImageView
+        android:id="@+id/favoriteButton"
+        style="@style/BottomButton"
+        android:src="@drawable/btn_bottom_star" />
 
-        <ImageView
-            android:id="@+id/favoriteButton"
-            style="@style/BottomButton"
-            android:src="@drawable/btn_bottom_star" />
+    <ImageView
+        android:id="@+id/messagesButton"
+        style="@style/BottomButton"
+        android:src="@drawable/btn_bottom_message" />
 
-        <ImageView
-            android:id="@+id/messagesButton"
-            style="@style/BottomButton"
-            android:src="@drawable/btn_bottom_message" />
+    <ImageView
+        android:id="@+id/searchButton"
+        style="@style/BottomButton"
+        android:src="@drawable/btn_bottom_search" />
 
-        <ImageView
-            android:id="@+id/searchButton"
-            style="@style/BottomButton"
-            android:src="@drawable/btn_bottom_search" />
-
-        <ImageView
-            android:id="@+id/tweetButton"
-            style="@style/BottomButton"
-            android:src="@drawable/btn_bottom_add" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/tweetButton"
+        style="@style/BottomButton"
+        android:src="@drawable/btn_bottom_add" />
 
 </LinearLayout>

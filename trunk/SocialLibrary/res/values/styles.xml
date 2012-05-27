@@ -2,7 +2,7 @@
 <resources>
 
     <style name="AccountTextStyle" parent="@android:style/Widget.TextView">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/user_name</item>
     </style>
 
     <style name="TextStyle" parent="@android:style/Widget.TextView">
@@ -23,6 +23,15 @@
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/vpi__tab_indicator</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="CustomTabTextStyle" parent="Widget.TabPageIndicator.Text">
+        <item name="android:textColor">@color/tab_text</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:capitalize">characters</item>
     </style>
 
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
