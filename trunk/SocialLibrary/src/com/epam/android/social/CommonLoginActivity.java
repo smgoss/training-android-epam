@@ -1,7 +1,5 @@
 package com.epam.android.social;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -13,8 +11,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.epam.android.social.constants.FacebookConstants;
-import com.epam.android.social.fragments.AccountsFragment;
 import com.epam.android.social.helper.FacebookOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;

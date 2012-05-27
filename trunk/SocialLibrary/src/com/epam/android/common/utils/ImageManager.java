@@ -183,8 +183,9 @@ public class ImageManager {
 			if (bitmap != null) {
 				Log.d(TAG, "load from file " + absolutePath + File.separator
 						+ imageName);
+				return bitmap;
 			}
-			return bitmap;
+			
 		}
 		return null;
 	}

@@ -3,6 +3,7 @@ package com.epam.android.social.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ public class BottomFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Log.d(TAG, "BottomFragment Create");
 
 		getView().findViewById(R.id.tweetButton).setOnClickListener(
 				new OnClickListener() {
@@ -110,5 +112,4 @@ public class BottomFragment extends Fragment {
 					}
 				});
 	}
-
 }
