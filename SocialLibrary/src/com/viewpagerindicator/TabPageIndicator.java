@@ -24,9 +24,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckedTextView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.epam.android.social.R;
 
@@ -222,7 +222,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		mListener = listener;
 	}
 
-	private class TabView extends TextView {
+	private class TabView extends CheckedTextView {
 		private int mIndex;
 
 		public TabView(Context context) {
