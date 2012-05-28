@@ -73,6 +73,18 @@ public class Tweet extends BaseModel {
 	}
 
 	public String getText() {
-		return getString("text");
+
+		if (getJSONObject("retweeted_status") != null) {
+			try {
+				return getJSONObject("retweeted_status").getString("text");
+			} catch (JSONException e) {
+				Log.e(TAG, "error, text not found");
+			}
+		} else {
+			return getString("text");
+		}
+
+		return "";
+
 	}
 }
