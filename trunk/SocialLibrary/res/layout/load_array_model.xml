@@ -9,17 +9,17 @@
         android:layout_height="fill_parent"
         layout="@layout/progress_on_list" />
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/bg_top_tabs_shadow" />
-
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/pull_refresh_list"
         style="@style/ListViewStyle"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_top_tabs_shadow" />
 
     <ImageView
         android:layout_width="fill_parent"
