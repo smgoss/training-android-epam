@@ -64,6 +64,7 @@ public class AccountsFragment extends Fragment {
 							listAccounts.get(position).getUserName());
 
 					startActivity(intent);
+					getActivity().finish();
 
 				} catch (IOException e) {
 					Log.d(TAG, "crash when loading data", e);
