@@ -38,6 +38,7 @@
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">0px</item>
         <item name="android:shadowColor">@android:color/transparent</item>
+        <item  name="android:fadingEdge">none</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
     </style>
 
