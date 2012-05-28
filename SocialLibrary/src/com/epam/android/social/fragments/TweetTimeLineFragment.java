@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;

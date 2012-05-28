@@ -31,9 +31,7 @@
         <item name="android:capitalize">characters</item>
     </style>
 
-    <style name="CustomTabTextStyle" parent="Widget.TabPageIndicator.Text">
-        
-    </style>
+    <style name="CustomTabTextStyle" parent="Widget.TabPageIndicator.Text"></style>
 
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
