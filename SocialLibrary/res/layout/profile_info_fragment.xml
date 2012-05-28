@@ -4,6 +4,12 @@
     android:layout_height="fill_parent"
     android:background="@drawable/bg_gradient_small" >
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_top_tabs_shadow" />
+
     <LinearLayout
         android:id="@+id/profileInfo_main"
         android:layout_width="fill_parent"
@@ -64,12 +70,15 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar_on_profile"
-        style="@android:style/Widget.ProgressBar.Large"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_bottom_tabs_shadow" />
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        layout="@layout/progress_on_profile" />
 
 </RelativeLayout>

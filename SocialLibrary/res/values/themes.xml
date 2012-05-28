@@ -3,6 +3,7 @@
 
     <style name="ApplicationTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:listViewStyle">@style/ListViewStyle</item>
+        <item name="android:windowBackground">@drawable/bg_gradient_small</item>
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="vpiTabTextStyle">@style/CustomTabTextStyle</item>
     </style>
