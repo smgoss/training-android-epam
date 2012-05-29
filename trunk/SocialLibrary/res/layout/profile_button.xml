@@ -5,23 +5,23 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
         android:src="@drawable/ic_info" />
 
     <TextView
         android:id="@+id/profileButton_name"
         style="@style/TextStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:text="Tweets" />
 
     <TextView
         android:id="@+id/profileButton_value"
         style="@style/TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp" />
+        android:text="123" />
 
 </LinearLayout>
