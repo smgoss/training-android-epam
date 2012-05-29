@@ -41,6 +41,7 @@
         </activity>
         <activity
             android:name=".TwitterTimeLineFragmentActivity"
+            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation" >
             <meta-data
                 android:name="android.app.default_searchable"
