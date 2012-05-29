@@ -27,13 +27,17 @@
     <string name="twitter">Twitter</string>
     <string name="facebook">Facebook</string>
     <string name="choise_social_network">Choise social network</string>
+    <string name="home">Home</string>
+    <string name="star">Favorite</string>
+    <string name="message">Messages</string>
+    <string name="search">Search</string>
+    <string name="add_tweet">Add tweet</string>
 
     <string-array name="titles">
         <item>TIMELINE</item>
         <item>CONNECT</item>
         <item>PROFILE</item>
     </string-array>
-    
     <string-array name="search_titles">
         <item>Tweets</item>
         <item>People</item>

@@ -19,6 +19,8 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
@@ -38,7 +40,7 @@
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">0px</item>
         <item name="android:shadowColor">@android:color/transparent</item>
-        <item  name="android:fadingEdge">none</item>
+        <item name="android:fadingEdge">none</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
     </style>
 
@@ -102,6 +104,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:shadowColor">@android:color/transparent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="BottomButton" parent="@android:style/Widget.ImageButton">
