@@ -42,65 +42,60 @@ public class AddTweetFragment extends DialogFragment {
 	public void onActivityCreated(Bundle arg0) {
 		super.onActivityCreated(arg0);
 
-		if (tweetButton == null || cancelButton == null || tweetText == null
-				|| messageCountSymbols == null) {
+		tweetButton = (Button) getView().findViewById(R.id.tweetButton);
+		cancelButton = (Button) getView().findViewById(R.id.canselButton);
+		tweetText = (EditText) getView().findViewById(R.id.tweetText);
+		messageCountSymbols = (TextView) getView().findViewById(
+				R.id.messageCoutSymbols);
+		messageCountSymbols.setText(String
+				.valueOf(TwitterConstants.MAX_LENGTH_TWEET));
 
-			tweetButton = (Button) getView().findViewById(R.id.tweetButton);
-			cancelButton = (Button) getView().findViewById(R.id.canselButton);
-			tweetText = (EditText) getView().findViewById(R.id.tweetText);
-			messageCountSymbols = (TextView) getView().findViewById(
-					R.id.messageCoutSymbols);
-			messageCountSymbols.setText(String
-					.valueOf(TwitterConstants.MAX_LENGTH_TWEET));
+		tweetButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
 
-			tweetButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					try {
-						new HttpPostAsyncTask(getActivity()).execute(TwitterAPI
-								.getInstance().getUpdateStatusRequest(
-										tweetText.getText().toString()));
-					} catch (UnsupportedEncodingException e) {
-						Log.e(TAG,
-								"particular character converter not unavailable",
-								e);
-					}
-					getDialog().cancel();
+				try {
+					new HttpPostAsyncTask(getActivity()).execute(TwitterAPI
+							.getInstance().getUpdateStatusRequest(
+									tweetText.getText().toString()));
+				} catch (UnsupportedEncodingException e) {
+					Log.e(TAG,
+							"particular character converter not unavailable", e);
 				}
-			});
+				getDialog().cancel();
+			}
+		});
 
-			cancelButton.setOnClickListener(new OnClickListener() {
+		cancelButton.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					getDialog().cancel();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				getDialog().cancel();
+			}
+		});
 
-			tweetText.addTextChangedListener(new TextWatcher() {
+		tweetText.addTextChangedListener(new TextWatcher() {
 
-				@Override
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-				}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
 
-				@Override
-				public void afterTextChanged(Editable s) {
+			@Override
+			public void afterTextChanged(Editable s) {
 
-				}
+			}
 
-				@Override
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					messageCountSymbols.setText(String
-							.valueOf(TwitterConstants.MAX_LENGTH_TWEET - start
-									- after));
-				}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				messageCountSymbols.setText(String
+						.valueOf(TwitterConstants.MAX_LENGTH_TWEET - start
+								- after));
+			}
 
-			});
+		});
 
-		}
 	}
 
 	@Override

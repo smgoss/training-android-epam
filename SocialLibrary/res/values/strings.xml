@@ -35,7 +35,8 @@
     <string name="star">Favorite</string>
     <string name="message">Messages</string>
     <string name="search">Search</string>
-    <string name="add_tweet">Add tweet</string>
+    <string name="add_tweet">Add a tweet</string>
+    <string name="select_photo">Select photo</string>
 
     <string-array name="titles">
         <item>TIMELINE</item>
@@ -43,8 +44,13 @@
         <item>PROFILE</item>
     </string-array>
     <string-array name="search_titles">
-        <item>Tweets</item>
-        <item>People</item>
+        <item>TWEETS</item>
+        <item>PEOPLE</item>
+    </string-array>
+    <string-array name="select_photo_variants">
+        <item>Camera</item>
+        <item>Gallery</item>
+        <item>Remove photo</item>
     </string-array>
 
 </resources>
