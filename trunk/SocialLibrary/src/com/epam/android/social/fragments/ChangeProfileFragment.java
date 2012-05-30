@@ -4,28 +4,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.epam.android.common.task.HttpPostAsyncTask;
-import com.epam.android.common.utils.ImageManager;
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.common.fragments.BaseArrayModelFragmentWithCustomLoad;
@@ -42,23 +33,13 @@ public class ChangeProfileFragment extends
 
 	private static final String DATA_ON_EDIT_TEXT_LIST = "dataOnEditTextList";
 
-	private static final int IMAGE_PICK = 1598;
-
-	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 12312;
-
-	private WindowManager mWindowManager;
-
-	private WindowManager.LayoutParams mWindowParams;
-
-	private View addedItem;
-
-	private Uri imageUri;
-
 	private ImageView avatar;
 
 	private Drawable loadedAvatar;
 
 	private List<EditText> editTextList;
+
+	private static ChangeProfileFragment.ISuccesChoisePhoto iSuccesPhoto;
 
 	public static ChangeProfileFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
@@ -205,7 +186,6 @@ public class ChangeProfileFragment extends
 			@Override
 			public void onClick(View paramView) {
 				getFragmentManager().popBackStack();
-				hideChoiseItem();
 			}
 		});
 
@@ -213,81 +193,19 @@ public class ChangeProfileFragment extends
 
 			@Override
 			public void onClick(View paramView) {
-				// TODO
-				// showChoiseItem();
-				// ImageView galleryButton = (ImageView) addedItem
-				// .findViewById(R.id.galleryCamera_galleryButton);
-				// galleryButton.setOnClickListener(new OnClickListener() {
-				//
-				// @Override
-				// public void onClick(View v) {
-				// if (Environment.getExternalStorageDirectory().canRead()) {
-				// Intent intent = new Intent(
-				// Intent.ACTION_GET_CONTENT);
-				// intent.setType("image/*");
-				// startActivityForResult(intent, IMAGE_PICK);
-				// } else {
-				// Toast.makeText(
-				// getContext(),
-				// getResources().getString(
-				// R.string.insert_sd_card),
-				// Toast.LENGTH_SHORT).show();
-				// }
-				// }
-				// });
-				//
-				// ImageView cameraButton = (ImageView) addedItem
-				// .findViewById(R.id.galleryCamera_cameraButton);
-				// cameraButton.setOnClickListener(new OnClickListener() {
-				//
-				// @Override
-				// public void onClick(View v) {
-				// String fileName = "new-photo-name.jpg";
-				// ContentValues values = new ContentValues();
-				// values.put(MediaStore.Images.Media.TITLE, fileName);
-				// values.put(MediaStore.Images.Media.DESCRIPTION,
-				// "Image capture by camera");
-				//
-				// if (Environment.getExternalStorageDirectory()
-				// .canWrite()) {
-				// imageUri = getView()
-				// .getContext()
-				// .getContentResolver()
-				// .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-				// values);
-				// Intent intent = new Intent(
-				// MediaStore.ACTION_IMAGE_CAPTURE);
-				// if (imageUri != null) {
-				// intent.putExtra(MediaStore.EXTRA_OUTPUT,
-				// imageUri);
-				// }
-				// intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-				// startActivityForResult(intent,
-				// CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-				// } else {
-				// Toast.makeText(
-				// getContext(),
-				// getResources().getString(
-				// R.string.insert_sd_card),
-				// Toast.LENGTH_SHORT).show();
-				// }
-				// }
-				// });
+				SelectPhotoFragment selectPhotoFragment = new SelectPhotoFragment();
+				selectPhotoFragment.show(getFragmentManager(), TAG);
 
 			}
 		});
 
-	}
+		iSuccesPhoto = new ISuccesChoisePhoto() {
 
-	private void hideChoiseItem() {
-		if (addedItem != null) {
-			mWindowManager.removeView(addedItem);
-		}
-		addedItem = null;
-	}
-
-	private void setImageAvatar(Uri uri) {
-		avatar.setImageURI(uri);
+			@Override
+			public void onSuccessChoisePhoto(Uri uri) {
+				avatar.setImageURI(uri);
+			}
+		};
 	}
 
 	@Override
@@ -296,54 +214,16 @@ public class ChangeProfileFragment extends
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode,
-			Intent imageReturnedIntent) {
-		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-		switch (requestCode) {
-		case IMAGE_PICK:
-			if (resultCode == Activity.RESULT_OK) {
-				Uri selectedImage = imageReturnedIntent.getData();
-				setImageAvatar(selectedImage);
-				hideChoiseItem();
-			}
-			break;
-		case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
-			if (resultCode == Activity.RESULT_OK) {
-				if (imageReturnedIntent != null) {
-					Log.d("VA", "" + imageReturnedIntent.getData());
-				}
-				if (imageUri == null) {
-					if (imageReturnedIntent != null) {
-						imageUri = imageReturnedIntent.getData();
-					}
-					if (imageUri == null) {
-						try {
-							imageUri = ImageManager
-									.tryGetImageFromBadDevice(getActivity());
-						} catch (Exception e) {
-							Log.e("VA", "error get image uri", e);
-						}
-					}
-					if (imageUri == null) {
-						Toast.makeText(getView().getContext(),
-								"Sorry, your device not supported this action",
-								Toast.LENGTH_SHORT).show();
-						return;
-					}
-				}
-
-				setImageAvatar(imageUri);
-				imageUri = null;
-				hideChoiseItem();
-			}
-			break;
-		}
-	}
-
-	@Override
 	public int getProgressBarResource() {
 		return R.id.progress_bar_on_listView;
+	}
+
+	public static interface ISuccesChoisePhoto {
+		public void onSuccessChoisePhoto(final Uri uri);
+	}
+
+	public static ChangeProfileFragment.ISuccesChoisePhoto getSuccesChoisePhoto() {
+		return iSuccesPhoto;
 	}
 
 }

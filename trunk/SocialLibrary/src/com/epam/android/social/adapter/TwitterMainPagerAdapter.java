@@ -31,12 +31,12 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 	@Override
 	public void initFragments() {
 
-//		getFragments().add(
-//				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
-//						.getHomeTimeLine(), accountName));
-//		getFragments().add(
-//				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
-//						.getMentions(), accountName));
+		getFragments().add(
+				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
+						.getHomeTimeLine(), accountName));
+		getFragments().add(
+				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
+						.getMentions(), accountName));
 
 		getFragments().add(
 				ProfileFragment.newInstance(TwitterAPI.getInstance()
