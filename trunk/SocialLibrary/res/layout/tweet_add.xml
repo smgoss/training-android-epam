@@ -1,39 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/canselButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:onClick="onTwitterCanselButtonClick"
-        android:text="@string/cancel" />
-
-    <Button
-        android:id="@+id/tweetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:onClick="onTweetButtonClick"
-        android:text="@string/tweet" />
-
-    <TextView
-        android:id="@+id/messageCoutSymbols"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_toLeftOf="@id/tweetButton"
-        android:text="220" />
-
-    <EditText
-        android:id="@+id/tweetText"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tweetButton" />
+        android:padding="10dp" >
 
-</RelativeLayout>
+        <TextView
+            style="@style/ItemUserName"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="Add a tweet"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/messageCoutSymbols"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="45/140" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="@color/user_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <EditText
+            android:id="@+id/tweetText"
+            style="@style/EditTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="97dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Multi-line text field for tweets. Second line"
+            android:inputType="textMultiLine"
+            android:maxLength="140" >
+
+            <requestFocus />
+        </EditText>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_add_tweet_attachment" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/canselButton"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:onClick="onTwitterCanselButtonClick"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/tweetButton"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:onClick="onTweetButtonClick"
+            android:text="Tweet" />
+    </LinearLayout>
+
+</LinearLayout>
