@@ -40,7 +40,7 @@
             android:id="@+id/tweetText"
             style="@style/EditTextStyle"
             android:layout_width="wrap_content"
-            android:layout_height="97dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:ems="10"
             android:gravity="top"
@@ -60,6 +60,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:padding="5dp"
         android:layout_height="wrap_content" >
 
         <Button
