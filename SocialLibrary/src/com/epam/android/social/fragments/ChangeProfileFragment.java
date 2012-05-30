@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,16 +15,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.epam.android.common.task.HttpPostAsyncTask;
@@ -115,10 +111,15 @@ public class ChangeProfileFragment extends
 	}
 
 	private void initView(ProfileInfo result) {
-		avatar = (ImageView) getView().findViewById(R.id.changeProfile_avatar);
+		avatar = (ImageView) getView()
+				.findViewById(R.id.changeProfile_userItem).findViewById(
+						R.id.profileInfoUserItem_avatar);
+
 		if (loadedAvatar == null) {
-			ImageLoader.get(getContext()).bind(avatar,
-					result.getProfileAvatarUrl(), new Callback() {
+			ImageLoader.get(getContext()).bind(
+					avatar,
+					TwitterAPI.getInstance().getUserAvatarBig(
+							result.getScreenName()), new Callback() {
 
 						@Override
 						public void onImageLoaded(ImageView view, String url) {
@@ -133,26 +134,52 @@ public class ChangeProfileFragment extends
 					});
 		}
 
-		editTextList = new ArrayList<EditText>();
-		final EditText name = (EditText) getView().findViewById(
-				R.id.changeProfile_name);
+		TextView name = (TextView) getView().findViewById(
+				R.id.changeProfile_userItem).findViewById(
+				R.id.profileInfoUserItem_name);
 		name.setText(result.getName());
-		editTextList.add(name);
 
-		final EditText description = (EditText) getView().findViewById(
-				R.id.changeProfile_description);
-		description.setText(result.getDescription());
-		editTextList.add(description);
+		TextView screenName = (TextView) getView().findViewById(
+				R.id.changeProfile_userItem).findViewById(
+				R.id.profileInfoUserItem_screenName);
+		screenName.setText("@" + result.getScreenName());
 
-		final EditText url = (EditText) getView().findViewById(
-				R.id.changeProfile_url);
+		TextView description = (TextView) getView().findViewById(
+				R.id.changeProfile_userItem).findViewById(
+				R.id.profileInfoUserItem_description);
+		if (result.getDescription() != null
+				&& result.getDescription().length() != 0) {
+			description.setText(result.getDescription());
+		} else {
+			description.setVisibility(View.GONE);
+		}
+
+		TextView url = (TextView) getView().findViewById(
+				R.id.changeProfile_userItem).findViewById(
+				R.id.profileInfoUserItem_url);
+
 		url.setText(result.getUrl());
-		editTextList.add(url);
 
-		final EditText location = (EditText) getView().findViewById(
+		editTextList = new ArrayList<EditText>();
+		final EditText nameEditText = (EditText) getView().findViewById(
+				R.id.changeProfile_name);
+		nameEditText.setText(result.getName());
+		editTextList.add(nameEditText);
+
+		final EditText descriptionEditText = (EditText) getView().findViewById(
+				R.id.changeProfile_description);
+		descriptionEditText.setText(result.getDescription());
+		editTextList.add(descriptionEditText);
+
+		final EditText urlEditText = (EditText) getView().findViewById(
+				R.id.changeProfile_url);
+		urlEditText.setText(result.getUrl());
+		editTextList.add(urlEditText);
+
+		final EditText locationEditText = (EditText) getView().findViewById(
 				R.id.changeProfile_location);
-		location.setText(result.getLocation());
-		editTextList.add(location);
+		locationEditText.setText(result.getLocation());
+		editTextList.add(locationEditText);
 
 		Button saveButton = (Button) getView().findViewById(
 				R.id.changeProfile_saveButton);
@@ -165,10 +192,10 @@ public class ChangeProfileFragment extends
 				try {
 					new HttpPostAsyncTask(getContext()).execute(TwitterAPI
 							.getInstance().getUpdateProfileRequest(
-									name.getText().toString(),
-									description.getText().toString(),
-									url.getText().toString(),
-									location.getText().toString()));
+									nameEditText.getText().toString(),
+									descriptionEditText.getText().toString(),
+									urlEditText.getText().toString(),
+									locationEditText.getText().toString()));
 					if (!loadedAvatar.equals(avatar.getDrawable())) {
 						new HttpPostAsyncTask(getContext()).execute(TwitterAPI
 								.getInstance().getUpdateProfileAvatarRequest(
@@ -192,13 +219,12 @@ public class ChangeProfileFragment extends
 			}
 		});
 
-		RelativeLayout avatarLayout = (RelativeLayout) getView().findViewById(
-				R.id.changeProfile_avatarLayout);
-		avatarLayout.setOnClickListener(new OnClickListener() {
+		avatar.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View paramView) {
-				showChoiseItem();
+				// TODO
+				// showChoiseItem();
 				ImageView galleryButton = (ImageView) addedItem
 						.findViewById(R.id.galleryCamera_galleryButton);
 				galleryButton.setOnClickListener(new OnClickListener() {
@@ -260,33 +286,6 @@ public class ChangeProfileFragment extends
 
 			}
 		});
-
-	}
-
-	private void showChoiseItem() {
-		if (addedItem == null) {
-			addedItem = LayoutInflater.from(getActivity()).inflate(
-					R.layout.gallery_camera_item, null);
-		}
-		mWindowParams = new WindowManager.LayoutParams();
-
-		mWindowParams.gravity = Gravity.TOP | Gravity.LEFT;
-		mWindowParams.x = 80;
-
-		mWindowParams.y = 80;
-
-		mWindowParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-				| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-		mWindowParams.height = getView().findViewById(
-				R.id.changeProfile_avatarLayout).getHeight();
-
-		mWindowParams.width = LayoutParams.FILL_PARENT;
-
-		if (mWindowManager == null) {
-			mWindowManager = (WindowManager) getContext().getSystemService(
-					Context.WINDOW_SERVICE);
-		}
-		mWindowManager.addView(addedItem, mWindowParams);
 
 	}
 

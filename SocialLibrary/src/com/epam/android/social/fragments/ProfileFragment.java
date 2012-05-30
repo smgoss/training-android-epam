@@ -101,9 +101,10 @@ public class ProfileFragment extends
 		});
 
 		if (savedInstanceState != null) {
-			initView(getView(),
-					(ProfileInfo) savedInstanceState
-							.getParcelable(getDelegateKey()));
+			profileInfo = savedInstanceState.getParcelable(getDelegateKey());
+			if (profileInfo != null) {
+				initView(getView(), profileInfo);
+			}
 		}
 
 	}
@@ -111,12 +112,14 @@ public class ProfileFragment extends
 	@Override
 	protected void success(List<ProfileInfo> result) {
 		profileInfo = result.get(0);
-		initView(getView(), profileInfo);
+		if (profileInfo != null) {
+			initView(getView(), profileInfo);
+		}
 	}
 
 	@Override
 	public int getLayoutResource() {
-		return R.layout.profile_info_fragment;
+		return R.layout.profile_info;
 	}
 
 	private void onTweetButtonClick() {
@@ -170,6 +173,7 @@ public class ProfileFragment extends
 	}
 
 	private void initView(View convertView, ProfileInfo item) {
+
 		TextView tweetTextView = (TextView) tweetsLinerLayout
 				.findViewById(R.id.profileButton_name);
 		tweetTextView.setText(getResources().getString(R.string.tweets));
@@ -231,8 +235,8 @@ public class ProfileFragment extends
 			url.setVisibility(View.GONE);
 		}
 
-		ImageView changeProfileButton = (ImageView) userItem
-				.findViewById(R.id.profileInfoUser_sendButton);
+		ImageView changeProfileButton = (ImageView) getView().findViewById(
+				R.id.profileInfoUser_sendButton);
 		changeProfileButton.setOnClickListener(new OnClickListener() {
 
 			@Override

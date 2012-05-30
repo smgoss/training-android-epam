@@ -2,8 +2,8 @@ package com.epam.android.social.common.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.model.BaseModel;
@@ -11,7 +11,7 @@ import com.epam.android.social.R;
 
 public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 		extends BaseArrayModelFragment<B> {
-	
+
 	private ProgressBar mProgressBar;
 
 	private boolean isLoading;
@@ -48,15 +48,15 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 			mProgressBar.setVisibility(View.INVISIBLE);
 		}
 
-		RelativeLayout relativeLayout = (RelativeLayout) getView()
-				.findViewById(R.id.changeProfile_mainLayout);
-		if (relativeLayout != null) {
-			relativeLayout.setVisibility(View.VISIBLE);
+		LinearLayout linearLayout = (LinearLayout) getView().findViewById(
+				R.id.changeProfile_mainLayout);
+		if (linearLayout != null) {
+			linearLayout.setVisibility(View.VISIBLE);
 		}
 
 		isLoading = false;
 	}
-	
+
 	public abstract int getProgressBarResource();
 
 }

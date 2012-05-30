@@ -6,15 +6,15 @@ import java.util.List;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.epam.android.common.BaseArrayModelByAnnotationFragment;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<B extends BaseModel>
 		extends BaseArrayModelByAnnotationFragment<B> {
@@ -59,10 +59,10 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 			mProgressBar.setVisibility(View.INVISIBLE);
 		}
 
-		RelativeLayout relativeLayout = (RelativeLayout) getView()
-				.findViewById(R.id.changeProfile_mainLayout);
-		if (relativeLayout != null) {
-			relativeLayout.setVisibility(View.VISIBLE);
+		LinearLayout linearLayout = (LinearLayout) getView().findViewById(
+				R.id.changeProfile_mainLayout);
+		if (linearLayout != null) {
+			linearLayout.setVisibility(View.VISIBLE);
 		}
 
 		isLoading = false;
@@ -117,11 +117,11 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 	protected void onRefreshCompele() {
 		mPullRefreshListView.onRefreshComplete();
 	}
-	
+
 	public abstract <B extends BaseModel> void setList(List<B> list);
 
 	public abstract List<B> getCurrentList();
-	
+
 	public abstract void onRefreshStart();
 
 }
