@@ -132,6 +132,7 @@
 
     <style name="EditTextStyle" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/edit_text</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 </resources>

@@ -80,9 +80,9 @@ public class ProfileInfo extends BaseModel {
 	public String getDescription() {
 		return getString("description");
 	}
-	
-	public String getLocation(){
-		return getString("geo");
+
+	public String getLocation() {
+		return getString("location");
 	}
 
 }

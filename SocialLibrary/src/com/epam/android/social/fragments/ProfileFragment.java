@@ -218,15 +218,6 @@ public class ProfileFragment extends
 				.findViewById(R.id.profileInfoUserItem_screenName);
 		screenName.setText("@" + item.getScreenName());
 
-		TextView description = (TextView) userItem
-				.findViewById(R.id.profileInfoUserItem_description);
-		if (item.getDescription() != null
-				&& item.getDescription().length() != 0) {
-			description.setText(item.getDescription());
-		} else {
-			description.setVisibility(View.GONE);
-		}
-
 		TextView url = (TextView) convertView
 				.findViewById(R.id.profileInfoUserItem_url);
 		if (item.getUrl() != null) {

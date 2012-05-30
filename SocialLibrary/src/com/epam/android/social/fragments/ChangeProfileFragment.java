@@ -144,16 +144,6 @@ public class ChangeProfileFragment extends
 				R.id.profileInfoUserItem_screenName);
 		screenName.setText("@" + result.getScreenName());
 
-		TextView description = (TextView) getView().findViewById(
-				R.id.changeProfile_userItem).findViewById(
-				R.id.profileInfoUserItem_description);
-		if (result.getDescription() != null
-				&& result.getDescription().length() != 0) {
-			description.setText(result.getDescription());
-		} else {
-			description.setVisibility(View.GONE);
-		}
-
 		TextView url = (TextView) getView().findViewById(
 				R.id.changeProfile_userItem).findViewById(
 				R.id.profileInfoUserItem_url);
@@ -225,64 +215,64 @@ public class ChangeProfileFragment extends
 			public void onClick(View paramView) {
 				// TODO
 				// showChoiseItem();
-				ImageView galleryButton = (ImageView) addedItem
-						.findViewById(R.id.galleryCamera_galleryButton);
-				galleryButton.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						if (Environment.getExternalStorageDirectory().canRead()) {
-							Intent intent = new Intent(
-									Intent.ACTION_GET_CONTENT);
-							intent.setType("image/*");
-							startActivityForResult(intent, IMAGE_PICK);
-						} else {
-							Toast.makeText(
-									getContext(),
-									getResources().getString(
-											R.string.insert_sd_card),
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
-
-				ImageView cameraButton = (ImageView) addedItem
-						.findViewById(R.id.galleryCamera_cameraButton);
-				cameraButton.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						String fileName = "new-photo-name.jpg";
-						ContentValues values = new ContentValues();
-						values.put(MediaStore.Images.Media.TITLE, fileName);
-						values.put(MediaStore.Images.Media.DESCRIPTION,
-								"Image capture by camera");
-
-						if (Environment.getExternalStorageDirectory()
-								.canWrite()) {
-							imageUri = getView()
-									.getContext()
-									.getContentResolver()
-									.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-											values);
-							Intent intent = new Intent(
-									MediaStore.ACTION_IMAGE_CAPTURE);
-							if (imageUri != null) {
-								intent.putExtra(MediaStore.EXTRA_OUTPUT,
-										imageUri);
-							}
-							intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-							startActivityForResult(intent,
-									CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-						} else {
-							Toast.makeText(
-									getContext(),
-									getResources().getString(
-											R.string.insert_sd_card),
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
+				// ImageView galleryButton = (ImageView) addedItem
+				// .findViewById(R.id.galleryCamera_galleryButton);
+				// galleryButton.setOnClickListener(new OnClickListener() {
+				//
+				// @Override
+				// public void onClick(View v) {
+				// if (Environment.getExternalStorageDirectory().canRead()) {
+				// Intent intent = new Intent(
+				// Intent.ACTION_GET_CONTENT);
+				// intent.setType("image/*");
+				// startActivityForResult(intent, IMAGE_PICK);
+				// } else {
+				// Toast.makeText(
+				// getContext(),
+				// getResources().getString(
+				// R.string.insert_sd_card),
+				// Toast.LENGTH_SHORT).show();
+				// }
+				// }
+				// });
+				//
+				// ImageView cameraButton = (ImageView) addedItem
+				// .findViewById(R.id.galleryCamera_cameraButton);
+				// cameraButton.setOnClickListener(new OnClickListener() {
+				//
+				// @Override
+				// public void onClick(View v) {
+				// String fileName = "new-photo-name.jpg";
+				// ContentValues values = new ContentValues();
+				// values.put(MediaStore.Images.Media.TITLE, fileName);
+				// values.put(MediaStore.Images.Media.DESCRIPTION,
+				// "Image capture by camera");
+				//
+				// if (Environment.getExternalStorageDirectory()
+				// .canWrite()) {
+				// imageUri = getView()
+				// .getContext()
+				// .getContentResolver()
+				// .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+				// values);
+				// Intent intent = new Intent(
+				// MediaStore.ACTION_IMAGE_CAPTURE);
+				// if (imageUri != null) {
+				// intent.putExtra(MediaStore.EXTRA_OUTPUT,
+				// imageUri);
+				// }
+				// intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+				// startActivityForResult(intent,
+				// CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+				// } else {
+				// Toast.makeText(
+				// getContext(),
+				// getResources().getString(
+				// R.string.insert_sd_card),
+				// Toast.LENGTH_SHORT).show();
+				// }
+				// }
+				// });
 
 			}
 		});
