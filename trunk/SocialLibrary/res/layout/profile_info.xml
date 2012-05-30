@@ -14,7 +14,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="invisible" >
 
         <View
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:id="@+id/profileInfo_tweetLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             layout="@layout/profile_button" />
 
         <include
@@ -59,7 +59,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_marginTop="1dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             layout="@layout/profile_button" />
 
         <include
@@ -67,7 +67,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_marginTop="1dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             layout="@layout/profile_button" />
 
         <LinearLayout
