@@ -4,46 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp" >
+    <LinearLayout style="@style/ListItem" >
 
         <ImageView
             android:id="@+id/follow_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            style="@style/Avatar"
+            android:contentDescription="@string/avatar"
+            android:src="@drawable/img" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="10dp" >
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/follow_name"
+                style="@style/ItemUserName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/follow_name"
-                    style="@style/ItemUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Sergey Bandysik" />
-
-                <!-- <TextView -->
-                <!-- android:id="@+id/tweetDate" -->
-                <!-- style="@style/ItemTime" -->
-                <!-- android:layout_width="wrap_content" -->
-                <!-- android:layout_height="wrap_content" -->
-                <!-- android:text="3h 14m ago" /> -->
-            </LinearLayout>
+                android:text="Unknow" />
 
             <TextView
                 android:id="@+id/follow_screenName"
@@ -51,56 +32,18 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:text="text text text text text text text text" />
+                android:text="user_name" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/follow_followMeButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/follow_me"
+            android:onClick="onItemClick"
+            android:src="@drawable/btn_bird_big_grey" />
     </LinearLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/divider" />
+    <View style="@style/Divider" />
 
-</LinearLayout> <!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
-<!-- android:layout_width="fill_parent" -->
-<!-- android:layout_height="fill_parent" -->
-<!-- android:background="@color/black" > -->
-
-<!-- <ImageView -->
-<!-- android:id="@+id/follow_avatar" -->
-<!-- android:layout_width="50dp" -->
-<!-- android:layout_height="50dp" -->
-<!-- android:layout_marginLeft="5dp" -->
-<!-- android:layout_marginTop="5dp" -->
-<!-- android:src="@drawable/ava" /> -->
-
-<!-- <TextView -->
-<!-- android:id="@+id/follow_name" -->
-<!-- android:layout_width="fill_parent" -->
-<!-- android:layout_height="wrap_content" -->
-<!-- android:layout_marginLeft="5dp" -->
-<!-- android:layout_marginTop="5dp" -->
-<!-- android:layout_toRightOf="@id/follow_avatar" -->
-<!-- android:text="IlyaShknaj" -->
-<!-- android:textStyle="bold" /> -->
-
-<!-- <TextView -->
-<!-- android:id="@+id/follow_screenName" -->
-<!-- android:layout_width="fill_parent" -->
-<!-- android:layout_height="wrap_content" -->
-<!-- android:layout_below="@id/follow_name" -->
-<!-- android:layout_marginLeft="5dp" -->
-<!-- android:layout_marginTop="5dp" -->
-<!-- android:layout_toRightOf="@id/follow_avatar" -->
-<!-- android:text="/@IlyaShknaj" /> -->
-
-<!-- <ImageView -->
-<!-- android:id="@+id/follow_followMeButton" -->
-<!-- android:layout_width="50dp" -->
-<!-- android:layout_height="50dp" -->
-<!-- android:layout_alignParentRight="true" -->
-<!-- android:onClick="onItemClick" -->
-<!-- android:src="@drawable/twitter_follow" /> -->
-
-<!-- </RelativeLayout> -->
+</LinearLayout>
