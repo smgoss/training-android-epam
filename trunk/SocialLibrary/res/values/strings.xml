@@ -37,6 +37,8 @@
     <string name="search">Search</string>
     <string name="add_tweet">Add a tweet</string>
     <string name="select_photo">Select photo</string>
+    <string name="avatar">Avatar</string>
+    <string name="follow_me">Follow me</string>
 
     <string-array name="titles">
         <item>TIMELINE</item>
