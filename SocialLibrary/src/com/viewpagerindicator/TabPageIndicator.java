@@ -17,6 +17,7 @@
 package com.viewpagerindicator;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.epam.android.social.R;
@@ -138,6 +140,17 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		tabView.setOnClickListener(mTabClickListener);
 		tabView.setText(text);
 
+		if (index != 0) {
+			final ImageView dividerView = new ImageView(getContext());
+			final Resources res = getResources();
+			dividerView
+					.setImageDrawable(res.getDrawable(R.drawable.bg_divider));
+			dividerView.setBackgroundColor(res.getColor(R.color.tab_bg));
+
+			mTabLayout.addView(dividerView, new LinearLayout.LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, 0));
+		}
+
 		mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0,
 				LayoutParams.FILL_PARENT, 1));
 	}
@@ -205,6 +218,13 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		if (mViewPager == null) {
 			throw new IllegalStateException("ViewPager has not been bound.");
 		}
+		item*=2;
+//		if (item != 0) {
+//			if (item == 1)
+//				item = 2;
+//			else if (item == 2)
+//				item = 4;
+//		}
 		mSelectedTabIndex = item;
 		final int tabCount = mTabLayout.getChildCount();
 		for (int i = 0; i < tabCount; i++) {
