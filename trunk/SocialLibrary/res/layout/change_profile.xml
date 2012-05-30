@@ -1,111 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/black" >
+    android:layout_height="fill_parent" >
 
-    <RelativeLayout
-        android:id="@+id/changeProfile_mainLayout"
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:visibility="invisible" >
+        android:background="@drawable/bg_gradient_small" >
 
-        <RelativeLayout
-            android:id="@+id/changeProfile_avatarLayout"
+        <LinearLayout
+            android:id="@+id/changeProfile_mainLayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:visibility="invisible" >
 
-            <ImageView
-                android:id="@+id/changeProfile_avatar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp" />
-
-            <TextView
+            <View
                 android:layout_width="wrap_content"
+                android:layout_height="10dip" />
+
+            <include
+                android:id="@+id/changeProfile_userItem"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
+                layout="@layout/profile_info_user_item" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/changeProfile_avatar"
-                android:text="@string/change_avatar" />
-        </RelativeLayout>
+                android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/changeProfile_avatarLayout"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical" >
+                <TextView
+                    style="@style/ItemUserName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_upperCase" />
 
-            <TextView
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/band" />
+
+                <EditText
+                    android:id="@+id/changeProfile_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/name_lowerCase"
+                    android:typeface="monospace" />
+
+                <TextView
+                    style="@style/ItemUserName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/description_upperCase" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/band" />
+
+                <EditText
+                    android:id="@+id/changeProfile_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description_lowerCase" />
+
+                <TextView
+                    style="@style/ItemUserName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/url_upperCase" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/band" />
+
+                <EditText
+                    android:id="@+id/changeProfile_url"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/url_lowerCase" />
+
+                <TextView
+                    style="@style/ItemUserName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/location_upperCase" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/band" />
+
+                <EditText
+                    android:id="@+id/changeProfile_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/location_lowerCase" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/name" />
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal" >
 
-            <EditText
-                android:id="@+id/changeProfile_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/changeProfile_saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/save" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/description" />
-
-            <EditText
-                android:id="@+id/changeProfile_description"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/url" />
-
-            <EditText
-                android:id="@+id/changeProfile_url"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/location" />
-
-            <EditText
-                android:id="@+id/changeProfile_location"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/changeProfile_cancelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cancel" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/changeProfile_saveButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save" />
-
-            <Button
-                android:id="@+id/changeProfile_cancelButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel" />
-        </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
     <include
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
         layout="@layout/progress_on_list" />
 
 </RelativeLayout>

@@ -20,5 +20,6 @@
     <color name="btn_profile_default">#33b5e5</color>
     <color name="btn_profile_pressed">#70d1f5</color>
     <color name="tab_text">#ffffff</color>
+    <color name="band">#c2eaf6</color>
 
 </resources>
