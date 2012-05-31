@@ -25,10 +25,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.epam.android.social.R;
 
@@ -133,13 +133,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		}
 	}
 
-	private void addTab(String text, int index) {
-		final TabView tabView = new TabView(getContext());
-		tabView.mIndex = index;
-		tabView.setFocusable(true);
-		tabView.setOnClickListener(mTabClickListener);
-		tabView.setText(text);
-
+	private void addDivider(int index, TabView tabView) {
 		if (index != 0) {
 			final ImageView dividerView = new ImageView(getContext());
 			final Resources res = getResources();
@@ -148,11 +142,22 @@ public class TabPageIndicator extends HorizontalScrollView implements
 			dividerView.setBackgroundColor(res.getColor(R.color.tab_bg));
 
 			mTabLayout.addView(dividerView, new LinearLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, 0));
+					LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
+
 		}
+	}
+
+	private void addTab(String text, int index) {
+		final TabView tabView = new TabView(getContext());
+		tabView.mIndex = index;
+		tabView.setFocusable(true);
+		tabView.setOnClickListener(mTabClickListener);
+		tabView.setText(text);
+
+		addDivider(index, tabView);
 
 		mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0,
-				LayoutParams.FILL_PARENT, 1));
+				LayoutParams.FILL_PARENT, 1f));
 	}
 
 	@Override
@@ -218,13 +223,8 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		if (mViewPager == null) {
 			throw new IllegalStateException("ViewPager has not been bound.");
 		}
-		item*=2;
-//		if (item != 0) {
-//			if (item == 1)
-//				item = 2;
-//			else if (item == 2)
-//				item = 4;
-//		}
+		item *= 2;
+
 		mSelectedTabIndex = item;
 		final int tabCount = mTabLayout.getChildCount();
 		for (int i = 0; i < tabCount; i++) {
@@ -242,7 +242,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		mListener = listener;
 	}
 
-	private class TabView extends CheckedTextView {
+	private class TabView extends TextView {
 		private int mIndex;
 
 		public TabView(Context context) {
