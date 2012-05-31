@@ -39,6 +39,7 @@
     <string name="select_photo">Select photo</string>
     <string name="avatar">Avatar</string>
     <string name="follow_me">Follow me</string>
+    <string name="loading">Loading&#8230; Please wait</string>
 
     <string-array name="titles">
         <item>TIMELINE</item>
