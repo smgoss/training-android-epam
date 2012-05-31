@@ -42,7 +42,7 @@ public class FacebookLoginActivity extends Activity {
 		setContentView(R.layout.login_webview);
 
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
-		asyncTask.execute(null);
+		asyncTask.execute();
 
 	}
 

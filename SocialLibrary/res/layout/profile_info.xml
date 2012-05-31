@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:background="@drawable/bg_gradient_small"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_gradient_small" >
 
     <ImageView
         android:layout_width="fill_parent"
@@ -59,7 +59,7 @@
             android:id="@+id/profileInfo_followingLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="1px"
             android:layout_weight="0.15"
             layout="@layout/profile_button" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/profileInfo_followersLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="1px"
             android:layout_weight="0.15"
             layout="@layout/profile_button" />
 

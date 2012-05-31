@@ -18,10 +18,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.epam.android.common.task.HttpExecuteAsyncTask;
+import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.fragments.AccountsFragment;
 import com.epam.android.social.helper.TwitterOAuthHelper;
+import com.epam.android.social.model.Account;
 
 public class TwitterLoginActivity extends Activity {
 
@@ -46,7 +49,7 @@ public class TwitterLoginActivity extends Activity {
 		setContentView(R.layout.login_webview);
 
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
-		asyncTask.execute(null);
+		asyncTask.execute();
 
 	}
 
@@ -54,29 +57,54 @@ public class TwitterLoginActivity extends Activity {
 		return new WebViewClient() {
 
 			@Override
-			public void onPageFinished(WebView view, String url) {
+			public void onPageFinished(WebView view, final String url) {
 				Log.d(TAG, "page finished " + url);
-				try {
-					if (helper.isRedirectURL(url) && !isSave) {
-						isSave = true;
-						helper.saveToken(url);
-						webView.setVisibility(WebView.INVISIBLE);
-						if (helper.getAccount() != null) {
-							AccountsFragment.getLogin().onSuccessLogin(
-									helper.getAccount());
-						Intent intent = new Intent(getApplicationContext(),
-								TwitterTimeLineFragmentActivity.class);
-						intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
-								helper.getUserName());
-						startActivity(intent);
-						}
-						finish();
+				if (helper.isRedirectURL(url) && !isSave) {
+					isSave = true;
+					webView.setVisibility(WebView.INVISIBLE);
+					helper.setToken(url);
+					new HttpExecuteAsyncTask(TwitterLoginActivity.this) {
 
-					}
-				} catch (IOException e) {
-					Log.e(TAG, "IOException", e);
-				} catch (ClassNotFoundException e) {
-					Log.e(TAG, "Class not found exception", e);
+						@Override
+						public void success(String result) {
+							try {
+								if (result != null) {
+									Account account = new Account(result,
+											AccountType.TWITTER);
+									helper.setAccount(account);
+									helper.saveToken(url);
+
+									AccountsFragment.getLogin().onSuccessLogin(
+											account);
+									Intent intent = new Intent(
+											getApplicationContext(),
+											TwitterTimeLineFragmentActivity.class);
+									intent.putExtra(
+											ApplicationConstants.ARG_PROFILE_NAME,
+											helper.getUserName());
+									startActivity(intent);
+
+								} else {
+									Toast.makeText(
+											getApplicationContext(),
+											getApplicationContext()
+													.getResources()
+													.getString(
+															R.string.error_on_login),
+											Toast.LENGTH_SHORT).show();
+								}
+
+								finish();
+
+							} catch (IOException e) {
+								Log.e(TAG, "IOException", e);
+							} catch (ClassNotFoundException e) {
+								Log.e(TAG, "Class not found exception", e);
+							}
+						}
+
+					}.execute(TwitterAPI.getInstance().verifyCredentials());
+
 				}
 			}
 
