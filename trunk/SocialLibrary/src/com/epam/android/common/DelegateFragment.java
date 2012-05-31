@@ -302,7 +302,7 @@ public abstract class DelegateFragment extends Fragment implements IDelegate {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		Log.d(TAG, "onSaveInstanseState");
-		if (outState != null) {
+		if (!outState.isEmpty()) {
 			isFragmentStateSaved = true;
 		}
 		else{
