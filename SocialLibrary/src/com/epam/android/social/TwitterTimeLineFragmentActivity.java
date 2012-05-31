@@ -36,8 +36,6 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 
-	
-
 	}
 
 	public void onItemClick(View view) {
@@ -49,12 +47,7 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 	}
 
 	private void setIsFollow(List<Following> list, Object itemTag) {
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getIdUser().equals(itemTag)) {
-				list.get(i).setIsFollow(!list.get(i).isFollow());
-				break;
-			}
-		}
+
 	}
 
 }

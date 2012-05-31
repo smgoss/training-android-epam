@@ -1,9 +1,11 @@
 package com.epam.android.social.model;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.model.IModelCreator;
@@ -11,8 +13,6 @@ import com.epam.android.common.model.IModelCreator;
 public class Following extends BaseModel {
 
 	private static final String TAG = Following.class.getSimpleName();
-	
-	private boolean isFollow = true;
 
 	public static final IModelCreator<Following> MODEL_CREATOR = new IModelCreator<Following>() {
 
@@ -60,15 +60,19 @@ public class Following extends BaseModel {
 	public String getIdUser() {
 		return getString("id_str");
 	}
-	
-	public boolean isFollow(){
-		return isFollow;
+
+	public Boolean isFollow() {
+		for (int i = 0; i < getJSONArray("connections").length(); i++) {
+			try {
+				if (getJSONArray("connections").get(i).equals("following")) {
+					return true;
+				}
+			} catch (JSONException e) {
+				Log.e(TAG, "error on get connections array");
+			}
+		}
+
+		return false;
 	}
-	
-	public void setIsFollow(Boolean isFollow){
-		this.isFollow = isFollow; 
-	}
-	
-	
 
 }
