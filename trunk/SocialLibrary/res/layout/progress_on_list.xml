@@ -5,7 +5,6 @@
 
     <ProgressBar
         android:id="@+id/progress_bar_on_listView"
-        style="@android:style/Widget.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
