@@ -8,6 +8,7 @@
         <item name="vpiTabTextStyle">@style/CustomTabTextStyle</item>
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="android:buttonStyle">@style/ButtonStyle</item>
+        <item name="android:progressBarStyle">@style/ProgressBarStyle</item>
     </style>
 
 </resources>

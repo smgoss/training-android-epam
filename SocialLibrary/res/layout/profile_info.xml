@@ -93,6 +93,6 @@
     <include
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        layout="@layout/progress_on_profile" />
+        layout="@layout/progress_on_list" />
 
 </RelativeLayout>

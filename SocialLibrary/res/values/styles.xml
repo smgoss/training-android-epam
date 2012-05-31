@@ -156,4 +156,13 @@
         <item name="android:background">@color/divider</item>
     </style>
 
+    <style name="ProgressBarStyle" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:indeterminateDrawable">@drawable/progress</item>
+        <item name="android:indeterminateBehavior">cycle</item>
+        <item name="android:minWidth">32dip</item>
+        <item name="android:maxWidth">32dip</item>
+        <item name="android:minHeight">32dip</item>
+        <item name="android:maxHeight">32dip</item>
+    </style>
+
 </resources>

@@ -62,13 +62,15 @@ public class Following extends BaseModel {
 	}
 
 	public Boolean isFollow() {
-		for (int i = 0; i < getJSONArray("connections").length(); i++) {
-			try {
-				if (getJSONArray("connections").get(i).equals("following")) {
-					return true;
+		if (getJSONArray("connections") != null) {
+			for (int i = 0; i < getJSONArray("connections").length(); i++) {
+				try {
+					if (getJSONArray("connections").get(i).equals("following")) {
+						return true;
+					}
+				} catch (JSONException e) {
+					Log.e(TAG, "error on get connections array");
 				}
-			} catch (JSONException e) {
-				Log.e(TAG, "error on get connections array");
 			}
 		}
 
