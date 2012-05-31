@@ -40,8 +40,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/follow_me"
-            android:onClick="onItemClick"
-            android:src="@drawable/btn_bird_big_grey" />
+            android:onClick="onItemClick" />
     </LinearLayout>
 
     <View style="@style/Divider" />

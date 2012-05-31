@@ -40,17 +40,16 @@ public class FollowingAdapter extends AbstractAdapter<Following> {
 		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
 		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
 
-		// TODO: no design
-		// ImageView followButton = (ImageView) convertView
-		// .findViewById(R.id.follow_followMeButton);
-		// if (item.isFollow()) {
-		// followButton.setImageDrawable(context.getResources().getDrawable(
-		// R.drawable.twitter_follow));
-		// } else {
-		// followButton.setImageDrawable(context.getResources().getDrawable(
-		// R.drawable.twitter_follow_me));
-		// }
-		// followButton.setTag(item.getIdUser());
+		ImageView followButton = (ImageView) convertView
+				.findViewById(R.id.follow_followMeButton);
+		if (item.isFollow()) {
+			followButton.setBackgroundDrawable(context.getResources()
+					.getDrawable(R.drawable.btn_bird_big_blue));
+		} else {
+			followButton.setBackgroundDrawable(context.getResources()
+					.getDrawable(R.drawable.btn_bird_big_grey));
+		}
+		followButton.setTag(item.getIdUser());
 	}
 
 	private int convertDipToPix(int dip) {
