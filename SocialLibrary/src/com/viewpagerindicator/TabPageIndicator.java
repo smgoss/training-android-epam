@@ -81,7 +81,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		final int childCount = mTabLayout.getChildCount();
 		if (childCount > 1
 				&& (widthMode == MeasureSpec.EXACTLY || widthMode == MeasureSpec.AT_MOST)) {
-			if (childCount > 2) {
+			if (childCount > 3) {
 				mMaxTabWidth = (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.4f);
 			} else {
 				mMaxTabWidth = MeasureSpec.getSize(widthMeasureSpec) / 2;
@@ -141,6 +141,7 @@ public class TabPageIndicator extends HorizontalScrollView implements
 					.setImageDrawable(res.getDrawable(R.drawable.bg_divider));
 			dividerView.setBackgroundColor(res.getColor(R.color.tab_bg));
 
+			
 			mTabLayout.addView(dividerView, new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
 
@@ -155,9 +156,9 @@ public class TabPageIndicator extends HorizontalScrollView implements
 		tabView.setText(text);
 
 		addDivider(index, tabView);
-
+		
 		mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0,
-				LayoutParams.FILL_PARENT, 1f));
+				LayoutParams.FILL_PARENT, 1));
 	}
 
 	@Override
