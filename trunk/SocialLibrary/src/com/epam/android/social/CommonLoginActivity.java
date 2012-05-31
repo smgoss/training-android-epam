@@ -40,7 +40,7 @@ public abstract class CommonLoginActivity<E> extends Activity {
 		setContentView(R.layout.login_webview);
 		accountsListPrefs = AccountsListPrefs.getInstanse();
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
-		asyncTask.execute(null);
+		asyncTask.execute();
 
 	}
 

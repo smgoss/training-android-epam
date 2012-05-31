@@ -72,7 +72,6 @@ public class TwitterOAuthHelper {
 			listUsers = new ArrayList<Account>();
 			serializer = new ObjectSerializer();
 		}
-		// TODO restore
 	}
 
 	public static TwitterOAuthHelper getInstanse() {
@@ -153,10 +152,14 @@ public class TwitterOAuthHelper {
 		}
 	}
 
-	public void saveToken(String url) throws IOException,
-			ClassNotFoundException {
+	public synchronized void setToken(String url) {
 		String oauthVerifier = getOauthVerifierFromUrl(url);
 		setRetrieveAccessToken(oauthVerifier);
+
+	}
+
+	public void saveToken(String url) throws IOException,
+			ClassNotFoundException {
 		SharedPreferences preferences = mContext.getSharedPreferences(
 				ApplicationConstants.SHARED_PREFERENSE, Context.MODE_PRIVATE);
 		userInfoSerialized = preferences.getString(
@@ -165,7 +168,6 @@ public class TwitterOAuthHelper {
 			listUsers = (List<Account>) serializer
 					.deserialize(userInfoSerialized);
 		}
-		account = getUser();
 		if (getUser(account.getUserName()) == null) {
 			account.setToken(consumer.getToken());
 			account.setTokenSecret(consumer.getTokenSecret());
@@ -186,21 +188,6 @@ public class TwitterOAuthHelper {
 					Toast.LENGTH_SHORT).show();
 		}
 
-	}
-
-	private Account getUser() {
-		Loader loader = Loader.get(mContext);
-		try {
-			Account user = new Account(loader.execute(TwitterAPI.getInstance()
-					.verifyCredentials()), AccountType.TWITTER);
-			return user;
-		} catch (ClientProtocolException e) {
-			Log.e(TAG, "error on HTTP protocol ", e);
-		} catch (IOException e) {
-			Log.e(TAG, "IOException when get user info ", e);
-		}
-
-		return null;
 	}
 
 	public Account getAccount() {
@@ -229,6 +216,10 @@ public class TwitterOAuthHelper {
 		}
 		return null;
 
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

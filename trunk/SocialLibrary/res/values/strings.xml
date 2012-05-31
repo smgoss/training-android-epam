@@ -40,6 +40,7 @@
     <string name="avatar">Avatar</string>
     <string name="follow_me">Follow me</string>
     <string name="loading">Loading&#8230; Please wait</string>
+    <string name="error_on_login">Error on login</string>
 
     <string-array name="titles">
         <item>TIMELINE</item>
