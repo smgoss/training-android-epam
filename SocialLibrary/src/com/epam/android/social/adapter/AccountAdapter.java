@@ -61,8 +61,8 @@ public class AccountAdapter extends BaseAdapter {
 		avatar.setLayoutParams(new LayoutParams(avatarSize, avatarSize));
 		mImageLoader.bind(avatar, list.get(position).getProfileUrl(), null);
 		avatar.setId(100);
-		avatar.setBackgroundResource(R.drawable.bg_shadow_photo);
-		avatar.setPadding(0, 0, 0, convertDipToPix(3));
+//		avatar.setBackgroundResource(R.drawable.bg_shadow_photo);
+//		avatar.setPadding(0, 0, 0, convertDipToPix(3));
 
 		TextView name = new TextView(mContext);
 		name.setText(list.get(position).getUserName());
