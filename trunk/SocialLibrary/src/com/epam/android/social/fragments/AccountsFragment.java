@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,6 +28,9 @@ public class AccountsFragment extends Fragment {
 
 	public static final String TAG = AccountsFragment.class.getSimpleName();
 
+	private static final String PREFS_SETTINGS_NAME = "++curac++";
+	private static final String KEY_CURRENT_ACCOUNT = "current_account_position";
+
 	private static AccountsFragment.ILogin login;
 
 	private AccountsListPrefs accountsListPrefs;
@@ -37,7 +41,34 @@ public class AccountsFragment extends Fragment {
 
 	private Gallery accountGallery;
 
+	private SharedPreferences settings;
+
 	public AccountsFragment() {
+
+	}
+
+	private void goToAccount(int position) {
+		try {
+			Intent intent = null;
+			TwitterOAuthHelper.getInstanse().restoreToken(
+					listAccounts.get(position).getUserName());
+			intent = new Intent(getActivity(),
+					TwitterTimeLineFragmentActivity.class);
+
+			intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME, listAccounts
+					.get(position).getUserName());
+
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putInt(KEY_CURRENT_ACCOUNT, position);
+			editor.commit();
+
+			startActivity(intent);
+			getActivity().finish();
+		} catch (IOException e) {
+			Log.d(TAG, "crash when loading data", e);
+		} catch (ClassNotFoundException e) {
+			Log.d(TAG, "crash when converting data", e);
+		}
 
 	}
 
@@ -53,25 +84,11 @@ public class AccountsFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> paramAdapterView,
 					View paramView, int position, long paramLong) {
-				try {
-					Intent intent = null;
-					TwitterOAuthHelper.getInstanse().restoreToken(
-							listAccounts.get(position).getUserName());
-					intent = new Intent(getActivity(),
-							TwitterTimeLineFragmentActivity.class);
 
-					intent.putExtra(ApplicationConstants.ARG_PROFILE_NAME,
-							listAccounts.get(position).getUserName());
+				goToAccount(position);
 
-					startActivity(intent);
-					getActivity().finish();
-
-				} catch (IOException e) {
-					Log.d(TAG, "crash when loading data", e);
-				} catch (ClassNotFoundException e) {
-					Log.d(TAG, "crash when converting data", e);
-				}
 			}
+
 		});
 		restoreAccounts();
 
@@ -92,6 +109,10 @@ public class AccountsFragment extends Fragment {
 			}
 		};
 
+		settings = getActivity().getSharedPreferences(PREFS_SETTINGS_NAME, 0);
+		if (settings.getInt(KEY_CURRENT_ACCOUNT, -1) != -1) {
+			goToAccount(settings.getInt(KEY_CURRENT_ACCOUNT, -1));
+		}
 	}
 
 	private boolean listContainAcccount(Account account) {
