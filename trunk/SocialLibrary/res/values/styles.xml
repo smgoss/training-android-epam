@@ -32,7 +32,6 @@
         <item name="android:paddingTop">10dp</item>
     </style>
 
-
     <style name="ListViewStyle" parent="@android:style/Widget.ListView">
         <item name="android:listSelector">@drawable/list_item</item>
         <item name="android:divider">@android:color/transparent</item>
@@ -87,16 +86,6 @@
         <item name="android:textSize">17dp</item>
     </style>
 
-    <style name="MatchParent">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-    </style>
-
-    <style name="WrapContent">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
     <style name="BottomBar">
         <item name="android:background">@drawable/bg_bottom_bar_blue</item>
         <item name="android:layout_width">fill_parent</item>
@@ -149,7 +138,7 @@
         <item name="android:cropToPadding">true</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
-    
+
     <style name="BigAvatar">
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">80dp</item>
@@ -161,8 +150,8 @@
     <style name="Divider">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1px</item>
-        <item name="android:paddingRight">15dp</item>
-        <item name="android:paddingLeft">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
         <item name="android:background">@color/divider</item>
     </style>
 
@@ -175,11 +164,63 @@
         <item name="android:maxHeight">32dip</item>
     </style>
 
-    <style name="ProgressBarTextStyle" parent="@android:style/Widget.TextView">
+    <style name="ProgressBarTextStyle" parent="@style/WrapContent">
         <item name="android:textColor">@color/item_text</item>
         <item name="android:textSize">9sp</item>
         <item name="android:text">@string/loading</item>
         <item name="android:paddingTop">10dp</item>
+    </style>
+
+    <style name="MatchParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+
+    <style name="WrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="WidthParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="HeightParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Dialog" parent="@style/MatchParent">
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="DialogTitleDivider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">2px</item>
+        <item name="android:background">@color/user_name</item>
+    </style>
+
+    <style name="TitleDialog" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/user_name</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="DialogList" parent="@android:style/Widget.ListView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:divider">@color/time</item>
+    </style>
+
+    <style name="DialogListDivider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/time</item>
     </style>
 
 </resources>

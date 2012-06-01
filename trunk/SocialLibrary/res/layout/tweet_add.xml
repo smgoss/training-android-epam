@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
+    style="@style/Dialog" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" >
+    <LinearLayout style="@style/WidthParent" >
 
         <TextView
-            style="@style/ItemUserName"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            style="@style/TitleDialog"
             android:layout_weight="1"
-            android:text="@string/add_tweet"
-            android:textSize="24sp" />
+            android:text="@string/add_tweet" />
 
         <TextView
             android:id="@+id/messageCoutSymbols"
@@ -26,14 +17,10 @@
             android:text="45/140" />
     </LinearLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2px"
-        android:background="@color/user_name" />
+    <View style="@style/DialogTitleDivider" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/WidthParent"
         android:padding="10dp" >
 
         <EditText
@@ -52,16 +39,15 @@
         </EditText>
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/addTweetAttachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/btn_add_tweet_attachment" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="wrap_content" >
+        style="@style/WidthParent"
+        android:padding="5dp" >
 
         <Button
             android:id="@+id/canselButton"

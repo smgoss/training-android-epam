@@ -4,12 +4,12 @@
 
     <TextView
         style="@style/TitleDialog"
-        android:text="@string/select_photo" />
+        android:text="@string/tweet" />
 
     <View style="@style/DialogTitleDivider" />
 
     <ListView
-        android:id="@+id/selectPhoto_listView"
+        android:id="@+id/list_tweet_dialog"
         style="@style/DialogList" >
     </ListView>
 
