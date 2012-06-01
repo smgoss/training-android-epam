@@ -3,26 +3,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical" >
 
     <TextView
         style="@style/AccountTextStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/select_photo"
         android:textSize="30sp" />
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="2px"
         android:background="@color/user_name" />
 
     <ListView
         android:id="@+id/selectPhoto_listView"
         style="@style/ListViewStyle"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
     </ListView>
 
 </LinearLayout>
