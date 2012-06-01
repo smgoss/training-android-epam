@@ -15,10 +15,7 @@
 
         <ImageView
             android:id="@+id/userAvatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/bg_shadow_photo"
-            android:paddingBottom="1dp"
+            style="@style/Avatar"
             android:src="@drawable/img" />
 
         <LinearLayout

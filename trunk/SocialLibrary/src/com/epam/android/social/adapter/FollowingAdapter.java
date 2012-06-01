@@ -37,8 +37,8 @@ public class FollowingAdapter extends AbstractAdapter<Following> {
 		mImageLoader.bind(userAvatar, TwitterAPI.getInstance()
 				.getUserAvatarNormal(item.getScreenName()), null);
 
-		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
-		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
+//		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
+//		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
 
 		ImageView followButton = (ImageView) convertView
 				.findViewById(R.id.follow_followMeButton);

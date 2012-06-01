@@ -6,10 +6,8 @@
 
     <ImageView
         android:id="@+id/profileInfoUserItem_avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/BigAvatar"
         android:layout_marginLeft="15dp"
-        android:scaleType="centerCrop"
         android:src="@drawable/img" />
 
     <LinearLayout
@@ -33,7 +31,7 @@
             android:layout_marginTop="3dp"
             android:textColor="@color/time"
             android:textSize="11sp" />
-        
+
         <TextView
             android:id="@+id/profileInfoUserItem_url"
             android:layout_width="wrap_content"

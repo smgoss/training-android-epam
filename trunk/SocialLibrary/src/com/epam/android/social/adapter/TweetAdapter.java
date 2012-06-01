@@ -40,8 +40,8 @@ public class TweetAdapter extends AbstractAdapter<Tweet> {
 	public void init(View view, Tweet item) {
 		ImageView userAvatar = (ImageView) view.findViewById(R.id.userAvatar);
 		mImageLoader.bind(userAvatar, item.getProfileUrl(), null);
-		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
-		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
+//		userAvatar.setBackgroundResource(R.drawable.bg_shadow_photo);
+//		userAvatar.setPadding(0, 0, 0, convertDipToPix(3));
 
 		TextView userName = (TextView) view.findViewById(R.id.userName);
 		userName.setText(item.getUserName());
