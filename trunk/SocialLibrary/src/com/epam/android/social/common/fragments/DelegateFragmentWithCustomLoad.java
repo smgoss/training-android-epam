@@ -25,9 +25,11 @@ import com.epam.android.common.task.IDelegate;
 import com.epam.android.common.task.ITaskCreator;
 import com.epam.android.social.R;
 
-public abstract class DelegateFragmentWithCustomLoad extends Fragment implements IDelegate {
+public abstract class DelegateFragmentWithCustomLoad extends Fragment implements
+		IDelegate {
 
-	private static final String TAG = DelegateFragmentWithCustomLoad.class.getSimpleName();
+	private static final String TAG = DelegateFragmentWithCustomLoad.class
+			.getSimpleName();
 
 	private static final String TITLE = "Please wait";
 
@@ -42,14 +44,14 @@ public abstract class DelegateFragmentWithCustomLoad extends Fragment implements
 	private boolean isFragmentStateSaved = false;
 
 	private HashMap<String, CommonAsyncTask> activityTasks;
-	
-	private ProgressBar mProgressBar;
-	
+
+	private View mProgressBar;
+
 	private boolean isLoading;
 
 	@Override
 	public void showLoading() {
-		mProgressBar = (ProgressBar) getView().findViewById(
+		mProgressBar = (View) getView().findViewById(
 				R.id.progress_bar_on_listView);
 		mProgressBar.setVisibility(View.VISIBLE);
 
@@ -58,7 +60,7 @@ public abstract class DelegateFragmentWithCustomLoad extends Fragment implements
 
 	@Override
 	public void showProgress(String textMessage) {
-		mProgressBar = (ProgressBar) getView().findViewById(
+		mProgressBar = (View) getView().findViewById(
 				R.id.progress_bar_on_listView);
 		mProgressBar.setVisibility(View.VISIBLE);
 		isLoading = true;
@@ -198,9 +200,9 @@ public abstract class DelegateFragmentWithCustomLoad extends Fragment implements
 						onTaskPreExecute(intent);
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_POST_EXECUTE)) {
-//						if (isLoaded(getUrl())) {
-							onTaskPostExecute(intent);
-//						}
+						// if (isLoaded(getUrl())) {
+						onTaskPostExecute(intent);
+						// }
 					} else if (intent.getAction().equals(
 							CommonAsyncTask.ON_PROGRESS_UPDATE)) {
 						onTaskProgressUpdate(intent);

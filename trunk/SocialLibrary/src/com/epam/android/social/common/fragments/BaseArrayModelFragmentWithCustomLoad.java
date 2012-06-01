@@ -12,7 +12,7 @@ import com.epam.android.social.R;
 public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 		extends BaseArrayModelFragment<B> {
 
-	private ProgressBar mProgressBar;
+	private View mProgressBar;
 
 	private boolean isLoading;
 
@@ -26,7 +26,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 
 	@Override
 	public void showLoading() {
-		mProgressBar = (ProgressBar) getView().findViewById(
+		mProgressBar = (View) getView().findViewById(
 				getProgressBarResource());
 		mProgressBar.setVisibility(View.VISIBLE);
 
@@ -35,7 +35,7 @@ public abstract class BaseArrayModelFragmentWithCustomLoad<B extends BaseModel>
 
 	@Override
 	public void showProgress(String textMessage) {
-		mProgressBar = (ProgressBar) getView().findViewById(
+		mProgressBar = (View) getView().findViewById(
 				getProgressBarResource());
 		mProgressBar.setVisibility(View.VISIBLE);
 		isLoading = true;

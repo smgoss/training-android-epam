@@ -19,7 +19,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<B extends BaseModel>
 		extends BaseArrayModelByAnnotationFragment<B> {
 
-	private ProgressBar mProgressBar;
+	private View mProgressBar;
 
 	private boolean isLoading;
 
@@ -37,7 +37,7 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 
 	@Override
 	public void showLoading() {
-		mProgressBar = (ProgressBar) getView().findViewById(
+		mProgressBar = (View) getView().findViewById(
 				R.id.progress_bar_on_listView);
 		mProgressBar.setVisibility(View.VISIBLE);
 
@@ -46,7 +46,7 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 
 	@Override
 	public void showProgress(String textMessage) {
-		mProgressBar = (ProgressBar) getView().findViewById(
+		mProgressBar = (View) getView().findViewById(
 				R.id.progress_bar_on_listView);
 		mProgressBar.setVisibility(View.VISIBLE);
 		isLoading = true;
