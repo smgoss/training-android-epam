@@ -43,6 +43,8 @@ public class AccountsFragment extends Fragment {
 
 	private SharedPreferences settings;
 
+	private static boolean isFirstStart = true;
+
 	public AccountsFragment() {
 
 	}
@@ -110,8 +112,11 @@ public class AccountsFragment extends Fragment {
 		};
 
 		settings = getActivity().getSharedPreferences(PREFS_SETTINGS_NAME, 0);
-		if (settings.getInt(KEY_CURRENT_ACCOUNT, -1) != -1) {
-			goToAccount(settings.getInt(KEY_CURRENT_ACCOUNT, -1));
+		if (isFirstStart) {
+			if (settings.getInt(KEY_CURRENT_ACCOUNT, -1) != -1) {
+				goToAccount(settings.getInt(KEY_CURRENT_ACCOUNT, -1));
+			}
+			isFirstStart = false;
 		}
 	}
 
