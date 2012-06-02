@@ -166,7 +166,7 @@
 
     <style name="ProgressBarTextStyle" parent="@style/WrapContent">
         <item name="android:textColor">@color/item_text</item>
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:text">@string/loading</item>
         <item name="android:paddingTop">10dp</item>
     </style>
@@ -213,8 +213,8 @@
     <style name="DialogList" parent="@android:style/Widget.ListView">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:divider">@color/time</item>
+        <item name="android:divider">@color/black</item>
+        <item name="android:dividerHeight">1px</item>
     </style>
 
     <style name="DialogListDivider">

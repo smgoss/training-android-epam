@@ -6,12 +6,12 @@
 
     <ImageView
         android:id="@+id/tweetDialogItem_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_quote" />
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:src="@drawable/ic_quote" />
 
     <TextView
-        android:id="@+id/selectPhotoItem_name"
+        android:id="@+id/selectTweetDialogItem_name"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
