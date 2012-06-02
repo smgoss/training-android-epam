@@ -23,15 +23,12 @@ public class SocialApplication extends CommonApplication {
 
 	private TwitterOAuthHelper twitterOAuthHelper;
 
-	private FacebookOAuthHelper facebookOAuthHelper;
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		twitterOAuthHelper = TwitterOAuthHelper
 				.newInstanse(getApplicationContext());
-		facebookOAuthHelper = FacebookOAuthHelper
-				.newInstanse(getApplicationContext());
+
 		ImageManager.newInstance(getApplicationContext());
 		AccountsListPrefs.newInstanse(getApplicationContext());
 
@@ -62,9 +59,6 @@ public class SocialApplication extends CommonApplication {
 	public Object getSystemService(String name) {
 		if (name.equals(TwitterOAuthHelper.OAuthHelper)) {
 			return twitterOAuthHelper;
-		}
-		if (name.equals(FacebookOAuthHelper.OAuthHelper)) {
-			return facebookOAuthHelper;
 		}
 
 		return super.getSystemService(name);
