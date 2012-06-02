@@ -29,15 +29,18 @@
         </activity>
         <activity
             android:name=".TwitterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".TwitterLoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SearchFragmentActivity"
             android:configChanges="orientation"
             android:noHistory="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -55,13 +58,6 @@
                 android:name="android.app.default_searchable"
                 android:value=".SearchFragmentActivity" />
         </activity>
-        <activity android:name=".FacebookLoginActivity" />
-        <activity
-            android:name=".facebook.ListStatusesActivity"
-            android:configChanges="orientation" />
-        <activity
-            android:name=".facebook.UserInfoActivity"
-            android:configChanges="orientation" />
 
         <provider
             android:name=".common.providers.SearchProvider"
