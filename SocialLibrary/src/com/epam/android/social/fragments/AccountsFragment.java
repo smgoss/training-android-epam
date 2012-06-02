@@ -28,9 +28,6 @@ public class AccountsFragment extends Fragment {
 
 	public static final String TAG = AccountsFragment.class.getSimpleName();
 
-	private static final String PREFS_SETTINGS_NAME = "++curac++";
-	private static final String KEY_CURRENT_ACCOUNT = "current_account_position";
-
 	private static AccountsFragment.ILogin login;
 
 	private AccountsListPrefs accountsListPrefs;
@@ -50,6 +47,8 @@ public class AccountsFragment extends Fragment {
 	}
 
 	private void goToAccount(int position) {
+		if (position == -1)
+			return;
 		try {
 			Intent intent = null;
 			TwitterOAuthHelper.getInstanse().restoreToken(
@@ -61,7 +60,7 @@ public class AccountsFragment extends Fragment {
 					.get(position).getUserName());
 
 			SharedPreferences.Editor editor = settings.edit();
-			editor.putInt(KEY_CURRENT_ACCOUNT, position);
+			editor.putInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, position);
 			editor.commit();
 
 			startActivity(intent);
@@ -111,13 +110,13 @@ public class AccountsFragment extends Fragment {
 			}
 		};
 
-		settings = getActivity().getSharedPreferences(PREFS_SETTINGS_NAME, 0);
-		if (isFirstStart) {
-			if (settings.getInt(KEY_CURRENT_ACCOUNT, -1) != -1) {
-				goToAccount(settings.getInt(KEY_CURRENT_ACCOUNT, -1));
-			}
-			isFirstStart = false;
+		settings = getActivity().getSharedPreferences(ApplicationConstants.PREFS_SETTINGS_NAME, 0);
+		// if (isFirstStart) {
+		if (settings.getInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1) != -1) {
+			goToAccount(settings.getInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1));
 		}
+		// isFirstStart = false;
+		// }
 	}
 
 	private boolean listContainAcccount(Account account) {

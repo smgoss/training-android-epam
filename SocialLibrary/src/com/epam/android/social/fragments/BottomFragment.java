@@ -1,5 +1,6 @@
 package com.epam.android.social.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -53,6 +54,12 @@ public class BottomFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
+						SharedPreferences settings;
+						settings = getActivity().getSharedPreferences(ApplicationConstants.PREFS_SETTINGS_NAME, 0);
+						SharedPreferences.Editor editor = settings.edit();
+						editor.putInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1);
+						editor.commit();
+						
 						FragmentTransaction transaction = getFragmentManager()
 								.beginTransaction();
 						transaction.add(R.id.main_mainLayout,
