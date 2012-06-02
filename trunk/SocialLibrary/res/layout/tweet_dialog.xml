@@ -9,7 +9,7 @@
     <View style="@style/DialogTitleDivider" />
 
     <ListView
-        android:id="@+id/list_tweet_dialog"
+        android:id="@+id/tweet_dialog_list"
         style="@style/DialogList" >
     </ListView>
 

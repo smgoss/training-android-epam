@@ -39,7 +39,7 @@
     <string name="select_photo">Select photo</string>
     <string name="avatar">Avatar</string>
     <string name="follow_me">Follow me</string>
-    <string name="loading">Loading&#8230; Please wait</string>
+    <string name="loading">Loading… Please wait</string>
     <string name="error_on_login">Error on login</string>
 
     <string-array name="titles">
@@ -56,5 +56,24 @@
         <item>Gallery</item>
         <item>Remove photo</item>
     </string-array>
+    <string-array name="tweet_dialog">
+        <item>Reply</item>
+        <item>Quote</item>
+        <item>Quote with comment</item>
+        <item>View replies</item>
+        <item>Search by</item>
+        <item>Copy</item>
+        <item>Who quoted this</item>
+        <item>Share</item>
+    </string-array>
+    <drawable name="tweet_dialog_0">@drawable/ic_reply</drawable>
+    <drawable name="tweet_dialog_1">@drawable/ic_quote</drawable>
+    <drawable name="tweet_dialog_2">@drawable/ic_quote_with_comment</drawable>
+    <drawable name="tweet_dialog_3">@drawable/ic_view_replies</drawable>
+    <drawable name="tweet_dialog_4">@drawable/ic_search</drawable>
+    <drawable name="tweet_dialog_5">@drawable/ic_copy</drawable>
+    <drawable name="tweet_dialog_6">@drawable/ic_who_quoted</drawable>
+    <drawable name="tweet_dialog_7">@drawable/ic_share</drawable>
+    
 
 </resources>
