@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,8 @@ public class AccountAdapter extends BaseAdapter {
 
 		ImageView avatar = new ImageView(mContext);
 		avatar.setLayoutParams(new LayoutParams(avatarSize, avatarSize));
+		avatar.setBackgroundResource(R.drawable.bg_shadow_photo);
+		avatar.setScaleType(ScaleType.CENTER_CROP);
 		mImageLoader.bind(avatar, list.get(position).getProfileUrl(), null);
 		avatar.setId(100);
 
