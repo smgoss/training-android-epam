@@ -53,8 +53,12 @@ public class BottomFragment extends Fragment {
 
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(getView().getContext(),
-								"onHomeButtonClick", Toast.LENGTH_SHORT).show();
+						FragmentTransaction transaction = getFragmentManager()
+								.beginTransaction();
+						transaction.add(R.id.main_mainLayout,
+								new MainLoginFragment());
+						transaction.commit();
+
 					}
 				});
 

@@ -2,15 +2,14 @@ package com.epam.android.social;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.epam.android.social.adapter.TwitterMainPagerAdapter;
 import com.epam.android.social.constants.ApplicationConstants;
-import com.epam.android.social.fragments.BottomFragment;
 import com.epam.android.social.fragments.FollowingFragment;
 import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
@@ -36,6 +35,10 @@ public class TwitterTimeLineFragmentActivity extends FragmentActivity {
 		indicator = (PageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 
+	}
+	
+	public void onAddAccountClick(View view) {
+		startActivity(new Intent(this, TwitterLoginActivity.class));
 	}
 
 	public void onItemClick(View view) {
