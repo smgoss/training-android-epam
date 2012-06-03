@@ -5,10 +5,11 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
@@ -21,8 +22,6 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	private static final String TAG = CommonTwitterFragment.class
 			.getSimpleName();
 
-	private Button loadMore;
-
 	private String delegateKey;
 
 	private List<T> currentList;
@@ -33,23 +32,15 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private static final int loadedItems = 20;
 
-	private static final int loadMoreButtonID = 444;
+	private boolean loadingMore = false;
+
+	private View footerView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		loadMore = new Button(getContext());
-		loadMore.setText("load more");
-		loadMore.setId(loadMoreButtonID);
-		loadMore.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				loadedPage++;
-				startTasks();
-
-			}
-		});
+		footerView = LayoutInflater.from(getContext()).inflate(
+				R.layout.progress_on_list, null, false);
 		Log.d(TAG, "onCreate");
 	}
 
@@ -80,19 +71,21 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 			setList(currentList);
 		} else {
 			currentList.addAll(result);
-			if (result.size() < loadedItems) {
-				hideLoadMoreButton();
-			}
+
 			adapter.notifyDataSetChanged();
 
 		}
+
+		if (result.size() < loadedItems) {
+			hideFooterView();
+		}
+
+		loadingMore = false;
 	}
 
-	private void hideLoadMoreButton() {
-		if (loadMore != null
-				&& getView().findViewById(loadMoreButtonID) != null) {
-			getListView().removeView(loadMore);
-		}
+	private void hideFooterView() {
+
+		getListView().removeFooterView(footerView);
 	}
 
 	@Override
@@ -106,7 +99,29 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	public <B extends BaseModel> void setList(List<B> list) {
 		adapter = createAdapter(list);
 		if (list.size() >= loadedItems) {
-			getListView().addFooterView(loadMore);
+
+			getListView().addFooterView(footerView);
+			getListView().setOnScrollListener(new OnScrollListener() {
+
+				@Override
+				public void onScrollStateChanged(AbsListView view,
+						int scrollState) {
+
+				}
+
+				@Override
+				public void onScroll(AbsListView view, int firstVisibleItem,
+						int visibleItemCount, int totalItemCount) {
+					int lastInScreen = firstVisibleItem + visibleItemCount;
+
+					if ((lastInScreen == totalItemCount) && !(loadingMore) && totalItemCount != 0) {
+						loadedPage++;
+						startTasks();
+						loadingMore = true;
+					}
+
+				}
+			});
 		}
 		getListView().setAdapter(adapter);
 
