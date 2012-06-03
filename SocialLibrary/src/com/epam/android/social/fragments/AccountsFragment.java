@@ -40,8 +40,6 @@ public class AccountsFragment extends Fragment {
 
 	private SharedPreferences settings;
 
-	private static boolean isFirstStart = true;
-
 	public AccountsFragment() {
 
 	}
@@ -111,12 +109,9 @@ public class AccountsFragment extends Fragment {
 		};
 
 		settings = getActivity().getSharedPreferences(ApplicationConstants.PREFS_SETTINGS_NAME, 0);
-		// if (isFirstStart) {
 		if (settings.getInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1) != -1) {
 			goToAccount(settings.getInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1));
 		}
-		// isFirstStart = false;
-		// }
 	}
 
 	private boolean listContainAcccount(Account account) {
