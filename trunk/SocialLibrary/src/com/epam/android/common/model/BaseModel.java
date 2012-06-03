@@ -158,6 +158,10 @@ public class BaseModel implements Parcelable {
 		}
 		return null;
 	}
+	
+	public Long getItemID(){
+		return getLong("id");
+	}
 
 	@SuppressWarnings({ "rawtypes", "unused", "unchecked" })
 	public static <B extends BaseModel> IModelCreator<B> getModelCreatorFromTemplate(
