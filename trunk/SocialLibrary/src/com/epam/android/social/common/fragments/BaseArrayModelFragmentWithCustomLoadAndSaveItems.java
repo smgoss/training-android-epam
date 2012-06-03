@@ -1,75 +1,52 @@
 package com.epam.android.social.common.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public abstract class BaseArrayModelFragmentWithCustomLoadAndSaveItems<B extends BaseModel>
-		extends BaseArrayModelFragmentWithCustomLoad<B> {
+		extends BaseArrayModelFragmentWithSaveItems<B> {
 
-	private ListView mListView;
-	private PullToRefreshListView mPullRefreshListView;
+	private View mProgressBar;
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		if (getCurrentList() != null && getCurrentList().size() != 0) {
-			outState.putParcelableArrayList(getDelegateKey(),
-					(ArrayList<? extends Parcelable>) getCurrentList());
+	public void showLoading() {
+		if (getListView().getCount() == 0) {
+			mProgressBar = (View) getView().findViewById(
+					getProgressBarResource());
+			mProgressBar.setVisibility(View.VISIBLE);
+
 		}
-		super.onSaveInstanceState(outState);
-
-	}
-
-	private void restoreFragment(Bundle savedInstanceState) {
-
-		if (getCurrentList() != null && getCurrentList().size() != 0) {
-			setList((List<B>) savedInstanceState
-					.getParcelableArrayList(getDelegateKey()));
-		}
-
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mPullRefreshListView = (PullToRefreshListView) getView().findViewById(
-				R.id.pull_refresh_list);
-		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener() {
+	public void showProgress(String textMessage) {
+		if (getListView().getCount() == 0) {
+			mProgressBar = (View) getView().findViewById(
+					getProgressBarResource());
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
+	}
 
-			@Override
-			public void onRefresh() {
-				onRefreshStart();
-
+	@Override
+	public void hideLoading() {
+		if (getListView().getCount() == 0) {
+			if (mProgressBar != null
+					&& mProgressBar.getVisibility() == View.VISIBLE) {
+				mProgressBar.setVisibility(View.INVISIBLE);
 			}
-		});
 
-		mListView = mPullRefreshListView.getRefreshableView();
-		if (savedInstanceState != null) {
-			restoreFragment(savedInstanceState);
+			LinearLayout linearLayout = (LinearLayout) getView().findViewById(
+					R.id.changeProfile_mainLayout);
+			if (linearLayout != null) {
+				linearLayout.setVisibility(View.VISIBLE);
+			}
+
 		}
-
 	}
 
-	public ListView getListView() {
-		return mListView;
-	}
-
-	protected void onRefreshCompele() {
-		mPullRefreshListView.onRefreshComplete();
-	}
-
-	public abstract <B extends BaseModel> void setList(List<B> list);
-
-	public abstract List<B> getCurrentList();
-
-	public abstract void onRefreshStart();
+	public abstract int getProgressBarResource();
 
 }

@@ -5,86 +5,35 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
-import com.epam.android.common.BaseArrayModelByAnnotationFragment;
+import com.epam.android.common.BaseArrayModelFragment;
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveItems<B extends BaseModel>
-		extends BaseArrayModelByAnnotationFragment<B> {
-
-	private View mProgressBar;
-
-	private boolean isLoading;
+public abstract class BaseArrayModelFragmentWithSaveItems<B extends BaseModel>
+		extends BaseArrayModelFragment<B> {
 
 	private ListView mListView;
-
 	private PullToRefreshListView mPullRefreshListView;
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		if (isLoading) {
-			showLoading();
-		}
-	}
-
-	@Override
-	public void showLoading() {
-		mProgressBar = (View) getView().findViewById(
-				R.id.progress_bar_on_listView);
-		mProgressBar.setVisibility(View.VISIBLE);
-
-		isLoading = true;
-	}
-
-	@Override
-	public void showProgress(String textMessage) {
-		mProgressBar = (View) getView().findViewById(
-				R.id.progress_bar_on_listView);
-		mProgressBar.setVisibility(View.VISIBLE);
-		isLoading = true;
-	}
-
-	@Override
-	public void hideLoading() {
-		if (mProgressBar != null
-				&& mProgressBar.getVisibility() == View.VISIBLE) {
-			mProgressBar.setVisibility(View.INVISIBLE);
-		}
-
-		LinearLayout linearLayout = (LinearLayout) getView().findViewById(
-				R.id.changeProfile_mainLayout);
-		if (linearLayout != null) {
-			linearLayout.setVisibility(View.VISIBLE);
-		}
-
-		isLoading = false;
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 		if (getCurrentList() != null && getCurrentList().size() != 0) {
 			outState.putParcelableArrayList(getDelegateKey(),
 					(ArrayList<? extends Parcelable>) getCurrentList());
 		}
+		super.onSaveInstanceState(outState);
 
 	}
 
 	private void restoreFragment(Bundle savedInstanceState) {
 
-		if (savedInstanceState != null) {
-			if (getCurrentList() != null && getCurrentList().size() != 0) {
-				setList((List<B>) savedInstanceState
-						.getParcelableArrayList(getDelegateKey()));
-			}
+		if (getCurrentList() != null && getCurrentList().size() != 0) {
+			setList((List<B>) savedInstanceState
+					.getParcelableArrayList(getDelegateKey()));
 		}
 
 	}
@@ -107,7 +56,7 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 		if (savedInstanceState != null) {
 			restoreFragment(savedInstanceState);
 		}
-		
+
 	}
 
 	public ListView getListView() {
