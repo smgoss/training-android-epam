@@ -1,9 +1,13 @@
 package com.epam.android.social.fragments;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Gallery;
 
+import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
 import com.epam.android.social.TwitterTimeLineFragmentActivity;
 import com.epam.android.social.adapter.AccountAdapter;
@@ -89,6 +95,33 @@ public class AccountsFragment extends Fragment {
 			}
 
 		});
+
+		accountGallery
+				.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+					@Override
+					public boolean onItemLongClick(
+							AdapterView<?> paramAdapterView, View paramView,
+							final int position, long paramLong) {
+
+						new AlertDialog.Builder(getActivity())
+								.setTitle("Remove account?")
+								.setMessage("Are you sure you want to delete?")
+								.setPositiveButton("Yes",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int which) {
+												removeAccount(position);
+											}
+										}).setNegativeButton("No", null)
+								.create().show();
+
+						return true;
+					}
+
+				});
+
 		restoreAccounts();
 
 		login = new ILogin() {
@@ -112,6 +145,25 @@ public class AccountsFragment extends Fragment {
 		if (settings.getInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1) != -1) {
 			goToAccount(settings.getInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1));
 		}
+
+	}
+
+	// Remove Account
+	private void removeAccount(int position) {
+		try {
+			listAccounts.remove(position);
+			ObjectSerializer serializer = new ObjectSerializer();
+			SharedPreferences.Editor editor = getActivity()
+					.getSharedPreferences(
+							ApplicationConstants.SHARED_PREFERENSE,
+							Context.MODE_PRIVATE).edit();
+			editor.putString(ApplicationConstants.ACCOUNT_LIST,
+					serializer.serialize((Serializable) listAccounts));
+			editor.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		accountAdapter.notifyDataSetChanged();
 	}
 
 	private boolean listContainAcccount(Account account) {
