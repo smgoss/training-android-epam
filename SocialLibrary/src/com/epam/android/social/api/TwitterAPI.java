@@ -38,7 +38,7 @@ public class TwitterAPI {
 	}
 
 	public String getHomeTimeLine() {
-		return "https://api.twitter.com/1/statuses/home_timeline.json?page=";
+		return "https://api.twitter.com/1/statuses/home_timeline.json?count=20";
 
 	}
 
@@ -117,7 +117,7 @@ public class TwitterAPI {
 
 	public String search(String searchQuery) {
 		return "http://search.twitter.com/search.json?q=" + searchQuery
-				+ "&rpp=20&result_type=mixed&page=";
+				+ "&rpp=20&result_type=mixed";
 	}
 
 	public String searchPeople(String name) {

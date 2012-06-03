@@ -59,6 +59,10 @@ public class Tweet extends BaseModel {
 		return "";
 	}
 
+	public Long getTweetID(){
+		return getLong("id");
+	}
+	
 	public String getPublicdDate() {
 		return getString("created_at");
 	}

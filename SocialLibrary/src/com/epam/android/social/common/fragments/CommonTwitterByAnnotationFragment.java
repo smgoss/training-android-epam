@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
@@ -28,26 +27,32 @@ public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
 
 	private BaseAdapter adapter;
 
-	private int loadedPage = 1;
-
-	private static final int loadedItems = 20;
+	private static final int loadedItems = 19;
 
 	private boolean loadingMore = false;
 
 	private View footerView;
+
+	private String query;
+
+	private STATUS_LOAD status = STATUS_LOAD.LOADING;
+
+	private enum STATUS_LOAD {
+		REFRESHING, LOADING
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		footerView = LayoutInflater.from(getContext()).inflate(
 				R.layout.progress_on_list, null, false);
+		query = getArguments().getString(ApplicationConstants.ARG_QUERY);
 		Log.d(TAG, "onCreate");
 	}
 
 	@Override
 	public String getUrl() {
-		return getArguments().getString(ApplicationConstants.ARG_QUERY)
-				+ loadedPage;
+		return getArguments().getString(ApplicationConstants.ARG_QUERY);
 	}
 
 	@Override
@@ -67,10 +72,10 @@ public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
 
 		if (currentList == null) {
 			currentList = new ArrayList<T>();
-			currentList.addAll(result);
+			addItems(result, status);
 			setList(currentList);
 		} else {
-			currentList.addAll(result);
+			addItems(result, status);
 
 			adapter.notifyDataSetChanged();
 
@@ -81,6 +86,23 @@ public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
 		}
 
 		loadingMore = false;
+		if (status == STATUS_LOAD.REFRESHING) {
+			onRefreshCompele();
+			status = STATUS_LOAD.LOADING;
+		}
+	}
+
+	private void addItems(List<T> list, STATUS_LOAD status) {
+		if (status == STATUS_LOAD.LOADING) {
+			if (currentList.size() != 0) {
+				list.remove(0);
+			}
+			currentList.addAll(list);
+		}
+
+		else {
+			currentList.addAll(0, list);
+		}
 	}
 
 	private void hideFooterView() {
@@ -116,7 +138,7 @@ public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
 
 					if ((lastInScreen == totalItemCount) && !(loadingMore)
 							&& totalItemCount != 0) {
-						loadedPage++;
+						generateQuery(STATUS_LOAD.LOADING);
 						startTasks();
 						loadingMore = true;
 					}
@@ -135,7 +157,27 @@ public abstract class CommonTwitterByAnnotationFragment<T extends BaseModel>
 
 	@Override
 	public void onRefreshStart() {
-		Toast.makeText(getContext(), "onRefreesh", Toast.LENGTH_SHORT).show();
-		onRefreshCompele();
+		status = STATUS_LOAD.REFRESHING;
+		generateQuery(STATUS_LOAD.REFRESHING);
+		startTasks();
+	}
+
+	private void generateQuery(STATUS_LOAD status) {
+		getArguments().remove(ApplicationConstants.ARG_QUERY);
+		Long itemID;
+		if (status == STATUS_LOAD.REFRESHING) {
+			itemID = currentList.get(0).getItemID();
+			if (itemID != null) {
+				getArguments().putString(ApplicationConstants.ARG_QUERY,
+						query + "&since_id=" + itemID);
+			}
+		}
+		if (status == STATUS_LOAD.LOADING) {
+			itemID = currentList.get(currentList.size() - 1).getItemID();
+			if (itemID != null) {
+				getArguments().putString(ApplicationConstants.ARG_QUERY,
+						query + "&max_id=" + itemID);
+			}
+		}
 	}
 }

@@ -54,6 +54,10 @@ public class SearchResult extends BaseModel {
 
 	}
 
+	public Long getTweetID(){
+		return getLong("id");
+	}
+	
 	public String getProfileUrl() {
 		return getString("profile_image_url");
 

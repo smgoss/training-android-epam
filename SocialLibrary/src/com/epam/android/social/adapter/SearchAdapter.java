@@ -96,7 +96,7 @@ public class SearchAdapter extends AbstractAdapter<SearchResult>{
 			}
 		}
 
-		return result.append(" ago").toString();
+		return result.append("0 m ago").toString();
 
 	}
 
