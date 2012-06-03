@@ -8,7 +8,6 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.epam.android.common.BaseArrayModelByAnnotationFragment;
 import com.epam.android.common.model.BaseModel;
@@ -21,51 +20,44 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 
 	private View mProgressBar;
 
-	private boolean isLoading;
-
 	private ListView mListView;
 
 	private PullToRefreshListView mPullRefreshListView;
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		if (isLoading) {
-			showLoading();
-		}
-	}
-
-	@Override
 	public void showLoading() {
-		mProgressBar = (View) getView().findViewById(
-				R.id.progress_bar_on_listView);
-		mProgressBar.setVisibility(View.VISIBLE);
+		if (getListView().getCount() == 0) {
+			mProgressBar = (View) getView().findViewById(
+					R.id.progress_bar_on_listView);
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
 
-		isLoading = true;
 	}
 
 	@Override
 	public void showProgress(String textMessage) {
-		mProgressBar = (View) getView().findViewById(
-				R.id.progress_bar_on_listView);
-		mProgressBar.setVisibility(View.VISIBLE);
-		isLoading = true;
+		if (getListView().getCount() == 0) {
+			mProgressBar = (View) getView().findViewById(
+					R.id.progress_bar_on_listView);
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
 	public void hideLoading() {
-		if (mProgressBar != null
-				&& mProgressBar.getVisibility() == View.VISIBLE) {
-			mProgressBar.setVisibility(View.INVISIBLE);
+		if (getListView().getCount() == 0) {
+			if (mProgressBar != null
+					&& mProgressBar.getVisibility() == View.VISIBLE) {
+				mProgressBar.setVisibility(View.INVISIBLE);
+			}
+
+			LinearLayout linearLayout = (LinearLayout) getView().findViewById(
+					R.id.changeProfile_mainLayout);
+			if (linearLayout != null) {
+				linearLayout.setVisibility(View.VISIBLE);
+			}
 		}
 
-		LinearLayout linearLayout = (LinearLayout) getView().findViewById(
-				R.id.changeProfile_mainLayout);
-		if (linearLayout != null) {
-			linearLayout.setVisibility(View.VISIBLE);
-		}
-
-		isLoading = false;
 	}
 
 	@Override
@@ -107,7 +99,7 @@ public abstract class BaseArrayModelByAnnotationFragmentWithCustomLoadAndSaveIte
 		if (savedInstanceState != null) {
 			restoreFragment(savedInstanceState);
 		}
-		
+
 	}
 
 	public ListView getListView() {
