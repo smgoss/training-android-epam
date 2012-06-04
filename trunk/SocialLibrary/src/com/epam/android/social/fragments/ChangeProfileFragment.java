@@ -210,7 +210,7 @@ public class ChangeProfileFragment extends
 
 	@Override
 	public int getLayoutResource() {
-		return R.layout.change_profile;
+		return R.layout.profile_change;
 	}
 
 	@Override

@@ -47,7 +47,12 @@ public class TwitterLoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_webview);
-
+		webView = (WebView) findViewById(R.id.webview);
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.getSettings()
+				.setJavaScriptCanOpenWindowsAutomatically(true);
+		webView.getSettings().setPluginsEnabled(true);
+		webView.setWebViewClient(getWebViewClient());
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
 		asyncTask.execute();
 
@@ -114,20 +119,17 @@ public class TwitterLoginActivity extends Activity {
 
 	private class GetWebViewAsyncTask extends AsyncTask<Void, Void, String> {
 
+		private Exception e;
+		
 		@Override
 		protected String doInBackground(Void... params) {
-			webView = (WebView) findViewById(R.id.webview);
-			webView.getSettings().setJavaScriptEnabled(true);
-			webView.getSettings()
-					.setJavaScriptCanOpenWindowsAutomatically(true);
-			webView.getSettings().setPluginsEnabled(true);
-			webView.setWebViewClient(getWebViewClient());
 			helper = (TwitterOAuthHelper) getApplicationContext()
 					.getSystemService(TwitterOAuthHelper.OAuthHelper);
 			try {
-				webView.loadUrl(helper.getLoginUrl());
+				return helper.getLoginUrl();
 			} catch (OAuthMessageSignerException e) {
 				Log.e(TAG, "OAuth Message Signer error ", e);
+				this.e = e;
 			} catch (OAuthNotAuthorizedException e) {
 				Log.e(TAG, "OAuth Not Authorized error "
 						+ getResources().getString(R.string.not_correct_data),
@@ -145,11 +147,13 @@ public class TwitterLoginActivity extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			hideLoading();
-			if (result.length() != 0) {
-				Toast.makeText(TwitterLoginActivity.this, result,
-						Toast.LENGTH_SHORT).show();
-				finish();
-			}
+			//if (result.length() != 0) {
+				//Toast.makeText(TwitterLoginActivity.this, result,
+				//		Toast.LENGTH_SHORT).show();
+				//finish();
+			//} else {
+				webView.loadUrl(result);
+			//}
 		}
 
 		@Override
