@@ -55,12 +55,12 @@ public class AddTweetFragment extends DialogFragment {
 			public void onClick(View v) {
 
 				try {
-					new HttpPostAsyncTask(getActivity()).execute(TwitterAPI
-							.getInstance().getUpdateStatusRequest(
-									tweetText.getText().toString()));
+					new HttpPostAsyncTask(getActivity()) {
+
+					}.execute(TwitterAPI.getInstance().getUpdateStatusRequest(
+							tweetText.getText().toString()));
 				} catch (UnsupportedEncodingException e) {
-					Log.e(TAG,
-							"particular character converter not unavailable", e);
+					Log.e(TAG, "unsuported encoding");
 				}
 				getDialog().cancel();
 			}

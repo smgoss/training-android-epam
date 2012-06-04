@@ -8,10 +8,13 @@ import org.apache.http.client.methods.HttpPost;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.epam.android.common.http.Loader;
+import com.epam.android.social.R;
 
-public class HttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
+public abstract class HttpPostAsyncTask extends
+		AsyncTask<HttpPost, Void, String> {
 
 	private static final String TAG = HttpPostAsyncTask.class.getSimpleName();
 
@@ -22,11 +25,11 @@ public class HttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
 	}
 
 	@Override
-	protected Void doInBackground(HttpPost... params) {
+	protected String doInBackground(HttpPost... params) {
 
 		for (int i = 0; i < params.length; i++) {
 			try {
-				Loader.get(mContext).post(params[i]);
+				return Loader.get(mContext).post(params[i]);
 			} catch (ClientProtocolException e) {
 				Log.e(TAG, "Error on HTTP protocol", e);
 			} catch (IOException e) {
@@ -34,6 +37,19 @@ public class HttpPostAsyncTask extends AsyncTask<HttpPost, Void, Void> {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	protected void onPostExecute(String result) {
+		super.onPostExecute(result);
+		if (result == null) {
+			Toast.makeText(
+					mContext,
+					mContext.getResources().getString(
+							R.string.error_on_send_data), Toast.LENGTH_SHORT)
+					.show();
+		}
+
 	}
 
 }

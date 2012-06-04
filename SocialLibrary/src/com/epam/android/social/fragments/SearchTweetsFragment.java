@@ -25,15 +25,20 @@ public class SearchTweetsFragment extends
 		return fragment;
 	}
 
-	private SearchTweetsFragment(){
-		
+	private SearchTweetsFragment() {
+
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public BaseAdapter createAdapter(List<? extends BaseModel> list) {
-		return new SearchAdapter(getContext(), R.layout.tweet, (List<SearchResult>) list);
+		return new SearchAdapter(getContext(), R.layout.tweet,
+				(List<SearchResult>) list);
 	}
-	
-	
+
+	@Override
+	public int getProgressBarResource() {
+		return R.id.progress_bar_on_listView;
+	}
+
 }

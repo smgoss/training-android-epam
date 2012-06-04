@@ -158,19 +158,23 @@ public class ChangeProfileFragment extends
 
 			@Override
 			public void onClick(View paramView) {
+
 				Bitmap bitmap = ((BitmapDrawable) avatar.getDrawable())
 						.getBitmap();
+
 				try {
-					new HttpPostAsyncTask(getContext()).execute(TwitterAPI
-							.getInstance().getUpdateProfileRequest(
-									nameEditText.getText().toString(),
-									descriptionEditText.getText().toString(),
-									urlEditText.getText().toString(),
-									locationEditText.getText().toString()));
+
+					new HttpPostAsyncTask(getContext()) {
+					}.execute(TwitterAPI.getInstance().getUpdateProfileRequest(
+							nameEditText.getText().toString(),
+							descriptionEditText.getText().toString(),
+							urlEditText.getText().toString(),
+							locationEditText.getText().toString()));
+
 					if (!loadedAvatar.equals(avatar.getDrawable())) {
-						new HttpPostAsyncTask(getContext()).execute(TwitterAPI
-								.getInstance().getUpdateProfileAvatarRequest(
-										bitmap));
+						new HttpPostAsyncTask(getContext()) {
+						}.execute(TwitterAPI.getInstance()
+								.getUpdateProfileAvatarRequest(bitmap));
 					}
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
