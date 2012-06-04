@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SelectPhotoAdapter extends BaseAdapter {
@@ -49,6 +50,16 @@ public class SelectPhotoAdapter extends BaseAdapter {
 		TextView itemName = (TextView) convertView
 				.findViewById(R.id.selectPhotoItem_name);
 		itemName.setText(items.get(position));
+
+		ImageView itemIcon = (ImageView) convertView
+				.findViewById(R.id.selectPhotoItem_icon);
+		if (position == 0) {
+			itemIcon.setImageDrawable(mContext.getResources().getDrawable(
+					R.drawable.ic_photo_from_camera));
+		} else {
+			itemIcon.setImageDrawable(mContext.getResources().getDrawable(
+					R.drawable.ic_photo_from_gallery));
+		}
 
 		return convertView;
 	}
