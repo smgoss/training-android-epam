@@ -55,7 +55,6 @@
     <string-array name="select_photo_variants">
         <item>Camera</item>
         <item>Gallery</item>
-        <item>Remove photo</item>
     </string-array>
     <string-array name="tweet_dialog">
         <item>Reply</item>

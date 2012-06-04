@@ -61,7 +61,7 @@ public class AsyncTaskManager {
 	}
 
 	public void removeTask(String activityKey, String taskKey) {
-		if (getTask(activityKey, taskKey) == null) {
+		if (getTask(activityKey, taskKey) != null) {
 			getTask(activityKey, taskKey).cancel(true);
 			getActivityTasks(activityKey).remove(taskKey);
 		}
