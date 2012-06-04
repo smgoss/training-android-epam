@@ -27,15 +27,13 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private BaseAdapter adapter;
 
-	private static final int loadedItems = 19;
-
-	private boolean loadingMore = false;
-
-	private View footerView;
+	private static final int itemsOnPage = 19;
 
 	private String query;
 
 	private STATUS_LOAD status = STATUS_LOAD.LOADING;
+
+	private View footerView;
 
 	private enum STATUS_LOAD {
 		REFRESHING, LOADING
@@ -44,9 +42,9 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		query = getArguments().getString(ApplicationConstants.ARG_QUERY);
 		footerView = LayoutInflater.from(getContext()).inflate(
 				R.layout.progress_on_list, null, false);
-		query = getArguments().getString(ApplicationConstants.ARG_QUERY);
 		Log.d(TAG, "onCreate");
 	}
 
@@ -74,6 +72,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 			currentList = new ArrayList<T>();
 			addItems(result, status);
 			setList(currentList);
+
 		} else {
 			addItems(result, status);
 
@@ -81,11 +80,14 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 		}
 
-		if (result.size() < loadedItems) {
-			hideFooterView();
+		if (status == STATUS_LOAD.LOADING) {
+			if (result.size() >= itemsOnPage) {
+				addFooterView();
+			} else {
+				removeFooterView();
+			}
 		}
 
-		loadingMore = false;
 		if (status == STATUS_LOAD.REFRESHING) {
 			onRefreshCompele();
 			status = STATUS_LOAD.LOADING;
@@ -94,7 +96,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private void addItems(List<T> list, STATUS_LOAD status) {
 		if (status == STATUS_LOAD.LOADING) {
-			if (currentList.size() != 0) {
+			if (list.size() != 0) {
 				list.remove(0);
 			}
 			currentList.addAll(list);
@@ -103,11 +105,6 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 		else {
 			currentList.addAll(0, list);
 		}
-	}
-
-	private void hideFooterView() {
-
-		getListView().removeFooterView(footerView);
 	}
 
 	@Override
@@ -120,9 +117,8 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public <B extends BaseModel> void setList(List<B> list) {
 		adapter = createAdapter(list);
-		if (list.size() >= loadedItems) {
+		if (list.size() >= itemsOnPage) {
 
-			getListView().addFooterView(footerView);
 			getListView().setOnScrollListener(new OnScrollListener() {
 
 				@Override
@@ -136,11 +132,11 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 						int visibleItemCount, int totalItemCount) {
 					int lastInScreen = firstVisibleItem + visibleItemCount;
 
-					if ((lastInScreen == totalItemCount) && !(loadingMore)
-							&& totalItemCount != 0) {
-						generateQuery(STATUS_LOAD.LOADING);
+					if ((lastInScreen == totalItemCount) && totalItemCount != 0) {
+						status = STATUS_LOAD.LOADING;
+						generateQuery();
 						startTasks();
-						loadingMore = true;
+
 					}
 
 				}
@@ -158,16 +154,17 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public void onRefreshStart() {
 		status = STATUS_LOAD.REFRESHING;
-		generateQuery(STATUS_LOAD.REFRESHING);
+		generateQuery();
 		startTasks();
 	}
 
-	private void generateQuery(STATUS_LOAD status) {
-		getArguments().remove(ApplicationConstants.ARG_QUERY);
+	private void generateQuery() {
+
 		Long itemID;
 		if (status == STATUS_LOAD.REFRESHING) {
 			itemID = currentList.get(0).getItemID();
 			if (itemID != null) {
+				getArguments().remove(ApplicationConstants.ARG_QUERY);
 				getArguments().putString(ApplicationConstants.ARG_QUERY,
 						query + "&since_id=" + itemID);
 			}
@@ -175,8 +172,41 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 		if (status == STATUS_LOAD.LOADING) {
 			itemID = currentList.get(currentList.size() - 1).getItemID();
 			if (itemID != null) {
+				getArguments().remove(ApplicationConstants.ARG_QUERY);
 				getArguments().putString(ApplicationConstants.ARG_QUERY,
 						query + "&max_id=" + itemID);
+			}
+		}
+	}
+
+	private void addFooterView() {
+		Log.d(TAG, "footer count" + getListView().getFooterViewsCount());
+		if (getListView().getFooterViewsCount() < 2) {
+			getListView().addFooterView(footerView);
+		}
+	}
+
+	private void removeFooterView() {
+		if (getListView().getFooterViewsCount() == 2) {
+			getListView().removeFooterView(footerView);
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(ApplicationConstants.FOOTER_COUNT, getListView()
+				.getFooterViewsCount());
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (savedInstanceState != null) {
+			int footerCount = savedInstanceState
+					.getInt(ApplicationConstants.FOOTER_COUNT);
+			if (footerCount > 1) {
+				addFooterView();
 			}
 		}
 	}

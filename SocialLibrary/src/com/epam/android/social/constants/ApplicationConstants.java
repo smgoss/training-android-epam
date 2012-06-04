@@ -12,6 +12,9 @@ public class ApplicationConstants {
 	public static final String REFRESH = "refresh";
 
 	public static final String PREFS_SETTINGS_NAME = "++curac++";
+	
 	public static final String KEY_CURRENT_ACCOUNT = "current_account_position";
+	
+	public static final String FOOTER_COUNT = "footer_count";
 
 }
