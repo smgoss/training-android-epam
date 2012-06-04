@@ -22,4 +22,5 @@
     <color name="tab_text">#ffffff</color>
     <color name="band">#c2eaf6</color>
 	<color name="tab_bg">#333333</color>
+	<color name="dialog_divider">#c7c7c7</color>
 </resources>
