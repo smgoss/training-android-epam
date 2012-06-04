@@ -80,22 +80,20 @@ public class TwitterAPI {
 		return "https://api.twitter.com/1/users/profile_image?screen_name="
 				+ userScreenName + "&size=normal";
 	}
-	
+
 	public String getUserAvatarBig(String userScreenName) {
 		return "https://api.twitter.com/1/users/profile_image?screen_name="
 				+ userScreenName + "&size=bigger";
 	}
-	
-	
 
 	public String getDirectMessages() {
 		return "https://api.twitter.com/1/direct_messages.json?count=20&include_entities=true&page=";
 	}
-	
-	public String getDirectMessagesWithUser(long id){
+
+	public String getDirectMessagesWithUser(long id) {
 		return "https://api.twitter.com/1/direct_messages/show/" + id;
 	}
-	
+
 	// TODO it's method load only 100 users
 	public String getShortProfileInfo(List<Integer> idsUser) {
 

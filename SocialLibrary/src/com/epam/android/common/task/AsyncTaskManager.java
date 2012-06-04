@@ -15,7 +15,7 @@ public class AsyncTaskManager {
 	public static final String ASYNC_TASK_MANAGER = "++AsyncTaskManager++";
 
 	public static final Integer TASK_LIFETIME = 10001;
-	
+
 	@SuppressWarnings("rawtypes")
 	/*
 	 * Key of delegate, and key of tasks
@@ -61,8 +61,10 @@ public class AsyncTaskManager {
 	}
 
 	public void removeTask(String activityKey, String taskKey) {
-		getTask(activityKey, taskKey).cancel(true);
-		getActivityTasks(activityKey).remove(taskKey);
+		if (getTask(activityKey, taskKey) == null) {
+			getTask(activityKey, taskKey).cancel(true);
+			getActivityTasks(activityKey).remove(taskKey);
+		}
 
 	}
 
@@ -76,8 +78,8 @@ public class AsyncTaskManager {
 
 	public boolean isLastTask(String key) {
 		Boolean result = true;
-		Collection<CommonAsyncTask> taskCollection = getActivityTasks(
-				key).values();
+		Collection<CommonAsyncTask> taskCollection = getActivityTasks(key)
+				.values();
 		Object[] keys = taskCollection.toArray();
 		for (int i = 0; i < keys.length; i++) {
 			if (((CommonAsyncTask) keys[i]).getStatus().equals(
@@ -117,10 +119,10 @@ public class AsyncTaskManager {
 		mRunnableStorage.put(activityKey + taskKey, runnable);
 		mHandler.postDelayed(runnable, TASK_LIFETIME);
 	}
-	
-	public void restoreActivityTask(String activityKey,HashMap<String,CommonAsyncTask> ativityTask){
+
+	public void restoreActivityTask(String activityKey,
+			HashMap<String, CommonAsyncTask> ativityTask) {
 		mAsyncTaskActivity.put(activityKey, ativityTask);
 	}
-	
-	
+
 }
