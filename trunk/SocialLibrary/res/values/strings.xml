@@ -41,6 +41,7 @@
     <string name="follow_me">Follow me</string>
     <string name="loading">Loading… Please wait</string>
     <string name="error_on_login">Error on login</string>
+    <string name="error_on_send_data">Error on send data</string>
 
     <string-array name="titles">
         <item>TIMELINE</item>

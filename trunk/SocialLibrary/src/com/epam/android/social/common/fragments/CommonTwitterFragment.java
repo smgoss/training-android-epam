@@ -12,6 +12,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 
 import com.epam.android.common.model.BaseModel;
+import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.social.R;
 import com.epam.android.social.constants.ApplicationConstants;
 
@@ -31,7 +32,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private String query;
 
-	private STATUS_LOAD status = STATUS_LOAD.LOADING;
+	private STATUS_LOAD status;
 
 	private View footerView;
 
@@ -80,7 +81,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 		}
 
-		if (status == STATUS_LOAD.LOADING) {
+		if (status == STATUS_LOAD.LOADING || status == null) {
 			if (result.size() >= itemsOnPage) {
 				addFooterView();
 			} else {
@@ -154,6 +155,8 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public void onRefreshStart() {
 		status = STATUS_LOAD.REFRESHING;
+		AsyncTaskManager.get(getActivity()).removeTask(getDelegateKey(),
+				getArguments().getString(ApplicationConstants.ARG_QUERY));
 		generateQuery();
 		startTasks();
 	}
@@ -180,7 +183,6 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	}
 
 	private void addFooterView() {
-		Log.d(TAG, "footer count" + getListView().getFooterViewsCount());
 		if (getListView().getFooterViewsCount() < 2) {
 			getListView().addFooterView(footerView);
 		}
