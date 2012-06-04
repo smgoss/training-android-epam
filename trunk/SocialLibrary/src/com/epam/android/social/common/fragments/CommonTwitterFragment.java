@@ -161,7 +161,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 		startTasks();
 	}
 
-	private void generateQuery() {
+	protected void generateQuery() {
 
 		Long itemID;
 		if (status == STATUS_LOAD.REFRESHING) {

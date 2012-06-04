@@ -12,10 +12,11 @@ import com.epam.android.social.common.fragments.CommonTwitterFragment;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 
-public class SearchPeopleFragment extends
-		CommonTwitterFragment<Following> {
+public class SearchPeopleFragment extends CommonTwitterFragment<Following> {
 
 	public static final String TAG = SearchPeopleFragment.class.getSimpleName();
+
+	private int loadedPage = 1;
 
 	public static SearchPeopleFragment newInstance(String query) {
 		Bundle bundle = new Bundle();
@@ -32,7 +33,8 @@ public class SearchPeopleFragment extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public BaseAdapter createAdapter(List<? extends BaseModel> list) {
-		return new FollowingAdapter(getContext(), R.layout.follow, (List<Following>) list);
+		return new FollowingAdapter(getContext(), R.layout.follow,
+				(List<Following>) list);
 	}
 
 	@Override
@@ -40,5 +42,21 @@ public class SearchPeopleFragment extends
 		return R.id.progress_bar_on_listView;
 	}
 
-	
+	@Override
+	protected void generateQuery() {
+
+	}
+
+	@Override
+	public String getUrl() {
+		return getArguments().getString(ApplicationConstants.ARG_QUERY)
+				+ loadedPage;
+	}
+
+	@Override
+	protected void success(List<Following> result) {
+		super.success(result);
+		loadedPage++;
+	}
+
 }
