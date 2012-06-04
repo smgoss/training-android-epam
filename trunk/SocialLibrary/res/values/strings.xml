@@ -29,7 +29,6 @@
     <string name="insert_sd_card">Insert SD Card</string>
     <string name="twitter_search">Enter a #hashtag or keyword</string>
     <string name="twitter">Twitter</string>
-    <string name="facebook">Facebook</string>
     <string name="choise_social_network">Choise social network</string>
     <string name="home">Home</string>
     <string name="star">Favorite</string>
@@ -66,7 +65,8 @@
         <item>Who quoted this</item>
         <item>Share</item>
     </string-array>
-    <drawable name="tweet_dialog_0">@drawable/ic_reply</drawable>
+
+    <drawable name="tweet_dialog_0">@drawable/ic_reply</drawable>
     <drawable name="tweet_dialog_1">@drawable/ic_quote</drawable>
     <drawable name="tweet_dialog_2">@drawable/ic_quote_with_comment</drawable>
     <drawable name="tweet_dialog_3">@drawable/ic_view_replies</drawable>
@@ -74,6 +74,5 @@
     <drawable name="tweet_dialog_5">@drawable/ic_copy</drawable>
     <drawable name="tweet_dialog_6">@drawable/ic_who_quoted</drawable>
     <drawable name="tweet_dialog_7">@drawable/ic_share</drawable>
-    
 
 </resources>
