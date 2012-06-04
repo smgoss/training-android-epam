@@ -23,18 +23,66 @@ public class TweetDialogAdapter extends BaseAdapter {
 	private Context mContext;
 
 	public TweetDialogAdapter(Context context) {
-		titles = Arrays.asList(context.getResources().getStringArray(
-				R.array.tweet_dialog));
-		icons = new ArrayList<Drawable>(titles.size());
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_0));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_1));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_2));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_3));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_4));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_5));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_6));
-		icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_7));
+
+	}
+
+	public TweetDialogAdapter(Context context, List<String> urls,
+			List<String> hashtags, List<String> profiles) {
 		mContext = context;
+		List<String> resTitles = Arrays.asList(context.getResources()
+				.getStringArray(R.array.tweet_dialog));
+//		List<Drawable> resIcons = new ArrayList<Drawable>();
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_0));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_1));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_2));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_3));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_4));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_5));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_6));
+//		resIcons.add(context.getResources().getDrawable(
+//				R.drawable.tweet_dialog_7));
+
+		titles = new ArrayList<String>();
+		titles.addAll(urls);
+		titles.addAll(hashtags);
+		titles.addAll(profiles);
+		titles.addAll(resTitles);
+
+		icons = new ArrayList<Drawable>(titles.size());
+
+		for (String string : titles) {
+
+			if (string.startsWith("#")) {
+				icons.add(context.getResources().getDrawable(
+						R.drawable.tweet_dialog_0));
+			} else if (string.startsWith("@")) {
+				icons.add(context.getResources().getDrawable(
+						R.drawable.tweet_dialog_1));
+			} else if (string.startsWith("http")) {
+				icons.add(context.getResources().getDrawable(
+						R.drawable.tweet_dialog_2));
+			} else {
+				icons.add(context.getResources().getDrawable(
+						R.drawable.tweet_dialog_3));
+			}
+		}
+
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_0));
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_1));
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_2));
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_3));
+		//
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_5));
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_6));
+		// icons.add(context.getResources().getDrawable(R.drawable.tweet_dialog_7));
+
 	}
 
 	@Override

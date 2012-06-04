@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.social.R;
@@ -43,7 +44,12 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Bundle bundle = new Bundle();
 				TweetDialogFragment tweetDialogFragment = new TweetDialogFragment();
+				bundle.putString(ApplicationConstants.TWEET_TEXT,
+						((TextView) view.findViewById(R.id.tweetText))
+								.getText().toString());
+				tweetDialogFragment.setArguments(bundle);
 				tweetDialogFragment.show(getFragmentManager(), TAG);
 			}
 
