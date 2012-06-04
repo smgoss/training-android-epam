@@ -49,10 +49,11 @@ public class TwitterLoginActivity extends Activity {
 		setContentView(R.layout.login_webview);
 		webView = (WebView) findViewById(R.id.webview);
 		webView.getSettings().setJavaScriptEnabled(true);
-		webView.getSettings()
-				.setJavaScriptCanOpenWindowsAutomatically(true);
+		webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		webView.getSettings().setPluginsEnabled(true);
 		webView.setWebViewClient(getWebViewClient());
+		helper = (TwitterOAuthHelper) getApplicationContext().getSystemService(
+				TwitterOAuthHelper.OAuthHelper);
 		GetWebViewAsyncTask asyncTask = new GetWebViewAsyncTask();
 		asyncTask.execute();
 
@@ -67,8 +68,17 @@ public class TwitterLoginActivity extends Activity {
 				if (helper.isRedirectURL(url) && !isSave) {
 					isSave = true;
 					webView.setVisibility(WebView.INVISIBLE);
-					helper.setToken(url);
+
 					new HttpExecuteAsyncTask(TwitterLoginActivity.this) {
+
+						@Override
+						protected String doInBackground(String... params) {
+							String oauthVerifier = TwitterOAuthHelper
+									.getOauthVerifierFromUrl(url);
+							TwitterOAuthHelper
+									.setRetrieveAccessToken(oauthVerifier);
+							return super.doInBackground(params);
+						}
 
 						@Override
 						public void success(String result) {
@@ -120,11 +130,10 @@ public class TwitterLoginActivity extends Activity {
 	private class GetWebViewAsyncTask extends AsyncTask<Void, Void, String> {
 
 		private Exception e;
-		
+
 		@Override
 		protected String doInBackground(Void... params) {
-			helper = (TwitterOAuthHelper) getApplicationContext()
-					.getSystemService(TwitterOAuthHelper.OAuthHelper);
+
 			try {
 				return helper.getLoginUrl();
 			} catch (OAuthMessageSignerException e) {
@@ -134,11 +143,14 @@ public class TwitterLoginActivity extends Activity {
 				Log.e(TAG, "OAuth Not Authorized error "
 						+ getResources().getString(R.string.not_correct_data),
 						e);
+				this.e = e;
 				return getResources().getString(R.string.not_correct_data);
 			} catch (OAuthExpectationFailedException e) {
 				Log.e(TAG, "OAuth Expectation error ", e);
+				this.e = e;
 			} catch (OAuthCommunicationException e) {
 				Log.e(TAG, "OAuth Communication error ", e);
+				this.e = e;
 			}
 			return "";
 		}
@@ -147,13 +159,12 @@ public class TwitterLoginActivity extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			hideLoading();
-			//if (result.length() != 0) {
-				//Toast.makeText(TwitterLoginActivity.this, result,
-				//		Toast.LENGTH_SHORT).show();
-				//finish();
-			//} else {
+			if (e == null) {
 				webView.loadUrl(result);
-			//}
+			} else {
+				Toast.makeText(TwitterLoginActivity.this, result,
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 
 		@Override

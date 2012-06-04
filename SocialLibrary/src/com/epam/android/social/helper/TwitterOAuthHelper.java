@@ -14,18 +14,16 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.epam.android.common.http.Loader;
 import com.epam.android.common.utils.ObjectSerializer;
 import com.epam.android.social.R;
-import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.AccountType;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.TwitterConstants;
@@ -46,9 +44,9 @@ public class TwitterOAuthHelper {
 	private static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
 	private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize";
 
-	private OAuthConsumer consumer;
+	private static OAuthConsumer consumer;
 
-	private OAuthProvider provider;
+	private static OAuthProvider provider;
 
 	private static TwitterOAuthHelper instanse;
 
@@ -125,7 +123,7 @@ public class TwitterOAuthHelper {
 		}
 	}
 
-	private String getOauthVerifierFromUrl(String url) {
+	public static String getOauthVerifierFromUrl(String url) {
 		return url.substring(url.indexOf(TwitterConstants.OAUTH_VERIFIER)
 				+ TwitterConstants.OAUTH_VERIFIER.length());
 	}
@@ -137,7 +135,7 @@ public class TwitterOAuthHelper {
 		consumer.sign(request);
 	}
 
-	private void setRetrieveAccessToken(String oauthVerifier) {
+	public static void setRetrieveAccessToken(String oauthVerifier) {
 		try {
 			provider.retrieveAccessToken(consumer, oauthVerifier);
 		} catch (OAuthMessageSignerException e) {
@@ -150,12 +148,6 @@ public class TwitterOAuthHelper {
 			Log.d(TAG, "OAuthCommunicationException ", e);
 
 		}
-	}
-
-	public synchronized void setToken(String url) {
-		String oauthVerifier = getOauthVerifierFromUrl(url);
-		setRetrieveAccessToken(oauthVerifier);
-
 	}
 
 	public void saveToken(String url) throws IOException,
