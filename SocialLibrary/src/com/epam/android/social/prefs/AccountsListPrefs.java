@@ -135,6 +135,7 @@ public class AccountsListPrefs {
 	}
 
 	public List<Account> getListAccounts() {
+		restoreFromPreference();
 		return listAccounts;
 	}
 
