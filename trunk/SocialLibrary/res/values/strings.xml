@@ -55,24 +55,37 @@
         <item>Camera</item>
         <item>Gallery</item>
     </string-array>
-    <string-array name="tweet_dialog">
-        <item>Reply</item>
-        <item>Quote</item>
-        <item>Quote with comment</item>
-        <item>View replies</item>
-        <item>Search by</item>
-        <item>Copy</item>
-        <item>Who quoted this</item>
-        <item>Share</item>
-    </string-array>
 
-    <drawable name="tweet_dialog_0">@drawable/ic_reply</drawable>
-    <drawable name="tweet_dialog_1">@drawable/ic_quote</drawable>
-    <drawable name="tweet_dialog_2">@drawable/ic_quote_with_comment</drawable>
-    <drawable name="tweet_dialog_3">@drawable/ic_view_replies</drawable>
-    <drawable name="tweet_dialog_4">@drawable/ic_search</drawable>
-    <drawable name="tweet_dialog_5">@drawable/ic_copy</drawable>
-    <drawable name="tweet_dialog_6">@drawable/ic_who_quoted</drawable>
-    <drawable name="tweet_dialog_7">@drawable/ic_share</drawable>
+    <string name="reply">Reply</string>
+    <string name="quote">Quote</string>
+    <string name="quote_with_comment">Quote with comment</string>
+    <string name="view_replies">View replies</string>
+    <string name="search_by">Search by</string>
+    <string name="copy">Copy</string>
+    <string name="who_quoted_this">Who quoted this</string>
+    <string name="share">Share</string>
+    <string name="profile">Profile</string>
+
+    <drawable name="reply">@drawable/ic_reply</drawable>
+    <drawable name="quote">@drawable/ic_quote</drawable>
+    <drawable name="quote_with_comment">@drawable/ic_quote_with_comment</drawable>
+    <drawable name="view_replies">@drawable/ic_view_replies</drawable>
+    <drawable name="search_by">@drawable/ic_search</drawable>
+    <drawable name="copy">@drawable/ic_copy</drawable>
+    <drawable name="who_quoted_this">@drawable/ic_who_quoted</drawable>
+    <drawable name="share">@drawable/ic_share</drawable>
+    <drawable name="profile">@drawable/ic_quote</drawable>
+
+    <string-array name="tweet_dialog">
+        <item>@string/reply</item>
+        <item>@string/quote</item>
+        <item>@string/quote_with_comment</item>
+        <item>@string/view_replies</item>
+        <item>@string/search_by</item>
+        <item>@string/copy</item>
+        <item>@string/who_quoted_this</item>
+        <item>@string/share</item>
+        <item>@string/profile</item>
+    </string-array>
 
 </resources>

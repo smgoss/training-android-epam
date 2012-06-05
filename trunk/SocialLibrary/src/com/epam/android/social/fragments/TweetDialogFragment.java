@@ -23,8 +23,8 @@ import com.epam.android.social.constants.ApplicationConstants;
 public class TweetDialogFragment extends DialogFragment {
 
 	private String pattern_url = "https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-	private String pattern_hashtag = "(?:(?<=\\s)|^)@(\\w*[A-Za-z_]+\\w*)";
-	private String pattern_profile = "(?:(?<=\\s)|^)#(\\w*[A-Za-z_]+\\w*)";
+	private String pattern_hashtag = "(?:(?<=\\s)|^)#(\\w*[\\w0-9A-Za-z_]+\\w*)";
+	private String pattern_profile = "(?:(?<=\\s)|^)@(\\w*[\\w0-9A-Za-z_]+\\w*)";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
