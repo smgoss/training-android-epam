@@ -30,8 +30,6 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private static final int itemsOnPage = 19;
 
-	private String query;
-
 	private STATUS_LOAD status;
 
 	private View footerView;
@@ -43,10 +41,14 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		query = getArguments().getString(ApplicationConstants.ARG_QUERY);
 		footerView = LayoutInflater.from(getContext()).inflate(
 				R.layout.progress_on_list, null, false);
+		if (getArguments().getString(ApplicationConstants.ARG_BASE_QUERY) == null) {
+			getArguments().putString(ApplicationConstants.ARG_BASE_QUERY,
+					getArguments().getString(ApplicationConstants.ARG_QUERY));
+		}
 		Log.d(TAG, "onCreate");
+
 	}
 
 	@Override
@@ -168,16 +170,22 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 				itemID = currentList.get(0).getItemID();
 				if (itemID != null) {
 					getArguments().remove(ApplicationConstants.ARG_QUERY);
-					getArguments().putString(ApplicationConstants.ARG_QUERY,
-							query + "&since_id=" + itemID);
+					getArguments().putString(
+							ApplicationConstants.ARG_QUERY,
+							getArguments().getString(
+									ApplicationConstants.ARG_BASE_QUERY)
+									+ "&since_id=" + itemID);
 				}
 			}
 			if (status == STATUS_LOAD.LOADING) {
 				itemID = currentList.get(currentList.size() - 1).getItemID();
 				if (itemID != null) {
 					getArguments().remove(ApplicationConstants.ARG_QUERY);
-					getArguments().putString(ApplicationConstants.ARG_QUERY,
-							query + "&max_id=" + itemID);
+					getArguments().putString(
+							ApplicationConstants.ARG_QUERY,
+							getArguments().getString(
+									ApplicationConstants.ARG_BASE_QUERY)
+									+ "&max_id=" + itemID);
 				}
 			}
 		}
