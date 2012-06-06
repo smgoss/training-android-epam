@@ -17,7 +17,7 @@ import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
 
-public class SearchFragmentActivity extends FragmentActivity {
+public class SearchFragmentActivity extends FlurryActivity {
 	private static final String TAG = SearchFragmentActivity.class
 			.getSimpleName();
 

@@ -6,7 +6,6 @@ import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -26,7 +25,7 @@ import com.epam.android.social.fragments.AccountsFragment;
 import com.epam.android.social.helper.TwitterOAuthHelper;
 import com.epam.android.social.model.Account;
 
-public class TwitterLoginActivity extends Activity {
+public class TwitterLoginActivity extends FlurryActivity {
 
 	private static final String TAG = TwitterLoginActivity.class
 			.getSimpleName();
