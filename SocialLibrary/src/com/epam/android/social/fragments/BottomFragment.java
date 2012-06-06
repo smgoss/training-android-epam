@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.epam.android.social.R;
 import com.epam.android.social.api.TwitterAPI;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.receiver.AlarmUpdateTimeLineReceiver;
 
 public class BottomFragment extends Fragment {
 
@@ -55,16 +55,19 @@ public class BottomFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						SharedPreferences settings;
-						settings = getActivity().getSharedPreferences(ApplicationConstants.PREFS_SETTINGS_NAME, 0);
+						settings = getActivity().getSharedPreferences(
+								ApplicationConstants.PREFS_SETTINGS_NAME, 0);
 						SharedPreferences.Editor editor = settings.edit();
-						editor.putInt(ApplicationConstants.KEY_CURRENT_ACCOUNT, -1);
+						editor.putInt(ApplicationConstants.KEY_CURRENT_ACCOUNT,
+								-1);
 						editor.commit();
-						
+
 						FragmentTransaction transaction = getFragmentManager()
 								.beginTransaction();
 						transaction.add(R.id.main_mainLayout,
 								new MainLoginFragment());
 						transaction.commit();
+						AlarmUpdateTimeLineReceiver.cancelAlarm(getActivity());
 
 					}
 				});
@@ -90,7 +93,8 @@ public class BottomFragment extends Fragment {
 														getActivity()
 																.getIntent()
 																.getStringExtra(
-																		ApplicationConstants.ARG_PROFILE_NAME)),
+																		ApplicationConstants.ARG_PROFILE_NAME),
+														false),
 										SearchTweetsFragment.TAG);
 						fragmentTransaction.commit();
 					}

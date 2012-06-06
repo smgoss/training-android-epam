@@ -33,10 +33,10 @@ public class TwitterMainPagerAdapter extends CommonFragmentPagerAdapter
 
 		getFragments().add(
 				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
-						.getHomeTimeLine(), accountName));
+						.getHomeTimeLine(), accountName, true));
 		getFragments().add(
 				TweetTimeLineFragment.newInstance(TwitterAPI.getInstance()
-						.getMentions(), accountName));
+						.getMentions(), accountName, false));
 
 		getFragments().add(
 				ProfileFragment.newInstance(TwitterAPI.getInstance()

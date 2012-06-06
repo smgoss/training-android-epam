@@ -1,8 +1,13 @@
 package com.epam.android.social.common.fragments;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +20,9 @@ import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.task.AsyncTaskManager;
 import com.epam.android.social.R;
 import com.epam.android.social.constants.ApplicationConstants;
+import com.epam.android.social.constants.ReceiverConstants;
+import com.epam.android.social.model.Tweet;
+import com.epam.android.social.receiver.AlarmUpdateTimeLineReceiver;
 
 public abstract class CommonTwitterFragment<T extends BaseModel> extends
 		BaseArrayModelFragmentWithCustomLoadAndSaveItems<T> {
@@ -34,6 +42,12 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private View footerView;
 
+	private BroadcastReceiver mReceiver;
+
+	private static CommonTwitterFragment.IRefreshQuery refreshQueryInterface;
+
+	private AsyncTaskManager mAsyncTaskManager;
+
 	private enum STATUS_LOAD {
 		REFRESHING, LOADING
 	}
@@ -47,6 +61,36 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 			getArguments().putString(ApplicationConstants.ARG_BASE_QUERY,
 					getArguments().getString(ApplicationConstants.ARG_QUERY));
 		}
+
+		if (getArguments().getBoolean(
+				ApplicationConstants.GET_MESSAGES_FROM_RECEIVER)) {
+			registerReceiver();
+			AlarmUpdateTimeLineReceiver.setAlarm(getContext());
+			refreshQueryInterface = new IRefreshQuery() {
+
+				@Override
+				public String getRefreshQuery() {
+
+					if (currentList != null) {
+
+						Long itemID = currentList.get(0).getItemID();
+						if (itemID != null) {
+							mAsyncTaskManager.removeTask(
+									getDelegateKey(),
+									getArguments().getString(
+											ApplicationConstants.ARG_QUERY));
+							return getArguments().getString(
+									ApplicationConstants.ARG_BASE_QUERY)
+									+ "&since_id=" + itemID;
+
+						}
+					}
+
+					return "";
+				}
+			};
+		}
+		mAsyncTaskManager = AsyncTaskManager.get(getActivity());
 		Log.d(TAG, "onCreate");
 
 	}
@@ -93,8 +137,9 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 		if (status == STATUS_LOAD.REFRESHING) {
 			onRefreshCompele();
-			status = STATUS_LOAD.LOADING;
 		}
+
+		status = null;
 	}
 
 	private void addItems(List<T> list, STATUS_LOAD status) {
@@ -108,6 +153,7 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 		else {
 			currentList.addAll(0, list);
 		}
+		Log.d(TAG, "addItem status = " + status);
 	}
 
 	@Override
@@ -135,11 +181,11 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 						int visibleItemCount, int totalItemCount) {
 					int lastInScreen = firstVisibleItem + visibleItemCount;
 
-					if ((lastInScreen == totalItemCount) && totalItemCount != 0) {
+					if ((lastInScreen == totalItemCount) && totalItemCount != 0
+							&& status != STATUS_LOAD.LOADING) {
 						status = STATUS_LOAD.LOADING;
 						generateQuery();
 						startTasks();
-
 					}
 
 				}
@@ -157,8 +203,8 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	@Override
 	public void onRefreshStart() {
 		status = STATUS_LOAD.REFRESHING;
-		AsyncTaskManager.get(getActivity()).removeTask(getDelegateKey(),
-				getArguments().getString(ApplicationConstants.ARG_QUERY));
+		mAsyncTaskManager.removeTask(getDelegateKey(), getArguments()
+				.getString(ApplicationConstants.ARG_QUERY));
 		generateQuery();
 		startTasks();
 	}
@@ -220,6 +266,46 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 				addFooterView();
 			}
 		}
+	}
+
+	private void registerReceiver() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ReceiverConstants.ON_UPDATE_COMLETE);
+
+		mReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context paramContext, Intent paramIntent) {
+				List<Tweet> list = paramIntent
+						.getParcelableArrayListExtra(ApplicationConstants.LIST_FROM_SERVICE);
+				if (list != null && list.size() > 0) {
+					currentList.addAll(0, (Collection<? extends T>) list);
+					adapter.notifyDataSetChanged();
+
+				}
+			}
+		};
+
+		getActivity().registerReceiver(mReceiver, filter);
+
+	}
+
+	@Override
+	public void onDestroy() {
+		if (getArguments().getBoolean(
+				ApplicationConstants.GET_MESSAGES_FROM_RECEIVER)) {
+			getActivity().unregisterReceiver(mReceiver);
+		}
+		super.onDestroy();
+
+	}
+
+	public static interface IRefreshQuery {
+		public String getRefreshQuery();
+	}
+
+	public static CommonTwitterFragment.IRefreshQuery getRefreshQueryInterface() {
+		return refreshQueryInterface;
 	}
 
 }

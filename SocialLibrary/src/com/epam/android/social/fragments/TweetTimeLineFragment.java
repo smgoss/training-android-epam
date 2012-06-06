@@ -22,11 +22,13 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 			.getSimpleName();
 
 	public static TweetTimeLineFragment newInstance(String query,
-			String accountName) {
+			String accountName, boolean getMessagesFromReceiver) {
 		Bundle bundle = new Bundle();
 		TweetTimeLineFragment fragment = new TweetTimeLineFragment();
 		bundle.putString(ApplicationConstants.ARG_QUERY, query);
 		bundle.putString(ApplicationConstants.ARG_PROFILE_NAME, accountName);
+		bundle.putBoolean(ApplicationConstants.GET_MESSAGES_FROM_RECEIVER,
+				getMessagesFromReceiver);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -54,6 +56,7 @@ public class TweetTimeLineFragment extends CommonTwitterFragment<Tweet> {
 			}
 
 		});
+
 	}
 
 	@SuppressWarnings("unchecked")
