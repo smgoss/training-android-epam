@@ -22,6 +22,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
@@ -29,6 +30,7 @@ import android.util.Log;
 import com.epam.android.common.http.cookie.CookieManager;
 import com.epam.android.common.http.cookie.DefaultCookieStore;
 import com.epam.android.common.utils.GetSystemService;
+import com.epam.android.social.model.ErrorModel;
 
 public class HttpClient {
 
@@ -77,7 +79,6 @@ public class HttpClient {
 	public String execute(HttpUriRequest request)
 			throws ClientProtocolException, IOException {
 
-		
 		HttpResponse response = client.execute(request);
 		String result = readString(response.getEntity().getContent());
 
@@ -87,9 +88,15 @@ public class HttpClient {
 			Log.d(TAG, result);
 			return result;
 		} else {
+			ErrorModel errorModel = new ErrorModel(result);
+			String error = errorModel.getTextError();
 			Log.d(TAG, "Http request status = " + status);
 			Log.d(TAG, result);
-			throw new IOException("status is not OK");
+			if (error != null) {
+				throw new IOException(errorModel.getTextError());
+			} else {
+				throw new IOException("status responce is not ok");
+			}
 		}
 
 	}

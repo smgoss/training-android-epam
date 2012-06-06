@@ -21,5 +21,9 @@ public class ApplicationConstants {
 
 	public static final String FOOTER_COUNT = "footer_count";
 	
-	public static final String FLURRY_KEY = "6Q978MZYU1JAINU21QPF";
+	public static final String GET_MESSAGES_FROM_RECEIVER = "get_messages_from_receiver";
+	
+	public static final String LIST_FROM_SERVICE = "list_from_service";
+	
+	public static final String FLURRY_KEY = "67Q2WF55V98JSMS3TLA6";
 }

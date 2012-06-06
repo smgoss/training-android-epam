@@ -140,7 +140,7 @@ public class ProfileFragment extends
 																		ApplicationConstants.ARG_PROFILE_NAME)),
 										getArguments()
 												.getString(
-														ApplicationConstants.ARG_PROFILE_NAME)));
+														ApplicationConstants.ARG_PROFILE_NAME), false));
 		transaction.commit();
 	}
 
