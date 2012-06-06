@@ -162,22 +162,23 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	}
 
 	protected void generateQuery() {
-
-		Long itemID;
-		if (status == STATUS_LOAD.REFRESHING) {
-			itemID = currentList.get(0).getItemID();
-			if (itemID != null) {
-				getArguments().remove(ApplicationConstants.ARG_QUERY);
-				getArguments().putString(ApplicationConstants.ARG_QUERY,
-						query + "&since_id=" + itemID);
+		if (currentList != null) {
+			Long itemID;
+			if (status == STATUS_LOAD.REFRESHING) {
+				itemID = currentList.get(0).getItemID();
+				if (itemID != null) {
+					getArguments().remove(ApplicationConstants.ARG_QUERY);
+					getArguments().putString(ApplicationConstants.ARG_QUERY,
+							query + "&since_id=" + itemID);
+				}
 			}
-		}
-		if (status == STATUS_LOAD.LOADING) {
-			itemID = currentList.get(currentList.size() - 1).getItemID();
-			if (itemID != null) {
-				getArguments().remove(ApplicationConstants.ARG_QUERY);
-				getArguments().putString(ApplicationConstants.ARG_QUERY,
-						query + "&max_id=" + itemID);
+			if (status == STATUS_LOAD.LOADING) {
+				itemID = currentList.get(currentList.size() - 1).getItemID();
+				if (itemID != null) {
+					getArguments().remove(ApplicationConstants.ARG_QUERY);
+					getArguments().putString(ApplicationConstants.ARG_QUERY,
+							query + "&max_id=" + itemID);
+				}
 			}
 		}
 	}
