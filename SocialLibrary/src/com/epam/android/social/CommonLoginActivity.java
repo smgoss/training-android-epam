@@ -1,6 +1,5 @@
 package com.epam.android.social;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -15,7 +14,7 @@ import com.epam.android.social.helper.FacebookOAuthHelper;
 import com.epam.android.social.model.Account;
 import com.epam.android.social.prefs.AccountsListPrefs;
 
-public abstract class CommonLoginActivity<E> extends Activity {
+public abstract class CommonLoginActivity<E> extends FlurryActivity {
 	public static final String TAG = CommonLoginActivity.class.getSimpleName();
 
 	private static final String TITLE = "Please wait";

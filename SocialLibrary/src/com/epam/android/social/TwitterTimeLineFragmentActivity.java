@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -14,7 +13,7 @@ import com.epam.android.social.fragments.FollowingFragment;
 import com.epam.android.social.model.Following;
 import com.viewpagerindicator.PageIndicator;
 
-public class TwitterTimeLineFragmentActivity extends FragmentActivity {
+public class TwitterTimeLineFragmentActivity extends FlurryActivity {
 
 	private static final String TAG = TwitterTimeLineFragmentActivity.class
 			.getSimpleName();

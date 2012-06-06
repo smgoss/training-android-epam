@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainFragmentActivity extends FragmentActivity {
+public class MainFragmentActivity extends FlurryActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -18,4 +18,6 @@ public class ApplicationConstants {
 	public static final String KEY_CURRENT_ACCOUNT = "current_account_position";
 
 	public static final String FOOTER_COUNT = "footer_count";
+	
+	public static final String FLURRY_KEY = "6Q978MZYU1JAINU21QPF";
 }
