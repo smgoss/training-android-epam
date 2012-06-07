@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 
 import com.epam.android.common.model.BaseModel;
 import com.epam.android.common.task.AsyncTaskManager;
+import com.epam.android.common.task.CommonAsyncTask;
 import com.epam.android.social.R;
 import com.epam.android.social.constants.ApplicationConstants;
 import com.epam.android.social.constants.ReceiverConstants;
@@ -38,8 +39,6 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	private static final int itemsOnPage = 19;
 
-	private STATUS_LOAD status;
-
 	private View footerView;
 
 	private BroadcastReceiver mReceiver;
@@ -47,6 +46,10 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	private static CommonTwitterFragment.IRefreshQuery refreshQueryInterface;
 
 	private AsyncTaskManager mAsyncTaskManager;
+
+	private List<T> updateList;
+
+	private boolean loadMore;
 
 	private enum STATUS_LOAD {
 		REFRESHING, LOADING
@@ -113,47 +116,49 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 	}
 
 	@Override
-	protected void success(List<T> result) {
-
+	public void success(Intent intent) {
+		super.success(intent);
+		String url = intent.getStringExtra(CommonAsyncTask.TASK_KEY);
 		if (currentList == null) {
 			currentList = new ArrayList<T>();
-			addItems(result, status);
-			setList(currentList);
-
-		} else {
-			addItems(result, status);
-
-			adapter.notifyDataSetChanged();
-
 		}
 
-		if (status == STATUS_LOAD.LOADING || status == null) {
-			if (result.size() >= itemsOnPage) {
-				addFooterView();
-			} else {
-				removeFooterView();
-			}
-		}
-
-		if (status == STATUS_LOAD.REFRESHING) {
+		if (url.contains("since_id")) {
+			currentList.addAll(0, updateList);
 			onRefreshCompele();
+
 		}
 
-		status = null;
-	}
+		else if (url.contains("max_id")) {
+			updateList.remove(0);
+			currentList.addAll(currentList.size(), updateList);
+			loadMore = false;
 
-	private void addItems(List<T> list, STATUS_LOAD status) {
-		if (status == STATUS_LOAD.LOADING) {
-			if (list.size() != 0) {
-				list.remove(0);
-			}
-			currentList.addAll(list);
 		}
 
 		else {
-			currentList.addAll(0, list);
+			currentList.addAll(updateList);
 		}
-		Log.d(TAG, "addItem status = " + status);
+
+		if (!url.contains("since_id")) {
+			if (updateList.size() >= itemsOnPage) {
+				addFooterView();
+			} else {
+				removeFooterView();
+				loadMore = true;
+			}
+		}
+
+		if (adapter == null) {
+			setList(currentList);
+		} else {
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	protected void success(List<T> result) {
+		updateList = result;
 	}
 
 	@Override
@@ -182,10 +187,10 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 					int lastInScreen = firstVisibleItem + visibleItemCount;
 
 					if ((lastInScreen == totalItemCount) && totalItemCount != 0
-							&& status != STATUS_LOAD.LOADING) {
-						status = STATUS_LOAD.LOADING;
-						generateQuery();
-						startTasks();
+							&& !loadMore) {
+						loadMore = true;
+						generateQuery(STATUS_LOAD.LOADING);
+
 					}
 
 				}
@@ -202,14 +207,12 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 
 	@Override
 	public void onRefreshStart() {
-		status = STATUS_LOAD.REFRESHING;
 		mAsyncTaskManager.removeTask(getDelegateKey(), getArguments()
 				.getString(ApplicationConstants.ARG_QUERY));
-		generateQuery();
-		startTasks();
+		generateQuery(STATUS_LOAD.REFRESHING);
 	}
 
-	protected void generateQuery() {
+	protected synchronized void generateQuery(STATUS_LOAD status) {
 		if (currentList != null) {
 			Long itemID;
 			if (status == STATUS_LOAD.REFRESHING) {
@@ -234,6 +237,9 @@ public abstract class CommonTwitterFragment<T extends BaseModel> extends
 									+ "&max_id=" + itemID);
 				}
 			}
+
+			Log.d(TAG, "!start task with url = " + getUrl());
+			startTasks();
 		}
 	}
 
