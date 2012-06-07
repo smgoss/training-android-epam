@@ -7,6 +7,7 @@ import org.json.JSONException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
@@ -18,15 +19,15 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	public static final String ON_POST_EXECUTE = "onPostExecute";
 
 	public static final String ON_PROGRESS_UPDATE = "onProgressUpdate";
-	
+
 	public static final String ON_ERROR = "onError";
-	
+
 	public static final String ERROR = "error";
 
 	public static final String TEXT = "text";
 
 	public static final String ACTIVITY_KEY = "activitykey";
-	
+
 	public static final String RESULT = "result";
 
 	public static final String TASK_KEY = "taskKey";
@@ -34,11 +35,11 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	private Exception e;
 
 	private String mUrl;
-	
+
 	private T mResult;
-	
+
 	private IDelegate mDelegate;
-	
+
 	private Context mContext;
 
 	public CommonAsyncTask(String url, IDelegate delegate) {
@@ -91,21 +92,25 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 	}
 
 	public abstract T load() throws IOException, JSONException;
-	
-	public Context getContext(){
+
+	public Context getContext() {
 		return mContext;
 	}
 
 	public String getUrl() {
 		return mUrl;
 	}
-	
-	public T getResult(){
+
+	public T getResult() {
 		return mResult;
 	}
 
 	public void start() {
-		execute();
+		if (Build.VERSION.SDK_INT >= 11) {
+			executeOnExecutor(THREAD_POOL_EXECUTOR, "");
+		} else {
+			execute();
+		}
 	}
 
 	public boolean isCancellableOnPause() {
@@ -127,7 +132,7 @@ public abstract class CommonAsyncTask<T> extends AsyncTask<String, String, T> {
 		initIntentResult(broadcast, result);
 		mContext.sendBroadcast(broadcast);
 	}
-	
+
 	private void sendNotification(String event, Exception e2) {
 		Intent broadcast = createDefaultBroadcast(event);
 		broadcast.putExtra(ERROR, e2);
