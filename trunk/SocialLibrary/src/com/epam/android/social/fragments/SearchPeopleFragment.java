@@ -43,11 +43,6 @@ public class SearchPeopleFragment extends CommonTwitterFragment<Following> {
 	}
 
 	@Override
-	protected void generateQuery() {
-
-	}
-
-	@Override
 	public String getUrl() {
 		return getArguments().getString(ApplicationConstants.ARG_QUERY)
 				+ loadedPage;
