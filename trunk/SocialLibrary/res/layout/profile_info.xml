@@ -52,24 +52,21 @@
         <include
             android:id="@+id/profileInfo_tweetLayout"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="0.15"
+            android:layout_height="wrap_content"
             layout="@layout/profile_button" />
 
         <include
             android:id="@+id/profileInfo_followingLayout"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1px"
-            android:layout_weight="0.15"
             layout="@layout/profile_button" />
 
         <include
             android:id="@+id/profileInfo_followersLayout"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1px"
-            android:layout_weight="0.15"
             layout="@layout/profile_button" />
 
         <LinearLayout
